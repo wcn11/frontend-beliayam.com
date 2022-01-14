@@ -157,9 +157,9 @@
           <aside class="column col-md">
             <h6 class="title">Download Apps Now</h6>
             <div style="margin: 20px"></div>
-            <div href="#"><img src="img/appstore.png" height="40" /></div>
+            <div href="#"><img :src="require('static/img/appstore.png')" height="40" /></div>
             <div style="margin: 20px"></div>
-            <div href="#"><img src="img/playmarket.png" height="40" /></div>
+            <div href="#"><img src="require('static/img/playmarket.png')" height="40" /></div>
           </aside>
         </div>
       </div>

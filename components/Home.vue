@@ -22,31 +22,31 @@
                             <div class="pt-3 pb-2  beliayam-categories">
                                 <div class="d-flex align-items-center mb-2">
                                     <h5 class="m-0"  data-toggle="tooltip" data-placement="top" title="Tooltip on top">Mau Cari Ayam Apa ? Semua Ada!</h5>
-                                    <a href="listing.html" class="ml-auto btn btn-outline-success btn-sm">See more</a>
+                                    <NuxtLink to="/kategori" class="ml-auto btn btn-outline-success btn-sm">lainya</NuxtLink>
                                 </div>
                                 <div class="categories-slider">
                                     <div class="col-c">
                                         <div class="bg-white shadow-sm rounded text-center my-2 px-2 py-3 c-it">
-                                            <a href="listing.html">
+                                            <NuxtLink to="/kategori/pejantan">
                                                 <img src="img/categorie/1.png" class="img-fluid px-2 mx-auto">
                                                 <p class="m-0 pt-2 text-muted text-center">Ayam Pejantan</p>
-                                            </a>
+                                            </NuxtLink>
                                         </div>
                                     </div>
                                     <div class="col-c">
                                         <div class="bg-white shadow-sm rounded text-center my-2 px-2 py-3 c-it">
-                                            <a href="listing.html">
+                                            <NuxtLink to="/kategori/kampung">
                                                 <img src="img/categorie/2.png" class="img-fluid px-2 mx-auto">
                                                 <p class="m-0 pt-2 text-muted text-center">Ayam Kampung</p>
-                                            </a>
+                                            </NuxtLink>
                                         </div>
                                     </div>
                                     <div class="col-c">
                                         <div class="bg-white shadow-sm rounded text-center my-2 px-2 py-3 c-it">
-                                            <a href="listing.html">
+                                            <NuxtLink to="/kategori/broiler">
                                                 <img src="img/categorie/3.png" class="img-fluid px-2 mx-auto">
                                                 <p class="m-0 pt-2 text-muted text-center">Ayam Broiler</p>
-                                            </a>
+                                            </NuxtLink>
                                         </div>
                                     </div>
                                     <div class="col-c">

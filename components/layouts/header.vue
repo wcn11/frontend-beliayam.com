@@ -6,7 +6,7 @@
           to="/"
           class="text-decoration-none text-dark d-flex align-items-center"
         >
-          <img class="beliayam-logo mr-2" src="img/logo.png" />
+          <img class="beliayam-logo mr-2" :src="require('/static/img/logo.png')" />
           <h4 class="font-weight-bold text-success m-0">Beliayam.com</h4>
         </NuxtLink>
         <p class="ml-auto m-0">
@@ -74,7 +74,7 @@
         <NuxtLink class="navbar-brand mr-0" to="/"
           ><img
             class="img-fluid logo-img rounded-pill border shadow-sm"
-            src="img/logo.png"
+            :src="require('static/img/logo.png')"
         /></NuxtLink>
         <button
           class="navbar-toggler"
