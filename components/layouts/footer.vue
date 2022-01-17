@@ -4,7 +4,7 @@
     <section class="footer-top py-4">
       <div class="container">
         <div class="row">
-          <div class="col-md-4">
+          <!-- <div class="col-md-4">
             <div class="form-inline">
               <select class="custom-select">
                 <option>IDR</option>
@@ -30,8 +30,8 @@
                 </span>
               </div>
             </form>
-          </div>
-          <div class="col-md-4 text-md-right">
+          </div> -->
+          <div class="col-md-12 text-md-right">
             <a href="#" class="btn btn-icon btn-light"
               ><i class="icofont-facebook"></i
             ></a>

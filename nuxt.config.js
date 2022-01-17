@@ -22,13 +22,13 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '@/static/vendor/slick/slick.min.css',
-    '@/static/vendor/slick/slick-theme.min.css',
-    '@/static/icons/css/all.min.css',
-    '@/static/vendor/icons/icofont.min.css',
-    '@/static/vendor/bootstrap/css/bootstrap.min.css',
-    '@/static/css/style.css',
-    '@/static/vendor/sidebar/demo.css',
+    // '@/static/vendor/slick/slick.min.css',
+    // '@/static/vendor/slick/slick-theme.min.css',
+    // '@/static/icons/css/all.min.css',
+    // '@/static/vendor/icons/icofont.min.css',
+    // '@/static/vendor/bootstrap/css/bootstrap.min.css',
+    // '@/static/css/style.css',
+    // '@/static/vendor/sidebar/demo.css',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -52,5 +52,9 @@ export default {
   target: 'static',
 
   router: {
+  },
+
+  publicRuntimeConfig: {
+    baseURL: process.env.BASE_URL,
   }
 }
