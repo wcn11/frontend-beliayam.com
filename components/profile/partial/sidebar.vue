@@ -1,0 +1,87 @@
+<template>
+  <div class="col-lg-4">
+    <div class="beliayam-account bg-white rounded shadow-sm overflow-hidden">
+      <div class="p-4 profile text-center border-bottom">
+        <img src="/img/user.png" class="img-fluid rounded-pill" />
+        <h6 class="font-weight-bold m-0 mt-2">Beranda</h6>
+        <p class="small text-muted m-0"><a>budi@beliayam.com</a></p>
+      </div>
+      <div class="account-sections">
+        <ul class="list-group">
+          <a href="my_account.html" class="text-decoration-none text-dark">
+            <li class="border-bottom bg-white d-flex align-items-center p-3">
+              <i class="icofont-user beliayam-icofont bg-danger"></i>My Account
+              <span class="badge badge-success p-1 badge-pill ml-auto"
+                ><i class="icofont-simple-right"></i
+              ></span>
+            </li>
+          </a>
+          <a href="promos.html" class="text-decoration-none text-dark">
+            <li class="border-bottom bg-white d-flex align-items-center p-3">
+              <i class="fad fa-box-heart beliayam-icofont bg-success"></i
+              >Pesanan Saya
+              <span class="badge badge-success p-1 badge-pill ml-auto"
+                ><i class="icofont-simple-right"></i
+              ></span>
+            </li>
+          </a>
+          <a href="promos.html" class="text-decoration-none text-dark">
+            <li class="border-bottom bg-white d-flex align-items-center p-3">
+              <i class="icofont-sale-discount beliayam-icofont bg-success"></i
+              >Promo
+              <span class="badge badge-success p-1 badge-pill ml-auto"
+                ><i class="icofont-simple-right"></i
+              ></span>
+            </li>
+          </a>
+          <a href="my_address.html" class="text-decoration-none text-dark">
+            <li class="border-bottom bg-white d-flex align-items-center p-3">
+              <i class="icofont-address-book beliayam-icofont bg-dark"></i>
+              Alamat
+              <span class="badge badge-success p-1 badge-pill ml-auto"
+                ><i class="icofont-simple-right"></i
+              ></span>
+            </li>
+          </a>
+          <a
+            href="terms_conditions.html"
+            class="text-decoration-none text-dark"
+          >
+            <li class="border-bottom bg-white d-flex align-items-center p-3">
+              <i class="icofont-info-circle beliayam-icofont bg-primary"></i
+              >Syarat, Privasi & Kebijakan
+              <span class="badge badge-success p-1 badge-pill ml-auto"
+                ><i class="icofont-simple-right"></i
+              ></span>
+            </li>
+          </a>
+          <a href="help_support.html" class="text-decoration-none text-dark">
+            <li class="border-bottom bg-white d-flex align-items-center p-3">
+              <i class="icofont-phone beliayam-icofont bg-warning"></i>Bantuan &
+              Dukungan
+              <span class="badge badge-success p-1 badge-pill ml-auto"
+                ><i class="icofont-simple-right"></i
+              ></span>
+            </li>
+          </a>
+          <!-- <a href="help_ticket.html" class="text-decoration-none text-dark">
+            <li class="border-bottom bg-white d-flex align-items-center p-3">
+              <i class="icofont-phone beliayam-icofont bg-success"></i>Ticket
+              <span class="badge badge-success p-1 badge-pill ml-auto"
+                ><i class="icofont-simple-right"></i
+              ></span>
+            </li>
+          </a> -->
+          <a href="signin.html" class="text-decoration-none text-dark">
+            <li class="border-bottom bg-white d-flex align-items-center p-3">
+              <i class="icofont-lock beliayam-icofont bg-danger"></i>
+              Logout
+            </li>
+          </a>
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
+
+

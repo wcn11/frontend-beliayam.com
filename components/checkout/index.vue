@@ -13,6 +13,8 @@
       </div>
     </nav>
 
+    <location-picker @change="getLatLong" v-model="location" :options="options"> </location-picker>
+
     <section class="py-4 beliayam-main-body">
       <div class="container">
         <div class="row">
@@ -379,11 +381,12 @@
                     Lat:
                     <input type="text" id="lat" style="width: 200px" /> Long:
                     <input type="text" id="lng" style="width: 200px" />
-                    <div id="us2" style="width: 450px; height: 300px"></div>
+
+                    <div id="map" style="width: 450px; height: 300px"></div>
                   </div>
                 </div>
                 <div class="col-md-12 form-group">
-                  <label class="form-label">Complete Address</label
+                  <label class="form-label">Alamat Lengkap</label
                   ><input
                     placeholder="Complete Address e.g. house number, street name, landmark"
                     id="location"
@@ -392,7 +395,8 @@
                   />
                 </div>
                 <div class="col-md-12 form-group">
-                  <label class="form-label">Delivery Instructions</label
+                  <label class="form-label"
+                    >Instruksi Pengiriman / Gang / Jalan</label
                   ><input
                     placeholder="Delivery Instructions e.g. Opposite Gold Souk Mall"
                     type="text"
@@ -443,10 +447,44 @@
 </template>
 
 <script>
+import { LocationPicker } from "./maps/index.js";
+
+// import mapPicker from "./maps/LocationPicker.vue";
+
 export default {
   name: "Checkout",
+  components: { LocationPicker }, // if installComponents is false
+  data() {
+    return {
+      location: {
+        lat: -6.208224,
+        lng: 106.845744,
+      },
+      options: {
+        // is not required
+        map: {
+          /** other map options **/
+        },
+        marker: {
+          /** marker options **/
+        },
+        autocomplete: {
+          /** autocomplete options **/
+        },
+      },
+    };
+  },
+  // methods: {
+  //   getLatLong() {
+  //     console.log("123");
+  //   },
+  // },
 };
 </script>
 
-<style>
+<style scoped>
+#map {
+  width: 100%;
+  height: 480px;
+}
 </style>

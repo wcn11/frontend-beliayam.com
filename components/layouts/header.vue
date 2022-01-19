@@ -303,6 +303,109 @@
             </div>
           </div>
 
+
+
+          <div class="dropdown mr-3">
+            <a
+              href="#"
+              class="dropdown-toggle text-dark"
+              id="dropdownMenuButton"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <img
+                src="/img/user.png"
+                class="img-fluid rounded-circle header-user mr-2"
+              />
+              Hi Budi
+            </a>
+            <div
+              class="dropdown-menu dropdown-menu-right top-profile-drop"
+              aria-labelledby="dropdownMenuButton"
+            >
+              <a class="dropdown-item" href="my_account.html">Akun saya</a>
+              <a class="dropdown-item" href="promos.html">Pesanan Saya</a>
+              <a class="dropdown-item" href="promos.html">Promo</a>
+              <a class="dropdown-item" href="my_address.html">Alamat</a>
+              <a class="dropdown-item" href="signin.html">Logout</a>
+            </div>
+          </div>
+
+          <div class="dropdown">
+            <a
+              href="#"
+              class="text-dark dropdown-toggle not-drop"
+              id="dropdownMenuNotification"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <i
+                class="icofont-notification d-flex align-items-center bg-light rounded-pill p-2 icofont-size border shadow-sm"
+              >
+              </i>
+            </a>
+            <div
+              class="dropdown-menu dropdown-menu-right p-0 beliayam-notifications-main"
+              aria-labelledby="dropdownMenuNotification"
+            >
+              <div class="beliayam-notifications bg-white border-bottom p-2">
+                <div class="position-absolute ml-n1 py-2">
+                  <i
+                    class="icofont-check-circled text-white bg-success rounded-pill p-1"
+                  ></i>
+                </div>
+                <a
+                  href="status_complete.html"
+                  class="text-decoration-none text-dark"
+                >
+                  <div class="notifiction small">
+                    <div class="ml-3">
+                      <p class="font-weight-bold mb-1">Yay! Order Complete</p>
+                      <p class="small m-0">
+                        <i class="icofont-ui-calendar"></i> Today, 05:14 AM
+                      </p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+
+              <div class="beliayam-notifications bg-white border-bottom p-2">
+                <a
+                  href="status_onprocess.html"
+                  class="text-decoration-none text-muted"
+                >
+                  <div class="notifiction small">
+                    <div class="ml-3">
+                      <p class="font-weight-bold mb-1">Yipiee. order Success</p>
+                      <p class="small m-0">
+                        <i class="icofont-ui-calendar"></i> Monday, 08:30 PM
+                      </p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+
+              <div class="beliayam-notifications bg-white p-2">
+                <a
+                  href="status_onprocess.html"
+                  class="text-decoration-none text-muted"
+                >
+                  <div class="notifiction small">
+                    <div class="ml-3">
+                      <p class="font-weight-bold mb-1">New Promos Coming</p>
+                      <p class="small m-0">
+                        <i class="icofont-ui-calendar"></i> Sunday, 10:30 AM
+                      </p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+
           <a
             href="cart.html"
             class="

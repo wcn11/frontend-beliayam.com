@@ -1,6 +1,7 @@
 $(function() {
  
-$('#us2').locationpicker({
+   console.log(816666)
+   $('#map').locationpicker({
    location: {latitude: -6.200000, longitude: 106.816666},   
    radius: 0,
    inputBinding: {
