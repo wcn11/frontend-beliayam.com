@@ -6,7 +6,10 @@
           to="/"
           class="text-decoration-none text-dark d-flex align-items-center"
         >
-          <img class="beliayam-logo mr-2" :src="require('/static/img/logo.png')" />
+          <img
+            class="beliayam-logo mr-2"
+            :src="require('/static/img/logo.png')"
+          />
           <h4 class="font-weight-bold text-success m-0">Beliayam.com</h4>
         </NuxtLink>
         <p class="ml-auto m-0">
@@ -160,7 +163,9 @@
                   <a href="javascript:void(0)" class="text-dark">Depok</a>
                 </p>
                 <p class="m-0 py-1">
-                  <a href="javascript:void(0)" class="text-dark">Alamat Lainnya</a>
+                  <a href="javascript:void(0)" class="text-dark"
+                    >Alamat Lainnya</a
+                  >
                 </p>
               </div>
             </div>
@@ -183,28 +188,14 @@
         <div class="ml-auto d-flex align-items-center">
           <a
             href="/login"
-            class="
-              mr-2
-              rounded-pill
-              p-2
-              border
-              shadow-sm
-              bg-danger
-            "
+            class="mr-2 rounded-pill p-2 border shadow-sm bg-danger"
           >
             <i class="fad fa-sign-in-alt"></i>
             Masuk
           </a>
           <a
             href="/register"
-            class="
-              mr-2
-              rounded-pill
-              p-2
-              border
-              shadow-sm
-              text-dark
-            "
+            class="mr-2 rounded-pill p-2 border shadow-sm text-dark"
           >
             <i class="fad fa-sign-in-alt"></i>
             Daftar
@@ -303,8 +294,6 @@
             </div>
           </div>
 
-
-
           <div class="dropdown mr-3">
             <a
               href="#"
@@ -342,18 +331,38 @@
               aria-expanded="false"
             >
               <i
-                class="icofont-notification d-flex align-items-center bg-light rounded-pill p-2 icofont-size border shadow-sm"
+                class="
+                  icofont-notification
+                  d-flex
+                  align-items-center
+                  bg-light
+                  rounded-pill
+                  p-2
+                  icofont-size
+                  border
+                  shadow-sm
+                "
               >
               </i>
             </a>
             <div
-              class="dropdown-menu dropdown-menu-right p-0 beliayam-notifications-main"
+              class="
+                dropdown-menu dropdown-menu-right
+                p-0
+                beliayam-notifications-main
+              "
               aria-labelledby="dropdownMenuNotification"
             >
               <div class="beliayam-notifications bg-white border-bottom p-2">
                 <div class="position-absolute ml-n1 py-2">
                   <i
-                    class="icofont-check-circled text-white bg-success rounded-pill p-1"
+                    class="
+                      icofont-check-circled
+                      text-white
+                      bg-success
+                      rounded-pill
+                      p-1
+                    "
                   ></i>
                 </div>
                 <a
@@ -404,7 +413,6 @@
               </div>
             </div>
           </div>
-
 
           <a
             href="cart.html"
@@ -560,6 +568,9 @@
         </ol>
       </div>
     </nav>
+
+    <LayoutsMobileNav/>
+
 
     <Nuxt />
   </div>

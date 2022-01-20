@@ -15,7 +15,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-6">
-            <div class="recommend-slider mb-3">
+            <VueSlickCarousel v-bind="settings" class="recommend-slider mb-3">
               <div class="beliayam-slider-item">
                 <img
                   src="img/recommend/r1.jpg"
@@ -37,7 +37,8 @@
                   alt="Responsive image"
                 />
               </div>
-            </div>
+            </VueSlickCarousel>
+
             <div class="pd-f d-flex align-items-center mb-3">
               <a
                 href="cart.html"
@@ -634,9 +635,23 @@
 </template>
 
 <script>
+import VueSlickCarousel from "vue-slick-carousel";
 export default {
   name: "Products",
+  components: { VueSlickCarousel },
   // layout: "blog"
+  asyncData() {
+    return { content: "Created at: " + new Date() };
+  },
+  methods: {
+    refresh() {
+      this.$nuxt.refresh();
+    },
+  },
+  loading: {
+    color: "red",
+    height: "5px",
+  },
 
   head() {
     return {
@@ -646,14 +661,14 @@ export default {
       },
     };
   },
-  mounted() {
-    console.log(this.$route.params.product);
-  },
-  methods: {
-    toFirstLetterUpperCase(word) {
-      return word[0].toUpperCase() + word.substring(1);
-    },
-  },
+  // mounted() {
+  //   console.log(this.$route.params.product);
+  // },
+  // methods: {
+  //   toFirstLetterUpperCase(word) {
+  //     return word[0].toUpperCase() + word.substring(1);
+  //   },
+  // },
 };
 </script>
 

@@ -25,29 +25,29 @@
                 shadow-sm
               "
             >
-              <div class="recommend-slider2 rounded mb-0">
+              <VueSlickCarousel v-bind="settings" class="recommend-slider2">
                 <div class="beliayam-slider-item m-2 rounded">
                   <img
                     :src="`${this.$config.baseURL}/img/recommend/r1.jpg`"
-                    class="img-fluid mx-auto rounded shadow-sm"
+                    class="img-fluid p-1 mx-auto img-rounded shadow-sm"
                     alt="Responsive image"
                   />
                 </div>
                 <div class="beliayam-slider-item m-2 rounded">
                   <img
                     :src="`${this.$config.baseURL}/img/recommend/r2.jpg`"
-                    class="img-fluid mx-auto rounded shadow-sm"
+                    class="img-fluid p-1 mx-auto img-rounded shadow-sm"
                     alt="Responsive image"
                   />
                 </div>
                 <div class="beliayam-slider-item m-2 rounded">
                   <img
                     :src="`${this.$config.baseURL}/img/recommend/r3.jpg`"
-                    class="img-fluid mx-auto rounded shadow-sm"
+                    class="img-fluid p-1 mx-auto img-rounded shadow-sm"
                     alt="Responsive image"
                   />
                 </div>
-              </div>
+              </VueSlickCarousel>
               <div class="p-3 position-relative">
                 <h6 class="mb-1 font-weight-bold text-success">Ayam Broiler</h6>
                 <p class="text-muted">Ayam Broiler yang berkualitas.</p>
@@ -101,29 +101,29 @@
                 shadow-sm
               "
             >
-              <div class="recommend-slider2 rounded mb-0">
+              <VueSlickCarousel v-bind="settings" class="recommend-slider2">
                 <div class="beliayam-slider-item m-2">
                   <img
                     :src="`${this.$config.baseURL}/img/recommend/r4.jpg`"
-                    class="img-fluid mx-auto rounded shadow-sm"
+                    class="img-fluid p-1 mx-auto img-rounded rounded shadow-sm"
                     alt="Responsive image"
                   />
                 </div>
                 <div class="beliayam-slider-item m-2">
                   <img
                     :src="`${this.$config.baseURL}/img/recommend/r5.jpg`"
-                    class="img-fluid mx-auto rounded shadow-sm"
+                    class="img-fluid p-1 mx-auto img-rounded rounded shadow-sm"
                     alt="Responsive image"
                   />
                 </div>
                 <div class="beliayam-slider-item m-2">
                   <img
                     :src="`${this.$config.baseURL}/img/recommend/r6.jpg`"
-                    class="img-fluid mx-auto rounded shadow-sm"
+                    class="img-fluid p-1 mx-auto img-rounded rounded shadow-sm"
                     alt="Responsive image"
                   />
                 </div>
-              </div>
+              </VueSlickCarousel>
               <div class="p-3 position-relative">
                 <h6 class="mb-1 font-weight-bold text-success">
                   Ayam Pejantan
@@ -179,29 +179,29 @@
                 shadow-sm
               "
             >
-              <div class="recommend-slider2 rounded mb-0">
+              <VueSlickCarousel v-bind="settings" class="recommend-slider2">
                 <div class="beliayam-slider-item m-2">
                   <img
                     :src="`${this.$config.baseURL}/img/recommend/r7.jpg`"
-                    class="img-fluid mx-auto rounded shadow-sm"
+                    class="img-fluid p-1 mx-auto img-rounded rounded shadow-sm"
                     alt="Responsive image"
                   />
                 </div>
                 <div class="beliayam-slider-item m-2">
                   <img
                     :src="`${this.$config.baseURL}/img/recommend/r8.jpg`"
-                    class="img-fluid mx-auto rounded shadow-sm"
+                    class="img-fluid p-1 mx-auto img-rounded rounded shadow-sm"
                     alt="Responsive image"
                   />
                 </div>
                 <div class="beliayam-slider-item m-2">
                   <img
                     :src="`${this.$config.baseURL}/img/recommend/r9.jpg`"
-                    class="img-fluid mx-auto rounded shadow-sm"
+                    class="img-fluid p-1 mx-auto img-rounded rounded shadow-sm"
                     alt="Responsive image"
                   />
                 </div>
-              </div>
+              </VueSlickCarousel>
               <div class="p-3 position-relative">
                 <h6 class="mb-1 font-weight-bold text-success">Ayam Fillet</h6>
                 <p class="text-muted">Ayam Fillet Premium item.</p>
@@ -245,10 +245,29 @@
 </template>
 
 <script>
+import VueSlickCarousel from "vue-slick-carousel";
 export default {
   name: "HomeBestSeller",
+  components: { VueSlickCarousel },
+  data() {
+    return {
+      settings: {
+        infinite: true,
+        speed: 300,
+        slidesToShow: 1,
+        adaptiveHeight: true,
+        centerMode: true,
+        arrows: false,
+        dots: true,
+        autoplay: true,
+      },
+    };
+  },
 };
 </script>
 
-<style>
+<style scoped>
+.img-rounded {
+  border-radius: 12px !important;
+}
 </style>

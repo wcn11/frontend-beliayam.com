@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[34],{2131:function(e,l,n){"use strict";n.r(l);var t={name:"FlashSale",layout:"default"},c=n(25),component=Object(c.a)(t,(function(){var e=this.$createElement,l=this._self._c||e;return l("div",[l("flashSale")],1)}),[],!1,null,null,null);l.default=component.exports}}]);
