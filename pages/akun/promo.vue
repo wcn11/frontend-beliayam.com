@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="page-account-promo" class="animate__animated">
       <ProfilePromo/>
   </div>
 </template>
@@ -14,6 +14,14 @@ export default {
     htmlAttrs: {
       lang: "id",
     },
+  },
+  mounted() {
+    document.getElementById("page-account-promo").classList.add("animate__fadeInRight");
+  },
+  beforeDestroy() {
+    document
+      .getElementById("page-account-promo")
+      .classList.add("animate__fadeOutLeft");
   },
 };
 </script>

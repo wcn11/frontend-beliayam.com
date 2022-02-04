@@ -9,7 +9,7 @@
     <div class="row d-flex justify-content-center bg-success-order">
       <div class="col-md-6">
         <div class="p-5 text-center">
-          <i class="icofont-check-circled display-1 text-warning"></i>
+          <i class="fad fa-check-circle display-1 text-warning"></i>
           <h1 class="text-white font-weight-bold">
             Pesanan Berhasil Dilakukan 🎉
           </h1>

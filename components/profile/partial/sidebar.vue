@@ -10,9 +10,9 @@
         <ul class="list-group">
           <a href="my_account.html" class="text-decoration-none text-dark">
             <li class="border-bottom bg-white d-flex align-items-center p-3">
-              <i class="icofont-user beliayam-icofont bg-danger"></i>My Account
+              <i class="fad fa-user beliayam-icofont bg-danger"></i>My Account
               <span class="badge badge-success p-1 badge-pill ml-auto"
-                ><i class="icofont-simple-right"></i
+                ><i class="fad fa-chevron-right"></i
               ></span>
             </li>
           </a>
@@ -21,25 +21,25 @@
               <i class="fad fa-box-heart beliayam-icofont bg-success"></i
               >Pesanan Saya
               <span class="badge badge-success p-1 badge-pill ml-auto"
-                ><i class="icofont-simple-right"></i
+                ><i class="fad fa-chevron-right"></i
               ></span>
             </li>
           </a>
           <a href="promos.html" class="text-decoration-none text-dark">
             <li class="border-bottom bg-white d-flex align-items-center p-3">
-              <i class="icofont-sale-discount beliayam-icofont bg-success"></i
+              <i class="fad fa-badge-percent beliayam-icofont bg-success"></i
               >Promo
               <span class="badge badge-success p-1 badge-pill ml-auto"
-                ><i class="icofont-simple-right"></i
+                ><i class="fad fa-chevron-right"></i
               ></span>
             </li>
           </a>
           <a href="my_address.html" class="text-decoration-none text-dark">
             <li class="border-bottom bg-white d-flex align-items-center p-3">
-              <i class="icofont-address-book beliayam-icofont bg-dark"></i>
+              <i class="fad fa-address-book beliayam-icofont bg-dark"></i>
               Alamat
               <span class="badge badge-success p-1 badge-pill ml-auto"
-                ><i class="icofont-simple-right"></i
+                ><i class="fad fa-chevron-right"></i
               ></span>
             </li>
           </a>
@@ -48,33 +48,33 @@
             class="text-decoration-none text-dark"
           >
             <li class="border-bottom bg-white d-flex align-items-center p-3">
-              <i class="icofont-info-circle beliayam-icofont bg-primary"></i
+              <i class="fad fa-info-circle beliayam-icofont bg-primary"></i
               >Syarat, Privasi & Kebijakan
               <span class="badge badge-success p-1 badge-pill ml-auto"
-                ><i class="icofont-simple-right"></i
+                ><i class="fad fa-chevron-right"></i
               ></span>
             </li>
           </a>
           <a href="help_support.html" class="text-decoration-none text-dark">
             <li class="border-bottom bg-white d-flex align-items-center p-3">
-              <i class="icofont-phone beliayam-icofont bg-warning"></i>Bantuan &
+              <i class="fad fa-phone-alt beliayam-icofont bg-warning"></i>Bantuan &
               Dukungan
               <span class="badge badge-success p-1 badge-pill ml-auto"
-                ><i class="icofont-simple-right"></i
+                ><i class="fad fa-chevron-right"></i
               ></span>
             </li>
           </a>
           <!-- <a href="help_ticket.html" class="text-decoration-none text-dark">
             <li class="border-bottom bg-white d-flex align-items-center p-3">
-              <i class="icofont-phone beliayam-icofont bg-success"></i>Ticket
+              <i class="fad fa-phone-alt beliayam-icofont bg-success"></i>Ticket
               <span class="badge badge-success p-1 badge-pill ml-auto"
-                ><i class="icofont-simple-right"></i
+                ><i class="fad fa-chevron-right"></i
               ></span>
             </li>
           </a> -->
           <a href="signin.html" class="text-decoration-none text-dark">
             <li class="border-bottom bg-white d-flex align-items-center p-3">
-              <i class="icofont-lock beliayam-icofont bg-danger"></i>
+              <i class="fad fa-lock beliayam-icofont bg-danger"></i>
               Logout
             </li>
           </a>

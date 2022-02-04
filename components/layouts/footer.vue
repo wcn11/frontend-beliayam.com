@@ -6,16 +6,16 @@
           <div class="row">
             <div class="col-md-12 text-md-right">
               <a href="#" class="btn btn-icon btn-light"
-                ><i class="icofont-facebook"></i
+                ><i class="fab fa-facebook"></i
               ></a>
               <a href="#" class="btn btn-icon btn-light"
-                ><i class="icofont-twitter"></i
+                ><i class="fab fa-twitter"></i
               ></a>
               <a href="#" class="btn btn-icon btn-light"
-                ><i class="icofont-instagram"></i
+                ><i class="fab fa-instagram"></i
               ></a>
               <a href="#" class="btn btn-icon btn-light"
-                ><i class="icofont-youtube"></i
+                ><i class="fab fa-youtube"></i
               ></a>
             </div>
           </div>

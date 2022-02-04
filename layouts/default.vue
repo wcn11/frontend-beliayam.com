@@ -1,5 +1,6 @@
 <template>
   <div>
+    <button data-toggle="modal" data-target="#modal-loading">tes</button>
     <LayoutsHeader></LayoutsHeader>
 
     <LayoutsFooter></LayoutsFooter>
@@ -24,6 +25,18 @@
 
 <script>
 export default {
+  data(){
+    return {
+      cookieToken: this.$cookies.get("bacClientToken")
+    }
+  },
+  created(){
+
+    this.$nuxt.$on('tokenSet', (token) => {
+      this.cookieToken = token
+      console.log('hehe')
+    });
+  },
   methods: {
     setScript() {
       // Dark Mode

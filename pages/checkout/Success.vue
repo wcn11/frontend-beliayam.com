@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="page-checkout-success" class="animate__animated">
       <CheckoutSuccess/>
   </div>
 </template>
@@ -16,7 +16,12 @@ export default {
     },
   },
   mounted() {
-    console.log(this.$route.params);
+    document.getElementById("page-checkout-success").classList.add("animate__fadeInRight");
+  },
+  beforeDestroy() {
+    document
+      .getElementById("page-checkout-success")
+      .classList.add("animate__fadeOutLeft");
   },
 };
 </script>

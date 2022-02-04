@@ -28,7 +28,7 @@
                 </div>
                 <div class="p-3">
                   <img
-                    :src="`${this.$config.baseURL}/img/listing/v1.jpg`"
+                    :src="`${this.$config.baseURL}/img/listing/product-demo.png`"
                     class="img-fluid item-img w-100 mb-3"
                   />
                   <h6

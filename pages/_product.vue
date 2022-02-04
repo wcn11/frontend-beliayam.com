@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="page-product" class="animate__animated">
     <nav aria-label="breadcrumb" class="breadcrumb mb-0">
       <div class="container">
         <ol class="d-flex align-items-center mb-0 p-0">
@@ -16,32 +16,31 @@
         <div class="row">
           <div class="col-lg-6">
             <VueSlickCarousel v-bind="settings" class="recommend-slider mb-3">
-              <div class="beliayam-slider-item">
+              <div class="beliayam-slider-item p-2">
                 <img
-                  src="img/recommend/r1.jpg"
-                  class="img-fluid mx-auto shadow-sm rounded"
+                    :src="`${this.$config.baseURL}/img/listing/product-demo.png`"
+                  class="img-fluid shadow-sm rounded"
                   alt="Responsive image"
                 />
               </div>
-              <div class="beliayam-slider-item">
+              <div class="beliayam-slider-item p-2">
                 <img
                   src="img/recommend/r2.jpg"
-                  class="img-fluid mx-auto shadow-sm rounded"
+                  class="img-fluid shadow-sm rounded"
                   alt="Responsive image"
                 />
               </div>
-              <div class="beliayam-slider-item">
+              <div class="beliayam-slider-item p-2">
                 <img
                   src="img/recommend/r3.jpg"
-                  class="img-fluid mx-auto shadow-sm rounded"
+                  class="img-fluid shadow-sm rounded"
                   alt="Responsive image"
                 />
               </div>
             </VueSlickCarousel>
 
             <div class="pd-f d-flex align-items-center mb-3">
-              <a
-                href="cart.html"
+              <button
                 class="
                   btn btn-warning
                   p-3
@@ -53,10 +52,11 @@
                   mr-3
                   btn-lg
                 "
-                ><i class="icofont-plus m-0 mr-2"></i> ADD TO CART</a
+                @click="addProductToCart()"
               >
-              <a
-                href="cart.html"
+                <i class="fad fa-plus m-0 mr-2"></i> Keranjang
+              </button>
+              <button
                 class="
                   btn btn-success
                   p-3
@@ -68,14 +68,15 @@
                   btn-lg
                   m-0
                 "
-                ><i class="icofont-cart m-0 mr-2"></i> BUY NOW</a
               >
+                <i class="fad fa-shopping-cart m-0 mr-2"></i> Beli
+              </button>
             </div>
           </div>
           <div class="col-lg-6">
             <div class="p-4 bg-white rounded shadow-sm">
               <div class="pt-0">
-                <h2 class="font-weight-bold">Ayam Broiler</h2>
+                <h2 class="font-weight-bold">{{ product.name }}</h2>
                 <p
                   class="
                     font-weight-light
@@ -85,25 +86,10 @@
                     align-items-center
                   "
                 >
-                  Product MRP : <b class="h6 text-dark m-0">Rp. 38.000</b>
+                  Produk MRP :
+                  <b class="h6 text-dark m-0">{{ product.price }}</b>
                   <span class="badge badge-danger ml-2">50% OFF</span>
                 </p>
-                <a href="review.html">
-                  <div class="rating-wrap d-flex align-items-center mt-2">
-                    <ul class="rating-stars list-unstyled">
-                      <li>
-                        <i class="icofont-star text-warning"></i>
-                        <i class="icofont-star text-warning"></i>
-                        <i class="icofont-star text-warning"></i>
-                        <i class="icofont-star text-warning"></i>
-                        <i class="icofont-star"></i>
-                      </li>
-                    </ul>
-                    <p class="label-rating text-muted ml-2 small">
-                      (245 Reviews)
-                    </p>
-                  </div>
-                </a>
               </div>
               <div class="pt-2">
                 <div class="row">
@@ -113,7 +99,7 @@
                   </div>
                   <div class="col-6 text-right">
                     <p class="font-weight-bold m-0">Ketersediaan Produk:</p>
-                    <p class="text-muted m-0">1 Kg</p>
+                    <p class="text-muted m-0">{{ product.stock }} Kuantitas</p>
                   </div>
                 </div>
               </div>
@@ -124,46 +110,66 @@
                       class="btn-group beliayam-radio btn-group-toggle"
                       data-toggle="buttons"
                     >
-                      <!-- <label class="btn btn-secondary active">
-<input type="radio" name="options" id="option1" checked> 4 pcs
-</label>
-<label class="btn btn-secondary">
-<input type="radio" name="options" id="option2"> 6 pcs
-</label> -->
                       <label class="btn btn-secondary">
-                        <input type="radio" name="options" id="option3" /> 1 Kg
+                        <input type="radio" name="options" id="option3" />
+                        {{ product.weight }} Kg
                       </label>
                     </div>
-                    <a class="ml-auto" href="#">
-                      <form
-                        id="myform"
-                        class="cart-items-number d-flex"
-                        method="POST"
-                        action="#"
-                      >
+                    <div class="ml-auto">
+                      <div id="myform" class="cart-items-number d-flex">
                         <input
                           type="button"
                           value="-"
                           class="qtyminus btn btn-success btn-sm"
                           field="quantity"
+                          @click="setDecrementQuantity"
+                          :disabled="
+                            cart.quantity === 0 ||
+                            cart.quantity === 1 ||
+                            cart.quantity === '' ||
+                            product.stock === 0
+                          "
                         />
                         <input
                           type="text"
                           name="quantity"
                           value="1"
                           class="qty form-control"
+                          @keydown="filterQuantity($event)"
+                          @keyup="setQuantity($event)"
+                          @change="checkQuantity($event)"
                         />
                         <input
                           type="button"
                           value="+"
                           class="qtyplus btn btn-success btn-sm"
                           field="quantity"
+                          @click="setIncrementQuantity"
+                          :disabled="
+                            cart.quantity >= product.stock ||
+                            cart.quantity === ''
+                          "
                         />
-                      </form>
-                    </a>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="pt-3">
+                  <div
+                    class="text-danger text-center"
+                    v-if="product.stock < cart.quantity"
+                  >
+                    <p>
+                      Maks. persediaan produk ini hanya ada
+                      {{ product.stock }} item.
+                    </p>
+                  </div>
+                  <div
+                    class="text-danger text-center"
+                    v-if="parseInt(cart.quantity) === 0 || cart.quantity === ''"
+                  >
+                    <p>Min. Pembelian 1 Item</p>
+                  </div>
                   <div
                     class="
                       input-group
@@ -184,7 +190,7 @@
                           bg-white
                         "
                       >
-                        <i class="icofont-note"></i>
+                        <i class="fad fa-sticky-note"></i>
                       </button>
                     </div>
                     <input
@@ -198,16 +204,12 @@
                       placeholder="Tambah Catatan disini..."
                       aria-label=""
                       aria-describedby="basic-addon1"
+                      v-model="cart.note"
                     />
                   </div>
                   <p class="font-weight-bold mb-2">Deskripsi Produk</p>
                   <p class="text-muted small mb-0">
-                    Jual & beli Ayam Kampung Super online dengan mudah dan cepat
-                    kapanpun dimanapun di Tokopedia sekarang! Lihat
-                    Selengkapnya. Cek Aneka Rekomendasi Ayam Kampung Super
-                    Terlengkap & Terbaik Lainnya. Ayam Kampung Super. Ayam
-                    Kampung Kuning. Ayam Kampung Betina. Ayam Kampung 1 Kg. Ayam
-                    Kampung Frozen.
+                    {{ product.description }}
                   </p>
                 </div>
               </div>
@@ -215,422 +217,31 @@
           </div>
         </div>
 
-        <h5 class="mt-3 mb-3">Produk Terkait</h5>
+        <Product :products="relatedProducts" />
+      </div>
+    </section>
 
-        <div class="pick_today">
-          <div class="row">
-            <div class="col-6 col-md-3 mb-3">
-              <div
-                class="
-                  list-card
-                  bg-white
-                  h-100
-                  rounded
-                  overflow-hidden
-                  position-relative
-                  shadow-sm
-                "
-              >
-                <div class="list-card-image">
-                  <NuxtLink to="/broiler-08-09-kg" class="text-dark">
-                    <div class="member-plan position-absolute">
-                      <span class="badge m-3 badge-danger">10%</span>
-                    </div>
-                    <div class="p-3">
-                      <img
-                        :src="`${this.$config.baseURL}/img/listing/v1.jpg`"
-                        class="img-fluid item-img w-100 mb-3"
-                      />
-                      <h6
-                        style="
-                          white-space: nowrap;
-                          width: 120px;
-                          overflow: hidden;
-                          text-overflow: ellipsis;
-                        "
-                      >
-                        Ayam Pejantan
-                      </h6>
-                      <h6 class="price m-0 text-success">
-                        <i class="fas fa-weight"></i> 1 Ekor
-                      </h6>
-                      <h6
-                        class="price m-0 text-success"
-                        style="font-size: large; text-align: right"
-                      >
-                        Rp. 45.000
-                      </h6>
-                      <div style="text-align: center; padding-top: 5%">
-                        <h6 class="btn btn-success">
-                          <i class="fas fa-cart-plus"></i> Tambahkan
-                        </h6>
-                      </div>
-                    </div>
-                  </NuxtLink>
-                </div>
-              </div>
-            </div>
-            <div class="col-6 col-md-3 mb-3">
-              <div
-                class="
-                  list-card
-                  bg-white
-                  h-100
-                  rounded
-                  overflow-hidden
-                  position-relative
-                  shadow-sm
-                "
-              >
-                <div class="list-card-image">
-                  <NuxtLink to="/broiler-08-09-kg" class="text-dark">
-                    <div class="member-plan position-absolute">
-                      <span class="badge m-3 badge-danger">5%</span>
-                    </div>
-                    <div class="p-3">
-                      <img
-                        :src="`${this.$config.baseURL}/img/listing/v2.jpg`"
-                        class="img-fluid item-img w-100 mb-3"
-                      />
-                      <h6
-                        style="
-                          white-space: nowrap;
-                          width: 120px;
-                          overflow: hidden;
-                          text-overflow: ellipsis;
-                        "
-                      >
-                        Ayam Broiler
-                      </h6>
-                      <h6 class="price m-0 text-success">
-                        <i class="fas fa-weight"></i> 1 Ekor
-                      </h6>
-                      <h6
-                        class="price m-0 text-success"
-                        style="font-size: large; text-align: right"
-                      >
-                        Rp. 45.000
-                      </h6>
-                      <div style="text-align: center; padding-top: 5%">
-                        <h6 class="btn btn-success">
-                          <i class="fas fa-cart-plus"></i> Tambahkan
-                        </h6>
-                      </div>
-                    </div>
-                  </NuxtLink>
-                </div>
-              </div>
-            </div>
-            <div class="col-6 col-md-3 mb-3">
-              <div
-                class="
-                  list-card
-                  bg-white
-                  h-100
-                  rounded
-                  overflow-hidden
-                  position-relative
-                  shadow-sm
-                "
-              >
-                <div class="list-card-image">
-                  <NuxtLink to="/broiler-08-09-kg" class="text-dark">
-                    <div class="member-plan position-absolute">
-                      <span class="badge m-3 badge-success">10%</span>
-                    </div>
-                    <div class="p-3">
-                      <img
-                        :src="`${this.$config.baseURL}/img/listing/v5.jpg`"
-                        class="img-fluid item-img w-100 mb-3"
-                      />
-                      <h6
-                        style="
-                          white-space: nowrap;
-                          width: 120px;
-                          overflow: hidden;
-                          text-overflow: ellipsis;
-                        "
-                      >
-                        Drumstick/Paha Ayam
-                      </h6>
-                      <h6 class="price m-0 text-success">
-                        <i class="fas fa-weight"></i> 1 Ekor
-                      </h6>
-                      <h6
-                        class="price m-0 text-success"
-                        style="font-size: large; text-align: right"
-                      >
-                        Rp. 45.000
-                      </h6>
-                      <div style="text-align: center; padding-top: 5%">
-                        <h6 class="btn btn-success">
-                          <i class="fas fa-cart-plus"></i> Tambahkan
-                        </h6>
-                      </div>
-                    </div>
-                  </NuxtLink>
-                </div>
-              </div>
-            </div>
-            <div class="col-6 col-md-3 mb-3">
-              <div
-                class="
-                  list-card
-                  bg-white
-                  h-100
-                  rounded
-                  overflow-hidden
-                  position-relative
-                  shadow-sm
-                "
-              >
-                <div class="list-card-image">
-                  <NuxtLink to="/broiler-08-09-kg" class="text-dark">
-                    <div class="member-plan position-absolute">
-                      <span class="badge m-3 badge-success">10%</span>
-                    </div>
-                    <div class="p-3">
-                      <img
-                        :src="`${this.$config.baseURL}/img/listing/v6.jpg`"
-                        class="img-fluid item-img w-100 mb-3"
-                      />
-                      <h6
-                        style="
-                          white-space: nowrap;
-                          width: 120px;
-                          overflow: hidden;
-                          text-overflow: ellipsis;
-                        "
-                      >
-                        Kulit Ayam
-                      </h6>
-                      <h6 class="price m-0 text-success">
-                        <i class="fas fa-weight"></i> 1 Ekor
-                      </h6>
-                      <h6
-                        class="price m-0 text-success"
-                        style="font-size: large; text-align: right"
-                      >
-                        Rp. 45.000
-                      </h6>
-                      <div style="text-align: center; padding-top: 5%">
-                        <h6 class="btn btn-success">
-                          <i class="fas fa-cart-plus"></i> Tambahkan
-                        </h6>
-                      </div>
-                    </div>
-                  </NuxtLink>
-                </div>
-              </div>
-            </div>
-            <div class="col-6 col-md-3 mb-3">
-              <div
-                class="
-                  list-card
-                  bg-white
-                  h-100
-                  rounded
-                  overflow-hidden
-                  position-relative
-                  shadow-sm
-                "
-              >
-                <div class="list-card-image">
-                  <NuxtLink to="/broiler-08-09-kg" class="text-dark">
-                    <div class="member-plan position-absolute">
-                      <span class="badge m-3 badge-success">10%</span>
-                    </div>
-                    <div class="p-3">
-                      <img
-                        :src="`${this.$config.baseURL}/img/listing/v3.jpg`"
-                        class="img-fluid item-img w-100 mb-3"
-                      />
-                      <h6
-                        style="
-                          white-space: nowrap;
-                          width: 120px;
-                          overflow: hidden;
-                          text-overflow: ellipsis;
-                        "
-                      >
-                        Ayam Petelur
-                      </h6>
-                      <h6 class="price m-0 text-success">
-                        <i class="fas fa-weight"></i> 1 Ekor
-                      </h6>
-                      <h6
-                        class="price m-0 text-success"
-                        style="font-size: large; text-align: right"
-                      >
-                        Rp. 45.000
-                      </h6>
-                      <div style="text-align: center; padding-top: 5%">
-                        <h6 class="btn btn-success">
-                          <i class="fas fa-cart-plus"></i> Tambahkan
-                        </h6>
-                      </div>
-                    </div>
-                  </NuxtLink>
-                </div>
-              </div>
-            </div>
-            <div class="col-6 col-md-3 mb-3">
-              <div
-                class="
-                  list-card
-                  bg-white
-                  h-100
-                  rounded
-                  overflow-hidden
-                  position-relative
-                  shadow-sm
-                "
-              >
-                <div class="list-card-image">
-                  <NuxtLink to="/broiler-08-09-kg" class="text-dark">
-                    <div class="member-plan position-absolute">
-                      <span class="badge m-3 badge-warning">15%</span>
-                    </div>
-                    <div class="p-3">
-                      <img
-                        :src="`${this.$config.baseURL}/img/listing/v4.jpg`"
-                        class="img-fluid item-img w-100 mb-3"
-                      />
-                      <h6
-                        style="
-                          white-space: nowrap;
-                          width: 120px;
-                          overflow: hidden;
-                          text-overflow: ellipsis;
-                        "
-                      >
-                        Dada Fillet
-                      </h6>
-                      <h6 class="price m-0 text-success">
-                        <i class="fas fa-weight"></i> 1 Ekor
-                      </h6>
-                      <h6
-                        class="price m-0 text-success"
-                        style="font-size: large; text-align: right"
-                      >
-                        Rp. 45.000
-                      </h6>
-                      <div style="text-align: center; padding-top: 5%">
-                        <h6 class="btn btn-success">
-                          <i class="fas fa-cart-plus"></i> Tambahkan
-                        </h6>
-                      </div>
-                    </div>
-                  </NuxtLink>
-                </div>
-              </div>
-            </div>
-            <div class="col-6 col-md-3 mb-3">
-              <div
-                class="
-                  list-card
-                  bg-white
-                  h-100
-                  rounded
-                  overflow-hidden
-                  position-relative
-                  shadow-sm
-                "
-              >
-                <div class="list-card-image">
-                  <NuxtLink to="/broiler-08-09-kg" class="text-dark">
-                    <div class="member-plan position-absolute">
-                      <span class="badge m-3 badge-danger">10%</span>
-                    </div>
-                    <div class="p-3">
-                      <img
-                        :src="`${this.$config.baseURL}/img/listing/v7.jpg`"
-                        class="img-fluid item-img w-100 mb-3"
-                      />
-                      <h6
-                        style="
-                          white-space: nowrap;
-                          width: 120px;
-                          overflow: hidden;
-                          text-overflow: ellipsis;
-                        "
-                      >
-                        Chiken Wings/Sayap
-                      </h6>
-                      <h6 class="price m-0 text-success">
-                        <i class="fas fa-weight"></i> 1 Ekor
-                      </h6>
-                      <h6
-                        class="price m-0 text-success"
-                        style="font-size: large; text-align: right"
-                      >
-                        Rp. 45.000
-                      </h6>
-                      <div style="text-align: center; padding-top: 5%">
-                        <h6 class="btn btn-success">
-                          <i class="fas fa-cart-plus"></i> Tambahkan
-                        </h6>
-                      </div>
-                    </div>
-                  </NuxtLink>
-                </div>
-              </div>
-            </div>
-            <div class="col-6 col-md-3 mb-3">
-              <div
-                class="
-                  list-card
-                  bg-white
-                  h-100
-                  rounded
-                  overflow-hidden
-                  position-relative
-                  shadow-sm
-                "
-              >
-                <div class="list-card-image">
-                  <NuxtLink to="/broiler-08-09-kg" class="text-dark">
-                    <div class="member-plan position-absolute">
-                      <span class="badge m-3 badge-danger">5%</span>
-                    </div>
-                    <div class="p-3">
-                      <img
-                        :src="`${this.$config.baseURL}/img/listing/v8.jpg`"
-                        class="img-fluid item-img w-100 mb-3"
-                      />
-                      <h6
-                        style="
-                          white-space: nowrap;
-                          width: 120px;
-                          overflow: hidden;
-                          text-overflow: ellipsis;
-                        "
-                      >
-                        Paha Fillet
-                      </h6>
-                      <h6 class="price m-0 text-success">
-                        <i class="fas fa-weight"></i> 1 Ekor
-                      </h6>
-                      <h6
-                        class="price m-0 text-success"
-                        style="font-size: large; text-align: right"
-                      >
-                        Rp. 45.000
-                      </h6>
-                      <div style="text-align: center; padding-top: 5%">
-                        <h6 class="btn btn-success">
-                          <i class="fas fa-cart-plus"></i> Tambahkan
-                        </h6>
-                      </div>
-                    </div>
-                  </NuxtLink>
-                </div>
-              </div>
-            </div>
+    <!-- Modal -->
+    <div id="modal-cart-success">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content animate__animated animate__jello">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              <i class="fad fa-egg-fried text-success"></i> Berhasil Ditambahkan
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+              @click="closeModal()"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   </div>
 </template>
 
@@ -640,19 +251,173 @@ export default {
   name: "Products",
   components: { VueSlickCarousel },
   // layout: "blog"
-  asyncData() {
-    return { content: "Created at: " + new Date() };
+  async fetch() {
+    await this.$axios
+      .get(
+        `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/product/${this.$route.params.product}`
+      )
+      .then((res) => {
+        this.product = res.data.data;
+        this.getRelatedProducts();
+      });
   },
+  data() {
+    return {
+      relatedProducts: [],
+      cart: {
+        product_id: "",
+        quantity: 1,
+        note: "",
+      },
+      product: {},
+      products: [],
+      categorySetting: {
+        page: 1,
+        show: 10,
+        sortBy: "ASC",
+        orderBy: "name",
+        status: "active",
+      },
+      settings: {
+        infinite: true,
+        speed: 300,
+        slidesToShow: 1,
+        adaptiveHeight: true,
+        centerMode: true,
+        arrows: false,
+        dots: true,
+        autoplay: true,
+      },
+    };
+  },
+
   methods: {
+    async addProductToCart() {
+      const response = await this.$axios
+        .$post(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/cart`, {
+          product_id: this.product._id,
+          user_id: this.$auth.user._id,
+          quantity: this.cart.quantity,
+          note: this.cart.note,
+        })
+        .then((results) => {
+          if (results.data.error) {
+            return;
+          }
+          this.resetCarts();
+          $("#modal-cart-success").css("display", "block");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    async resetCarts() {
+      await this.$store.dispatch("cart/setCartsNav");
+    },
+    setIncrementQuantity(e) {
+      if (this.product.stock > parseInt(this.cart.quantity)) {
+        return this.cart.quantity++;
+      }
+
+      evt.preventDefault();
+    },
+    setDecrementQuantity(e) {
+      if (this.cart.quantity > 1) {
+        return this.cart.quantity--;
+      }
+
+      evt.preventDefault();
+    },
+    checkQuantity(e) {
+      if (this.cart.quantity === "" || parseInt(this.cart.quantity) === 0) {
+        this.cart.quantity = "1";
+        e.target.value = "1";
+      }
+
+      if (parseInt(this.cart.quantity) > this.product.stock) {
+        this.cart.quantity = this.product.stock;
+        e.target.value = `${this.product.stock}`;
+      }
+    },
+    filterQuantity(evt) {
+      evt = evt ? evt : window.event;
+      var charCode = evt.which ? evt.which : evt.keyCode;
+      if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return evt.preventDefault();
+      }
+      return true;
+    },
+    setQuantity(evt) {
+      this.cart.quantity = evt.target.value;
+    },
     refresh() {
       this.$nuxt.refresh();
+    },
+    async setRelatedProductsFilter() {
+      return (this.relatedProducts = await this.products.filter(
+        (product) => product.slug !== this.$route.params.product
+      ));
+    },
+    async getRelatedProducts() {
+      await this.$axios
+        .get(
+          `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/category/_s?key=${this.product.category[0].slug}&page=${this.categorySetting.page}&show=${this.categorySetting.show}&sortBy=${this.categorySetting.sortBy}&orderBy=$${this.categorySetting.orderBy}&status=${this.categorySetting.status}`
+        )
+        .then((res) => {
+          this.products = res.data.data;
+          this.setRelatedProductsFilter();
+        });
+    },
+    closeModal() {
+      $("#modal-cart-success").css("display", "none");
+    },
+    toFirstLetterUpperCase(word) {
+      return word[0].toUpperCase() + word.substring(1);
+    },
+    setScript() {
+      // Quantity JS
+      $(document).ready(function () {
+        // This button will increment the value
+        $(".qtyplus").click(function (e) {
+          // Stop acting like a button
+          e.preventDefault();
+          // Get the field name
+          var fieldName = $(this).attr("field");
+          // Get its current value
+          var currentVal = parseInt($("input[name=" + fieldName + "]").val());
+          // If is not undefined
+          if (!isNaN(currentVal)) {
+            // Increment
+            $("input[name=" + fieldName + "]").val(currentVal + 1);
+          } else {
+            // Otherwise put a 0 there
+            $("input[name=" + fieldName + "]").val(1);
+          }
+        });
+        // This button will decrement the value till 0
+        $(".qtyminus").click(function (e) {
+          // Stop acting like a button
+          e.preventDefault();
+          // Get the field name
+          let fieldName = $(this).attr("field");
+          // Get its current value
+          var currentVal = parseInt($("input[name=" + fieldName + "]").val());
+          // If it isn't undefined or its greater than 0
+          if (!isNaN(currentVal) && currentVal > 1) {
+            // Decrement one
+            $("input[name=" + fieldName + "]").val(currentVal - 1);
+          } else {
+            // Otherwise put a 0 there
+            $("input[name=" + fieldName + "]").val(1);
+          }
+        });
+      });
     },
   },
   loading: {
     color: "red",
     height: "5px",
   },
-
   head() {
     return {
       title: "Produk Ayam Broiler",
@@ -661,19 +426,36 @@ export default {
       },
     };
   },
-  // mounted() {
-  //   console.log(this.$route.params.product);
-  // },
-  // methods: {
-  //   toFirstLetterUpperCase(word) {
-  //     return word[0].toUpperCase() + word.substring(1);
-  //   },
-  // },
+
+  mounted() {
+    document
+      .getElementById("page-product")
+      .classList.add("animate__fadeInRight");
+    this.setScript();
+  },
+  beforeDestroy() {
+    document
+      .getElementById("page-product")
+      .classList.add("animate__fadeOutLeft");
+  },
 };
 </script>
 
 <style scoped>
 .margin-bottom-10 {
   margin-bottom: 10px;
+}
+#modal-cart-success {
+  background-color: #0000008f;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1050;
+  display: none;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  outline: 0;
 }
 </style>

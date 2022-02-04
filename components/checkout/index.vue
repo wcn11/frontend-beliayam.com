@@ -1,19 +1,36 @@
 <template>
   <div>
-    <nav aria-label="breadcrumb" class="breadcrumb mb-0">
-      <div class="container">
-        <ol class="d-flex align-items-center mb-0 p-0">
-          <li class="breadcrumb-item">
-            <NuxtLink to="/" class="text-success">Home</NuxtLink>
-          </li>
-          <li class="breadcrumb-item active" aria-current="page">
-            Kategori Beliayam.com
-          </li>
-        </ol>
-      </div>
-    </nav>
+    <div class="bg-white shadow-sm beliayam-main-nav">
+      <nav
+        class="
+          navbar navbar-expand-lg navbar-light
+          bg-white
+          beliayam-header
+          py-0
+          container
+        "
+      >
+        <NuxtLink class="navbar-brand mr-0 navbar-logo" to="/"
+          ><img
+            class="img-fluid logo-img shadow-sm"
+            :src="require('static/img/logo_navbar.png')"
+        /></NuxtLink>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </nav>
+    </div>
 
-    <location-picker @change="getLatLong" v-model="location" :options="options"> </location-picker>
+    <!-- <location-picker @change="getLatLong" v-model="location" :options="options">
+    </location-picker> -->
 
     <section class="py-4 beliayam-main-body">
       <div class="container">
@@ -22,14 +39,13 @@
             <div class="bg-white rounded shadow-sm overflow-hidden">
               <div class="address p-3 bg-light">
                 <h6 class="m-0 text-dark d-flex align-items-center">
-                  Address
+                  Alamat Pengiriman
                   <span class="small ml-auto"
                     ><a
-                      href="#"
+                      href="javascript:void(0)"
                       class="font-weight-bold text-decoration-none text-success"
-                      data-toggle="modal"
-                      data-target="#exampleModal"
-                      ><i class="icofont-location-arrow"></i> Change</a
+                      @onclick="openModalAddress()"
+                      ><i class="fad fa-thumbtack"></i> ubah alamat</a
                     ></span
                   >
                 </h6>
@@ -65,7 +81,7 @@
                                 <div class="d-flex align-items-center mb-2">
                                   <p class="mb-0 h6">Home</p>
                                   <p class="mb-0 badge badge-success ml-auto">
-                                    <i class="icofont-check-circled"></i>
+                                    <i class="fad fa-check-circle"></i>
                                     Default
                                   </p>
                                 </div>
@@ -123,7 +139,7 @@
                                 <div class="d-flex align-items-center mb-2">
                                   <p class="mb-0 h6">Work</p>
                                   <p class="mb-0 badge badge-light ml-auto">
-                                    <i class="icofont-check-circled"></i> Select
+                                    <i class="fad fa-check-circle"></i> Select
                                   </p>
                                 </div>
                                 <p class="small text-muted m-0">
@@ -170,7 +186,7 @@
                       class="font-weight-bold text-decoration-none text-success"
                       data-toggle="modal"
                       data-target="#exampleDelivery"
-                      ><i class="icofont-location-arrow"></i> Change</a
+                      ><i class="fad fa-thumbtack"></i> Change</a
                     ></span
                   >
                 </h6>
@@ -193,9 +209,9 @@
                   data-target="#paymentModal"
                 >
                   <div class="d-flex align-items-center">
-                    <i class="icofont-credit-card"></i>
+                    <i class="fad fa-credit-card-front"></i>
                     <span class="ml-3">Edit Payment Method</span>
-                    <i class="icofont-rounded-right ml-auto"></i>
+                    <i class="fad fa-chevron-right ml-auto"></i>
                   </div>
                 </a>
               </div>
@@ -219,8 +235,8 @@
                       aria-expanded="false"
                       aria-controls="collapseThree"
                     >
-                      <i class="icofont-badge mr-3"></i> Add Promo Code
-                      <i class="icofont-rounded-down ml-auto"></i>
+                      <i class="fad fa-badge mr-3"></i> Add Promo Code
+                      <i class="fad fa-chevron-down ml-auto"></i>
                     </a>
                   </div>
                   <div
@@ -242,14 +258,14 @@
                             type="button"
                             class="btn btn-success"
                           >
-                            <i class="icofont-percent"></i> APPLY
+                            <i class="fad fa-percent"></i> APPLY
                           </button>
                         </div>
                       </div>
                       <div class="mb-0 input-group">
                         <div class="input-group-prepend">
                           <span class="input-group-text"
-                            ><i class="icofont-ui-message"></i
+                            ><i class="fad fa-envelope"></i
                           ></span>
                         </div>
                         <textarea
@@ -316,7 +332,7 @@
                           data-placement="top"
                           title="Delivery partner fee - $3"
                           class="text-info ml-1"
-                          ><i class="icofont-info-circle"></i></span
+                          ><i class="fad fa-circle-info"></i></span
                         ><span class="float-right text-dark">Rp. 15.000</span>
                       </p>
                       <h6 class="mb-0 text-success">
@@ -348,7 +364,7 @@
       </div>
     </section>
 
-    <div
+    <!-- <div
       class="modal fade"
       id="exampleModal"
       tabindex="-1"
@@ -442,7 +458,48 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
+
+
+      <!-- Modal -->
+      <div id="modal-address">
+        <div
+          class="
+            modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg
+          "
+        >
+          <div class="modal-content animate__animated animate__jello">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                <i class="fad fa-egg-fried text-success"></i> Gunakan Voucher
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+                @click="closeModal()"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div>
+                <div class="paragraphs p-3">
+                  <div class="justify-content-center">
+                  </div>
+                </div>
+                <!-- <div v-for="voucher in getCartsVouchers" :key="voucher._id">
+                  <img :src="`${baseApi}/${voucher.banner}`" :alt="`${voucher.voucherName ? voucher.voucherName : voucher.voucherCode}`" class="img-fluid rounded">
+                  <p>
+                    {{ voucher.voucherName ? voucher.voucherName : voucher.voucherCode }}
+                  </p>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
   </div>
 </template>
 
@@ -474,11 +531,14 @@ export default {
       },
     };
   },
-  // methods: {
-  //   getLatLong() {
-  //     console.log("123");
-  //   },
-  // },
+  methods: {
+    openModalAddress() {
+      $("#modal-address").css("display", "block");
+    },
+    closeModal() {
+      $("#modal-address").css("display", "none");
+    },
+  },
 };
 </script>
 
@@ -486,5 +546,20 @@ export default {
 #map {
   width: 100%;
   height: 480px;
+}
+
+
+#modal-address {
+  background-color: #0000008f;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1050;
+  display: none;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  outline: 0;
 }
 </style>

@@ -25,41 +25,21 @@
               align-items-center
             "
           >
-            <i class="text-dark icofont-sale-discount"></i>
+            <i class="text-dark fad fa-badge-percent"></i>
             <span class="badge badge-danger p-1 ml-1 small">50%</span>
           </a>
         </p>
         <a class="toggle ml-3" href="javascript:void(0)"
-          ><i class="icofont-navigation-menu"></i
+          ><i class="fas fa-bars"></i
         ></a>
       </div>
-      <!-- <a href="search.html" class="text-decoration-none">
-        <div
-          class="input-group mt-3 rounded shadow-sm overflow-hidden bg-white"
-        >
-          <div class="input-group-prepend">
-            <button
-              class="border-0 btn btn-outline-secondary text-success bg-white"
-            >
-              <i class="icofont-search"></i>
-            </button>
-          </div>
-          <input
-            type="text"
-            class="shadow-none border-0 form-control pl-0"
-            placeholder="Search for Products.."
-            aria-label=""
-            aria-describedby="basic-addon1"
-          />
-        </div>
-      </a> -->
     </div>
 
     <div class="theme-switch-wrapper">
       <label class="theme-switch" for="checkbox">
         <input type="checkbox" id="checkbox" />
         <div class="slider round"></div>
-        <i class="icofont-moon"></i>
+        <i class="fad fa-moon"></i>
       </label>
       <em>Mode Gelap!</em>
     </div>
@@ -71,13 +51,13 @@
           bg-white
           beliayam-header
           py-0
-          container
+          container-fluid
         "
       >
-        <NuxtLink class="navbar-brand mr-0" to="/"
+        <NuxtLink class="navbar-brand mr-0 navbar-logo" to="/"
           ><img
-            class="img-fluid logo-img rounded-pill border shadow-sm"
-            :src="require('static/img/logo.png')"
+            class="img-fluid logo-img shadow-sm"
+            :src="require('static/img/logo_navbar.png')"
         /></NuxtLink>
         <button
           class="navbar-toggler"
@@ -110,13 +90,13 @@
               <div>
                 <i
                   class="
-                    icofont-location-pin
+                    fad
+                    fa-map-marker-alt
                     d-flex
                     align-items-center
                     bg-light
                     rounded-pill
                     p-2
-                    icofont-size
                     border
                     shadow-sm
                     mr-2
@@ -143,7 +123,7 @@
                   />
                   <div class="input-group-prepend">
                     <div class="btn btn-success rounded-right btn-sm">
-                      <i class="icofont-location-arrow"></i> Deteksi
+                      <i class="fad fa-location-arrow"></i> Deteksi
                     </div>
                   </div>
                 </div>
@@ -170,131 +150,26 @@
               </div>
             </div>
           </div>
-
-          <!-- <div class="input-group mr-sm-2 col-lg-12">
-            <input
-              type="text"
-              class="form-control"
-              id="inlineFormInputGroupUsername2"
-              placeholder="Search for Products.."
-            />
-            <div class="input-group-prepend">
-              <div class="btn btn-success rounded-right">
-                <i class="icofont-search"></i>
-              </div>
-            </div>
-          </div> -->
         </div>
         <div class="ml-auto d-flex align-items-center">
-          <a
-            href="/login"
-            class="mr-2 rounded-pill p-2 border shadow-sm bg-danger"
-          >
-            <i class="fad fa-sign-in-alt"></i>
-            Masuk
-          </a>
-          <a
-            href="/register"
-            class="mr-2 rounded-pill p-2 border shadow-sm text-dark"
-          >
-            <i class="fad fa-sign-in-alt"></i>
-            Daftar
-          </a>
-
-          <div class="dropdown">
-            <a
-              href="#"
-              class="text-dark dropdown-toggle not-drop"
-              id="dropdownMenuNotification"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
+          <div v-if="!this.$auth.loggedIn">
+            <NuxtLink
+              to="/login"
+              class="mr-2 rounded-pill p-2 border shadow-sm bg-danger"
             >
-              <i
-                class="
-                  icofont-notification
-                  d-flex
-                  align-items-center
-                  bg-light
-                  rounded-pill
-                  p-2
-                  icofont-size
-                  border
-                  shadow-sm
-                "
-              >
-              </i>
-            </a>
-            <div
-              class="
-                dropdown-menu dropdown-menu-right
-                p-0
-                beliayam-notifications-main
-              "
-              aria-labelledby="dropdownMenuNotification"
+              <i class="fad fa-sign-in-alt"></i>
+              Masuk
+            </NuxtLink>
+            <NuxtLink
+              to="/register"
+              class="mr-2 rounded-pill p-2 border shadow-sm text-dark"
             >
-              <div class="beliayam-notifications bg-white border-bottom p-2">
-                <div class="position-absolute ml-n1 py-2">
-                  <i
-                    class="
-                      icofont-check-circled
-                      text-white
-                      bg-success
-                      rounded-pill
-                      p-1
-                    "
-                  ></i>
-                </div>
-                <a
-                  href="status_complete.html"
-                  class="text-decoration-none text-dark"
-                >
-                  <div class="notifiction small">
-                    <div class="ml-3">
-                      <p class="font-weight-bold mb-1">Yay! Order Complete</p>
-                      <p class="small m-0">
-                        <i class="icofont-ui-calendar"></i> Today, 05:14 AM
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </div>
-
-              <div class="beliayam-notifications bg-white border-bottom p-2">
-                <a
-                  href="status_onprocess.html"
-                  class="text-decoration-none text-muted"
-                >
-                  <div class="notifiction small">
-                    <div class="ml-3">
-                      <p class="font-weight-bold mb-1">Yipiee. order Success</p>
-                      <p class="small m-0">
-                        <i class="icofont-ui-calendar"></i> Monday, 08:30 PM
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </div>
-
-              <div class="beliayam-notifications bg-white p-2">
-                <a
-                  href="status_onprocess.html"
-                  class="text-decoration-none text-muted"
-                >
-                  <div class="notifiction small">
-                    <div class="ml-3">
-                      <p class="font-weight-bold mb-1">New Promos Coming</p>
-                      <p class="small m-0">
-                        <i class="icofont-ui-calendar"></i> Sunday, 10:30 AM
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
+              <i class="fad fa-sign-in-alt"></i>
+              Daftar
+            </NuxtLink>
           </div>
 
-          <div class="dropdown mr-3">
+          <div class="dropdown mr-3" v-if="this.$auth.loggedIn">
             <a
               href="#"
               class="dropdown-toggle text-dark"
@@ -307,7 +182,7 @@
                 src="/img/user.png"
                 class="img-fluid rounded-circle header-user mr-2"
               />
-              Hi Budi
+              {{ this.$auth.user.name || "Cusyam" }}
             </a>
             <div
               class="dropdown-menu dropdown-menu-right top-profile-drop"
@@ -332,13 +207,13 @@
             >
               <i
                 class="
-                  icofont-notification
+                  fad
+                  fa-bell
                   d-flex
                   align-items-center
                   bg-light
                   rounded-pill
                   p-2
-                  icofont-size
                   border
                   shadow-sm
                 "
@@ -357,7 +232,8 @@
                 <div class="position-absolute ml-n1 py-2">
                   <i
                     class="
-                      icofont-check-circled
+                      fad
+                      fa-check-circle
                       text-white
                       bg-success
                       rounded-pill
@@ -373,7 +249,7 @@
                     <div class="ml-3">
                       <p class="font-weight-bold mb-1">Yay! Order Complete</p>
                       <p class="small m-0">
-                        <i class="icofont-ui-calendar"></i> Today, 05:14 AM
+                        <i class="fad fa-calendar-alt"></i> Today, 05:14 AM
                       </p>
                     </div>
                   </div>
@@ -389,7 +265,7 @@
                     <div class="ml-3">
                       <p class="font-weight-bold mb-1">Yipiee. order Success</p>
                       <p class="small m-0">
-                        <i class="icofont-ui-calendar"></i> Monday, 08:30 PM
+                        <i class="fad fa-calendar-alt"></i> Monday, 08:30 PM
                       </p>
                     </div>
                   </div>
@@ -405,7 +281,7 @@
                     <div class="ml-3">
                       <p class="font-weight-bold mb-1">New Promos Coming</p>
                       <p class="small m-0">
-                        <i class="icofont-ui-calendar"></i> Sunday, 10:30 AM
+                        <i class="fad fa-calendar-alt"></i> Sunday, 10:30 AM
                       </p>
                     </div>
                   </div>
@@ -414,21 +290,159 @@
             </div>
           </div>
 
-          <a
+          <div class="dropdown" @mouseenter="getCarts()">
+            <a
+              href="#"
+              class="text-dark dropdown-toggle not-drop"
+              id="dropdownCart"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <i
+                class="
+                  fad
+                  fa-shopping-cart
+                  d-flex
+                  align-items-center
+                  bg-light
+                  rounded-pill
+                  p-2
+                  shadow-sm
+                "
+              >
+              </i>
+              <span class="ml-1 cart-label-count">
+                {{ getCartsNav.length }}
+              </span>
+            </a>
+            <div
+              class="
+                dropdown-menu dropdown-menu-right
+                p-0
+                beliayam-notifications-main
+              "
+              aria-labelledby="dropdownCart"
+            >
+              <div>
+                <div>
+                  <div class="p-2">
+                    <span>Keranjang ({{ getCartsNav.length }}) </span>
+                    <div class="float-right">
+                      <NuxtLink to="/keranjang"> Lihat Keranjang </NuxtLink>
+                    </div>
+                  </div>
+
+                  <div
+                    class="beliayam-notifications bg-white border-bottom p-2"
+                    v-for="cart in getCartsNav"
+                    :key="cart._id"
+                  >
+                    <NuxtLink :to="`/${cart.onLive.slug}`">
+                      <div class="position-absolute ml-n1 py-2 text-danger">
+                        {{ cart.onLive.price }}
+                      </div>
+                      <div class="text-decoration-none text-dark">
+                        <div class="notifiction small">
+                          <div class="ml-3">
+                            <p class="font-weight-bold mb-1">
+                              {{ cart.onLive.name }}
+                            </p>
+                            <p class="small m-0">
+                              <i class="fad fa-calendar-alt"></i>
+                              {{ cart.onLive.quantity }} Produk ({{
+                                cart.onLive.weight
+                              }}
+                              kg)
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </NuxtLink>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- <a
             href="cart.html"
-            class="
-              ml-2
-              text-dark
-              bg-light
-              rounded-pill
-              p-2
-              icofont-size
-              border
-              shadow-sm
-            "
+            class="ml-2 text-dark bg-light rounded-pill p-2 border shadow-sm"
+              id="dropdownMenuCart"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
           >
-            <i class="icofont-shopping-cart"></i>
+            <i class="fad fa-shopping-cart"></i>
           </a>
+
+          <div
+            class="
+              dropdown-menu dropdown-menu-right
+              p-0
+            "
+            aria-labelledby="dropdownMenuCart"
+          >
+            <div class="beliayam-notifications bg-white border-bottom p-2">
+              <div class="position-absolute ml-n1 py-2">
+                <i
+                  class="
+                    fad
+                    fa-check-circle
+                    text-white
+                    bg-success
+                    rounded-pill
+                    p-1
+                  "
+                ></i>
+              </div>
+              <a
+                href="status_complete.html"
+                class="text-decoration-none text-dark"
+              >
+                <div class="notifiction small">
+                  <div class="ml-3">
+                    <p class="font-weight-bold mb-1">Yay! Order Complete</p>
+                    <p class="small m-0">
+                      <i class="fad fa-calendar-alt"></i> Today, 05:14 AM
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="beliayam-notifications bg-white border-bottom p-2">
+              <a
+                href="status_onprocess.html"
+                class="text-decoration-none text-muted"
+              >
+                <div class="notifiction small">
+                  <div class="ml-3">
+                    <p class="font-weight-bold mb-1">Yipiee. order Success</p>
+                    <p class="small m-0">
+                      <i class="fad fa-calendar-alt"></i> Monday, 08:30 PM
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="beliayam-notifications bg-white p-2">
+              <a
+                href="status_onprocess.html"
+                class="text-decoration-none text-muted"
+              >
+                <div class="notifiction small">
+                  <div class="ml-3">
+                    <p class="font-weight-bold mb-1">New Promos Coming</p>
+                    <p class="small m-0">
+                      <i class="fad fa-calendar-alt"></i> Sunday, 10:30 AM
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div> -->
         </div>
       </nav>
 
@@ -551,7 +565,7 @@
           <div class="list-unstyled form-inline mb-0 ml-auto">
             <a href="picks_today.html" class="text-white px-3 py-2">Trending</a>
             <a href="promos.html" class="text-white bg-offer px-3 py-2"
-              ><i class="icofont-sale-discount h6"></i>Promos</a
+              ><i class="fad fa-badge-percent h6"></i>Promos</a
             >
           </div>
         </div>
@@ -569,18 +583,51 @@
       </div>
     </nav>
 
-    <LayoutsMobileNav/>
-
+    <LayoutsMobileNav />
 
     <Nuxt />
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "LayoutHeader",
+  data() {
+    return {
+      carts: this.$store.state.cart.cartsNav,
+    };
+  },
+  methods: {
+    async getCarts() {
+      if (this.$store.state.cart.cartsNav.length <= 0) {
+        await this.$store.dispatch("cart/setCartsNav");
+      }
+    },
+  },
+  computed: {
+    ...mapGetters("cart", [
+      "getCartsNav",
+      // Here you can import other getters from the products.js
+    ]),
+  },
 };
 </script>
 
 <style>
+.navbar-logo {
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+}
+.cart-label-count {
+  background-color: #cf430f;
+  color: white;
+  padding: 4px;
+  font-weight: 700;
+  border-radius: 18px;
+  font-size: 10px;
+  position: absolute;
+  transform: translate(110%, -50%);
+}
 </style>

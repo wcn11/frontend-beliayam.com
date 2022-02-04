@@ -53,7 +53,7 @@
                     href="change_password.html"
                     class="p-3 btn-light border btn d-flex align-items-center"
                     >Change Password
-                    <i class="icofont-rounded-right ml-auto"></i
+                    <i class="fad fa-chevron-right ml-auto"></i
                   ></a>
                 </div>
                 <div class="deactivate_account">
@@ -61,7 +61,7 @@
                     href="deactivate_account.html"
                     class="p-3 btn-light border btn d-flex align-items-center"
                     >Deactivate Account
-                    <i class="icofont-rounded-right ml-auto"></i
+                    <i class="fad fa-chevron-right ml-auto"></i
                   ></a>
                 </div>
               </div>

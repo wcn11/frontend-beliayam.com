@@ -5,6 +5,29 @@ export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
+  server: {
+    port: 3000,
+  },
+  loading: {
+    color: '#ce0000',
+    height: '5px',
+    continuous: true
+  },
+
+  loadingIndicator: {
+    name: 'chasing-dots',
+    color: '#3B8070',
+    background: 'white'
+  },
+
+  router: {
+    prefetchLinks: false
+  },
+
+  pageTransition: "fade",
+
+  scrollToTop: true,
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Situs Beli Ayam Pedaging Murah Beliayam.com | Ayam Murah Semakin Mudah | Gratis Ongkir',
@@ -49,6 +72,7 @@ export default {
     '@/static/vendor/sidebar/demo.css',
     '@/static/fonts/css/all.min.css',
     '@/static/css/style.css',
+    'animate.css/animate.min.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -84,7 +108,101 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
+    // With default plugin options
+    "vue-toastification/nuxt",
+
+    // You can also pass plugin options
+    ["vue-toastification/nuxt", {
+      timeout: 1000,
+      draggable: false
+    }],
+    ['cookie-universal-nuxt', { parseJSON: false }],
   ],
+
+  axios: {
+    // proxy: true
+    // proxyHeaders: false
+  },
+  auth: {
+    strategies: {
+      local: {
+        // scheme: "~/schemes/customScheme",
+
+        token: {
+          property: "data.token.accessToken",
+          type: "Bearer",
+          name: "Authorization",
+          maxAge: 3600,
+          global: true,
+          required: true,
+          prefix: "bt.",
+          expirationPrefix: "bt_expiration."
+        },
+        refreshToken: {
+          property: 'data.token.refreshToken',
+          data: 'refreshToken',
+          maxAge: 60 * 60 * 24 * 30,
+          expirationPrefix: "btf_expiration."
+        },
+        user: {
+          property: "data",
+          autoFetch: true
+        },
+        endpoints: {
+          // (optional) If set, we send a get request to this endpoint before login
+          login: {
+            url: `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/login`,
+            method: 'post'
+          },
+          refresh: {
+            url: `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/refresh-token`,
+            method: 'post'
+          },
+          user: {
+            url: `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/users/me`, method: 'get'
+          },
+          logout: true,
+          redirect: {
+            login: '/login',
+            logout: '/',
+            callback: '/login',
+            home: '/'
+          },
+
+          cookie: true,
+          csrf: {
+            url: ''
+          }
+        }
+      },
+
+      // cookie: {
+      //   cookie: {
+      //     // (optional) If set, we check this cookie existence for loggedIn check
+      //     name: 'XSRF-TOKEN',
+      //   },
+      // },
+    },
+  },
+  router: {
+    middleware: ['auth']
+  },
+
+  toast: {
+    position: "top-center",
+    timeout: 5000,
+    closeOnClick: true,
+    pauseOnFocusLoss: true,
+    pauseOnHover: true,
+    draggable: false,
+    draggablePercent: 0.6,
+    showCloseButtonOnHover: false,
+    hideProgressBar: false,
+    closeButton: "button",
+    rtl: false
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
@@ -96,6 +214,8 @@ export default {
   },
 
   publicRuntimeConfig: {
-    baseURL: process.env.BASE_URL,
+    baseURL: process.env.NUXT_ENV_BASE_URL,
+    baseApi: process.env.NUXT_ENV_BASE_URL_API,
+    baseApiVersion: process.env.NUXT_ENV_BASE_URL_API_VERSION
   }
 }

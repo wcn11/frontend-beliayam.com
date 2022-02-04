@@ -28,7 +28,7 @@
                         <a
                           href="promo_details.html"
                           class="btn btn-outline-light btn-sm"
-                          ><i class="icofont-sale-discount"></i> CHECK NOW</a
+                          ><i class="fad fa-badge-percent"></i> CHECK NOW</a
                         >
                       </div>
                       <div class="col-3 text-center">
@@ -62,7 +62,7 @@
                         <a
                           href="promo_details.html"
                           class="btn btn-outline-light btn-sm"
-                          ><i class="icofont-sale-discount"></i> CHECK NOW</a
+                          ><i class="fad fa-badge-percent"></i> CHECK NOW</a
                         >
                       </div>
                       <div class="col-3 text-center">
@@ -97,7 +97,7 @@
                         <a
                           href="promo_details.html"
                           class="btn btn-light btn-sm"
-                          ><i class="icofont-sale-discount"></i> CHECK NOW</a
+                          ><i class="fad fa-badge-percent"></i> CHECK NOW</a
                         >
                       </div>
                       <div class="col-3 text-center">

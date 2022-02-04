@@ -1234,6 +1234,15 @@ label {
   right: 16px;
 }
 
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+
 /* Mobile Media */
 @media (max-width: 992px) {
   .beliayam-main-nav {

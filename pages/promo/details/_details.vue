@@ -1,22 +1,5 @@
 <template>
-  <div>
-    <!-- <div class="slider-container">
-      <div class="slider-wrapper">
-        <div class="slider-slide">
-          <a
-            href="https://www.tokopedia.com/hotel/"
-            data-click='{"event":"promoClick","eventCategory":"promo microsite - promo list","eventAction":"user click on promo","eventLabel":"","ecommerce":{"promoClick":{"promotions":[{"id":87171,"name":"\/promo - p1 - slider banner","position":1,"creative":"87171","creative_url":"https:\/\/ecs7.tokopedia.net\/img\/blog\/promo\/2019\/08\/Hotel_Launching_Digital-Hompage.jpg"}]}}}'
-          >
-            <img
-              :src="`${this.$config.baseURL}/img/contoh-banner-promo.jpg`"
-              class="slider-image"
-              alt=""
-              data-slider-impression='{"event":"promoView","eventCategory":"promo microsite - promo list","eventAction":"impression on promo","eventLabel":"","ecommerce":{"promoView":{"promotions":[{"id":87171,"name":"\/promo - p1 - slider banner","position":1,"creative":"87171","creative_url":"https:\/\/ecs7.tokopedia.net\/img\/blog\/promo\/2019\/08\/Hotel_Launching_Digital-Hompage.jpg"}]}}}'
-            />
-          </a>
-        </div>
-      </div>
-    </div> -->
+  <div id="page-promo-_details-_details" class="animate__animated">
 
     <nav aria-label="breadcrumb" class="breadcrumb mb-0">
       <div class="container">
@@ -43,7 +26,7 @@
               <h5 class="mt-2 mb-1 text-white">Beliayam.com</h5>
               <div class="pt-3">
                 <p class="btn btn-warning btn-lg btn-block mb-0">
-                  <i class="icofont-tag mr-1"></i> AYAMNYUS50 OFF
+                  <i class="fad fa-tags mr-1"></i> AYAMNYUS50 OFF
                 </p>
               </div>
             </div>
@@ -133,7 +116,12 @@ export default {
     },
   },
   mounted() {
-    console.log(this.$route.params);
+    document.getElementById("page-promo-_details-_details").classList.add("animate__fadeInRight");
+  },
+  beforeDestroy() {
+    document
+      .getElementById("page-promo-_details-_details")
+      .classList.add("animate__fadeOutLeft");
   },
 };
 </script>

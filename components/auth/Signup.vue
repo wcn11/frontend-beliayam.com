@@ -3,11 +3,6 @@
     <div class="container">
       <div class="row d-flex align-items-center justify-content-center vh-100">
         <div class="landing-page shadow-sm bg-success col-lg-6">
-          <a
-            class="position-absolute btn-sm btn btn-outline-light m-4 zindex"
-            href="home.html"
-            >Skip <i class="icofont-bubble-right"></i
-          ></a>
           <div class="beliayam-slider m-0">
             <div class="beliayam-slider-item text-center">
               <div
@@ -19,47 +14,11 @@
                   flex-column
                 "
               >
-                <i class="icofont-sale-discount display-1 text-warning"></i>
+                <i class="fad fa-badge-percent display-1 text-warning"></i>
                 <h4 class="my-4 text-white">Best Prices & Offers</h4>
                 <p class="text-center text-white-50 mb-5 px-4">
                   Cheaper prices than your local<br />supermarket, great
                   cashback offers to top it off.
-                </p>
-              </div>
-            </div>
-            <div class="beliayam-slider-item text-center">
-              <div
-                class="
-                  d-flex
-                  align-items-center
-                  justify-content-center
-                  vh-100
-                  flex-column
-                "
-              >
-                <i class="icofont-cart display-1 text-warning"></i>
-                <h4 class="my-4 text-white">Wide Assortment</h4>
-                <p class="text-center text-white-50 mb-5 px-4">
-                  Choose from 5000+ products across food<br />, personal care,
-                  household & other categories.
-                </p>
-              </div>
-            </div>
-            <div class="beliayam-slider-item text-center">
-              <div
-                class="
-                  d-flex
-                  align-items-center
-                  justify-content-center
-                  vh-100
-                  flex-column
-                "
-              >
-                <i class="icofont-support-faq display-1 text-warning"></i>
-                <h4 class="my-4 text-white">Easy Returns</h4>
-                <p class="text-center text-white-50 mb-5 px-4">
-                  Not satisfied with a product? Return<br />
-                  it at the doorstep & get a refund within hours.
                 </p>
               </div>
             </div>
@@ -137,8 +96,8 @@
                 <i class="fab text-light fa-google text-danger mr-2"></i> Mendaftar Dengan Google
               </a>
               <p class="text-center mt-3 mb-0">
-                <a href="signin.html" class="text-dark"
-                  >Sudah Punya Akun ? <span class="text-danger">Masuk Disini</span></a
+                <NuxtLink to="/login" class="text-dark"
+                  >Sudah Punya Akun ? <span class="text-danger">Masuk Disini</span></NuxtLink
                 >
               </p>
             </div>
@@ -153,7 +112,7 @@
       <label class="theme-switch" for="checkbox">
         <input type="checkbox" id="checkbox" />
         <div class="slider round"></div>
-        <i class="icofont-moon"></i>
+        <i class="fad fa-moon-cloud"></i>
       </label>
       <em>Mode Gelap!</em>
     </div>

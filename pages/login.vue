@@ -1,12 +1,24 @@
 <template>
-  <div>
+  <div id="page-login" class="animate__animated">
     <AuthLogin />
   </div>
 </template>
 
 <script>
 export default {
-  name: "Register",
-  layout: "blank"
+  name: "Login",
+  layout: "blank",
+  // middleware: "auth",
+  mounted() {
+    document.getElementById("page-login").classList.add("animate__fadeInRight");
+  },
+  beforeDestroy() {
+    document
+      .getElementById("page-login")
+      .classList.add("animate__fadeOutRight");
+  },
 };
 </script>
+
+<style>
+</style>

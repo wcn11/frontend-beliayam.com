@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div id="page-category-_category" class="animate__animated">
     <nav aria-label="breadcrumb" class="breadcrumb mb-0">
       <div class="container">
         <ol class="d-flex align-items-center mb-0 p-0">
           <li class="breadcrumb-item">
-            <NuxtLink to="/" class="text-success">Home</NuxtLink>
+            <NuxtLink to="/" class="text-success">Beranda</NuxtLink>
           </li>
           <li class="breadcrumb-item" aria-current="page">
             <NuxtLink to="/kategori" class="text-success">Kategori</NuxtLink>
@@ -22,26 +22,32 @@
           <div class="col-lg-12">
             <div class="beliayam-listing">
               <div class="d-flex align-items-center mb-3">
-                <h4>{{ toFirstLetterUpperCase(this.$route.params.category) }}</h4>
+                <h4>
+                  {{ toFirstLetterUpperCase(this.$route.params.category) }}
+                </h4>
                 <div class="m-0 text-center ml-auto">
                   <a
                     href="#"
                     data-toggle="modal"
                     data-target="#exampleModal"
                     class="btn text-muted bg-white mr-2"
-                    ><i class="icofont-filter mr-1"></i> Filter</a
+                    ><i class="fad fa-filter mr-1"></i> Filter</a
                   >
                   <a
                     href="#"
                     data-toggle="modal"
                     data-target="#exampleModal"
                     class="btn text-muted bg-white"
-                    ><i class="icofont-signal mr-1"></i> Sort</a
+                    ><i class="fad fa-signal mr-1"></i> Sort</a
                   >
                 </div>
               </div>
               <div class="row">
-                <div class="col-6 col-md-3 mb-3">
+                <div
+                  class="col-6 col-md-3 mb-3"
+                  v-for="ctg in categories"
+                  :key="ctg._id"
+                >
                   <div
                     class="
                       list-card
@@ -54,47 +60,42 @@
                     "
                   >
                     <div class="list-card-image">
-                      <a href="product_details.html" class="text-dark">
+                      <NuxtLink  :to="`/${ctg.slug}`" class="text-dark">
                         <div class="member-plan position-absolute">
                           <span class="badge m-3 badge-danger">10%</span>
                         </div>
+                        <img
+                          :src="`${baseApi}/${ctg.image}`"
+                          class="img-fluid item-img w-100 mb-3"
+                        />
                         <div class="p-3">
-                          <img
-                            :src="require('static/img/listing/v1.jpg')"
-                            class="img-fluid item-img w-100 mb-3"
-                          />
                           <h6
-                            style="
-                              white-space: nowrap;
-                              width: 120px;
-                              overflow: hidden;
-                              text-overflow: ellipsis;
-                            "
+                            class="label-product"
                           >
-                            Ayam Pejantan
+                            {{ ctg.name }}
                           </h6>
-                          <h6 class="price m-0 text-success">
+                          <h6 class="price m-0 text-danger">
                             <i class="fas fa-weight"></i> 1 Ekor
                           </h6>
                           <h6
-                            class="price m-0 text-success"
+                            class="price m-0 text-dark"
                             style="font-size: large; text-align: right"
                           >
-                            Rp. 45.000
+                            {{ ctg.price }}
                           </h6>
                           <div style="text-align: center; padding-top: 5%">
-                            <NuxtLink to="/broiler-0123">
-                            <h6 class="btn btn-success">
-                              <i class="fas fa-cart-plus"></i> Beli
-                            </h6>
+                            <NuxtLink :to="`/${ctg.slug}`">
+                              <h6 class="btn btn-success w-100">
+                                <i class="fas fa-cart-plus"></i> Beli
+                              </h6>
                             </NuxtLink>
                           </div>
                         </div>
-                      </a>
+                      </NuxtLink>
                     </div>
                   </div>
                 </div>
-                <div class="col-6 col-md-3 mb-3">
+                <!-- <div class="col-6 col-md-3 mb-3">
                   <div
                     class="
                       list-card
@@ -654,7 +655,7 @@
                       </a>
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -669,16 +670,57 @@ export default {
   name: "CategoryDynamic",
   // layout: "blog"
 
+  async fetch() {
+    await this.$axios
+      .get(
+        `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/category/_s?key=${this.$route.params.category}&page=${this.category.page}&show=${this.category.show}&sortBy=${this.category.sortBy}&orderBy=${this.category.orderBy}&status=${this.category.status}`
+      )
+      .then((res) => {
+        this.categories = res.data.data;
+      });
+  },
+  data() {
+    return {
+      baseApi: process.env.NUXT_ENV_BASE_URL_API,
+      categories: [],
+      category: {
+        page: 1,
+        show: 10,
+        sortBy: "ASC",
+        orderBy: "name",
+        status: "active",
+      },
+    };
+  },
+
   head() {
     return {
       title: this.toFirstLetterUpperCase(this.$route.params.category),
       htmlAttrs: {
-        lang: "en",
+        lang: "id",
       },
     };
   },
+  // async asyncData(context) {
+  //   // try {
+  //     // Using the nuxtjs/http module here exposed via context.app
+  //     const categories = await context.app.$axios.get(`${context.$config.baseURL}/promo/_s?key=${context.params.category}`)
+  //     return { categories }
+  //   // } catch (e) {
+  //   //   error(e) // Show the nuxt error page with the thrown error
+  //   // }
+  // },
   mounted() {
-    console.log(this.$route.params.category);
+    document
+      .getElementById("page-category-_category")
+      .classList.add("animate__fadeInRight");
+
+    console.log(this.$route.params);
+  },
+  beforeDestroy() {
+    document
+      .getElementById("page-category-_category")
+      .classList.add("animate__fadeOutLeft");
   },
   methods: {
     toFirstLetterUpperCase(word) {
@@ -689,6 +731,16 @@ export default {
 </script>
 
 <style scoped>
+.label-product {
+  width: 235px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 40px;
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
 .margin-bottom-10 {
   margin-bottom: 10px;
 }

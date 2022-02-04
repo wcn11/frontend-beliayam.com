@@ -7,12 +7,24 @@
           >promo lainnya ...</a
         >
       </div>
-      <VueSlickCarousel
-        v-bind="settings"
-        :arrows="true"
-        :dots="true"
-        class="pb-0 mb-0"
-      >
+
+      <!-- <div
+          v-if="promos"> -->
+        <VueSlickCarousel
+          v-bind="settings"
+          :arrows="true"
+          :dots="true"
+          class="pb-0 mb-0"
+        >
+          <div class="p-1 v-" v-for="promo in promos" :key="promo._id">
+            <NuxtLink class="col-md-4" :to="`/promo/${promo.slug}`"
+              ><img
+                :src="`${baseApi}/${promo.image_promo}`"
+                class="img-fluid mx-auto rounded"
+                alt="Responsive image"
+            /></NuxtLink>
+          </div>
+
         <div class="p-1">
           <NuxtLink class="col-md-4" to="/promo/broiler-10-11-kg"
             ><img
@@ -21,47 +33,8 @@
               alt="Responsive image"
           /></NuxtLink>
         </div>
-        <div class="p-1">
-          <NuxtLink class="col-md-4" to="/promo/broiler-10-11-kg"
-            ><img
-              :src="`${this.$config.baseURL}/img/promo2.jpg`"
-              class="img-fluid mx-auto rounded"
-              alt="Responsive image"
-          /></NuxtLink>
-        </div>
-        <div class="p-1">
-          <NuxtLink class="col-md-4" to="/promo/broiler-10-11-kg"
-            ><img
-              :src="`${this.$config.baseURL}/img/promo3.jpg`"
-              class="img-fluid mx-auto rounded"
-              alt="Responsive image"
-          /></NuxtLink>
-        </div>
-        <div class="p-1">
-          <NuxtLink class="col-md-4" to="/promo/broiler-10-11-kg"
-            ><img
-              :src="`${this.$config.baseURL}/img/promo4.jpg`"
-              class="img-fluid mx-auto rounded"
-              alt="Responsive image"
-          /></NuxtLink>
-        </div>
-        <div class="p-1">
-          <NuxtLink class="col-md-4" to="/promo/broiler-10-11-kg"
-            ><img
-              :src="`${this.$config.baseURL}/img/promo2.jpg`"
-              class="img-fluid mx-auto rounded"
-              alt="Responsive image"
-          /></NuxtLink>
-        </div>
-        <div class="p-1">
-          <NuxtLink class="col-md-4" to="/promo/broiler-10-11-kg"
-            ><img
-              :src="`${this.$config.baseURL}/img/promo3.jpg`"
-              class="img-fluid mx-auto rounded"
-              alt="Responsive image"
-          /></NuxtLink>
-        </div>
-      </VueSlickCarousel>
+        </VueSlickCarousel>
+      <!-- </div> -->
     </div>
   </div>
 </template>
@@ -72,8 +45,27 @@ import VueSlickCarousel from "vue-slick-carousel";
 export default {
   name: "HomePromo",
   components: { VueSlickCarousel },
+  async fetch() {
+    await this.$axios
+      .$get(
+        `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/promo?page=${this.promo.page}&show=${this.promo.show}&sortBy=${this.promo.sortBy}&orderBy=${this.promo.orderBy}&platform[]=${this.promo.platform}&isActive=${this.promo.isActive}`
+      )
+      .then((res) => {
+        this.promos = res.data;
+      });
+  },
   data() {
     return {
+      baseApi: process.env.NUXT_ENV_BASE_URL_API,
+      promos: [],
+      promo: {
+        page: 1,
+        show: 10,
+        sortBy: "ASC",
+        orderBy: "name",
+        platform: ["all"],
+        isActive: true,
+      },
       settings: {
         centerMode: true,
         arrows: true,
@@ -108,7 +100,7 @@ export default {
         ],
       },
     };
-  }
+  },
 };
 </script>
 

@@ -41,7 +41,7 @@
                           data-toggle="modal"
                           data-target="#exampleModal"
                           class="text-decoration-none text-success"
-                          ><i class="icofont-edit"></i> Edit</a
+                          ><i class="fad fa-edit"></i> Edit</a
                         ></span
                       >
                       <span class="small ml-3"
@@ -50,7 +50,7 @@
                           data-toggle="modal"
                           data-target="#Delete"
                           class="text-decoration-none text-danger"
-                          ><i class="icofont-trash"></i> Delete</a
+                          ><i class="fad fa-trash"></i> Delete</a
                         ></span
                       >
                     </p>
@@ -93,7 +93,7 @@
                           data-toggle="modal"
                           data-target="#exampleModal"
                           class="text-decoration-none text-success"
-                          ><i class="icofont-edit"></i> Edit</a
+                          ><i class="fad fa-edit"></i> Edit</a
                         ></span
                       >
                       <span class="small ml-3"
@@ -102,7 +102,7 @@
                           data-toggle="modal"
                           data-target="#Delete"
                           class="text-decoration-none text-danger"
-                          ><i class="icofont-trash"></i> Delete</a
+                          ><i class="fad fa-trash"></i> Delete</a
                         ></span
                       >
                     </p>

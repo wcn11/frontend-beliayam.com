@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="page-best-seller-index" class="animate__animated">
     <nav aria-label="breadcrumb" class="breadcrumb mb-0">
       <div class="container">
         <ol class="d-flex align-items-center mb-0 p-0">
@@ -26,14 +26,14 @@
                     data-toggle="modal"
                     data-target="#exampleModal"
                     class="btn text-muted bg-white mr-2"
-                    ><i class="icofont-filter mr-1"></i> Filter</a
+                    ><i class="fad fa-filter mr-1"></i> Filter</a
                   >
                   <a
                     href="#"
                     data-toggle="modal"
                     data-target="#exampleModal"
                     class="btn text-muted bg-white"
-                    ><i class="icofont-signal mr-1"></i> Sort</a
+                    ><i class="fad fa-signal mr-1"></i> Sort</a
                   >
                 </div>
               </div>
@@ -294,7 +294,12 @@ export default {
     },
   },
   mounted() {
-    console.log(this.$route.params);
+    document.getElementById("page-best-seller-index").classList.add("animate__fadeInRight");
+  },
+  beforeDestroy() {
+    document
+      .getElementById("page-best-seller-index")
+      .classList.add("animate__fadeOutLeft");
   },
 };
 </script>

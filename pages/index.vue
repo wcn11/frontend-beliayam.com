@@ -1,71 +1,30 @@
 <template>
-  <div>
+  <div id="page-home" class="animate__animated">
+    <button @click="setRefreshToken()">click</button>
     <Home />
   </div>
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   name: "IndexPage",
-  // head: {
-  //   title: "Beranda",
-  //   htmlAttrs: {
-  //     lang: "id",
-  //   },
-  //   script: [
-  //     {
-  //       src: "vendor/bootstrap/js/bootstrap.bundle.min.js"
-  //     },
-  //     {
-  //       src: "vendor/slick/slick.min.js",
-  //       type: "81ad158f85df8c34c29ba781-text/javascript"
-  //     },
-  //     {
-  //       src: "vendor/sidebar/hc-offcanvas-nav.js"
-  //     },
-  //     {
-  //       src: "js/beliayam.js"
-  //     },
-  //     {
-  //       src: "js/rocket-loader.min.js"
-  //     },
-  //     {
-  //       src: "js/beacon.min.js"
-  //     }
-  //   ],
-  //   link: [
-  //     {
-  //       rel: "stylesheet",
-  //       href: "vendor/slick/slick.min.css",
-  //       type: "text/css"
-  //     },
-  //     {
-  //       rel: "stylesheet",
-  //       href: "vendor/slick/slick-theme.min.css",
-  //       type: "text/css"
-  //     },
-  //     {
-  //       rel: "stylesheet",
-  //       href: "vendor/icons/icofont.min.css",
-  //       type: "text/css"
-  //     },
-  //     {
-  //       rel: "stylesheet",
-  //       href: "vendor/bootstrap/css/bootstrap.min.css"
-  //     },
-  //     {
-  //       rel: "stylesheet",
-  //       href: "css/style.css"
-  //     },
-  //     {
-  //       rel: "stylesheet",
-  //       href: "vendor/sidebar/demo.css"
-  //     },
-  //   ],
-  //   bodyAttrs: {
-  //     class: "fixed-bottom-padding"
-  //   }
-  // },
   layout: "default",
+  data() {
+    return {};
+  },
+  methods: {
+    setRefreshToken() {
+      this.$auth.strategy.token.reset();
+      this.$auth.refreshTokens();
+    },
+  },
+  mounted() {
+    document.getElementById("page-home").classList.add("animate__fadeInRight");
+  },
+  beforeDestroy() {
+    document.getElementById("page-home").classList.add("animate__fadeOutLeft");
+  },
 };
 </script>

@@ -36,7 +36,7 @@
                   aria-controls="basicsCollapseOne"
                 >
                   Do you have any built-in caching?
-                  <i class="icofont-simple-down"></i>
+                  <i class="fad fa-chevron-down"></i>
                 </button>
               </h5>
             </div>
@@ -74,7 +74,7 @@
                   aria-controls="basicsCollapseTwo"
                 >
                   Can I add/upgrade my plan at any time?
-                  <i class="icofont-simple-down"></i>
+                  <i class="fad fa-chevron-down"></i>
                 </button>
               </h5>
             </div>
@@ -112,7 +112,7 @@
                   aria-controls="basicsCollapseThree"
                 >
                   What access comes with hosting plan?
-                  <i class="icofont-simple-down"></i>
+                  <i class="fad fa-chevron-down"></i>
                 </button>
               </h5>
             </div>
@@ -150,7 +150,7 @@
                   aria-controls="basicsCollapseFour"
                 >
                   How do I change my password?
-                  <i class="icofont-simple-down"></i>
+                  <i class="fad fa-simple-down"></i>
                 </button>
               </h5>
             </div>

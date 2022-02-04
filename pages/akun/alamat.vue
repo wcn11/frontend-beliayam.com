@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="page-account-address" class="animate__animated">
       <ProfileAddress/>
   </div>
 </template>
@@ -14,6 +14,14 @@ export default {
     htmlAttrs: {
       lang: "id",
     },
+  },
+  mounted() {
+    document.getElementById("page-account-address").classList.add("animate__fadeInRight");
+  },
+  beforeDestroy() {
+    document
+      .getElementById("page-account-address")
+      .classList.add("animate__fadeOutLeft");
   },
 };
 </script>

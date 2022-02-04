@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="page-promo-index" class="animate__animated">
     <div class="slider-container">
       <div class="slider-wrapper">
         <div class="slider-slide">
@@ -31,27 +31,29 @@
     <section class="py-4 beliayam-main-body">
       <div class="container">
         <div class="row">
-          <div class="col-md-4 margin-bottom-10" v-for="i in 10" :key="i">
+          <div class="col-md-4 margin-bottom-10" v-for="promo in promos" :key="promo._id">
             <div class="rounded bg-promo text-center card-shadow">
               <div class="bg-white rounded shadow-sm mb-3">
                 <img
-                  :src="require('static/img/promo1.jpg')"
+                  :src="`${baseApi}/${promo.image_promo}`"
                   class="img-fluid"
                 />
               </div>
 
-              <h5 class="mt-2 mb-1 text-white">Broiler</h5>
-              <p class="mt-2 mb-1 text-white">Rp. 19.000 - Rp. 75.000</p>
+              <h5 class="mt-2 mb-1 text-white">{{ promo.name }}</h5>
+              <p class="mt-2 mb-1 text-white bg-danger">
+                <i class="fad fa-badge-discount"></i> {{ promo.tags}}
+                </p>
               <div class="pt-3 p-2">
-                <NuxtLink to="/promo/but-one-get-one">
+                <NuxtLink :to="`/promo/${promo.slug}`">
                   <p
                     class="btn btn-warning btn-lg btn-block btn-view-promo mb-0"
                   >
-                    <i class="icofont-tag mr-1"></i> Lihat Produk
+                    <i class="fad fa-tags mr-1"></i> Lihat Produk
                   </p>
                 </NuxtLink>
               </div>
-              <NuxtLink to="/promo/details/by-one-get-one">
+              <NuxtLink to="/promo/by-one-get-one/detail">
                 <p class="mb-0 pt-2 pb-2 small text-dark">
                   <i class="fad fa-file-contract mr-1"></i> Syarat & Ketentuan
                 </p>
@@ -81,7 +83,30 @@
 export default {
   name: "Promo",
   // layout: "blog"
+  async fetch() {
+    await this.$axios
+      .$get(
+        `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/promo?page=${this.promo.page}&show=${this.promo.show}&sortBy=${this.promo.sortBy}&orderBy=${this.promo.orderBy}&platform[]=${this.promo.platform}&isActive=${this.promo.isActive}`
+      )
+      .then((res) => {
+        this.promos = res.data;
+      });
+  },
+  data(){
+    return {
 
+      baseApi: process.env.NUXT_ENV_BASE_URL_API,
+      promos: [],
+      promo: {
+        page: 1,
+        show: 10,
+        sortBy: "ASC",
+        orderBy: "name",
+        platform: ["all"],
+        isActive: true,
+      },
+    }
+  },
   head: {
     title: "Promo Beliayam.com",
     htmlAttrs: {
@@ -89,7 +114,12 @@ export default {
     },
   },
   mounted() {
-    console.log(this.$route.params);
+    document.getElementById("page-promo-index").classList.add("animate__fadeInRight");
+  },
+  beforeDestroy() {
+    document
+      .getElementById("page-promo-index")
+      .classList.add("animate__fadeOutLeft");
   },
 };
 </script>

@@ -32,7 +32,7 @@
                     aria-controls="completed"
                     aria-selected="true"
                   >
-                    <i class="icofont-check-alt mr-2 text-success mb-0"></i>
+                    <i class="fad fa-check mr-2 text-success mb-0"></i>
                     Completed</a
                   >
                 </li>
@@ -46,7 +46,7 @@
                     aria-controls="progress"
                     aria-selected="false"
                   >
-                    <i class="icofont-wall-clock mr-2 text-warning mb-0"></i> On
+                    <i class="fad fa-clock mr-2 text-warning mb-0"></i> On
                     Progress</a
                   >
                 </li>
@@ -60,7 +60,7 @@
                     aria-controls="canceled"
                     aria-selected="false"
                   >
-                    <i class="icofont-close-line mr-2 text-danger mb-0"></i>
+                    <i class="fad fa-times mr-2 text-danger mb-0"></i>
                     Canceled</a
                   >
                 </li>
@@ -95,7 +95,7 @@
                             Delivered
                           </p>
                           <p class="text-muted ml-auto small mb-0">
-                            <i class="icofont-clock-time"></i> 06/04/2020
+                            <i class="fad fa-clock"></i> 06/04/2020
                           </p>
                         </div>
                         <div class="d-flex">
@@ -140,7 +140,7 @@
                             Delivered
                           </p>
                           <p class="text-muted ml-auto small m-0">
-                            <i class="icofont-clock-time"></i> 06/04/2020
+                            <i class="fad fa-clock"></i> 06/04/2020
                           </p>
                         </div>
                         <div class="d-flex">
@@ -185,7 +185,7 @@
                             Delivered
                           </p>
                           <p class="text-muted ml-auto small m-0">
-                            <i class="icofont-clock-time"></i> 06/04/2020
+                            <i class="fad fa-clock"></i> 06/04/2020
                           </p>
                         </div>
                         <div class="d-flex">
@@ -230,7 +230,7 @@
                             On Process
                           </p>
                           <p class="text-muted ml-auto small m-0">
-                            <i class="icofont-clock-time"></i> 06/04/2020
+                            <i class="fad fa-clock"></i> 06/04/2020
                           </p>
                         </div>
                         <div class="d-flex">
@@ -275,7 +275,7 @@
                             Canceled
                           </p>
                           <p class="text-muted ml-auto small m-0">
-                            <i class="icofont-clock-time"></i> 06/04/2020
+                            <i class="fad fa-clock"></i> 06/04/2020
                           </p>
                         </div>
                         <div class="d-flex">
@@ -313,7 +313,7 @@
                     "
                   >
                     <p class="m-0">
-                      <i class="icofont-ui-calendar"></i> 16 June, 11:30AM
+                      <i class="fad fa-calendar-alt"></i> 16 June, 11:30AM
                     </p>
                     <a
                       href="review.html"
@@ -326,28 +326,28 @@
                     <div class="tracking-wrap">
                       <div class="my-1 step active">
                         <span class="icon text-success"
-                          ><i class="icofont-check"></i
+                          ><i class="fad fa-check"></i
                         ></span>
                         <span class="text small">Preparing order</span>
                       </div>
 
                       <div class="my-1 step active">
                         <span class="icon text-success"
-                          ><i class="icofont-check"></i
+                          ><i class="fad fa-check"></i
                         ></span>
                         <span class="text small"> Ready to collect</span>
                       </div>
 
                       <div class="my-1 step">
                         <span class="icon text-success"
-                          ><i class="icofont-check"></i
+                          ><i class="fad fa-check"></i
                         ></span>
                         <span class="text small"> On the way </span>
                       </div>
 
                       <div class="my-1 step">
                         <span class="icon text-success"
-                          ><i class="icofont-check"></i
+                          ><i class="fad fa-check"></i
                         ></span>
                         <span class="text small">Delivered Order</span>
                       </div>
@@ -411,7 +411,7 @@
                             On Process
                           </p>
                           <p class="text-muted ml-auto small m-0">
-                            <i class="icofont-clock-time"></i> 06/04/2020
+                            <i class="fad fa-clock"></i> 06/04/2020
                           </p>
                         </div>
                         <div class="d-flex">
@@ -456,7 +456,7 @@
                             Dispatching
                           </p>
                           <p class="text-muted ml-auto small m-0">
-                            <i class="icofont-clock-time"></i> 06/04/2020
+                            <i class="fad fa-clock"></i> 06/04/2020
                           </p>
                         </div>
                         <div class="d-flex">
@@ -501,7 +501,7 @@
                             On the way
                           </p>
                           <p class="text-muted ml-auto small m-0">
-                            <i class="icofont-clock-time"></i> 06/04/2020
+                            <i class="fad fa-clock"></i> 06/04/2020
                           </p>
                         </div>
                         <div class="d-flex">
@@ -555,7 +555,7 @@
                             Failed Payment
                           </p>
                           <p class="text-muted ml-auto small m-0">
-                            <i class="icofont-clock-time"></i> 06/04/2020
+                            <i class="fad fa-clock"></i> 06/04/2020
                           </p>
                         </div>
                         <div class="d-flex">
@@ -600,7 +600,7 @@
                             Canceled
                           </p>
                           <p class="text-muted ml-auto small m-0">
-                            <i class="icofont-clock-time"></i> 06/04/2020
+                            <i class="fad fa-clock"></i> 06/04/2020
                           </p>
                         </div>
                         <div class="d-flex">

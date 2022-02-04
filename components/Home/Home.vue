@@ -19,7 +19,7 @@
             <div class="beliayam-home-page">
               <HomePromo />
 
-              <HomeShorcutHome />
+              <HomeCategories />
 
               <HomeFlashSale />
 
