@@ -71,7 +71,7 @@
                           border-bottom
                         "
                         v-for="product in getCarts"
-                        :key="product.onCart._id"
+                        :key="product._id"
                       >
                         <a
                           href="product_details.html"
@@ -86,15 +86,13 @@
                           <div
                             class="ml-3 text-dark text-decoration-none w-100"
                           >
-                            <h5 class="mb-1">{{ product.onCart.name }}</h5>
+                            <h5 class="mb-1">{{ product.name }}</h5>
                             <p class="text-muted mb-2">
-                              {{ product.onCart.price }}
+                              {{ product.price }}
                             </p>
                             <div class="d-flex align-items-center">
                               <p class="total_price font-weight-bold m-0">
-                                {{
-                                  product.onCart.price * product.onCart.quantity
-                                }}
+                                {{ product.price * product.quantity }}
                               </p>
                               <form
                                 id="myform"
@@ -107,21 +105,21 @@
                                   value="-"
                                   class="qtyminus btn btn-success btn-sm"
                                   field="quantity"
-                                  @click="setDecrement(product.onCart._id)"
+                                  @click="setDecrement(product._id)"
                                 />
                                 <input
                                   type="number"
                                   name="quantity"
                                   value="1"
                                   class="qty form-control"
-                                  v-model="product.onCart.quantity"
+                                  v-model="product.quantity"
                                 />
                                 <input
                                   type="button"
                                   value="+"
                                   class="qtyplus btn btn-success btn-sm"
                                   field="quantity"
-                                  @click="setIncrement(product.onCart._id)"
+                                  @click="setIncrement(product._id)"
                                 />
                               </form>
                             </div>
@@ -129,10 +127,10 @@
                         </div>
                       </div>
                       <div>
-                        <a
-                          href="checkout.html"
+                        <div
                           class="text-decoration-none btn btn-block p-3"
                           type="button"
+                          @click="checkout()"
                         >
                           <div
                             class="
@@ -145,7 +143,7 @@
                               text-white
                             "
                           >
-                            <div class="more">
+                            <div class="more text-white">
                               <h6 class="m-0">
                                 Subtotal Rp.
                                 {{
@@ -160,7 +158,7 @@
                               <i class="fad fa-caret-right"></i>
                             </div>
                           </div>
-                        </a>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -369,6 +367,7 @@ export default {
   data() {
     return {
       baseApi: process.env.NUXT_ENV_BASE_URL_API,
+      cart: {},
       carts: [],
       vouchers: [],
       selectedVoucher: [],
@@ -383,6 +382,47 @@ export default {
     this.vouchers = await this.$store.state.cart.vouchers;
   },
   methods: {
+    checkout() {
+
+// {
+//     "cart": {
+//         "cart_id": "61fc91c306d0d4a82ba7688e",
+//         "products": [
+//             "61fc0ff3e0755e0ebbd3d2ef"
+//         ]
+//     },
+//     "user_id": "61f82e033a14993315d3c031",
+//     "vouchers": [
+//         ""
+//     ],
+//     "type": "checkout",
+//     "platform": "all",
+//     "isActive": "true"
+// }
+
+      this.$axios
+        .$put(
+          `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/checkout/cart`,
+          {
+            user_id: this.$auth.user._id,
+            product_id: productId,
+            type: "plus",
+            quantity: this.getCarts[product[0].indexFilter].quantity + 1,
+          }
+        )
+        .then((results) => {
+          if (results.data.error) {
+            this.$toast.warning(results.data.message);
+          }
+        })
+        .catch((err) => {
+          if (err && err.response && err.response.data.error) {
+            this.$toast.warning(err.response.data.message);
+          } else {
+            this.$toast.warning("Server Sibuk");
+          }
+        });
+    },
     setVoucher(voucher, index) {
       // voucher.voucherIndex = index;
 
@@ -392,14 +432,14 @@ export default {
     },
     setIncrement(productId) {
       const product = this.getCarts.filter((product, index) => {
-        if (product.onCart._id === productId) {
-          product.onCart.indexFilter = index;
+        if (product._id === productId) {
+          product.indexFilter = index;
           return product;
         }
       });
 
       if (product.length > 0) {
-        if (product[0].onLive.stock > parseInt(product[0].onCart.quantity)) {
+        if (product[0].onLive.stock > parseInt(product[0].quantity)) {
           this.$store.dispatch("cart/setIncrement", product[0]);
 
           this.$axios
@@ -409,9 +449,7 @@ export default {
                 user_id: this.$auth.user._id,
                 product_id: productId,
                 type: "plus",
-                quantity:
-                  this.getCarts[product[0].onCart.indexFilter].onCart.quantity +
-                  1,
+                quantity: this.getCarts[product[0].indexFilter].quantity + 1,
               }
             )
             .then((results) => {
@@ -431,14 +469,14 @@ export default {
     },
     setDecrement(productId) {
       const product = this.getCarts.filter((product, index) => {
-        if (product.onCart._id === productId) {
-          product.onCart.indexFilter = index;
+        if (product._id === productId) {
+          product.indexFilter = index;
           return product;
         }
       });
 
       if (product.length > 0) {
-        if (parseInt(product[0].onCart.quantity) > 1) {
+        if (parseInt(product[0].quantity) > 1) {
           this.$store.dispatch("cart/setDecrement", product[0]);
           this.$axios
             .$put(

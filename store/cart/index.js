@@ -11,7 +11,7 @@ export const getters = {
 
         return state.carts.reduce((accumulator, product) => {
 
-            return accumulator + (product.onCart.price * product.onCart.quantity)
+            return accumulator + (product.price * product.quantity)
 
         }, 0)
 
@@ -94,11 +94,11 @@ export const mutations = {
     },
     async SET_INCREMENT(state, data) {
 
-        state.carts[data.onCart.indexFilter].onCart.quantity++
+        state.carts[data.indexFilter].quantity++
     },
     async SET_DECREMENT(state, data) {
 
-        state.carts[data.onCart.indexFilter].onCart.quantity--
+        state.carts[data.indexFilter].quantity--
     },
     async SET_INCREMENT_NAV(state, data) {
 

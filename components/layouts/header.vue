@@ -338,20 +338,20 @@
                     v-for="cart in getCartsNav"
                     :key="cart._id"
                   >
-                    <NuxtLink :to="`/${cart.onLive.slug}`">
+                    <NuxtLink :to="`/`">
                       <div class="position-absolute ml-n1 py-2 text-danger">
-                        {{ cart.onLive.price }}
+                        {{ cart.price }}
                       </div>
                       <div class="text-decoration-none text-dark">
                         <div class="notifiction small">
                           <div class="ml-3">
                             <p class="font-weight-bold mb-1">
-                              {{ cart.onLive.name }}
+                              {{ cart.name }}
                             </p>
                             <p class="small m-0">
                               <i class="fad fa-calendar-alt"></i>
-                              {{ cart.onLive.quantity }} Produk ({{
-                                cart.onLive.weight
+                              {{ cart.quantity }} Produk ({{
+                                cart.weight
                               }}
                               kg)
                             </p>
