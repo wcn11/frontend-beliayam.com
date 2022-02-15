@@ -383,37 +383,31 @@ export default {
   },
   methods: {
     checkout() {
-
-// {
-//     "cart": {
-//         "cart_id": "61fc91c306d0d4a82ba7688e",
-//         "products": [
-//             "61fc0ff3e0755e0ebbd3d2ef"
-//         ]
-//     },
-//     "user_id": "61f82e033a14993315d3c031",
-//     "vouchers": [
-//         ""
-//     ],
-//     "type": "checkout",
-//     "platform": "all",
-//     "isActive": "true"
-// }
+      
+      const products = this.getCarts.map((product, index) => {
+          return product._id;
+      });
 
       this.$axios
-        .$put(
+        .$post(
           `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/checkout/cart`,
           {
-            user_id: this.$auth.user._id,
-            product_id: productId,
-            type: "plus",
-            quantity: this.getCarts[product[0].indexFilter].quantity + 1,
-          }
+            cart: {
+              cart_id: this.$store.state.cart.cart._id,
+              products: products,
+            },
+            user_id: this.$store.state.auth.user._id,
+            vouchers: [],
+            type: "checkout",
+            platform: "all",
+            isActive: "true",
+          },
         )
         .then((results) => {
           if (results.data.error) {
             this.$toast.warning(results.data.message);
           }
+          console.log(results)
         })
         .catch((err) => {
           if (err && err.response && err.response.data.error) {
@@ -439,7 +433,7 @@ export default {
       });
 
       if (product.length > 0) {
-        if (product[0].onLive.stock > parseInt(product[0].quantity)) {
+        if (product[0].productOnLive.stock > parseInt(product[0].quantity)) {
           this.$store.dispatch("cart/setIncrement", product[0]);
 
           this.$axios
@@ -449,7 +443,7 @@ export default {
                 user_id: this.$auth.user._id,
                 product_id: productId,
                 type: "plus",
-                quantity: this.getCarts[product[0].indexFilter].quantity + 1,
+                quantity: 1,
               }
             )
             .then((results) => {

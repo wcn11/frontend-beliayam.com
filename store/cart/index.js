@@ -1,4 +1,5 @@
 export const state = () => ({
+    cart: {},
     carts: [],
     cartsNav: [],
     vouchers: [],
@@ -83,6 +84,7 @@ export const getters = {
 export const mutations = {
     async SET_CARTS(state, data) {
         if (data) {
+            state.cart = data
             state.carts = data.products
         }
     },
@@ -151,6 +153,8 @@ export const actions = {
 
     },
     async setIncrement({ commit }, data) {
+
+        console.log(data)
 
         commit('SET_INCREMENT', data);
 
