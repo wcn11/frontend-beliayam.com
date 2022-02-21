@@ -188,15 +188,19 @@
               class="dropdown-menu dropdown-menu-right top-profile-drop"
               aria-labelledby="dropdownMenuButton"
             >
-              <a class="dropdown-item" href="my_account.html">Akun saya</a>
-              <a class="dropdown-item" href="promos.html">Pesanan Saya</a>
-              <a class="dropdown-item" href="promos.html">Promo</a>
-              <a class="dropdown-item" href="my_address.html">Alamat</a>
-              <a class="dropdown-item" href="signin.html">Logout</a>
+              <NuxtLink class="dropdown-item" to="/akun">Akun saya</NuxtLink>
+              <NuxtLink class="dropdown-item" to="/akun/pesanan-saya"
+                >Pesanan Saya</NuxtLink
+              >
+              <NuxtLink class="dropdown-item" to="/promo">Promo</NuxtLink>
+              <NuxtLink class="dropdown-item" to="/akun/alamat"
+                >Alamat</NuxtLink
+              >
+              <a href="#" class="dropdown-item">Logout</a>
             </div>
           </div>
 
-          <div class="dropdown">
+          <div class="dropdown" v-if="this.$auth.loggedIn">
             <a
               href="#"
               class="text-dark dropdown-toggle not-drop"
@@ -290,7 +294,11 @@
             </div>
           </div>
 
-          <div class="dropdown" @mouseenter="getCarts()">
+          <div
+            class="dropdown"
+            v-if="this.$auth.loggedIn"
+            @mouseenter="getCarts()"
+          >
             <a
               href="#"
               class="text-dark dropdown-toggle not-drop"
@@ -338,7 +346,7 @@
                     v-for="cart in getCartsNav"
                     :key="cart._id"
                   >
-                    <NuxtLink :to="`/`">
+                    <NuxtLink :to="`/${cart.slug}`">
                       <div class="position-absolute ml-n1 py-2 text-danger">
                         {{ cart.price }}
                       </div>
@@ -350,9 +358,7 @@
                             </p>
                             <p class="small m-0">
                               <i class="fad fa-calendar-alt"></i>
-                              {{ cart.quantity }} Produk ({{
-                                cart.weight
-                              }}
+                              {{ cart.quantity }} Produk ({{ cart.weight }}
                               kg)
                             </p>
                           </div>
@@ -448,7 +454,7 @@
 
       <div class="bg-color-head">
         <div class="container menu-bar d-flex align-items-center">
-          <ul class="list-unstyled form-inline mb-0">
+          <!-- <ul class="list-unstyled form-inline mb-0">
             <li class="nav-item active">
               <a class="nav-link text-white pl-0" href="home.html"
                 >Home <span class="sr-only">(current)</span></a
@@ -561,11 +567,10 @@
                 <a class="dropdown-item" href="search.html">Search</a>
               </div>
             </li>
-          </ul>
+          </ul> -->
           <div class="list-unstyled form-inline mb-0 ml-auto">
-            <a href="picks_today.html" class="text-white px-3 py-2">Trending</a>
-            <a href="promos.html" class="text-white bg-offer px-3 py-2"
-              ><i class="fad fa-badge-percent h6"></i>Promos</a
+            <NuxtLink to="/promo" class="text-white bg-offer px-3 py-2"
+              ><i class="fad fa-badge-percent h6"></i>Promo</NuxtLink
             >
           </div>
         </div>
@@ -576,7 +581,7 @@
       <div class="container">
         <ol class="d-flex align-items-center mb-0 p-0">
           <li class="breadcrumb-item">
-            <a href="#" class="text-success">Home</a>
+            <a href="#" class="text-success">Beranda</a>
           </li>
           <li class="breadcrumb-item active" aria-current="page"></li>
         </ol>

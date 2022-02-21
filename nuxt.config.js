@@ -97,6 +97,8 @@ export default {
       src: '~/static/js/beacon.min.js',
       mode: 'client'
     },
+    { src: '~plugins/vue-final-modal.js' },
+    { src: '~/plugins/underscore', ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -207,6 +209,7 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     // vendor: ['hc-offcanvas-nav'],
+    transpile: ['vue-final-modal']
   },
   target: 'static',
 

@@ -1,6 +1,6 @@
 <template>
   <div id="page-home" class="animate__animated">
-    <button @click="setRefreshToken()">click</button>
+    <!-- <button @click="setRefreshToken()">click</button> -->
     <Home />
   </div>
 </template>
@@ -15,10 +15,10 @@ export default {
     return {};
   },
   methods: {
-    setRefreshToken() {
-      this.$auth.strategy.token.reset();
-      this.$auth.refreshTokens();
-    },
+    // setRefreshToken() {
+    //   this.$auth.strategy.token.reset();
+    //   this.$auth.refreshTokens();
+    // },
   },
   mounted() {
     document.getElementById("page-home").classList.add("animate__fadeInRight");

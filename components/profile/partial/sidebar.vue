@@ -4,19 +4,19 @@
       <div class="p-4 profile text-center border-bottom">
         <img src="/img/user.png" class="img-fluid rounded-pill" />
         <h6 class="font-weight-bold m-0 mt-2">Beranda</h6>
-        <p class="small text-muted m-0"><a>budi@beliayam.com</a></p>
+        <p class="small text-muted m-0"><a>{{ this.$store.state.auth.user.name || this.$store.state.auth.phone }}</a></p>
       </div>
       <div class="account-sections">
         <ul class="list-group">
-          <a href="my_account.html" class="text-decoration-none text-dark">
+          <NuxtLink to="/akun" class="text-decoration-none text-dark">
             <li class="border-bottom bg-white d-flex align-items-center p-3">
-              <i class="fad fa-user beliayam-icofont bg-danger"></i>My Account
+              <i class="fad fa-user beliayam-icofont bg-danger"></i>Akun Saya
               <span class="badge badge-success p-1 badge-pill ml-auto"
                 ><i class="fad fa-chevron-right"></i
               ></span>
             </li>
-          </a>
-          <a href="promos.html" class="text-decoration-none text-dark">
+          </NuxtLink>
+          <NuxtLink to="/akun/pesanan-saya" class="text-decoration-none text-dark">
             <li class="border-bottom bg-white d-flex align-items-center p-3">
               <i class="fad fa-box-heart beliayam-icofont bg-success"></i
               >Pesanan Saya
@@ -24,8 +24,8 @@
                 ><i class="fad fa-chevron-right"></i
               ></span>
             </li>
-          </a>
-          <a href="promos.html" class="text-decoration-none text-dark">
+          </NuxtLink>
+          <NuxtLink to="/promo" class="text-decoration-none text-dark">
             <li class="border-bottom bg-white d-flex align-items-center p-3">
               <i class="fad fa-badge-percent beliayam-icofont bg-success"></i
               >Promo
@@ -33,8 +33,8 @@
                 ><i class="fad fa-chevron-right"></i
               ></span>
             </li>
-          </a>
-          <a href="my_address.html" class="text-decoration-none text-dark">
+          </NuxtLink>
+          <NuxtLink to="/akun/alamat" class="text-decoration-none text-dark">
             <li class="border-bottom bg-white d-flex align-items-center p-3">
               <i class="fad fa-address-book beliayam-icofont bg-dark"></i>
               Alamat
@@ -42,8 +42,8 @@
                 ><i class="fad fa-chevron-right"></i
               ></span>
             </li>
-          </a>
-          <a
+          </NuxtLink>
+          <!-- <a
             href="terms_conditions.html"
             class="text-decoration-none text-dark"
           >
@@ -54,7 +54,7 @@
                 ><i class="fad fa-chevron-right"></i
               ></span>
             </li>
-          </a>
+          </a> -->
           <a href="help_support.html" class="text-decoration-none text-dark">
             <li class="border-bottom bg-white d-flex align-items-center p-3">
               <i class="fad fa-phone-alt beliayam-icofont bg-warning"></i>Bantuan &
@@ -72,7 +72,7 @@
               ></span>
             </li>
           </a> -->
-          <a href="signin.html" class="text-decoration-none text-dark">
+          <a href="#" class="text-decoration-none text-dark">
             <li class="border-bottom bg-white d-flex align-items-center p-3">
               <i class="fad fa-lock beliayam-icofont bg-danger"></i>
               Logout

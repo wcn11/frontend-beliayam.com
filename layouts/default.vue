@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button data-toggle="modal" data-target="#modal-loading">tes</button>
+    <!-- <button data-toggle="modal" data-target="#modal-loading">tes</button> -->
     <LayoutsHeader></LayoutsHeader>
 
     <LayoutsFooter></LayoutsFooter>
