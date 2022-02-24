@@ -4,7 +4,7 @@
       <div class="p-4 profile text-center border-bottom">
         <img src="/img/user.png" class="img-fluid rounded-pill" />
         <h6 class="font-weight-bold m-0 mt-2">Beranda</h6>
-        <p class="small text-muted m-0"><a>{{ this.$store.state.auth.user.name || this.$store.state.auth.phone }}</a></p>
+        <!-- <p class="small text-muted m-0"><a>{{ this.$store.state.auth.user.name || this.$store.state.auth.phone }}</a></p> -->
       </div>
       <div class="account-sections">
         <ul class="list-group">

@@ -59,20 +59,35 @@
                   Masuk
                 </button>
               </div>
-              <p class="text-muted text-center small m-0 py-3">or</p>
+              <p class="text-muted text-center small m-0 py-3">atau</p>
               <a
-                href="verification.html"
+                href="javascript:void(0)"
+                class="btn btn-dark btn-block rounded btn-lg"
+              >
+                <i class="fad fa-mobile-alt"></i> Masuk Dengan Telepon
+              </a>
+              <a
+                href="javascript:void(0)"
                 class="btn btn-info btn-block rounded btn-lg btn-facebook"
               >
                 <i class="fab fa-facebook mr-2"></i> Masuk Dengan Facebook
               </a>
+
               <a
-                href="verification.html"
-                class="btn btn-white border btn-block rounded btn-lg btn-google"
+                id="buttonLoginByGoogle"
+                href="javascript:void(0)"
+                class="btn border btn-block rounded btn-lg btn-google"
               >
-                <i class="fab fa-google-plus text-white mr-2"></i> Masuk Dengan
-                Google
+                <i class="fab text-light fa-google text-danger mr-2"></i>
+                Mendaftar Dengan Google
               </a>
+              <googleSignIn
+                :clientId="`${googleClientId}`"
+                :successCallBack="getSuccessData"
+                :failureCallBack="getFailureData"
+                :customButton="true"
+                customButtonId="buttonLoginByGoogle"
+              />
               <p class="text-center mt-3 mb-0">
                 <NuxtLink to="/register" class="text-dark"
                   >Belum Punya Akun ?
@@ -88,33 +103,84 @@
 </template>
 
 <script>
+import googleSignIn from "./social/googleSignIn.vue";
 export default {
+  components: {
+    googleSignIn,
+  },
   data() {
     return {
+      googleClientId: process.env.NUXT_ENV_GOOGLE_CLIENT_ID,
       email: "ayusandra@gmail.com",
-      password: "qweqwe1",
+      password: "qweqwe",
     };
   },
   methods: {
-    async submitLogin() {
-      try {
-        let response = await this.$auth.loginWith("local", {
-          data: {
-            email: this.email,
-            password: this.password,
-          },
+    async getSuccessData(user) {
+
+      const register = this.$axios
+        .$post(
+          `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/social/login`,
+          {
+            name: user.name,
+            email: user.email,
+            loginBy: "google",
+            loginAt: "website",
+          }
+        )
+        .then((results) => {
+          if (results.error) {
+            this.$toast.warning(results.message);
+            return;
+          }
+
+          this.$store.dispatch("auth/loginBySocial", results.data.token);
+
+          this.$router.push("/");
+        })
+        .catch((err) => {
+          if (err && err.response && err.response.error) {
+            this.$toast.warning(err.response.message);
+          } else {
+            this.$toast.warning("Server Sibuk");
+          }
         });
-        if (response.data.error) {
-          this.$toast.error(response.data.message);
-        }
-      } catch (err) {
-        console.log(err);
-        if (err && err.response && err.response.data.error) {
-          this.$toast.error(err.response.data.message);
-        } else {
-          this.$toast.warning("Server Sibuk");
-        }
+    },
+    getFailureData: function (errorData) {
+      // The errorData variable contains failure details
+      console.log(errorData);
+    },
+    async submitLogin() {
+      const login = await this.$store.dispatch("auth/login", {
+        email: this.email,
+        password: this.password,
+      });
+
+      if (login.error) {
+        this.$toast.error(login.message);
+        return;
       }
+
+      this.$router.push("/");
+
+      // try {
+      //   let response = await this.$auth.loginWith("local", {
+      //     data: {
+      //       email: this.email,
+      //       password: this.password,
+      //     },
+      //   });
+      //   if (response.data.error) {
+      //     this.$toast.error(response.data.message);
+      //   }
+      // } catch (err) {
+      //   console.log(err);
+      //   if (err && err.response && err.response.data.error) {
+      //     this.$toast.error(err.response.data.message);
+      //   } else {
+      //     this.$toast.warning("Server Sibuk");
+      //   }
+      // }
       // this.$nuxt.$loading.start();
       // const response = await this.$axios
       //   .$post(`${this.$config.baseApi}/auth/login`, {

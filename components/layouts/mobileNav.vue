@@ -42,10 +42,18 @@
             <a href="javascript:void(0)" class="list-group-item text-white"
               ><i class="fad fa-circle"></i> Broiler</a
             >
-            <a href="javascript:void(0)" class="list-group-item text-white"><i class="fad fa-circle"></i> Kampung</a>
-            <a href="javascript:void(0)" class="list-group-item text-white"><i class="fad fa-circle"></i> Pejantan</a>
-            <a href="javascript:void(0)" class="list-group-item text-white"><i class="fad fa-circle"></i> Pilihan</a>
-            <a href="javascript:void(0)" class="list-group-item text-white"><i class="fad fa-circle"></i> Trading</a>
+            <a href="javascript:void(0)" class="list-group-item text-white"
+              ><i class="fad fa-circle"></i> Kampung</a
+            >
+            <a href="javascript:void(0)" class="list-group-item text-white"
+              ><i class="fad fa-circle"></i> Pejantan</a
+            >
+            <a href="javascript:void(0)" class="list-group-item text-white"
+              ><i class="fad fa-circle"></i> Pilihan</a
+            >
+            <a href="javascript:void(0)" class="list-group-item text-white"
+              ><i class="fad fa-circle"></i> Trading</a
+            >
           </div>
         </div>
         <li
@@ -61,7 +69,6 @@
 
             Promo
           </div>
-          <!-- <i class="fad fa-chevron-right arrow-mobile-nav"></i> -->
         </li>
         <li
           class="
@@ -74,22 +81,30 @@
           <div>
             <i class="fad fa-user-alt"></i>
 
-          Akun Saya
+            Akun Saya
           </div>
-          <i class="fad fa-chevron-right arrow-mobile-nav" 
+          <i
+            class="fad fa-chevron-right arrow-mobile-nav"
             data-toggle="collapse"
             data-target="#akun-collape"
             aria-expanded="false"
-            aria-controls="akun-collape"></i>
+            aria-controls="akun-collape"
+          ></i>
         </li>
         <div class="collapse ml-3" id="akun-collape">
           <div class="list-group">
             <a href="javascript:void(0)" class="list-group-item text-white"
               ><i class="fad fa-circle"></i> Profil</a
             >
-            <a href="javascript:void(0)" class="list-group-item text-white"><i class="fad fa-circle"></i> Pesanan</a>
-            <a href="javascript:void(0)" class="list-group-item text-white"><i class="fad fa-circle"></i> Alamat</a>
-            <a href="javascript:void(0)" class="list-group-item text-white"><i class="fad fa-circle"></i> Voucher</a>
+            <a href="javascript:void(0)" class="list-group-item text-white"
+              ><i class="fad fa-circle"></i> Pesanan</a
+            >
+            <a href="javascript:void(0)" class="list-group-item text-white"
+              ><i class="fad fa-circle"></i> Alamat</a
+            >
+            <a href="javascript:void(0)" class="list-group-item text-white"
+              ><i class="fad fa-circle"></i> Voucher</a
+            >
           </div>
         </div>
       </ul>
@@ -115,18 +130,17 @@ export default {
   background: #343536;
 }
 
-.arrow-mobile-nav:hover{
+.arrow-mobile-nav:hover {
   cursor: pointer;
-
 }
 
 .bm-burger-button {
-  position: fixed;
-  width: 36px;
-  height: 30px;
-  left: 36px;
-  top: 36px;
   cursor: pointer;
+  height: 21px;
+  position: relative;
+  top: 0px;
+  left: 0px;
+  width: 28px;
 }
 .bm-burger-bars {
   background-color: #373a47;

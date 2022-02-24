@@ -515,7 +515,9 @@
               >
                 batal
               </button> -->
-              <button class="btn btn-danger" @click="deleteNewAddress()">hapus</button>
+              <button class="btn btn-danger" @click="deleteNewAddress()">
+                hapus
+              </button>
             </div>
           </div>
         </div>
@@ -606,8 +608,9 @@ export default {
         .then((results) => {
           if (results.error) {
             this.$toast.error(results.message);
+          } else {
+            this.$toast.success(results.message);
           }
-          this.$toast.success(results.message);
         })
         .catch((err) => {
           if (err && err.response && err.response.error) {
@@ -621,8 +624,6 @@ export default {
       if (!this.updateAddress) {
         return;
       }
-
-      console.log(this.updateAddress.data._id);
 
       const response = await this.$axios
         .$put(
@@ -649,12 +650,26 @@ export default {
 
       this.deleteAddress.data = data;
     },
-    async deleteNewAddress(){
-
+    async deleteNewAddress() {
       await this.$axios
-        .$delete(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/users/address/${this.deleteAddress.data._id}`)
-        .then((res) => {
-          this.regions.state = res.data;
+        .$delete(
+          `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/users/address/${this.deleteAddress.data._id}`
+        )
+
+        .then((results) => {
+          console.log(results);
+          if (results.error) {
+            this.$toast.error(results.message);
+          } else {
+            this.$toast.success(results.message);
+          }
+        })
+        .catch((err) => {
+          if (err && err.response && err.response.error) {
+            this.$toast.error(err.response.message);
+          } else {
+            this.$toast.warning("Terjadi Kesalahan, gagal menghapus alamat");
+          }
         });
     },
     async getAllProvince() {

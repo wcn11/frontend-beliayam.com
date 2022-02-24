@@ -50,10 +50,6 @@ export default {
         async: true,
         mode: 'client'
       },
-      // {
-      //   src: '/vendor/sidebar/hc-offcanvas-nav.js',
-      //   defer: ""
-      // },
       {
         src: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCJQqL0o0LF8YYdQTXvtrou_KHmrRDMQaM&libraries=places',
         async: "",
@@ -88,17 +84,18 @@ export default {
       defer: "",
       'data-cf-settings': "81ad158f85df8c34c29ba781-|49"
     },
-    // {
-    //   src: '~/static/vendor/sidebar/hc-offcanvas-nav.js',
-    //   mode: 'client',
-    //   type: "81ad158f85df8c34c29ba781-text/javascript"
-    // },
     {
       src: '~/static/js/beacon.min.js',
       mode: 'client'
     },
     { src: '~plugins/vue-final-modal.js' },
     { src: '~/plugins/underscore', ssr: false },
+    {
+      src: './plugins/vuex-persistedstate',
+      mode: 'client'
+    },
+    './plugins/vuex-persistedstate',
+    './plugins/axios'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -110,10 +107,9 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    '@nuxtjs/axios',
-    '@nuxtjs/auth-next',
     // With default plugin options
     "vue-toastification/nuxt",
+    '@nuxtjs/axios',
 
     // You can also pass plugin options
     ["vue-toastification/nuxt", {
@@ -127,69 +123,74 @@ export default {
     // proxy: true
     // proxyHeaders: false
   },
-  auth: {
-    strategies: {
-      local: {
-        // scheme: "~/schemes/customScheme",
+  // auth: {
+  //   strategies: {
+  //     local: {
+  //       // scheme: "~/schemes/customScheme",
 
-        token: {
-          property: "data.token.accessToken",
-          type: "Bearer",
-          name: "Authorization",
-          maxAge: 3600,
-          global: true,
-          required: true,
-          prefix: "bt.",
-          expirationPrefix: "bt_expiration."
-        },
-        refreshToken: {
-          property: 'data.token.refreshToken',
-          data: 'refreshToken',
-          maxAge: 60 * 60 * 24 * 30,
-          expirationPrefix: "btf_expiration."
-        },
-        user: {
-          property: "data",
-          autoFetch: true
-        },
-        endpoints: {
-          // (optional) If set, we send a get request to this endpoint before login
-          login: {
-            url: `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/login`,
-            method: 'post'
-          },
-          refresh: {
-            url: `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/refresh-token`,
-            method: 'post'
-          },
-          user: {
-            url: `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/users/me`, method: 'get'
-          },
-          logout: true,
-          redirect: {
-            login: '/login',
-            logout: '/',
-            callback: '/login',
-            home: '/'
-          },
+  //       token: {
+  //         property: "data.token.accessToken",
+  //         type: "Bearer",
+  //         name: "Authorization",
+  //         maxAge: 3600,
+  //         global: true,
+  //         required: true,
+  //         prefix: "bt.",
+  //         expirationPrefix: "bt_expiration."
+  //       },
+  //       refreshToken: {
+  //         property: 'refresh_token',
+  //         data: 'refresh_token',
+  //         maxAge: 60 * 60 * 24 * 30
+  //       },
+  //       // refreshToken: {
+  //       //   property: 'data.token.refreshToken',
+  //       //   data: 'refreshToken',
+  //       //   maxAge: 60 * 60 * 24 * 30,
+  //       //   expirationPrefix: "btf_expiration."
+  //       // },
+  //       user: {
+  //         property: "data",
+  //         autoFetch: true
+  //       },
+  //       endpoints: {
+  //         // (optional) If set, we send a get request to this endpoint before login
+  //         login: {
+  //           url: `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/login`,
+  //           method: 'post'
+  //         },
+  //         refresh: {
+  //           url: `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/refresh-token`,
+  //           method: 'post'
+  //         },
+  //         user: {
+  //           url: `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/users/me`, method: 'get'
+  //         },
+  //         logout: true,
+  //         redirect: {
+  //           login: '/login',
+  //           logout: '/',
+  //           callback: '/login',
+  //           home: '/'
+  //         },
 
-          cookie: true,
-          csrf: {
-            url: ''
-          }
-        }
-      },
+  //         cookie: true,
+  //         csrf: {
+  //           url: ''
+  //         }
+  //       }
+  //     },
 
-      // cookie: {
-      //   cookie: {
-      //     // (optional) If set, we check this cookie existence for loggedIn check
-      //     name: 'XSRF-TOKEN',
-      //   },
-      // },
-    },
-  },
+  //     // cookie: {
+  //     //   cookie: {
+  //     //     // (optional) If set, we check this cookie existence for loggedIn check
+  //     //     name: 'XSRF-TOKEN',
+  //     //   },
+  //     // },
+  //   },
+  // },
   router: {
-    middleware: ['auth']
+    middleware: ['authenticated', 'alreadyAuthenticated', 'getUser']
   },
 
   toast: {

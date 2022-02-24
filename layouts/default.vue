@@ -1,9 +1,9 @@
 <template>
   <div>
     <!-- <button data-toggle="modal" data-target="#modal-loading">tes</button> -->
-    <LayoutsHeader></LayoutsHeader>
+    <LayoutsHeader :user="user"></LayoutsHeader>
 
-    <LayoutsFooter></LayoutsFooter>
+    <LayoutsFooter :user="user"></LayoutsFooter>
 
     <div v-if="$nuxt.isOffline">You are offline</div>
 
@@ -25,20 +25,28 @@
 
 <script>
 export default {
-  data(){
-    return {
-      cookieToken: this.$cookies.get("bacClientToken")
+  async fetch() {
+    if (this.$store.getters['auth/isAuthenticated']) {
+      const user = await this.$axios.$get(
+        `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/users/me`
+      );
+      // this.$store.dispatch("auth/getUser");
+      this.$store.commit("auth/setUser", user.data);
+      this.user = user.data;
     }
   },
-  created(){
-
-    this.$nuxt.$on('tokenSet', (token) => {
-      this.cookieToken = token
-      console.log('hehe')
-    });
+  data() {
+    return {
+      user: {},
+    };
   },
   methods: {
-    setScript() {
+    async setScript() {
+      // const user = await this.$axios.$get(
+      //   `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/users/me`
+      // );
+
+      // await this.$store.dispatch("auth/getUser")
       // Dark Mode
       const toggleSwitch = document.querySelector(
         '.theme-switch input[type="checkbox"]'

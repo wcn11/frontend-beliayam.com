@@ -8,7 +8,7 @@
 export default {
   name: "PageProfile",
   // layout: "blog"
-
+  middleware: "authenticated",
   head: {
     title: "Informasi Akun",
     htmlAttrs: {

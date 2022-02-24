@@ -10,7 +10,7 @@
             class="beliayam-logo mr-2"
             :src="require('/static/img/logo.png')"
           />
-          <h4 class="font-weight-bold text-success m-0">Beliayam.com</h4>
+          <h4 class="font-weight-bold text-dark m-0">Beliayam.com</h4>
         </NuxtLink>
         <p class="ml-auto m-0">
           <a
@@ -30,8 +30,12 @@
           </a>
         </p>
         <a class="toggle ml-3" href="javascript:void(0)"
-          ><i class="fas fa-bars"></i
-        ></a>
+          >
+
+    <LayoutsMobileNav />
+          <!-- <i class="fas fa-bars"></i
+        > -->
+        </a>
       </div>
     </div>
 
@@ -152,7 +156,7 @@
           </div>
         </div>
         <div class="ml-auto d-flex align-items-center">
-          <div v-if="!this.$auth.loggedIn">
+          <div v-if="!isAuthenticated">
             <NuxtLink
               to="/login"
               class="mr-2 rounded-pill p-2 border shadow-sm bg-danger"
@@ -169,7 +173,7 @@
             </NuxtLink>
           </div>
 
-          <div class="dropdown mr-3" v-if="this.$auth.loggedIn">
+          <div class="dropdown mr-3" v-if="isAuthenticated">
             <a
               href="#"
               class="dropdown-toggle text-dark"
@@ -182,7 +186,7 @@
                 src="/img/user.png"
                 class="img-fluid rounded-circle header-user mr-2"
               />
-              {{ this.$auth.user.name || "Cusyam" }}
+              {{ user.name || "Cusyam" }}
             </a>
             <div
               class="dropdown-menu dropdown-menu-right top-profile-drop"
@@ -196,11 +200,11 @@
               <NuxtLink class="dropdown-item" to="/akun/alamat"
                 >Alamat</NuxtLink
               >
-              <a href="#" class="dropdown-item">Logout</a>
+              <a href="javascript:void(0)" class="dropdown-item" @click="logout()">Logout</a>
             </div>
           </div>
 
-          <div class="dropdown" v-if="this.$auth.loggedIn">
+          <div class="dropdown" v-if="isAuthenticated">
             <a
               href="#"
               class="text-dark dropdown-toggle not-drop"
@@ -294,11 +298,7 @@
             </div>
           </div>
 
-          <div
-            class="dropdown"
-            v-if="this.$auth.loggedIn"
-            @mouseenter="getCarts()"
-          >
+          <div class="dropdown" v-if="isAuthenticated" @mouseenter="getCarts()">
             <a
               href="#"
               class="text-dark dropdown-toggle not-drop"
@@ -454,120 +454,6 @@
 
       <div class="bg-color-head">
         <div class="container menu-bar d-flex align-items-center">
-          <!-- <ul class="list-unstyled form-inline mb-0">
-            <li class="nav-item active">
-              <a class="nav-link text-white pl-0" href="home.html"
-                >Home <span class="sr-only">(current)</span></a
-              >
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link text-white dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                Products
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="listing.html">Listing</a>
-                <a class="dropdown-item" href="product_details.html">Detail</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="picks_today.html">Trending</a>
-                <a class="dropdown-item" href="recommend.html">Recommended</a>
-                <a class="dropdown-item" href="fresh_chiken.html"
-                  >Most Popular</a
-                >
-              </div>
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link text-white dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                Checkout Process
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="cart.html">Cart</a>
-                <a class="dropdown-item" href="checkout.html">Checkout</a>
-                <a class="dropdown-item" href="successful.html">Successful</a>
-              </div>
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link text-white dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                My Order
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="my_order.html">My order</a>
-                <a class="dropdown-item" href="status_complete.html"
-                  >Status Complete</a
-                >
-                <a class="dropdown-item" href="status_onprocess.html"
-                  >Status on Process</a
-                >
-                <a class="dropdown-item" href="status_canceled.html"
-                  >Status Canceled</a
-                >
-                <a class="dropdown-item" href="review.html">Review</a>
-              </div>
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link text-white dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                Extra Pages
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="verification.html"
-                  >Verification</a
-                >
-                <a class="dropdown-item" href="promos.html">Promos</a>
-                <a class="dropdown-item" href="promo_details.html"
-                  >Promo Details</a
-                >
-                <a class="dropdown-item" href="terms_conditions.html"
-                  >Terms & Conditions</a
-                >
-                <a class="dropdown-item" href="privacy.html">Privacy</a>
-                <a class="dropdown-item" href="terms%26conditions.html"
-                  >Conditions</a
-                >
-                <a class="dropdown-item" href="help_support.html"
-                  >Help Support</a
-                >
-                <a class="dropdown-item" href="help_ticket.html">Help Ticket</a>
-                <a class="dropdown-item" href="refund_payment.html"
-                  >Refund Payment</a
-                >
-                <a class="dropdown-item" href="faq.html">FAQ</a>
-                <a class="dropdown-item" href="signin.html">Sign In</a>
-                <a class="dropdown-item" href="signup.html">Sign Up</a>
-                <a class="dropdown-item" href="search.html">Search</a>
-              </div>
-            </li>
-          </ul> -->
           <div class="list-unstyled form-inline mb-0 ml-auto">
             <NuxtLink to="/promo" class="text-white bg-offer px-3 py-2"
               ><i class="fad fa-badge-percent h6"></i>Promo</NuxtLink
@@ -588,19 +474,19 @@
       </div>
     </nav>
 
-    <LayoutsMobileNav />
 
     <Nuxt />
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 export default {
   name: "LayoutHeader",
+  props: ['user'],
   data() {
     return {
-      carts: this.$store.state.cart.cartsNav,
+      carts: this.$store.state.cart.cartsNav
     };
   },
   methods: {
@@ -609,12 +495,15 @@ export default {
         await this.$store.dispatch("cart/setCartsNav");
       }
     },
+    logout(){
+      this.$store.dispatch("auth/logout");
+      window.location.reload();
+    }
   },
   computed: {
-    ...mapGetters("cart", [
-      "getCartsNav",
-      // Here you can import other getters from the products.js
-    ]),
+    ...mapGetters("cart", ["getCartsNav"]),
+    ...mapGetters("auth", ["isAuthenticated"]),
+      // ...mapState("auth", ['user'])
   },
 };
 </script>
