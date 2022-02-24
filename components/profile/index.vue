@@ -138,7 +138,7 @@
                     </p>
                   </div>
 
-                  <div v-if="user && !user.isEmailVerified">
+                  <div v-if="user && user.email && !user.isEmailVerified">
                     <p
                       class="font-italic text-danger"
                       role="button"

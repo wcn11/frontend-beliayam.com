@@ -12,8 +12,8 @@ export default ({ store, req, isDev }) => {
         key: 'authentication-cookie', // choose any name for your cookie
         paths: [
             // persist the access_token and refresh_token values from the "auth" store module
-            'auth.access_token',
-            'auth.refresh_token',
+            'auth.accessToken',
+            'auth.refreshToken',
         ],
         storage: {
             // if on the browser, parse the cookies using js-cookie otherwise parse from the raw http request

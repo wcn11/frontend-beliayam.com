@@ -65,6 +65,7 @@
               <a
                 href="javascript:void(0)"
                 class="btn btn-dark btn-block rounded btn-lg"
+                @click="verifyPhoneMethod()"
               >
                 <i class="fad fa-mobile-alt"></i> Verifikasi Nomor Telepon
               </a>
@@ -161,6 +162,62 @@
         </div>
       </div>
     </vue-final-modal>
+
+    <vue-final-modal
+      name="modal-verify-phone"
+      :click-to-close="true"
+      :lock-scroll="false"
+      :fit-parent="true"
+      :drag="true"
+      v-model="verifyPhone.showModal"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="container modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Verifikasi Nomor Telepon</h5>
+          </div>
+          <div class="modal-body">
+            <div>
+              <div class="form-group">
+                <label for="inputVerifyPhone">No. Telepon</label>
+                <input
+                  type="tel"
+                  class="form-control"
+                  id="inputVerifyPhone"
+                  placeholder="No. Telp"
+                  v-model="verifyPhone.data.phone"
+                />
+              </div>
+              <div class="form-group">
+                <label for="inputChangePhoneOtp">Kode OTP</label>
+                <input
+                  type="tel"
+                  class="form-control"
+                  id="inputChangePhoneOtp"
+                  placeholder="****"
+                  v-model="verifyPhone.data.code"
+                />
+                <span
+                  class="text-danger font-italic"
+                  role="button"
+                  @click="resendOtpChangePhone()"
+                  >kirim ulang kode OTP</span
+                >
+              </div>
+            </div>
+            <div class="justify-content-around mx-auto text-center mt-5">
+              <button
+                type="button"
+                class="btn btn-danger"
+                @click="verifyOtpChangePhoneMethod()"
+              >
+                verifikasi
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </vue-final-modal>
   </section>
 </template>
 
@@ -177,6 +234,13 @@ export default {
         showModal: false,
         data: "",
       },
+      verifyPhone: {
+        showModal: false,
+        data: {
+          phone: "",
+          code: "",
+        },
+      },
       googleClientId: process.env.NUXT_ENV_GOOGLE_CLIENT_ID,
       phone: "0895402275040",
       password: "qweqwe",
@@ -185,12 +249,48 @@ export default {
     };
   },
   methods: {
+    async verifyOtpChangePhoneMethod() {
+      if (
+        this.verifyPhone.data.phone === "" ||
+        this.verifyPhone.data.phone === ""
+      ) {
+        this.$toast.warning("Bidang tidak boleh kosong");
+        return;
+      }
+      await this.$axios
+        .$post(
+          `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/register/phone/verify`,
+          {
+            phone: this.verifyPhone.data.phone,
+            code: this.verifyPhone.data.code,
+          }
+        )
+        .then((results) => {
+          if (results.error) {
+            this.$toast.warning(results.message);
+            return;
+          }
+          this.$store.dispatch("auth/setCookieLogin", results.data.token);
+
+          this.$toast.success(results.message);
+
+          this.verifyPhone.showModal = false;
+
+          this.$router.push("/");
+        })
+        .catch((err) => {
+          if (err && err.response.data.error) {
+            this.$toast.warning(err.response.data.message);
+          } else {
+            this.$toast.warning("Gagal Memuat Data");
+          }
+        });
+    },
     async verifyOtpPhoneMethod() {
       if (this.verifyPhoneOtp.data === "") {
         this.$toast.warning("Bidang tidak boleh kosong");
         return;
       }
-
       await this.$axios
         .$post(
           `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/register/phone/verify`,
@@ -204,16 +304,42 @@ export default {
             this.$toast.warning(results.message);
             return;
           }
-
-          console.log(results.data.token)
-
-          this.$store.dispatch("auth/loginBySocial", results.data.token);
+          this.$store.dispatch("auth/setCookieLogin", results.data.token);
 
           this.$toast.success(results.message);
 
           this.verifyPhoneOtp.showModal = false;
 
           this.$router.push("/");
+        })
+        .catch((err) => {
+          console.log(err);
+          if (err && err.response && err.response.error) {
+            this.$toast.warning(err.response.message);
+          } else {
+            this.$toast.warning("Gagal Memuat Data");
+          }
+        });
+    },
+    resendOtpChangePhone() {
+      if (this.verifyPhone.data.phone === "") {
+        this.$toast.warning("Harap isi dahulu no. telepon untuk kirim OTP");
+        return;
+      }
+      this.$axios
+        .$post(
+          `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/register/phone/resend`,
+          {
+            phone: this.verifyPhone.data.phone,
+          }
+        )
+        .then((results) => {
+          if (results.error) {
+            this.$toast.warning(results.message);
+            return;
+          }
+
+          this.$toast.success(results.message);
         })
         .catch((err) => {
           if (err && err.response && err.response.error) {
@@ -246,6 +372,9 @@ export default {
             this.$toast.warning("Gagal Memuat Data");
           }
         });
+    },
+    verifyPhoneMethod() {
+      this.verifyPhone.showModal = !this.verifyPhone.showModal;
     },
     verifyPhoneOtpMethod() {
       this.verifyPhoneOtp.showModal = !this.verifyPhoneOtp.showModal;

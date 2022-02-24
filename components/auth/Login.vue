@@ -58,14 +58,18 @@
                 >
                   Masuk
                 </button>
+                <div class="text-right mt-2">
+                  <span class="text-danger" role="button">lupa password ?</span>
+                </div>
               </div>
               <p class="text-muted text-center small m-0 py-3">atau</p>
-              <a
+              <NuxtLink
+                to="/login/phone"
                 href="javascript:void(0)"
                 class="btn btn-dark btn-block rounded btn-lg"
               >
                 <i class="fad fa-mobile-alt"></i> Masuk Dengan Telepon
-              </a>
+              </NuxtLink>
               <a
                 href="javascript:void(0)"
                 class="btn btn-info btn-block rounded btn-lg btn-facebook"
@@ -117,7 +121,6 @@ export default {
   },
   methods: {
     async getSuccessData(user) {
-
       const register = this.$axios
         .$post(
           `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/social/login`,

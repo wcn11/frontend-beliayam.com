@@ -37,16 +37,16 @@ export const actions = {
 
         const cookie = this.$cookies.get('auth');
         if (cookie) {
-            commit('auth/setTokens', cookie.auth);
+            commit('setTokens', cookie.auth);
         }
 
         const { accessToken, refreshToken } = state.auth;
         if (accessToken && refreshToken) {
             try {
-                await dispatch('auth/refresh');
-                await dispatch('auth/getUser');
+                await dispatch('refresh');
+                await dispatch('getUser');
             } catch (e) {
-                commit('auth/logout');
+                commit('logout');
             }
         }
     },
@@ -60,7 +60,23 @@ export const actions = {
             return res
         }
 
-        commit('auth/setTokens', res.data.token);
+        commit('setTokens', res.data.token);
+        await dispatch('nuxtServerInit');
+
+        return res
+    },
+    async loginByPhone({ commit, dispatch }, { phone, password }) {
+        const res = await this.$axios.$post(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/phone`, {
+            phone,
+            password
+        });
+
+        if (res.error) {
+            return res
+        }
+
+        commit('setTokens', res.data.token);
+
         await dispatch('getUser');
 
         return res
@@ -85,6 +101,19 @@ export const actions = {
 
         await dispatch('getUser');
     },
+    async setCookieLogin({ commit, dispatch }, token) {
+
+        console.log(token)
+
+        await this.$cookies.set("auth", token.token, {
+            path: "/",
+            maxAge: 60 * 60 * 24 * 7,
+        });
+
+        commit('auth/setTokens', token.token);
+
+        await dispatch('getUser');
+    },
     async register({ commit, dispatch }, { name, email, password, registerBy, registerAt }) {
         const res = await this.$axios.$post(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/register`, {
             name,
@@ -102,6 +131,12 @@ export const actions = {
         await dispatch('getUser');
 
         return res
+    },
+    async setCookieLogin({ commit, dispatch }, token) {
+
+        commit('setTokens', token);
+
+        await dispatch('getUser');
     },
     async getUser({ commit, getters }) {
         if (getters.isAuthenticated) {

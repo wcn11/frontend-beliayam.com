@@ -1,10 +1,16 @@
 const webpack = require("webpack");
 
+const config = {
+  test: process.env.NODE_ENV !== 'production' ? 'devdevdevelopment' : 'proproproduction',
+  apiserver: process.env.NODE_ENV !== 'production' ? 'developement apiserver' : 'production vbvbvbvbv apiserver',
+}
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
+  env: {
 
+  },
   server: {
     port: 3000,
   },

@@ -31,14 +31,14 @@
               <p class="small mb-4">Masuk untuk melanjutkan.</p>
               <div class="form">
                 <div class="form-group">
-                  <label for="email-login">Email</label>
+                  <label for="phone-login">No. Telepon</label>
                   <input
-                    placeholder="Enter Email"
-                    type="email"
+                    placeholder="Masukkan no. telp"
+                    type="tel"
                     class="form-control"
-                    id="email-login"
-                    aria-describedby="emailHelp"
-                    v-model="email"
+                    id="phone-login"
+                    aria-describedby="phoneHelp"
+                    v-model="phone"
                   />
                 </div>
                 <div class="form-group">
@@ -59,7 +59,14 @@
                   Masuk
                 </button>
               </div>
-              <p class="text-muted text-center small m-0 py-3">or</p>
+              <p class="text-muted text-center small m-0 py-3">atau</p>
+
+              <NuxtLink to="/login"
+                href="javascript:void(0)"
+                class="btn btn-dark btn-block rounded btn-lg"
+              >
+                <i class="fad fa-mobile-alt"></i> Masuk Dengan Email
+              </NuxtLink>
               <a
                 href="javascript:void(0)"
                 class="btn btn-info btn-block rounded btn-lg btn-facebook"
@@ -73,7 +80,7 @@
                 class="btn border btn-block rounded btn-lg btn-google"
               >
                 <i class="fab text-light fa-google text-danger mr-2"></i>
-                Mendaftar Dengan Google
+                Masuk Dengan Google
               </a>
               <googleSignIn
                 :clientId="`${googleClientId}`"
@@ -105,7 +112,7 @@ export default {
   data() {
     return {
       googleClientId: process.env.NUXT_ENV_GOOGLE_CLIENT_ID,
-      email: "ayusandra@gmail.com",
+      phone: "0895402275040",
       password: "qweqwe",
     };
   },
@@ -145,8 +152,8 @@ export default {
       console.log(errorData);
     },
     async submitLogin() {
-      const login = await this.$store.dispatch("auth/login", {
-        email: this.email,
+      const login = await this.$store.dispatch("auth/loginByPhone", {
+        phone: this.phone,
         password: this.password,
       });
 
