@@ -107,6 +107,36 @@
             >
           </div>
         </div>
+
+        <li
+          class="
+            list-group-item
+            d-flex
+            justify-content-between
+            align-items-center
+          "
+        >
+          <NuxtLink to="/login">
+            <i class="fad fa-badge-percent"></i>
+
+            Login
+          </NuxtLink>
+        </li>
+
+        <li
+          class="
+            list-group-item
+            d-flex
+            justify-content-between
+            align-items-center
+          "
+        >
+          <NuxtLink to="/register">
+            <i class="fad fa-badge-percent"></i>
+
+            Daftar
+          </NuxtLink>
+        </li>
       </ul>
     </Slide>
   </div>
