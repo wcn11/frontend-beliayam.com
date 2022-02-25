@@ -59,7 +59,12 @@
                   Masuk
                 </button>
                 <div class="text-right mt-2">
-                  <span class="text-danger" role="button">lupa password ?</span>
+                  <NuxtLink
+                    to="login/forgot-password"
+                    class="text-danger"
+                    role="button"
+                    >lupa password ?</NuxtLink
+                  >
                 </div>
               </div>
               <p class="text-muted text-center small m-0 py-3">atau</p>
@@ -70,12 +75,21 @@
               >
                 <i class="fad fa-mobile-alt"></i> Masuk Dengan Telepon
               </NuxtLink>
-              <a
+
+              <v-facebook-login
+                :app-id="facebookClientId"
+                text-class=" rounded text-white"
+                role="button"
+                @login="loginByFacebook"
+              >
+                <span slot="login">Masuk Dengan Facebook</span>
+              </v-facebook-login>
+              <!-- <a
                 href="javascript:void(0)"
                 class="btn btn-info btn-block rounded btn-lg btn-facebook"
               >
                 <i class="fab fa-facebook mr-2"></i> Masuk Dengan Facebook
-              </a>
+              </a> -->
 
               <a
                 id="buttonLoginByGoogle"
@@ -108,18 +122,24 @@
 
 <script>
 import googleSignIn from "./social/googleSignIn.vue";
+import VFacebookLogin from "vue-facebook-login-component";
 export default {
   components: {
     googleSignIn,
+    VFacebookLogin,
   },
   data() {
     return {
       googleClientId: process.env.NUXT_ENV_GOOGLE_CLIENT_ID,
+      facebookClientId: process.env.NUXT_ENV_FACEBOOK_APP_ID,
       email: "ayusandra@gmail.com",
       password: "qweqwe",
     };
   },
   methods: {
+    loginByFacebook(data) {
+      console.log("login by facebook. response = " + data);
+    },
     async getSuccessData(user) {
       const register = this.$axios
         .$post(
@@ -154,6 +174,10 @@ export default {
       console.log(errorData);
     },
     async submitLogin() {
+      if (this.email === "" || this.password === "") {
+        this.$toast.warning("Bidang tidak boleh kosong");
+        return;
+      }
       const login = await this.$store.dispatch("auth/login", {
         email: this.email,
         password: this.password,
@@ -216,6 +240,12 @@ export default {
 }
 .btn-facebook {
   background-color: #1877f2;
+}
+.v-facebook-login {
+  padding: 5px;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 </style>
 

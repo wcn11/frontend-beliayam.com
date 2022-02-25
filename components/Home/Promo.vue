@@ -2,28 +2,26 @@
   <div>
     <div class="py-3">
       <div class="d-flex align-items-center mb-3">
-        <h5 class="m-0">Promo untukmu...</h5>
-        <a href="/promo" class="ml-auto btn btn-outline-success btn-sm"
-          >promo lainnya ...</a
-        >
+        <h5 class="m-0">Flash Sale</h5>
+        <NuxtLink to="/promo" class="ml-auto text-dark">lihat lainnya</NuxtLink>
       </div>
 
       <!-- <div
           v-if="promos"> -->
-        <VueSlickCarousel
-          v-bind="settings"
-          :arrows="true"
-          :dots="true"
-          class="pb-0 mb-0"
-        >
-          <div class="p-1 v-" v-for="promo in promos" :key="promo._id">
-            <NuxtLink class="col-md-4" :to="`/promo/${promo.slug}`"
-              ><img
-                :src="`${baseApi}/${promo.image_promo}`"
-                class="img-fluid mx-auto rounded"
-                alt="Responsive image"
-            /></NuxtLink>
-          </div>
+      <VueSlickCarousel
+        v-bind="settings"
+        :arrows="true"
+        :dots="true"
+        class="pb-0 mb-0"
+      >
+        <div class="p-1 v-" v-for="promo in promos" :key="promo._id">
+          <NuxtLink class="col-md-4" :to="`/promo/${promo.slug}`"
+            ><img
+              :src="`${baseApi}/${promo.image_promo}`"
+              class="img-fluid mx-auto rounded"
+              alt="Responsive image"
+          /></NuxtLink>
+        </div>
 
         <div class="p-1">
           <NuxtLink class="col-md-4" to="/promo/broiler-10-11-kg"
@@ -33,7 +31,7 @@
               alt="Responsive image"
           /></NuxtLink>
         </div>
-        </VueSlickCarousel>
+      </VueSlickCarousel>
       <!-- </div> -->
     </div>
   </div>

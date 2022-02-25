@@ -3,12 +3,12 @@
   <div>
     <nav aria-label="breadcrumb" class="breadcrumb mb-0 d-none">
       <div class="container">
-        <ol class="d-flex align-items-center mb-0 p-0">
+        <ul class="d-flex align-items-center mb-0 p-0 list-unstyled">
           <li class="breadcrumb-item">
-            <a href="#" class="text-success">Home</a>
+            <a href="#" class="text-danger">Home</a>
           </li>
           <li class="breadcrumb-item active" aria-current="page"></li>
-        </ol>
+        </ul>
       </div>
     </nav>
 

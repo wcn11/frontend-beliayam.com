@@ -189,6 +189,10 @@ export default {
       console.log(errorData);
     },
     async submitRegister() {
+      if (this.name === "" || this.email === "" || this.password === "") {
+        this.$toast.warning("Bidang tidak boleh kosong");
+        return;
+      }
       const register = await this.$store.dispatch("auth/register", {
         name: this.name,
         email: this.email,

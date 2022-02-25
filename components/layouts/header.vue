@@ -74,7 +74,7 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="ml-3 d-flex align-items-center">
+        <!-- <div class="ml-3 d-flex align-items-center">
           <div class="dropdown mr-3">
             <a
               class="
@@ -154,7 +154,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="ml-auto d-flex align-items-center">
           <div v-if="!isAuthenticated">
             <NuxtLink
@@ -465,12 +465,12 @@
 
     <nav aria-label="breadcrumb" class="breadcrumb mb-0 d-none">
       <div class="container">
-        <ol class="d-flex align-items-center mb-0 p-0">
+        <ul class="d-flex align-items-center mb-0 p-0 list-unstyled">
           <li class="breadcrumb-item">
-            <a href="#" class="text-success">Beranda</a>
+            <a href="#" class="text-danger">Beranda</a>
           </li>
           <li class="breadcrumb-item active" aria-current="page"></li>
-        </ol>
+        </ul>
       </div>
     </nav>
 

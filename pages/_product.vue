@@ -1,245 +1,242 @@
 <template>
   <div id="page-product" class="animate__animated">
-    <nav aria-label="breadcrumb" class="breadcrumb mb-0">
-      <div class="container">
-        <ol class="d-flex align-items-center mb-0 p-0">
-          <li class="breadcrumb-item">
-            <NuxtLink to="/" class="text-success">Home</NuxtLink>
-          </li>
-          <li class="breadcrumb-item active" aria-current="page">Produk</li>
-        </ol>
-      </div>
-    </nav>
+    <div v-if="product && Object.keys(product).length > 0">
+      <nav aria-label="breadcrumb" class="breadcrumb mb-0">
+        <div class="container">
+          <ul class="d-flex align-items-center mb-0 p-0 list-unstyled">
+            <li class="breadcrumb-item">
+              <NuxtLink to="/" class="text-danger">Home</NuxtLink>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Produk</li>
+          </ul>
+        </div>
+      </nav>
 
-    <section class="py-4 beliayam-main-body">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-6">
-            <VueSlickCarousel v-bind="settings" class="recommend-slider mb-3">
-              <div class="beliayam-slider-item p-2">
+      <section class="py-4 beliayam-main-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="mb-3">
                 <img
-                    :src="`${this.$config.baseURL}/img/listing/product-demo.png`"
-                  class="img-fluid shadow-sm rounded"
+                  :src="`${this.$config.baseApi}/${product.image}`"
+                  class="img-fluid shadow-sm rounded w-100"
                   alt="Responsive image"
                 />
               </div>
-              <div class="beliayam-slider-item p-2">
-                <img
-                  src="img/recommend/r2.jpg"
-                  class="img-fluid shadow-sm rounded"
-                  alt="Responsive image"
-                />
-              </div>
-              <div class="beliayam-slider-item p-2">
-                <img
-                  src="img/recommend/r3.jpg"
-                  class="img-fluid shadow-sm rounded"
-                  alt="Responsive image"
-                />
-              </div>
-            </VueSlickCarousel>
 
-            <div class="pd-f d-flex align-items-center mb-3">
-              <button
-                class="
-                  btn btn-warning
-                  p-3
-                  rounded
-                  btn-block
-                  d-flex
-                  align-items-center
-                  justify-content-center
-                  mr-3
-                  btn-lg
-                "
-                @click="addProductToCart()"
-              >
-                <i class="fad fa-plus m-0 mr-2"></i> Keranjang
-              </button>
-              <button
-                class="
-                  btn btn-success
-                  p-3
-                  rounded
-                  btn-block
-                  d-flex
-                  align-items-center
-                  justify-content-center
-                  btn-lg
-                  m-0
-                "
-              >
-                <i class="fad fa-shopping-cart m-0 mr-2"></i> Beli
-              </button>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="p-4 bg-white rounded shadow-sm">
-              <div class="pt-0">
-                <h2 class="font-weight-bold">{{ product.name }}</h2>
-                <p
+              <div class="pd-f d-flex align-items-center mb-3">
+                <button
                   class="
-                    font-weight-light
-                    text-dark
-                    m-0
+                    btn btn-warning
+                    p-3
+                    rounded
+                    btn-block
                     d-flex
                     align-items-center
+                    justify-content-center
+                    mr-3
+                    btn-lg
+                  "
+                  @click="addProductToCart()"
+                >
+                  <i class="fad fa-plus m-0 mr-2"></i> Keranjang
+                </button>
+                <button
+                  class="
+                    btn btn-success
+                    p-3
+                    rounded
+                    btn-block
+                    d-flex
+                    align-items-center
+                    justify-content-center
+                    btn-lg
+                    m-0
                   "
                 >
-                  Produk MRP :
-                  <b class="h6 text-dark m-0">{{ product.price }}</b>
-                  <span class="badge badge-danger ml-2">50% OFF</span>
-                </p>
+                  <i class="fad fa-shopping-cart m-0 mr-2"></i> Beli
+                </button>
               </div>
-              <div class="pt-2">
-                <div class="row">
-                  <div class="col-6">
-                    <p class="font-weight-bold m-0">Pengiriman</p>
-                    <p class="text-muted m-0">Gratis Ongkos Kirim</p>
-                  </div>
-                  <div class="col-6 text-right">
-                    <p class="font-weight-bold m-0">Ketersediaan Produk:</p>
-                    <p class="text-muted m-0">{{ product.stock }} Kuantitas</p>
+            </div>
+            <div class="col-lg-6">
+              <div class="p-4 bg-white rounded shadow-sm">
+                <div class="pt-0">
+                  <h2 class="font-weight-bold">{{ product.name }}</h2>
+                  <p
+                    class="
+                      font-weight-light
+                      text-dark
+                      m-0
+                      d-flex
+                      align-items-center
+                    "
+                  >
+                    Produk MRP :
+                    <b class="h6 text-dark m-0">{{ product.price }}</b>
+                    <span class="badge badge-danger ml-2">50% OFF</span>
+                  </p>
+                </div>
+                <div class="pt-2">
+                  <div class="row">
+                    <div class="col-6">
+                      <p class="font-weight-bold m-0">Pengiriman</p>
+                      <p class="text-muted m-0">Gratis Ongkos Kirim</p>
+                    </div>
+                    <div class="col-6 text-right">
+                      <p class="font-weight-bold m-0">Ketersediaan Produk:</p>
+                      <p class="text-muted m-0">
+                        {{ product.stock }} Kuantitas
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="details">
-                <div class="pt-3 bg-white">
-                  <div class="d-flex align-items-center">
-                    <div
-                      class="btn-group beliayam-radio btn-group-toggle"
-                      data-toggle="buttons"
-                    >
-                      <label class="btn btn-secondary">
-                        <input type="radio" name="options" id="option3" />
-                        {{ product.weight }} Kg
-                      </label>
-                    </div>
-                    <div class="ml-auto">
-                      <div id="myform" class="cart-items-number d-flex">
-                        <input
-                          type="button"
-                          value="-"
-                          class="qtyminus btn btn-success btn-sm"
-                          field="quantity"
-                          @click="setDecrementQuantity"
-                          :disabled="
-                            cart.quantity === 0 ||
-                            cart.quantity === 1 ||
-                            cart.quantity === '' ||
-                            product.stock === 0
-                          "
-                        />
-                        <input
-                          type="text"
-                          name="quantity"
-                          value="1"
-                          class="qty form-control"
-                          @keydown="filterQuantity($event)"
-                          @keyup="setQuantity($event)"
-                          @change="checkQuantity($event)"
-                        />
-                        <input
-                          type="button"
-                          value="+"
-                          class="qtyplus btn btn-success btn-sm"
-                          field="quantity"
-                          @click="setIncrementQuantity"
-                          :disabled="
-                            cart.quantity >= product.stock ||
-                            cart.quantity === ''
-                          "
-                        />
+                <div class="details">
+                  <div class="pt-3 bg-white">
+                    <div class="d-flex align-items-center">
+                      <div
+                        class="btn-group beliayam-radio btn-group-toggle"
+                        data-toggle="buttons"
+                      >
+                        <label class="btn btn-secondary">
+                          <input type="radio" name="options" id="option3" />
+                          {{ product.weight }} Kg
+                        </label>
+                      </div>
+                      <div class="ml-auto">
+                        <div id="myform" class="cart-items-number d-flex">
+                          <input
+                            type="button"
+                            value="-"
+                            class="qtyminus btn btn-success btn-sm"
+                            field="quantity"
+                            @click="setDecrementQuantity"
+                            :disabled="
+                              cart.quantity === 0 ||
+                              cart.quantity === 1 ||
+                              cart.quantity === '' ||
+                              product.stock === 0
+                            "
+                          />
+                          <input
+                            type="text"
+                            name="quantity"
+                            value="1"
+                            class="qty form-control"
+                            @keydown="filterQuantity($event)"
+                            @keyup="setQuantity($event)"
+                            @change="checkQuantity($event)"
+                          />
+                          <input
+                            type="button"
+                            value="+"
+                            class="qtyplus btn btn-success btn-sm"
+                            field="quantity"
+                            @click="setIncrementQuantity"
+                            :disabled="
+                              cart.quantity >= product.stock ||
+                              cart.quantity === ''
+                            "
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="pt-3">
-                  <div
-                    class="text-danger text-center"
-                    v-if="product.stock < cart.quantity"
-                  >
-                    <p>
-                      Maks. persediaan produk ini hanya ada
-                      {{ product.stock }} item.
+                  <div class="pt-3">
+                    <div
+                      class="text-danger text-center"
+                      v-if="product.stock < cart.quantity"
+                    >
+                      <p>
+                        Maks. persediaan produk ini hanya ada
+                        {{ product.stock }} item.
+                      </p>
+                    </div>
+                    <div
+                      class="text-danger text-center"
+                      v-if="
+                        parseInt(cart.quantity) === 0 || cart.quantity === ''
+                      "
+                    >
+                      <p>Min. Pembelian 1 Item</p>
+                    </div>
+                    <div
+                      class="
+                        input-group
+                        mb-3
+                        border
+                        rounded
+                        shadow-sm
+                        overflow-hidden
+                        bg-white
+                      "
+                    >
+                      <div class="input-group-prepend">
+                        <button
+                          class="
+                            border-0
+                            btn btn-outline-secondary
+                            text-success
+                            bg-white
+                          "
+                        >
+                          <i class="fad fa-sticky-note"></i>
+                        </button>
+                      </div>
+                      <input
+                        type="text"
+                        class="
+                          shadow-none
+                          border-0
+                          form-control form-control-lg
+                          pl-0
+                        "
+                        placeholder="Tambah Catatan disini..."
+                        aria-label=""
+                        aria-describedby="basic-addon1"
+                        v-model="cart.note"
+                      />
+                    </div>
+                    <p class="font-weight-bold mb-2">Deskripsi Produk</p>
+                    <p class="text-muted small mb-0">
+                      {{ product.description }}
                     </p>
                   </div>
-                  <div
-                    class="text-danger text-center"
-                    v-if="parseInt(cart.quantity) === 0 || cart.quantity === ''"
-                  >
-                    <p>Min. Pembelian 1 Item</p>
-                  </div>
-                  <div
-                    class="
-                      input-group
-                      mb-3
-                      border
-                      rounded
-                      shadow-sm
-                      overflow-hidden
-                      bg-white
-                    "
-                  >
-                    <div class="input-group-prepend">
-                      <button
-                        class="
-                          border-0
-                          btn btn-outline-secondary
-                          text-success
-                          bg-white
-                        "
-                      >
-                        <i class="fad fa-sticky-note"></i>
-                      </button>
-                    </div>
-                    <input
-                      type="text"
-                      class="
-                        shadow-none
-                        border-0
-                        form-control form-control-lg
-                        pl-0
-                      "
-                      placeholder="Tambah Catatan disini..."
-                      aria-label=""
-                      aria-describedby="basic-addon1"
-                      v-model="cart.note"
-                    />
-                  </div>
-                  <p class="font-weight-bold mb-2">Deskripsi Produk</p>
-                  <p class="text-muted small mb-0">
-                    {{ product.description }}
-                  </p>
                 </div>
               </div>
             </div>
           </div>
+
+          <Product :products="relatedProducts" />
         </div>
+      </section>
 
-        <Product :products="relatedProducts" />
-      </div>
-    </section>
-
-    <!-- Modal -->
-    <div id="modal-cart-success">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content animate__animated animate__jello">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
-              <i class="fad fa-egg-fried text-success"></i> Berhasil Ditambahkan
-            </h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-              @click="closeModal()"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
+      <!-- Modal -->
+      <div id="modal-cart-success">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content animate__animated animate__jello">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                <i class="fad fa-egg-fried text-success"></i> Berhasil
+                Ditambahkan
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+                @click="closeModal()"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div class="not-found-anything" v-else>
+      <div class="text-center">
+        <h4>Tidak Ditemukan Apapun</h4>
       </div>
     </div>
   </div>
@@ -293,7 +290,11 @@ export default {
 
   methods: {
     async addProductToCart() {
-      const response = await this.$axios
+      if (!this.$store.getters["auth/isAuthenticated"]) {
+        this.$toast.success("Masuk Untuk Melanjutkan Belanja");
+        this.$router.push("/login");
+      }
+      await this.$axios
         .$post(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/cart`, {
           product_id: this.product._id,
           user_id: this.$auth.user._id,
@@ -354,7 +355,7 @@ export default {
       this.$nuxt.refresh();
     },
     async setRelatedProductsFilter() {
-      return (this.relatedProducts = await this.products.filter(
+      return (this.relatedProducts = await this.products.products.filter(
         (product) => product.slug !== this.$route.params.product
       ));
     },
@@ -442,6 +443,10 @@ export default {
 </script>
 
 <style scoped>
+.not-found-anything {
+  margin: 10%;
+}
+
 .margin-bottom-10 {
   margin-bottom: 10px;
 }

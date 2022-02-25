@@ -2,16 +2,9 @@
   <div class="beliayam-body">
     <div class="pt-3 pb-2 beliayam-categories">
       <div class="d-flex align-items-center mb-2">
-        <h5
-          class="m-0"
-          data-toggle="tooltip"
-          data-placement="top"
-          title="Tooltip on top"
-        >
-          Mau Cari Ayam Apa ? Semua Ada!
-        </h5>
-        <NuxtLink to="/kategori" class="ml-auto btn btn-outline-success btn-sm"
-          >kategori lainya</NuxtLink
+        <h5 class="m-0">Cari ayam ?</h5>
+        <NuxtLink to="/kategori" class="ml-auto text-dark"
+          >lihat lainnya</NuxtLink
         >
       </div>
       <!-- <div class="categories-slider"> -->
@@ -64,7 +57,7 @@
           <div
             class="bg-white shadow-sm rounded text-center my-2 px-2 py-3 c-it"
           >
-            <NuxtLink to="/kategori/broiler-10-11-kg">
+            <NuxtLink to="/kategori/parting">
               <img
                 :src="`${this.$config.baseURL}/img/categorie/4.png`"
                 class="img-fluid px-2 mx-auto"
@@ -77,7 +70,7 @@
           <div
             class="bg-white shadow-sm rounded text-center my-2 px-2 py-3 c-it"
           >
-            <NuxtLink to="/kategori/broiler-10-11-kg">
+            <NuxtLink to="/kategori/merah">
               <img
                 :src="`${this.$config.baseURL}/img/categorie/5.png`"
                 class="img-fluid px-2 mx-auto"
@@ -90,7 +83,7 @@
           <div
             class="bg-white shadow-sm rounded text-center my-2 px-2 py-3 c-it"
           >
-            <NuxtLink to="/kategori/broiler-10-11-kg">
+            <NuxtLink to="/kategori/organik">
               <img
                 :src="`${this.$config.baseURL}/img/categorie/1.png`"
                 class="img-fluid px-2 mx-auto"
@@ -103,7 +96,7 @@
           <div
             class="bg-white shadow-sm rounded text-center my-2 px-2 py-3 c-it"
           >
-            <NuxtLink to="/kategori/broiler-10-11-kg">
+            <NuxtLink to="/kategori/petelur">
               <img
                 :src="`${this.$config.baseURL}/img/categorie/2.png`"
                 class="img-fluid px-2 mx-auto"
@@ -116,12 +109,12 @@
           <div
             class="bg-white shadow-sm rounded text-center my-2 px-2 py-3 c-it"
           >
-            <NuxtLink to="/kategori/broiler-10-11-kg">
+            <NuxtLink to="/kategori/nugget">
               <img
-                :src="`${this.$config.baseURL}/img/categorie/3.png`"
+                :src="`${this.$config.baseURL}/img/categorie/5.png`"
                 class="img-fluid px-2 mx-auto"
               />
-              <p class="m-0 pt-2 text-muted text-center">Produk Bebek</p>
+              <p class="m-0 pt-2 text-muted text-center">Nugget</p>
             </NuxtLink>
           </div>
         </div>

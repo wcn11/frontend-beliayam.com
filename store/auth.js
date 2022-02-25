@@ -23,12 +23,14 @@ export const mutations = {
         }
     },
     setUser(state, user) {
+        this.$cookies.set('client_id', user._id)
         state.user = user;
     },
     logout(state) {
         state.accessToken = null;
         state.refreshToken = null;
         state.user = null;
+        this.$cookies.remove('client_id')
     }
 };
 
@@ -61,7 +63,6 @@ export const actions = {
         }
 
         commit('setTokens', res.data.token);
-        await dispatch('nuxtServerInit');
 
         return res
     },
@@ -102,8 +103,6 @@ export const actions = {
         await dispatch('getUser');
     },
     async setCookieLogin({ commit, dispatch }, token) {
-
-        console.log(token)
 
         await this.$cookies.set("auth", token.token, {
             path: "/",

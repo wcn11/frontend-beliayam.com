@@ -2,8 +2,8 @@
   <div>
     <div class="title d-flex align-items-center py-3">
       <h5 class="m-0">Bundling</h5>
-      <a class="ml-auto btn btn-outline-success btn-sm" href="recommend.html"
-        >26 produk lainnya</a
+      <NuxtLink to="/kategori" class="ml-auto text-dark"
+        >lihat lainnya</NuxtLink
       >
     </div>
 

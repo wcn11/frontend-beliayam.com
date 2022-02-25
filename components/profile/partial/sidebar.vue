@@ -16,7 +16,10 @@
               ></span>
             </li>
           </NuxtLink>
-          <NuxtLink to="/akun/pesanan-saya" class="text-decoration-none text-dark">
+          <NuxtLink
+            to="/akun/pesanan-saya"
+            class="text-decoration-none text-dark"
+          >
             <li class="border-bottom bg-white d-flex align-items-center p-3">
               <i class="fad fa-box-heart beliayam-icofont bg-success"></i
               >Pesanan Saya
@@ -57,8 +60,8 @@
           </a> -->
           <a href="help_support.html" class="text-decoration-none text-dark">
             <li class="border-bottom bg-white d-flex align-items-center p-3">
-              <i class="fad fa-phone-alt beliayam-icofont bg-warning"></i>Bantuan &
-              Dukungan
+              <i class="fad fa-phone-alt beliayam-icofont bg-warning"></i
+              >Bantuan & Dukungan
               <span class="badge badge-success p-1 badge-pill ml-auto"
                 ><i class="fad fa-chevron-right"></i
               ></span>
@@ -72,7 +75,11 @@
               ></span>
             </li>
           </a> -->
-          <a href="#" class="text-decoration-none text-dark">
+          <a
+            href="javascript:void(0)"
+            @click="logout()"
+            class="text-decoration-none text-dark"
+          >
             <li class="border-bottom bg-white d-flex align-items-center p-3">
               <i class="fad fa-lock beliayam-icofont bg-danger"></i>
               Logout
@@ -83,5 +90,17 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    logout() {
+      this.$store.dispatch("auth/logout");
+      window.location.reload();
+    },
+  },
+};
+</script>
+
 
 

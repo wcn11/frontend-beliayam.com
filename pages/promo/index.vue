@@ -3,7 +3,7 @@
     <div class="slider-container">
       <div class="slider-wrapper">
         <div class="slider-slide">
-          <a href="https://www.tokopedia.com/hotel/">
+          <a href="javascript:void(0)">
             <img
               :src="`${this.$config.baseURL}/img/contoh-banner-promo.jpg`"
               class="slider-image"
@@ -17,14 +17,14 @@
 
     <nav aria-label="breadcrumb" class="breadcrumb mb-0">
       <div class="container">
-        <ol class="d-flex align-items-center mb-0 p-0">
+        <ul class="d-flex align-items-center mb-0 p-0 list-unstyled">
           <li class="breadcrumb-item">
-            <NuxtLink to="/" class="text-success">Home</NuxtLink>
+            <NuxtLink to="/" class="text-danger">Home</NuxtLink>
           </li>
           <li class="breadcrumb-item active" aria-current="page">
             Promo Beliayam.com
           </li>
-        </ol>
+        </ul>
       </div>
     </nav>
 
@@ -64,18 +64,6 @@
       </div>
     </section>
 
-    <nav aria-label="breadcrumb" class="breadcrumb mb-0">
-      <div class="container">
-        <ol class="d-flex align-items-center mb-0 p-0">
-          <li class="breadcrumb-item">
-            <a href="#" class="text-success">Home</a>
-          </li>
-          <li class="breadcrumb-item active" aria-current="page">
-            Promo details
-          </li>
-        </ol>
-      </div>
-    </nav>
   </div>
 </template>
 

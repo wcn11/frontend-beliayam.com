@@ -152,6 +152,10 @@ export default {
       console.log(errorData);
     },
     async submitLogin() {
+      if (this.phone === "" || this.password === "") {
+        this.$toast.warning("Bidang tidak boleh kosong");
+        return;
+      }
       const login = await this.$store.dispatch("auth/loginByPhone", {
         phone: this.phone,
         password: this.password,

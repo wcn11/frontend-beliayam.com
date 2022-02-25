@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="title d-flex align-items-center py-3">
-      <h5 class="m-0">Pilihan yang terbaik</h5>
-      <a class="ml-auto btn btn-outline-success btn-sm" href="picks_today.html"
-        >Pilihan Lainnya</a
-      >
+        <h5 class="m-0">Pilihan terbaik</h5>
+        <NuxtLink to="/kategori" class="ml-auto text-dark"
+          >lihat lainnya</NuxtLink
+        >
     </div>
 
     <div class="pick_today">

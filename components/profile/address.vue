@@ -8,7 +8,7 @@
             <div class="d-flex align-items-center mb-2">
               <p class="mb-0 h6">Alamat Saya</p>
               <button
-                class="btn btn-outline-success mb-0 ml-auto"
+                class="btn btn-outline-danger mb-0 ml-auto"
                 @click="showModalNewAddress()"
               >
                 alamat baru
@@ -50,6 +50,7 @@
                         class="mb-0 badge badge-danger ml-auto"
                         role="button"
                         v-else
+                        @click="setDefaultAddress(address._id)"
                       >
                         pilih
                       </p>
@@ -530,19 +531,9 @@
 export default {
   name: "ProfileAdress",
   async fetch() {
-    const user = this.$store.state.auth.user;
+    await this.getAllProvince();
 
-    this.getAllProvince();
-
-    await this.$axios
-      .$get(
-        `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/users/address?user_id=${user._id}`
-      )
-      .then((res) => {
-        if (res.data.length > 0) {
-          this.addresses = res.data[0];
-        }
-      });
+    await this.getAddresses();
   },
   data() {
     return {
@@ -581,6 +572,51 @@ export default {
     };
   },
   methods: {
+    async getAddresses() {
+      const client_id = this.$cookies.get("client_id");
+
+      if (!client_id) {
+        return;
+      }
+      await this.$axios
+        .$get(
+          `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/users/address?user_id=${client_id}`
+        )
+        .then((res) => {
+          if (res.data.length > 0) {
+            this.addresses = res.data[0];
+          }
+        });
+    },
+    async setDefaultAddress(addressId) {
+      const user = this.$store.state.auth.user;
+
+      await this.$axios
+        .$put(
+          `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/users/address/${addressId}/default`,
+          {
+            address_id: addressId,
+            user_id: user._id,
+          }
+        )
+        .then(async (results) => {
+          if (results.error) {
+            this.$toast.error(results.message);
+            return;
+          }
+
+          // await this.getAddresses();
+
+          this.$toast.success(results.message);
+        })
+        .catch((err) => {
+          if (err && err.response && err.response.error) {
+            this.$toast.error(err.response.message);
+          } else {
+            this.$toast.warning("Terjadi Kesalahan, gagal mengupdate data");
+          }
+        });
+    },
     closeModalDeleteAddress() {
       this.$vfm.hide("modal-delete-address").then(() => {
         this.deleteAddress.show = false;
@@ -608,6 +644,7 @@ export default {
         .then((results) => {
           if (results.error) {
             this.$toast.error(results.message);
+            return;
           } else {
             this.$toast.success(results.message);
           }
@@ -636,6 +673,7 @@ export default {
             this.$toast.error(results.message);
           }
           this.$toast.success(results.message);
+          return;
         })
         .catch((err) => {
           if (err && err.response && err.response.error) {
@@ -760,8 +798,16 @@ export default {
       this.updateAddress.show = !this.updateAddress.show;
     },
   },
-  mounted() {},
 };
 </script>
+
+<style scoped>
+.border-custom-radio
+  .custom-control-input:checked
+  ~ .custom-control-label::before {
+  border-color: #080808;
+  border: 2px solid #cf430f;
+}
+</style>
 
 

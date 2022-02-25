@@ -1,6 +1,6 @@
 <template>
   <div id="page-register-by-phone" class="animate__animated">
-    <AuthLoginByPhone />
+    <AuthForgotPasswordPhone />
   </div>
 </template>
 

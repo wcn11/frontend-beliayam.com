@@ -2,17 +2,17 @@
   <div id="page-category-_category" class="animate__animated">
     <nav aria-label="breadcrumb" class="breadcrumb mb-0">
       <div class="container">
-        <ol class="d-flex align-items-center mb-0 p-0">
+        <ul class="d-flex align-items-center mb-0 p-0 list-unstyled">
           <li class="breadcrumb-item">
-            <NuxtLink to="/" class="text-success">Beranda</NuxtLink>
+            <NuxtLink to="/" class="text-danger">Beranda</NuxtLink>
           </li>
           <li class="breadcrumb-item" aria-current="page">
-            <NuxtLink to="/kategori" class="text-success">Kategori</NuxtLink>
+            <NuxtLink to="/kategori" class="text-danger">Kategori</NuxtLink>
           </li>
           <li class="breadcrumb-item active" aria-current="page">
             {{ toFirstLetterUpperCase(this.$route.params.category) }}
           </li>
-        </ol>
+        </ul>
       </div>
     </nav>
 
@@ -42,10 +42,14 @@
                   >
                 </div>
               </div>
+
+              <div class="d-flex align-items-center mb-3">
+                {{ categories.category && categories.category.description }}
+              </div>
               <div class="row">
                 <div
                   class="col-6 col-md-3 mb-3"
-                  v-for="ctg in categories"
+                  v-for="ctg in categories.products"
                   :key="ctg._id"
                 >
                   <div
@@ -60,7 +64,7 @@
                     "
                   >
                     <div class="list-card-image">
-                      <NuxtLink  :to="`/${ctg.slug}`" class="text-dark">
+                      <NuxtLink :to="`/${ctg.slug}`" class="text-dark">
                         <div class="member-plan position-absolute">
                           <span class="badge m-3 badge-danger">10%</span>
                         </div>
@@ -69,9 +73,7 @@
                           class="img-fluid item-img w-100 mb-3"
                         />
                         <div class="p-3">
-                          <h6
-                            class="label-product"
-                          >
+                          <h6 class="label-product">
                             {{ ctg.name }}
                           </h6>
                           <h6 class="price m-0 text-danger">
@@ -714,8 +716,6 @@ export default {
     document
       .getElementById("page-category-_category")
       .classList.add("animate__fadeInRight");
-
-    console.log(this.$route.params);
   },
   beforeDestroy() {
     document
