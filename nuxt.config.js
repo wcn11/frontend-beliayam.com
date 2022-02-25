@@ -1,15 +1,9 @@
-const webpack = require("webpack");
-
-const config = {
-  test: process.env.NODE_ENV !== 'production' ? 'devdevdevelopment' : 'proproproduction',
-  apiserver: process.env.NODE_ENV !== 'production' ? 'developement apiserver' : 'production vbvbvbvbv apiserver',
-}
+require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` })
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
   env: {
-
   },
   server: {
     port: 3000,
@@ -109,6 +103,7 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
+    ['@nuxtjs/dotenv', { filename: `.env.${process.env.NODE_ENV}` }]
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -129,72 +124,6 @@ export default {
     // proxy: true
     // proxyHeaders: false
   },
-  // auth: {
-  //   strategies: {
-  //     local: {
-  //       // scheme: "~/schemes/customScheme",
-
-  //       token: {
-  //         property: "data.token.accessToken",
-  //         type: "Bearer",
-  //         name: "Authorization",
-  //         maxAge: 3600,
-  //         global: true,
-  //         required: true,
-  //         prefix: "bt.",
-  //         expirationPrefix: "bt_expiration."
-  //       },
-  //       refreshToken: {
-  //         property: 'refresh_token',
-  //         data: 'refresh_token',
-  //         maxAge: 60 * 60 * 24 * 30
-  //       },
-  //       // refreshToken: {
-  //       //   property: 'data.token.refreshToken',
-  //       //   data: 'refreshToken',
-  //       //   maxAge: 60 * 60 * 24 * 30,
-  //       //   expirationPrefix: "btf_expiration."
-  //       // },
-  //       user: {
-  //         property: "data",
-  //         autoFetch: true
-  //       },
-  //       endpoints: {
-  //         // (optional) If set, we send a get request to this endpoint before login
-  //         login: {
-  //           url: `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/login`,
-  //           method: 'post'
-  //         },
-  //         refresh: {
-  //           url: `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/refresh-token`,
-  //           method: 'post'
-  //         },
-  //         user: {
-  //           url: `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/users/me`, method: 'get'
-  //         },
-  //         logout: true,
-  //         redirect: {
-  //           login: '/login',
-  //           logout: '/',
-  //           callback: '/login',
-  //           home: '/'
-  //         },
-
-  //         cookie: true,
-  //         csrf: {
-  //           url: ''
-  //         }
-  //       }
-  //     },
-
-  //     // cookie: {
-  //     //   cookie: {
-  //     //     // (optional) If set, we check this cookie existence for loggedIn check
-  //     //     name: 'XSRF-TOKEN',
-  //     //   },
-  //     // },
-  //   },
-  // },
   router: {
     middleware: ['authenticated', 'alreadyAuthenticated', 'getUser']
   },
