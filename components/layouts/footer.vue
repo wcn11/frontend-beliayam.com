@@ -155,7 +155,7 @@
                 ><a href="privacy.html" class="text-dark">Privacy</a></span
               >
               <span class="pr-2"
-                ><a href="terms%26conditions.html" class="text-dark"
+                ><a href="javascript:void()" class="text-dark"
                   >Terms & Conditions</a
                 ></span
               >
@@ -169,43 +169,44 @@
     <nav
       class="
         navbar navbar-dark
-        bg-info
+        bg-mobile-nav
         navbar-expand
         fixed-bottom
         d-md-none d-lg-none d-xl-none
         pt-4
+        mobile-nav-container
       "
     >
       <ul class="navbar-nav nav-justified w-100">
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <NuxtLink to="/" class="nav-link">
             <i class="fad fa-home-heart"></i>
-            <p>Beranda</p>
-          </a>
+            <p class="title-mobile-nav">Beranda</p>
+          </NuxtLink>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <NuxtLink to="/akun/pesanan-saya" class="nav-link">
             <i class="fad fa-box-heart"></i>
-            <p>Pesanan</p>
-          </a>
+            <p class="title-mobile-nav">Pesanan</p>
+          </NuxtLink>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <NuxtLink to="/keranjang" class="nav-link">
             <i class="fad fa-cart-arrow-down"></i>
-            <p>Keranjang</p>
-          </a>
+            <p class="title-mobile-nav">Keranjang</p>
+          </NuxtLink>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="javascript:void(0)" class="nav-link">
             <i class="fad fa-headset"></i>
-            <p>Bantuan</p>
+            <p class="title-mobile-nav">Bantuan</p>
           </a>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <NuxtLink to="/akun" class="nav-link">
             <i class="fad fa-user"></i>
-            <p>Akun</p>
-          </a>
+            <p class="title-mobile-nav">Akun</p>
+          </NuxtLink>
         </li>
       </ul>
     </nav>
@@ -224,4 +225,13 @@ export default {
 </script>
 
 <style>
+.mobile-nav-container {
+  border-radius: 12px 12px 0px 0px;
+}
+.bg-mobile-nav {
+  background: #cf430f;
+}
+.title-mobile-nav {
+  color: white;
+}
 </style>

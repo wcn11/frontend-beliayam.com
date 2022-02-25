@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Slide bubble width="300">
+    <Slide bubble width="300" :isOpen="showNavigation">
       <ul class="list-group">
         <li
           class="
@@ -93,13 +93,13 @@
         </li>
         <div class="collapse ml-3" id="akun-collape">
           <div class="list-group">
-            <a href="javascript:void(0)" class="list-group-item text-white"
+            <a href="/akun" class="list-group-item text-white"
               ><i class="fad fa-circle"></i> Profil</a
             >
-            <a href="javascript:void(0)" class="list-group-item text-white"
+            <a href="/akun/pesanan-saya" class="list-group-item text-white"
               ><i class="fad fa-circle"></i> Pesanan</a
             >
-            <a href="javascript:void(0)" class="list-group-item text-white"
+            <a href="/akun/alamat" class="list-group-item text-white"
               ><i class="fad fa-circle"></i> Alamat</a
             >
             <a href="javascript:void(0)" class="list-group-item text-white"
@@ -115,12 +115,13 @@
             justify-content-between
             align-items-center
           "
+          v-if="!isAuthenticated"
         >
-          <NuxtLink to="/login">
+          <a href="/login">
             <i class="fad fa-badge-percent"></i>
 
             Login
-          </NuxtLink>
+          </a>
         </li>
 
         <li
@@ -130,12 +131,13 @@
             justify-content-between
             align-items-center
           "
+          v-if="!isAuthenticated"
         >
-          <NuxtLink to="/register">
+          <a href="/register">
             <i class="fad fa-badge-percent"></i>
 
             Daftar
-          </NuxtLink>
+          </a>
         </li>
       </ul>
     </Slide>
@@ -143,10 +145,24 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { Slide } from "vue-burger-menu";
 export default {
   components: {
     Slide, // Register your component
+  },
+  data() {
+    return {
+      showNavigation: false,
+    };
+  },
+  methods: {
+    navClicked() {
+      this.showNavigation = false;
+    },
+  },
+  computed: {
+    ...mapGetters("auth", ["isAuthenticated"]),
   },
 };
 </script>
