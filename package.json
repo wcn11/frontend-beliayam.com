@@ -92,6 +92,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
+    "production": "sh ./after-build.sh",
     "test": "craco test",
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.js src/**/*.jsx",
