@@ -60,12 +60,12 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
           <Label for='full-name'>
-            Full Name <span className='text-danger'>*</span>
+            Name <span className='text-danger'>*</span>
           </Label>
           <Input
             name='full-name'
             id='full-name'
-            placeholder='John Doe'
+            placeholder='Full Name'
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['full-name'] })}
           />
@@ -77,7 +77,7 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
           <Input
             name='username'
             id='username'
-            placeholder='johnDoe99'
+            placeholder='Username'
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['username'] })}
           />
@@ -90,7 +90,7 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
             type='email'
             name='email'
             id='email'
-            placeholder='john.doe@example.com'
+            placeholder='example@example.com'
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['email'] })}
           />
@@ -115,7 +115,7 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
           <Input
             name='country'
             id='country'
-            placeholder='Australia'
+            placeholder='Indonesia'
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['country'] })}
           />
@@ -127,7 +127,7 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
           <Input
             name='contact'
             id='contact'
-            placeholder='(397) 294-5153'
+            placeholder='(+62) 8** **** ****'
             innerRef={register({ required: true })}
             className={classnames({ 'is-invalid': errors['contact'] })}
           />

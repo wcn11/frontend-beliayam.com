@@ -3,8 +3,8 @@ import axios from 'axios'
 axios.defaults.baseURL = 'https://be-dev.beliayam.com/'
 axios.defaults.headers.common['Authorization'] = 'Bearer token'
 
-const getToken = () => {
-    return localStorage.getItem('accessToken')
+const getToken = (accessToken) => {
+    return localStorage.getItem(accessToken)
 }
 
 const axiosInterceptor = () => {

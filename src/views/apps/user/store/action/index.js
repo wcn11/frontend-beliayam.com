@@ -1,14 +1,15 @@
 import axios from 'axios'
-import { fetcher } from '../../../../../utility/axiosHooks'
-import { GET_ALL_DATA_USER } from '../../../../../utility/Url'
+import { fetcher } from '@src/utility/axiosHooks'
+import { GET_ALL_DATA_USER } from '@src/utility/Url'
 
-// ** Get all Data
+// ** Get all Data users
 export const getAllData = () => {
   return async dispatch => {
     await fetcher(GET_ALL_DATA_USER).then(response => {
+      console.log(response.data.data)
       dispatch({
         type: 'GET_ALL_DATA',
-        data: response.data
+        data: response.data.data
       })
     })
   }
@@ -17,10 +18,11 @@ export const getAllData = () => {
 // ** Get data on page or row change
 export const getData = params => {
   return async dispatch => {
-    await axios.get('/api/users/list/data', params).then(response => {
+    await axios.get(GET_ALL_DATA_USER, params).then(response => {
+      console.log(response.data.data)
       dispatch({
         type: 'GET_DATA',
-        data: response.data.users,
+        data: response.data.data,
         totalPages: response.data.total,
         params
       })
@@ -31,8 +33,7 @@ export const getData = params => {
 // ** Get User
 export const getUser = id => {
   return async dispatch => {
-    await axios
-      .get('/api/users/user', { id })
+    await fetcher(GET_ALL_DATA_USER, { id })
       .then(response => {
         dispatch({
           type: 'GET_USER',
@@ -65,8 +66,10 @@ export const addUser = user => {
 // ** Delete user
 export const deleteUser = id => {
   return (dispatch, getState) => {
-    axios
-      .delete('/apps/users/delete', { id })
+    fetcher(GET_ALL_DATA_USER, {
+      id,
+      method: 'DELETE'
+    })
       .then(response => {
         dispatch({
           type: 'DELETE_USER'

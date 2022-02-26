@@ -18,11 +18,11 @@ const renderClient = row => {
     states = ['light-success', 'light-danger', 'light-warning', 'light-info', 'light-primary', 'light-secondary'],
     color = states[stateNum]
 
-  if (row.avatar.length) {
-    return <Avatar className='mr-1' img={row.avatar} width='32' height='32' />
-  } else {
-    return <Avatar color={color || 'primary'} className='mr-1' content={row.fullName || 'John Doe'} initials />
-  }
+  // if (row.avatar.length) {
+  //   return <Avatar className='mr-1' img={row.avatar} width='32' height='32' />
+  // } else {
+  //   return <Avatar color={color || 'primary'} className='mr-1' content={row.fullName} initials />
+  // }
 }
 
 // ** Renders Role Columns
@@ -81,7 +81,7 @@ export const columns = [
             className='user-name text-truncate mb-0'
             onClick={() => store.dispatch(getUser(row.id))}
           >
-            <span className='font-weight-bold'>{row.fullName}</span>
+            <span className='font-weight-bold'>{row.name}</span>
           </Link>
           <small className='text-truncate text-muted mb-0'>@{row.username}</small>
         </div>
@@ -100,7 +100,7 @@ export const columns = [
     minWidth: '172px',
     selector: 'role',
     sortable: true,
-    cell: row => renderRole(row)
+    cell: row => row.roleId
   },
   {
     name: 'Plan',
@@ -115,8 +115,8 @@ export const columns = [
     selector: 'status',
     sortable: true,
     cell: row => (
-      <Badge className='text-capitalize' color={statusObj[row.status]} pill>
-        {row.status}
+      <Badge className='text-capitalize' color={statusObj[row.isActive]} pill>
+        {row.isActive}
       </Badge>
     )
   },

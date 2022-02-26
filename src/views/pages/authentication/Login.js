@@ -80,10 +80,9 @@ const Login = props => {
             refreshToken: token.refreshToken
 
           }
-          console.log(token.accessToken)
           dispatch(handleLogin(data))
           ability.update(data.ability)
-          // history.push(getHomeRouteForLoggedInUser(admin.role.roleName))
+          history.push(getHomeRouteForLoggedInUser(admin.role.roleName))
           toast.success(
             <ToastContent name={data.fullName || data.username} role={data.role} />,
             { transition: Slide, hideProgressBar: true, autoClose: 8000 }
