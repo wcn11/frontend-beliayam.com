@@ -43,12 +43,12 @@
                 </div>
               </div>
 
-              <div class="d-flex align-items-center mb-3">
+              <div class="d-flex align-items-center mb-3 category-description">
                 {{ categories.category && categories.category.description }}
               </div>
               <div class="row">
                 <div
-                  class="col-6 col-md-3 mb-3"
+                  class="col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-3"
                   v-for="ctg in categories.products"
                   :key="ctg._id"
                 >
@@ -83,7 +83,7 @@
                             class="price m-0 text-dark"
                             style="font-size: large; text-align: right"
                           >
-                            {{ ctg.price }}
+                            {{ ctg.price | formatMoney }}
                           </h6>
                           <div style="text-align: center; padding-top: 5%">
                             <NuxtLink :to="`/${ctg.slug}`">
@@ -727,6 +727,20 @@ export default {
       return word[0].toUpperCase() + word.substring(1);
     },
   },
+
+  filters: {
+    formatDate(date) {
+      return moment(date).format("DD-MM-yyyy, HH:mm");
+    },
+    formatMoney(val) {
+      let formatter = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+      });
+
+      return formatter.format(val);
+    },
+  },
 };
 </script>
 
@@ -743,5 +757,8 @@ export default {
 }
 .margin-bottom-10 {
   margin-bottom: 10px;
+}
+.category-description {
+  font-size: 15px;
 }
 </style>

@@ -12,9 +12,10 @@
           />
           <h4 class="font-weight-bold text-dark m-0">Beliayam.com</h4>
         </NuxtLink>
+
         <p class="ml-auto m-0">
           <a
-            href="listing.html"
+            href="javascript:void(0)"
             class="
               text-decoration-none
               bg-white
@@ -29,10 +30,33 @@
             <span class="badge badge-danger p-1 ml-1 small">50%</span>
           </a>
         </p>
-        <a class="toggle ml-3" href="javascript:void(0)"
+        <NuxtLink
+          to="/keranjang"
+          class="text-dark dropdown-toggle not-drop ml-auto m-0"
+          id="dropdownCart"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <i
+            class="
+              fad
+              fa-shopping-cart
+              d-flex
+              align-items-center
+              bg-light
+              rounded-pill
+              p-2
+              shadow-sm
+            "
           >
-
-    <LayoutsMobileNav />
+          </i>
+          <span class="ml-1 cart-label-count">
+            {{ getCartsNav.length }}
+          </span>
+        </NuxtLink>
+        <a class="toggle ml-3" href="javascript:void(0)">
+          <LayoutsMobileNav :carts="getCartsNav" />
           <!-- <i class="fas fa-bars"></i
         > -->
         </a>
@@ -200,7 +224,12 @@
               <NuxtLink class="dropdown-item" to="/akun/alamat"
                 >Alamat</NuxtLink
               >
-              <a href="javascript:void(0)" class="dropdown-item" @click="logout()">Logout</a>
+              <a
+                href="javascript:void(0)"
+                class="dropdown-item"
+                @click="logout()"
+                >Logout</a
+              >
             </div>
           </div>
 
@@ -298,9 +327,9 @@
             </div>
           </div>
 
-          <div class="dropdown" v-if="isAuthenticated" @mouseenter="getCarts()">
-            <a
-              href="#"
+          <div class="dropdown" v-if="isAuthenticated">
+            <NuxtLink
+              to="/keranjang"
               class="text-dark dropdown-toggle not-drop"
               id="dropdownCart"
               data-toggle="dropdown"
@@ -323,7 +352,7 @@
               <span class="ml-1 cart-label-count">
                 {{ getCartsNav.length }}
               </span>
-            </a>
+            </NuxtLink>
             <div
               class="
                 dropdown-menu dropdown-menu-right
@@ -348,7 +377,7 @@
                   >
                     <NuxtLink :to="`/${cart.slug}`">
                       <div class="position-absolute ml-n1 py-2 text-danger">
-                        {{ cart.price }}
+                        {{ cart.price | formatMoney }}
                       </div>
                       <div class="text-decoration-none text-dark">
                         <div class="notifiction small">
@@ -474,7 +503,6 @@
       </div>
     </nav>
 
-
     <Nuxt />
   </div>
 </template>
@@ -483,27 +511,40 @@
 import { mapGetters, mapState } from "vuex";
 export default {
   name: "LayoutHeader",
-  props: ['user'],
+  props: ["user"],
+  fetch() {
+    if (this.isAuthenticated) {
+      // if (this.$store.state.cart.cartsNav.length <= 0) {
+      this.$store.dispatch("cart/setCartsNav");
+    }
+  },
   data() {
-    return {
-      carts: this.$store.state.cart.cartsNav
-    };
+    return {};
   },
   methods: {
-    async getCarts() {
-      if (this.$store.state.cart.cartsNav.length <= 0) {
-        await this.$store.dispatch("cart/setCartsNav");
-      }
-    },
-    logout(){
+    logout() {
       this.$store.dispatch("auth/logout");
       window.location.reload();
-    }
+    },
   },
   computed: {
     ...mapGetters("cart", ["getCartsNav"]),
     ...mapGetters("auth", ["isAuthenticated"]),
-      // ...mapState("auth", ['user'])
+    // ...mapState("auth", ['user'])
+  },
+
+  filters: {
+    formatDate(date) {
+      return moment(date).format("DD-MM-yyyy, HH:mm");
+    },
+    formatMoney(val) {
+      let formatter = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+      });
+
+      return formatter.format(val);
+    },
   },
 };
 </script>

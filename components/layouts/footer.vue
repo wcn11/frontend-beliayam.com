@@ -178,6 +178,9 @@
       "
     >
       <ul class="navbar-nav nav-justified w-100">
+        <li class="nav-item title-footer">
+          <p>Beliayam.com</p>
+        </li>
         <li class="nav-item">
           <NuxtLink to="/" class="nav-link">
             <i class="fad fa-home-heart"></i>
@@ -233,5 +236,15 @@ export default {
 }
 .title-mobile-nav {
   color: white;
+}
+.title-footer {
+  position: absolute;
+  padding: 4px;
+  top: -20px;
+  left: 0px;
+  color: white;
+  border-radius: 5px 10px;
+  font-size: 15px;
+  background-color: #cf430f;
 }
 </style>

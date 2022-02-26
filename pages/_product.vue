@@ -71,8 +71,9 @@
                       align-items-center
                     "
                   >
-                    Produk MRP :
-                    <b class="h6 text-dark m-0">{{ product.price }}</b>
+                    <b class="h6 text-dark m-0">{{
+                      product.price | formatMoney
+                    }}</b>
                     <span class="badge badge-danger ml-2">50% OFF</span>
                   </p>
                 </div>
@@ -120,11 +121,11 @@
                           <input
                             type="text"
                             name="quantity"
-                            value="1"
                             class="qty form-control"
-                            @keydown="filterQuantity($event)"
+                            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                             @keyup="setQuantity($event)"
                             @change="checkQuantity($event)"
+                            v-model="cart.quantity"
                           />
                           <input
                             type="button"
@@ -293,11 +294,12 @@ export default {
       if (!this.$store.getters["auth/isAuthenticated"]) {
         this.$toast.success("Masuk Untuk Melanjutkan Belanja");
         this.$router.push("/login");
+        return;
       }
       await this.$axios
         .$post(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/cart`, {
           product_id: this.product._id,
-          user_id: this.$auth.user._id,
+          user_id: this.$store.state.auth.user._id,
           quantity: this.cart.quantity,
           note: this.cart.note,
         })
@@ -339,14 +341,6 @@ export default {
         this.cart.quantity = this.product.stock;
         e.target.value = `${this.product.stock}`;
       }
-    },
-    filterQuantity(evt) {
-      evt = evt ? evt : window.event;
-      var charCode = evt.which ? evt.which : evt.keyCode;
-      if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-        return evt.preventDefault();
-      }
-      return true;
     },
     setQuantity(evt) {
       this.cart.quantity = evt.target.value;
@@ -414,6 +408,10 @@ export default {
         });
       });
     },
+
+    checkInput(event) {
+      return event.charCode >= 48 && event.charCode <= 57;
+    },
   },
   loading: {
     color: "red",
@@ -426,6 +424,20 @@ export default {
         lang: "en",
       },
     };
+  },
+
+  filters: {
+    formatDate(date) {
+      return moment(date).format("DD-MM-yyyy, HH:mm");
+    },
+    formatMoney(val) {
+      let formatter = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+      });
+
+      return formatter.format(val);
+    },
   },
 
   mounted() {

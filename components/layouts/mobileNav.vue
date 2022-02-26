@@ -10,12 +10,32 @@
             align-items-center
           "
         >
-          <div>
+          <a href="/" class="text-white-50">
             <i class="fad fa-home-heart"></i>
             Beranda
-          </div>
+          </a>
         </li>
 
+        <li class="list-group-item d-flex align-items-center">
+          <a href="/keranjang" class="text-dark not-drop m-0 d-flex">
+            <i
+              class="
+                fad
+                fa-shopping-cart
+                d-flex
+                align-items-center
+                rounded-pill
+                p-2
+              "
+            >
+            </i>
+            <span class="ml-1 cart-label-count">
+              {{ carts.length }}
+            </span>
+
+            Keranjang
+          </a>
+        </li>
         <li
           class="
             list-group-item
@@ -39,19 +59,19 @@
         </li>
         <div class="collapse ml-3" id="collapseExample">
           <div class="list-group">
-            <a href="javascript:void(0)" class="list-group-item text-white"
+            <a href="/kategori/broiler" class="list-group-item text-white"
               ><i class="fad fa-circle"></i> Broiler</a
             >
-            <a href="javascript:void(0)" class="list-group-item text-white"
+            <a href="/kategori/kampung" class="list-group-item text-white"
               ><i class="fad fa-circle"></i> Kampung</a
             >
-            <a href="javascript:void(0)" class="list-group-item text-white"
+            <a href="/kategori/pejantan" class="list-group-item text-white"
               ><i class="fad fa-circle"></i> Pejantan</a
             >
-            <a href="javascript:void(0)" class="list-group-item text-white"
+            <a href="/kategori/pilihan" class="list-group-item text-white"
               ><i class="fad fa-circle"></i> Pilihan</a
             >
-            <a href="javascript:void(0)" class="list-group-item text-white"
+            <a href="/kategori/trading" class="list-group-item text-white"
               ><i class="fad fa-circle"></i> Trading</a
             >
           </div>
@@ -64,11 +84,11 @@
             align-items-center
           "
         >
-          <div>
+          <a href="/promo" class="text-white-50">
             <i class="fad fa-badge-percent"></i>
 
             Promo
-          </div>
+          </a>
         </li>
         <li
           class="
@@ -139,6 +159,22 @@
             Daftar
           </a>
         </li>
+
+        <li
+          class="
+            list-group-item
+            d-flex
+            justify-content-between
+            align-items-center
+          "
+          v-if="isAuthenticated"
+        >
+          <a href="javascript:void(0)" class="text-white-50" @click="logout()">
+            <i class="fad fa-sign-out"></i>
+
+            Logout
+          </a>
+        </li>
       </ul>
     </Slide>
   </div>
@@ -148,6 +184,7 @@
 import { mapGetters } from "vuex";
 import { Slide } from "vue-burger-menu";
 export default {
+  props: ["carts"],
   components: {
     Slide, // Register your component
   },
@@ -159,6 +196,11 @@ export default {
   methods: {
     navClicked() {
       this.showNavigation = false;
+    },
+
+    logout() {
+      this.$store.dispatch("auth/logout");
+      window.location.reload();
     },
   },
   computed: {

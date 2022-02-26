@@ -1271,6 +1271,9 @@ label {
   .fixed-bottom-padding .theme-switch-wrapper {
     bottom: 18%;
   }
+  .cart-label-count {
+    top: 20px;
+  }
 }
 
 @media (max-width: 576px) {
@@ -1299,5 +1302,8 @@ label {
 
   .fixed-bottom-padding .theme-switch-wrapper {
     bottom: 18%;
+  }
+  .cart-label-count {
+    top: 20px;
   }
 }

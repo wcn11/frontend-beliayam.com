@@ -1,8 +1,12 @@
 <template>
   <div class="pick_today">
     <h5 class="mt-3 mb-3">Produk Terkait</h5>
-    <div class="row">
-      <div class="col-6 col-md-3 mb-3" v-for="product in products" :key="product._id">
+    <div class="row" v-if="products && products.length > 0">
+      <div
+        class="col-6 col-md-3 mb-3"
+        v-for="product in products"
+        :key="product._id"
+      >
         <div
           class="
             list-card
@@ -54,20 +58,30 @@
         </div>
       </div>
     </div>
+
+    <div class="row" v-if="products && products.length <= 0">
+      <div class="col-12 col-md-12 mb-3 text-muted related-products-empty">
+        Belum ada produk terkait
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "Index",
-  props: ['products'],
-  data(){
-      return {
+  props: ["products"],
+  data() {
+    return {
       baseApi: process.env.NUXT_ENV_BASE_URL_API,
-          baseURL: process.env.NUXT_ENV_BASE_URL
-      }
-  }
+      baseURL: process.env.NUXT_ENV_BASE_URL,
+    };
+  },
 };
 </script>
 
-
+<style scoped>
+.related-products-empty {
+  font-size: 24px;
+}
+</style>
