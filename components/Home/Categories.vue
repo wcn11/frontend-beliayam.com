@@ -161,4 +161,8 @@ export default {
 </script>
 
 <style>
+.c-it{
+  height: 100px;
+  min-height: 100px;
+}
 </style>

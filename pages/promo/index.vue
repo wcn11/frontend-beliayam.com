@@ -5,7 +5,7 @@
         <div class="slider-slide">
           <a href="javascript:void(0)">
             <img
-              :src="`${this.$config.baseURL}/img/contoh-banner-promo.jpg`"
+              :src="`${this.$config.baseURL}/img/contoh-banner-promo-3.jpeg`"
               class="slider-image"
               alt=""
               data-slider-impression='{"event":"promoView","eventCategory":"promo microsite - promo list","eventAction":"impression on promo","eventLabel":"","ecommerce":{"promoView":{"promotions":[{"id":87171,"name":"\/promo - p1 - slider banner","position":1,"creative":"87171","creative_url":"https:\/\/ecs7.tokopedia.net\/img\/blog\/promo\/2019\/08\/Hotel_Launching_Digital-Hompage.jpg"}]}}}'

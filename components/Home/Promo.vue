@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div v-if="promos.length > 0">
     <div class="py-3">
       <div class="d-flex align-items-center mb-3">
-        <h5 class="m-0">Flash Sale</h5>
+        <h5 class="m-0">Promo untukmu</h5>
         <NuxtLink to="/promo" class="ml-auto text-dark">lihat lainnya</NuxtLink>
       </div>
 
@@ -13,24 +13,33 @@
         :arrows="true"
         :dots="true"
         class="pb-0 mb-0"
+        v-if="promos.length > 0"
       >
-        <div class="p-1 v-" v-for="promo in promos" :key="promo._id">
-          <NuxtLink class="col-md-4" :to="`/promo/${promo.slug}`"
+        <!-- <div class="p-1 v-" v-for="promo in promos" :key="promo._id">
+          <NuxtLink class="col-md-12" :to="`/promo/${promo.slug}`"
             ><img
               :src="`${baseApi}/${promo.image_promo}`"
               class="img-fluid mx-auto rounded"
               alt="Responsive image"
           /></NuxtLink>
-        </div>
+        </div> -->
 
-        <div class="p-1">
-          <NuxtLink class="col-md-4" to="/promo/broiler-10-11-kg"
-            ><img
-              :src="`${this.$config.baseURL}/img/promo1.jpg`"
-              class="img-fluid mx-auto rounded"
-              alt="Responsive image"
-          /></NuxtLink>
-        </div>
+        <NuxtLink
+          class="col-lg-12"
+          v-for="promo in promos"
+          :key="promo._id"
+          :to="`/promo/${promo.slug}`"
+          ><img
+            :src="`${baseApi}/${promo.image_promo}`"
+            class="w-100 img-carousel rounded"
+            alt="Responsive image"
+        /></NuxtLink>
+        <!-- <NuxtLink class="col-lg-12" to="`/promo/${promo.slug}`"
+          ><img
+            :src="`${this.$config.baseURL}/img/contoh-banner-promo-2.jpeg`"
+            class="img-carousel w-100 rounded"
+            alt="Responsive image"
+        /></NuxtLink> -->
       </VueSlickCarousel>
       <!-- </div> -->
     </div>
@@ -67,9 +76,9 @@ export default {
       settings: {
         centerMode: true,
         arrows: true,
-        dots: true,
+        dots: false,
         infinite: true,
-        slidesToShow: 3,
+        slidesToShow: 1,
         slidesToScroll: 1,
         autoplay: true,
         autoplaySpeed: 4000,
@@ -115,5 +124,16 @@ export default {
 }
 .slick-cloned {
   display: none;
+}
+
+@media (max-width: 480px) {
+  .img-carousel {
+    height: 125px;
+  }
+}
+@media (max-width: 768px) {
+  .img-carousel {
+    height: 125px;
+  }
 }
 </style>

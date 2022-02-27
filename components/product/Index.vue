@@ -1,7 +1,7 @@
 <template>
   <div class="pick_today">
     <h5 class="mt-3 mb-3">Produk Terkait</h5>
-    <div class="row" v-if="products && products.length > 0">
+    <div class="row" v-if="products && products > 0">
       <div
         class="col-6 col-md-3 mb-3"
         v-for="product in products"
