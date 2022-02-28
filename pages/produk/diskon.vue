@@ -93,10 +93,13 @@
                             {{ product.weight || 1 }} Kilogram.
                           </p>
                           <h6
-                            class="price m-0 text-dark"
+                            class="price m-0 text-dark mt-2"
                             style="font-size: large; text-align: right"
                           >
-                            {{ product.price | formatMoney }}
+                            {{
+                              (product.price - product.hasDiscount.discount)
+                                | formatMoney
+                            }}
                           </h6>
                           <div style="text-align: center; padding-top: 5%">
                             <NuxtLink :to="`/${product.slug}`">
@@ -193,6 +196,10 @@ export default {
 </script>
 
 <style scoped>
+.item-img {
+  max-height: 215px;
+  height: 215px;
+}
 .label-product {
   width: 235px;
   overflow: hidden;

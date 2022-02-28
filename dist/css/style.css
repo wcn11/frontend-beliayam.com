@@ -1069,7 +1069,6 @@ label {
 .dark .list-card-image img {
   margin: 0;
   background: #fff;
-  padding: 17px;
   min-width: 100%;
   max-width: 100%;
   border-radius: 6px;
@@ -1087,7 +1086,6 @@ label {
 
 .dark .list-card-beliayam-2 .img {
   width: 100%;
-  padding: 22px;
   margin-bottom: 15px;
 }
 

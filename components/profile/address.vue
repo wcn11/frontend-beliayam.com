@@ -143,7 +143,7 @@
                   type="text"
                   class="form-control"
                   id="inputAddress"
-                  placeholder="1234 Main St"
+                  placeholder="Jl. Jenderal Sudirman RT 02/10"
                   v-model="updateAddress.data.address1"
                 />
               </div>
@@ -153,7 +153,7 @@
                   type="text"
                   class="form-control"
                   id="inputAddress"
-                  placeholder="1234 Main St"
+                  placeholder="Jl. Soekarno Hatta RT 02/10"
                   v-model="updateAddress.data.address2"
                 />
               </div>
@@ -371,7 +371,7 @@
                   type="text"
                   class="form-control"
                   id="inputAddress"
-                  placeholder="1234 Main St"
+                  placeholder="Jl. Jenderal Sudirman RT 02/10"
                   v-model="newAddress.address1"
                 />
               </div>
@@ -381,7 +381,7 @@
                   type="text"
                   class="form-control"
                   id="inputAddress"
-                  placeholder="1234 Main St"
+                  placeholder="Jl. Soekarno Hatta RT 04/10"
                   v-model="newAddress.address2"
                 />
               </div>
@@ -601,7 +601,7 @@ export default {
             return;
           }
 
-          // await this.getAddresses();
+          await this.getAddresses();
 
           this.$toast.success(results.message);
         })
@@ -637,12 +637,15 @@ export default {
           details: this.newAddress.details,
           default: this.newAddress.default,
         })
-        .then((results) => {
+        .then(async (results) => {
           if (results.error) {
             this.$toast.error(results.message);
             return;
           } else {
+
+            await this.getAddresses();
             this.$toast.success(results.message);
+            $("#modal-new-address").appendTo("body").modal("hide");
           }
         })
         .catch((err) => {
@@ -663,11 +666,12 @@ export default {
           `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/users/address/${this.updateAddress.data._id}`,
           this.updateAddress.data
         )
-        .then((results) => {
-          console.log(results);
+        .then(async (results) => {
           if (results.error) {
             this.$toast.error(results.message);
           }
+
+          await this.getAddresses();
           this.$toast.success(results.message);
           return;
         })
@@ -678,6 +682,7 @@ export default {
             this.$toast.warning("Terjadi Kesalahan, gagal mengupdate data");
           }
         });
+      $("#modal-edit-address").appendTo("body").modal("hide");
     },
     async openModalDeleteAddress(data) {
       this.deleteAddress.data = await data;
@@ -689,11 +694,13 @@ export default {
           `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/users/address/${this.deleteAddress.data._id}`
         )
 
-        .then((results) => {
+        .then(async (results) => {
           console.log(results);
           if (results.error) {
             this.$toast.error(results.message);
           } else {
+
+            await this.getAddresses();
             this.$toast.success(results.message);
           }
         })
@@ -704,6 +711,7 @@ export default {
             this.$toast.warning("Terjadi Kesalahan, gagal menghapus alamat");
           }
         });
+      $("#modal-delete-address").appendTo("body").modal("hide");
     },
     async getAllProvince() {
       await this.$axios

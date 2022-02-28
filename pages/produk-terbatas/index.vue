@@ -218,7 +218,9 @@ export default {
   margin: 10%;
 }
 
+
 .item-img {
-  max-height: 177px;
+  max-height: 180px;
+  height: 180px;
 }
 </style>

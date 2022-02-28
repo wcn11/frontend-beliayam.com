@@ -80,9 +80,17 @@
                     "
                   >
                     <b class="h6 text-dark m-0">{{
-                      product.price | formatMoney
+                      getPriceLabel() | formatMoney
                     }}</b>
-                    <span class="badge badge-danger ml-2">50% OFF</span>
+
+                    <del class="ml-2 text-danger" v-if="getPriceBadge() > 0">{{
+                      product.price | formatMoney
+                    }}</del>
+                    <span
+                      class="badge badge-danger ml-2"
+                      v-if="getPriceBadge() > 0"
+                      >{{ getPriceBadge() }}% Hemat</span
+                    >
                   </p>
                 </div>
                 <div class="pt-2">
@@ -251,15 +259,15 @@
 
     <div
       class="modal fade"
-      id="ouOfStockModal"
+      id="outOfStockModal"
       tabindex="-1"
-      aria-labelledby="ouOfStockModalLabel"
+      aria-labelledby="outOfStockModalLabel"
       aria-hidden="true"
     >
       <div class="modal-dialog modal-md modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header bg-danger justify-content-center">
-            <h5 class="modal-title" id="ouOfStockModalLabel">
+            <h5 class="modal-title" id="outOfStockModalLabel">
               Kehabisan Persediaan
             </h5>
           </div>
@@ -267,11 +275,7 @@
             <h6>Sayangnya persediaan produk sedang habis</h6>
           </div>
           <div class="modal-footer justify-content-center">
-            <button
-              type="button"
-              class="btn btn-danger"
-              data-dismiss="modal"
-            >
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
               mengerti
             </button>
           </div>
@@ -283,6 +287,9 @@
 
 <script>
 import VueSlickCarousel from "vue-slick-carousel";
+import moment from "moment";
+
+moment.locale("id-ID");
 export default {
   name: "Products",
   components: { VueSlickCarousel },
@@ -328,9 +335,90 @@ export default {
   },
 
   methods: {
+    getPriceLabel() {
+      const product = this.product;
+
+      let price = product.price;
+
+      let currentTime = moment().format();
+
+      if (
+        product.hasPromo &&
+        product.hasPromo.isActive &&
+        product.hasPromo.promoStart < currentTime &&
+        product.hasPromo.promoEnd > currentTime
+      ) {
+        if (product.hasPromo.promoBy === "percent") {
+          let discountPrice =
+            (product.hasPromo.promoValue / 100) * product.price;
+          price = product.price - discountPrice;
+        } else if (product.promoBy === "price") {
+          price = product.price - product.hasPromo.promoValue;
+        } else {
+          price = product.price;
+        }
+      } else if (
+        product.hasDiscount &&
+        product.hasDiscount.isDiscount &&
+        product.hasDiscount.discountStart < currentTime &&
+        product.hasDiscount.discountEnd > currentTime
+      ) {
+        if (product.hasDiscount.discountBy === "percent") {
+          let discountPrice =
+            (product.hasDiscount.discount / 100) * product.price;
+          price = product.price - discountPrice;
+        } else if (product.discountBy === "price") {
+          price = product.price - product.hasDiscount.discount;
+        } else {
+          price = product.price;
+        }
+      } else {
+        return price;
+      }
+
+      return price;
+    },
+    getPriceBadge() {
+      const product = this.product;
+
+      let price = 0;
+
+      let currentTime = moment().format();
+
+      if (
+        product.hasPromo &&
+        product.hasPromo.promoStart < currentTime &&
+        product.hasPromo.promoEnd > currentTime
+      ) {
+        if (product.hasPromo.promoBy === "percent") {
+          price = product.hasPromo.promoValue;
+        } else if (product.hasPromo.promoBy === "price") {
+          price = (product.hasPromo.discount / product.price) * 100;
+        } else {
+          price = 0;
+        }
+      } else if (
+        product.hasDiscount &&
+        product.hasDiscount.isDiscount &&
+        product.hasDiscount.discountStart < currentTime &&
+        product.hasDiscount.discountEnd > currentTime
+      ) {
+        if (product.hasDiscount.discountBy === "percent") {
+          price = product.hasDiscount.discount;
+        } else if (product.hasDiscount.discountBy === "price") {
+          price = (product.hasDiscount.discount / product.price) * 100;
+        } else {
+          price = product.price;
+        }
+      } else {
+        return price;
+      }
+
+      return price;
+    },
     async addProductToCart() {
       if (this.product.stock <= 0) {
-        $("#ouOfStockModal").modal("show");
+        $("#outOfStockModal").modal("show");
 
         return;
       }

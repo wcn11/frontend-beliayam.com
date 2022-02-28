@@ -350,7 +350,7 @@
               >
               </i>
               <span class="ml-1 cart-label-count">
-                {{ getCartsNav.length }}
+                {{ getCartsNav.length > 99 ? `99+` : getCartsNav.length }}
               </span>
             </NuxtLink>
             <div
@@ -387,7 +387,9 @@
                             </p>
                             <p class="small m-0">
                               <i class="fad fa-calendar-alt"></i>
-                              {{ cart.quantity }} Produk ({{ cart.weight }}
+                              {{ cart.quantity }} Produk ({{
+                                (cart.quantity * cart.weight).toFixed(1)
+                              }}
                               kg)
                             </p>
                           </div>
@@ -399,85 +401,6 @@
               </div>
             </div>
           </div>
-
-          <!-- <a
-            href="cart.html"
-            class="ml-2 text-dark bg-light rounded-pill p-2 border shadow-sm"
-              id="dropdownMenuCart"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-          >
-            <i class="fad fa-shopping-cart"></i>
-          </a>
-
-          <div
-            class="
-              dropdown-menu dropdown-menu-right
-              p-0
-            "
-            aria-labelledby="dropdownMenuCart"
-          >
-            <div class="beliayam-notifications bg-white border-bottom p-2">
-              <div class="position-absolute ml-n1 py-2">
-                <i
-                  class="
-                    fad
-                    fa-check-circle
-                    text-white
-                    bg-success
-                    rounded-pill
-                    p-1
-                  "
-                ></i>
-              </div>
-              <a
-                href="status_complete.html"
-                class="text-decoration-none text-dark"
-              >
-                <div class="notifiction small">
-                  <div class="ml-3">
-                    <p class="font-weight-bold mb-1">Yay! Order Complete</p>
-                    <p class="small m-0">
-                      <i class="fad fa-calendar-alt"></i> Today, 05:14 AM
-                    </p>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-            <div class="beliayam-notifications bg-white border-bottom p-2">
-              <a
-                href="status_onprocess.html"
-                class="text-decoration-none text-muted"
-              >
-                <div class="notifiction small">
-                  <div class="ml-3">
-                    <p class="font-weight-bold mb-1">Yipiee. order Success</p>
-                    <p class="small m-0">
-                      <i class="fad fa-calendar-alt"></i> Monday, 08:30 PM
-                    </p>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-            <div class="beliayam-notifications bg-white p-2">
-              <a
-                href="status_onprocess.html"
-                class="text-decoration-none text-muted"
-              >
-                <div class="notifiction small">
-                  <div class="ml-3">
-                    <p class="font-weight-bold mb-1">New Promos Coming</p>
-                    <p class="small m-0">
-                      <i class="fad fa-calendar-alt"></i> Sunday, 10:30 AM
-                    </p>
-                  </div>
-                </div>
-              </a>
-            </div>
-          </div> -->
         </div>
       </nav>
 
@@ -530,7 +453,6 @@ export default {
   computed: {
     ...mapGetters("cart", ["getCartsNav"]),
     ...mapGetters("auth", ["isAuthenticated"]),
-    // ...mapState("auth", ['user'])
   },
 
   filters: {
@@ -549,7 +471,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .navbar-logo {
   background-color: white;
   border-radius: 10px;

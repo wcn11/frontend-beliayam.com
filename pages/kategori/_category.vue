@@ -199,6 +199,10 @@ export default {
 </script>
 
 <style scoped>
+.item-img {
+  max-height: 180px;
+  height: 180px;
+}
 .label-product {
   width: 235px;
   overflow: hidden;

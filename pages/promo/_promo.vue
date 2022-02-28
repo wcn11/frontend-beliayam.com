@@ -172,6 +172,10 @@ export default {
 </script>
 
 <style scoped>
+.item-img {
+  max-height: 180px;
+  height: 180px;
+}
 .badge-danger {
   color: #ffe5e5;
   background-color: rgb(255 96 0 / 62%);

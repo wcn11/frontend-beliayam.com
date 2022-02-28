@@ -110,7 +110,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .item-img {
   max-height: 150px;
 }

@@ -5,16 +5,24 @@
         <div class="container">
           <div class="row">
             <div class="col-md-12 text-md-right">
-              <a href="#" class="btn btn-icon btn-light"
+              <a
+                href="https://www.facebook.com/beliayamcom"
+                class="btn btn-icon btn-light"
                 ><i class="fab fa-facebook"></i
               ></a>
-              <a href="#" class="btn btn-icon btn-light"
+              <a
+                href="https://twitter.com/beliayamcom"
+                class="btn btn-icon btn-light"
                 ><i class="fab fa-twitter"></i
               ></a>
-              <a href="#" class="btn btn-icon btn-light"
+              <a
+                href="https://www.instagram.com/beliayamcom"
+                class="btn btn-icon btn-light"
                 ><i class="fab fa-instagram"></i
               ></a>
-              <a href="#" class="btn btn-icon btn-light"
+              <a
+                href="https://www.youtube.com/channel/UCzsf-wBSJxGb61pxkoXxrjA"
+                class="btn btn-icon btn-light"
                 ><i class="fab fa-youtube"></i
               ></a>
             </div>
@@ -195,6 +203,9 @@
         </li>
         <li class="nav-item">
           <NuxtLink to="/keranjang" class="nav-link">
+            <span class="ml-1 cart-label-count" v-if="isAuthenticated">
+              {{ getCartsNav.length > 99 ? `99+` : getCartsNav.length }}
+            </span>
             <i class="fad fa-cart-arrow-down"></i>
             <p class="title-mobile-nav">Keranjang</p>
           </NuxtLink>
@@ -217,12 +228,17 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "LayoutFooter",
   data() {
     return {
       currentYear: new Date().getFullYear(),
     };
+  },
+  computed: {
+    ...mapGetters("cart", ["getCartsNav"]),
+    ...mapGetters("auth", ["isAuthenticated"]),
   },
 };
 </script>
@@ -246,5 +262,16 @@ export default {
   border-radius: 5px 10px;
   font-size: 15px;
   background-color: #cf430f;
+}
+
+.cart-label-count {
+  background-color: #ffffff;
+  color: #cf430f;
+  padding: 4px;
+  font-weight: 700;
+  border-radius: 18px;
+  font-size: 10px;
+  position: absolute;
+  transform: translate(75%, -80%);
 }
 </style>
