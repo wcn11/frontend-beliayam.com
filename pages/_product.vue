@@ -17,6 +17,14 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="mb-3">
+                <div
+                  class="member-plan position-absolute"
+                  v-if="product.stock <= 0"
+                >
+                  <span class="badge m-3 badge-danger-out-of-stock">
+                    Kehabisan Persediaan
+                  </span>
+                </div>
                 <img
                   :src="`${this.$config.baseApi}/${product.image}`"
                   class="img-fluid shadow-sm rounded w-100"
@@ -240,6 +248,36 @@
         <h4>Tidak Ditemukan Apapun</h4>
       </div>
     </div>
+
+    <div
+      class="modal fade"
+      id="ouOfStockModal"
+      tabindex="-1"
+      aria-labelledby="ouOfStockModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-danger justify-content-center">
+            <h5 class="modal-title" id="ouOfStockModalLabel">
+              Kehabisan Persediaan
+            </h5>
+          </div>
+          <div class="modal-body">
+            <h6>Sayangnya persediaan produk sedang habis</h6>
+          </div>
+          <div class="modal-footer justify-content-center">
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-dismiss="modal"
+            >
+              mengerti
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -291,6 +329,12 @@ export default {
 
   methods: {
     async addProductToCart() {
+      if (this.product.stock <= 0) {
+        $("#ouOfStockModal").modal("show");
+
+        return;
+      }
+
       if (!this.$store.getters["auth/isAuthenticated"]) {
         this.$toast.success("Masuk Untuk Melanjutkan Belanja");
         this.$router.push("/login");
@@ -455,6 +499,10 @@ export default {
 </script>
 
 <style scoped>
+.badge-danger-out-of-stock {
+  color: #ffe5e5;
+  background-color: rgb(205 77 0);
+}
 .not-found-anything {
   margin: 10%;
 }

@@ -25,7 +25,7 @@
 
               <HomeBestChoice />
 
-              <HomeBestSeller />
+              <HomeLimitedStock />
             </div>
           </div>
         </div>
