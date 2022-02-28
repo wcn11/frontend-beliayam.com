@@ -11,7 +11,6 @@
 
       <VueSlickCarousel
         v-bind="settings"
-        :arrows="true"
         class="categories-slider"
       >
         <div class="col-c">

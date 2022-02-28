@@ -21,7 +21,7 @@
 
               <HomeCategories />
 
-              <HomeFlashSale />
+              <HomeProductOnDiscount />
 
               <HomeBestChoice />
 
