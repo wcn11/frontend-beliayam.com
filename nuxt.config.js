@@ -95,7 +95,8 @@ export default {
       mode: 'client'
     },
     './plugins/vuex-persistedstate',
-    './plugins/axios'
+    './plugins/axios',
+    './plugins/filters',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

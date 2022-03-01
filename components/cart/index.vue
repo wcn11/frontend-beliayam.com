@@ -88,25 +88,21 @@
                           >
                             <h5 class="mb-1">{{ product.name }}</h5>
                             <p class="text-muted mb-2">
-                              {{ product.price }}
+                              {{ product.price | formatMoney }}
                             </p>
                             <div class="d-flex align-items-center">
                               <p class="total_price font-weight-bold m-0">
-                                {{ product.price * product.quantity }}
+                               {{ (product.price * product.quantity) | formatMoney }}
                               </p>
-                              <form
+                              <div
                                 id="myform"
                                 class="cart-items-number d-flex ml-auto"
-                                method="POST"
-                                action="#"
                               >
-                                <input
+                                <button
                                   type="button"
-                                  value="-"
                                   class="qtyminus btn btn-success btn-sm"
-                                  field="quantity"
-                                  @click="setDecrement(product._id)"
-                                />
+                                  @click="setDecrement(product._id)">-
+                                </button>
                                 <input
                                   type="number"
                                   name="quantity"
@@ -114,14 +110,12 @@
                                   class="qty form-control"
                                   v-model="product.quantity"
                                 />
-                                <input
+                                <button
                                   type="button"
-                                  value="+"
                                   class="qtyplus btn btn-success btn-sm"
-                                  field="quantity"
-                                  @click="setIncrement(product._id)"
-                                />
-                              </form>
+                                  @click="setIncrement(product._id)">+
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -241,13 +235,13 @@
                         >({{ this.$store.state.cart.carts.length }} item)</span
                       >
                       <span class="float-right text-dark"
-                        >Rp. {{ getCountCart }}</span
+                        > {{ getCountCart | formatMoney }}</span
                       >
                     </p>
                     <p class="mb-1">
                       Diskon
                       <span class="float-right text-dark"
-                        >-Rp. {{ getSelectedVouchers.totalVoucherFee }}</span
+                        >- {{ getSelectedVouchers.totalVoucherFee | formatMoney}}</span
                       >
                     </p>
                   </div>
@@ -255,11 +249,11 @@
                     <h5 class="mb-0">
                       SubTotal
                       <span class="float-right text-danger"
-                        >Rp.
+                        >
                         {{
-                          getSelectedVouchers.grandTotalAfterDiscount
+                          (getSelectedVouchers.grandTotalAfterDiscount
                             ? getSelectedVouchers.grandTotalAfterDiscount
-                            : getCountCart
+                            : getCountCart) | formatMoney
                         }}</span
                       >
                     </h5>
@@ -267,7 +261,7 @@
                 </div>
               </div>
               <p class="text-success text-center">
-                Anda Hemat Rp. {{ getSelectedVouchers.totalVoucherFee }}
+                Anda Hemat {{ getSelectedVouchers.totalVoucherFee | formatMoney}}
               </p>
             </div>
           </div>
