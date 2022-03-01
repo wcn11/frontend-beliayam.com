@@ -21,18 +21,17 @@
 
               <HomeCategories />
 
-              <HomeFlashSale />
+              <HomeProductOnDiscount />
 
               <HomeBestChoice />
 
-              <HomeBestSeller />
+              <HomeLimitedStock />
             </div>
           </div>
         </div>
       </div>
     </section>
   </div>
-
   <!-- <p v-if="$fetchState.pending">Memuat data...</p>
     <p v-else-if="$fetchState.error">Terjadi Kesalahan :(</p>
     <div v-else>
@@ -45,6 +44,7 @@
 </template>
 
 <script>
+
 export default {
   name: "Home",
   data() {

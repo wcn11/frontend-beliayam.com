@@ -1,4 +1,5 @@
-require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` })
+
+import { resolve } from 'path'
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -46,11 +47,6 @@ export default {
     ],
     script: [
       {
-        src: '/vendor/jquery/jquery.min.js',
-        async: true,
-        mode: 'client'
-      },
-      {
         src: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCJQqL0o0LF8YYdQTXvtrou_KHmrRDMQaM&libraries=places',
         async: "",
         defer: ""
@@ -73,11 +69,6 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    {
-      src: '~/static/vendor/bootstrap/js/bootstrap.bundle.min.js',
-      mode: 'client',
-      async: true
-    },
     {
       src: '~/static/js/rocket-loader.min.js',
       mode: 'client',
@@ -151,6 +142,10 @@ export default {
   target: 'static',
 
   router: {
+  },
+
+  alias: {
+    'Modal': resolve(__dirname, './components/_partials/Modal.vue')
   },
 
   publicRuntimeConfig: {

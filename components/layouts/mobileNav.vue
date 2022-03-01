@@ -16,7 +16,7 @@
           </a>
         </li>
 
-        <li class="list-group-item d-flex align-items-center">
+        <!-- <li class="list-group-item d-flex align-items-center">
           <a href="/keranjang" class="text-dark not-drop m-0 d-flex">
             <i
               class="
@@ -35,7 +35,7 @@
 
             Keranjang
           </a>
-        </li>
+        </li> -->
         <li
           class="
             list-group-item

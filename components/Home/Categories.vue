@@ -11,7 +11,6 @@
 
       <VueSlickCarousel
         v-bind="settings"
-        :arrows="true"
         class="categories-slider"
       >
         <div class="col-c">
@@ -161,4 +160,8 @@ export default {
 </script>
 
 <style>
+.c-it{
+  height: 100px;
+  min-height: 100px;
+}
 </style>

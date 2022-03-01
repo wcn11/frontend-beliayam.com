@@ -22,7 +22,7 @@
             :key="ctg._id"
           >
             <div class="bg-success rounded shadow-sm text-center p-2">
-              <div class="bg-white rounded shadow-sm p-4 mb-3">
+              <div class=" rounded shadow-sm mb-3">
                 <img :src="`${baseApi}/${ctg.image}`" class="img-fluid" />
               </div>
               <!-- <img class="p-beliayam-logo" src="img/logo.png" /> -->

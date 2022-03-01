@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <button data-toggle="modal" data-target="#modal-loading">tes</button> -->
     <LayoutsHeader :user="user"></LayoutsHeader>
 
     <LayoutsFooter :user="user"></LayoutsFooter>
@@ -8,7 +7,7 @@
     <div v-if="$nuxt.isOffline">You are offline</div>
 
     <!-- Modal -->
-    <div
+    <!-- <div
       class="modal fade"
       id="modal-loading"
       tabindex="-1"
@@ -18,7 +17,7 @@
       <div class="justify-content-center text-center loading-container">
         <img :src="require('~/static/gif/loading.gif')" />
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -26,7 +25,7 @@
 <script>
 export default {
   async fetch() {
-    if (this.$store.getters['auth/isAuthenticated']) {
+    if (this.$store.getters["auth/isAuthenticated"]) {
       const user = await this.$axios.$get(
         `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/users/me`
       );

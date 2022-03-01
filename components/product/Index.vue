@@ -1,7 +1,7 @@
 <template>
-  <div class="pick_today">
+  <div class="pick_today" v-if="products && products.length > 0">
     <h5 class="mt-3 mb-3">Produk Terkait</h5>
-    <div class="row" v-if="products && products.length > 0">
+    <div class="row" v-if="products && products > 0">
       <div
         class="col-6 col-md-3 mb-3"
         v-for="product in products"
@@ -59,7 +59,7 @@
       </div>
     </div>
 
-    <div class="row" v-if="products && products.length <= 0">
+    <div class="row" v-else>
       <div class="col-12 col-md-12 mb-3 text-muted related-products-empty">
         Belum ada produk terkait
       </div>
@@ -83,5 +83,8 @@ export default {
 <style scoped>
 .related-products-empty {
   font-size: 24px;
+}
+.item-img {
+  max-height: 150px;
 }
 </style>
