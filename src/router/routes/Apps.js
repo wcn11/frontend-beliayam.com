@@ -166,7 +166,36 @@ const AppRoutes = [
     meta: {
       navLink: '/apps/user/view'
     }
-  }
+  },
+  //category
+  {
+    path: '/apps/category/list',
+    component: lazy(() => import('../../views/apps/category/list'))
+  },
+  {
+    path: '/apps/category/edit',
+    exact: true,
+    component: () => <Redirect to='/apps/category/edit/1' />
+  },
+  {
+    path: '/apps/category/edit/:id',
+    component: lazy(() => import('../../views/apps/category/edit')),
+    meta: {
+      navLink: '/apps/category/edit'
+    }
+  },
+  {
+    path: '/apps/category/view',
+    exact: true,
+    component: () => <Redirect to='/apps/category/view/1' />
+  },
+  {
+    path: '/apps/category/view/:id',
+    component: lazy(() => import('../../views/apps/category/view')),
+    meta: {
+      navLink: '/apps/category/view'
+    }
+  },
 ]
 
 export default AppRoutes

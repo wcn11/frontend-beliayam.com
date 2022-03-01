@@ -30,6 +30,7 @@ import {
 
 import '@styles/base/pages/page-auth.scss'
 import { LOGIN_URL } from '../../../utility/Url'
+import { fetcher } from '../../../utility/axiosHooks'
 
 const ToastContent = ({ name, role }) => (
   <Fragment>
@@ -57,38 +58,45 @@ const Login = props => {
   const illustration = skin === 'dark' ? 'login-v2-dark.svg' : 'login-v2.svg',
     source = require(`@src/assets/images/pages/${illustration}`).default
 
-  const onSubmit = data => {
-    if (isObjEmpty(errors)) {
-      axios.post(LOGIN_URL, {
-        email, password
-      })
-        .then(res => {
-          const { admin, token } = res.data.data
-          const data = {
-            id: admin._id,
-            name: admin.name,
-            username: admin.username,
-            email: admin.email,
-            role: admin.role.roleName,
-            ability: [
-              {
-                action: 'manage',
-                subject: 'all'
-              }
-            ],
-            accessToken: token.accessToken,
-            refreshToken: token.refreshToken
 
-          }
-          dispatch(handleLogin(data))
-          ability.update(data.ability)
-          history.push(getHomeRouteForLoggedInUser(admin.role.roleName))
-          toast.success(
-            <ToastContent name={data.fullName || data.username} role={data.role} />,
-            { transition: Slide, hideProgressBar: true, autoClose: 8000 }
-          )
-        })
-        .catch(err => console.log(err))
+  const onSubmit = async () => {
+    if (isObjEmpty(errors)) {
+      const request = {
+        method: 'POST',
+        data: {
+          email,
+          password
+        }
+      }
+      try {
+        const res = await fetcher(LOGIN_URL, request)
+        const { admin, token } = res.data.data
+        const data = {
+          id: admin._id,
+          name: admin.name,
+          username: admin.username,
+          email: admin.email,
+          role: admin.role.roleName,
+          ability: [
+            {
+              action: 'manage',
+              subject: 'all'
+            }
+          ],
+          accessToken: token.accessToken,
+          refreshToken: token.refreshToken
+
+        }
+        dispatch(handleLogin(data))
+        ability.update(data.ability)
+        history.push(getHomeRouteForLoggedInUser(admin.role.roleName))
+        toast.success(
+          <ToastContent name={data.fullName || data.username} role={data.role} />,
+          { transition: Slide, hideProgressBar: true, autoClose: 8000 }
+        )
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 

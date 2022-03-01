@@ -124,19 +124,19 @@ export default [
         id: 'list',
         title: 'List',
         icon: <Circle size={12} />,
-        navLink: '/apps/user/list'
+        navLink: '/apps/product/list'
       },
       {
         id: 'view',
         title: 'View',
         icon: <Circle size={12} />,
-        navLink: '/apps/user/view'
+        navLink: '/apps/product/view'
       },
       {
         id: 'edit',
         title: 'Edit',
         icon: <Circle size={12} />,
-        navLink: '/apps/user/edit'
+        navLink: '/apps/product/edit'
       }
     ]
   },
@@ -149,19 +149,19 @@ export default [
         id: 'list',
         title: 'List',
         icon: <Circle size={12} />,
-        navLink: '/apps/user/list'
+        navLink: '/apps/category/list'
       },
       {
         id: 'view',
         title: 'View',
         icon: <Circle size={12} />,
-        navLink: '/apps/user/view'
+        navLink: '/apps/category/view'
       },
       {
         id: 'edit',
         title: 'Edit',
         icon: <Circle size={12} />,
-        navLink: '/apps/user/edit'
+        navLink: '/apps/category/edit'
       }
     ]
   }

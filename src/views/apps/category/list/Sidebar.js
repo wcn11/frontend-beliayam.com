@@ -50,6 +50,18 @@ const SidebarNewCategory = ({ open, toggleSidebar }) => {
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <FormGroup>
                     <Label>
+                        Sku <span className='text-danger'>*</span>
+                    </Label>
+                    <Input
+                        name='category-sku'
+                        id='category-sku'
+                        placeholder='Sku'
+                        innerRef={register({ required: true })}
+                        className={classnames({ 'is-invalid': errors['category-sku'] })}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label>
                         Name <span className='text-danger'>*</span>
                     </Label>
                     <Input
@@ -64,10 +76,40 @@ const SidebarNewCategory = ({ open, toggleSidebar }) => {
                     <Label>
                         Choose Image <span className='text-danger'>*</span>
                     </Label>
-                    <Input type='file' id='image-category' />
+                    <Input
+                        type='file'
+                        id='image-category'
+                        innerRef={register({ required: true })}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label>
+                        Additional <span className='text-danger'>*</span>
+                    </Label>
+                    <Input
+                        name='additional'
+                        id='additional'
+                        placeholder='Additional'
+                        innerRef={register({ required: true })}
+                        className={classnames({ 'is-invalid': errors['additional'] })}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label>
+                        Additional <span className='text-danger'>*</span>
+                    </Label>
+                    <Input
+                        name='additional'
+                        id='additional'
+                        placeholder='Additional'
+                        innerRef={register({ required: true })}
+                        className={classnames({ 'is-invalid': errors['additional'] })}
+                    />
                 </FormGroup>
             </Form>
 
         </Sidebar>
     )
 }
+
+export default SidebarNewCategory

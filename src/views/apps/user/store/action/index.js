@@ -1,15 +1,14 @@
 import axios from 'axios'
 import { fetcher } from '@src/utility/axiosHooks'
-import { GET_ALL_DATA_USER } from '@src/utility/Url'
+import { GET_ALL_DATA_USER, GET_USER_BYID } from '@src/utility/Url'
 
 // ** Get all Data users
 export const getAllData = () => {
   return async dispatch => {
     await fetcher(GET_ALL_DATA_USER).then(response => {
-      console.log(response.data.data)
       dispatch({
         type: 'GET_ALL_DATA',
-        data: response.data.data
+        data: response?.data?.data
       })
     })
   }
@@ -19,10 +18,9 @@ export const getAllData = () => {
 export const getData = params => {
   return async dispatch => {
     await axios.get(GET_ALL_DATA_USER, params).then(response => {
-      console.log(response.data.data)
       dispatch({
         type: 'GET_DATA',
-        data: response.data.data,
+        data: response?.data?.data,
         totalPages: response.data.total,
         params
       })
@@ -33,7 +31,7 @@ export const getData = params => {
 // ** Get User
 export const getUser = id => {
   return async dispatch => {
-    await fetcher(GET_ALL_DATA_USER, { id })
+    await fetcher(GET_USER_BYID(id))
       .then(response => {
         dispatch({
           type: 'GET_USER',
@@ -66,8 +64,7 @@ export const addUser = user => {
 // ** Delete user
 export const deleteUser = id => {
   return (dispatch, getState) => {
-    fetcher(GET_ALL_DATA_USER, {
-      id,
+    fetcher(GET_USER_BYID(id), {
       method: 'DELETE'
     })
       .then(response => {
