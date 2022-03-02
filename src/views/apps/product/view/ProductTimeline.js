@@ -8,13 +8,11 @@ import Avatar from '@components/avatar'
 import { Card, CardBody, CardText, Button, Row, Col } from 'reactstrap'
 import { DollarSign, TrendingUp, User, Check, Star, Flag, Phone } from 'react-feather'
 
-
 const CategoryInfoCard = ({ selectedCategory }) => {
-    console.log(selectedCategory)
     // ** render user img
     const renderUserImg = () => {
-        if (selectedCategory !== null && selectedCategory?.avatar?.length) {
-            return <img src={selectedCategory?.avatar} alt='user-avatar' className='img-fluid rounded' height='104' width='104' />
+        if (selectedCategory !== null && selectedCategory.avatar.length) {
+            return <img src={selectedCategory.avatar} alt='user-avatar' className='img-fluid rounded' height='104' width='104' />
         } else {
             const stateNum = Math.floor(Math.random() * 6),
                 states = ['light-success', 'light-danger', 'light-warning', 'light-info', 'light-primary', 'light-secondary'],
@@ -24,7 +22,7 @@ const CategoryInfoCard = ({ selectedCategory }) => {
                     initials
                     color={color}
                     className='rounded'
-                    content={selectedCategory?.fullName}
+                    content={selectedCategory.fullName}
                     contentStyles={{
                         borderRadius: 0,
                         fontSize: 'calc(36px)',
@@ -47,7 +45,7 @@ const CategoryInfoCard = ({ selectedCategory }) => {
                     <Col xl='6' lg='12' className='d-flex flex-column justify-content-between border-container-lg'>
                         <div className='user-avatar-section'>
                             <div className='d-flex justify-content-start'>
-                                {/* {renderUserImg()} */}
+                                {renderUserImg()}
                                 <div className='d-flex flex-column ml-1'>
                                     <div className='user-info mb-1'>
                                         <h4 className='mb-0'>{selectedCategory !== null ? selectedCategory.fullName : 'Eleanor Aguilar'}</h4>

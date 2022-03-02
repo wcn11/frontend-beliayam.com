@@ -79,7 +79,7 @@ export const columns = [
           <Link
             to={`/apps/user/view/${row.id}`}
             className='user-name text-truncate mb-0'
-            onClick={() => store.dispatch(getUser(row.id))}
+            onClick={() => store.dispatch(getUser(row._id))}
           >
             <span className='font-weight-bold'>{row.name}</span>
           </Link>

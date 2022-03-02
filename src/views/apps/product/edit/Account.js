@@ -1,14 +1,11 @@
-// ** React Imports
 import { useState, useEffect } from 'react'
 
-// ** Custom Components
 import Avatar from '@components/avatar'
 
-// ** Third Party Components
 import { Lock, Edit, Trash2 } from 'react-feather'
 import { Media, Row, Col, Button, Form, Input, Label, FormGroup, Table, CustomInput } from 'reactstrap'
 
-const CategoryAccountTab = ({ selectedCategory }) => {
+const ProductAccountTab = ({ selectedCategory }) => {
     // ** States
     const [img, setImg] = useState(null)
     const [userData, setUserData] = useState(null)
@@ -266,4 +263,4 @@ const CategoryAccountTab = ({ selectedCategory }) => {
     }
 }
 
-export default CategoryAccountTab
+export default ProductAccountTab

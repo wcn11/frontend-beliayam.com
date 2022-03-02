@@ -167,6 +167,35 @@ const AppRoutes = [
       navLink: '/apps/user/view'
     }
   },
+  // product
+  {
+    path: '/apps/product/list',
+    component: lazy(() => import('../../views/apps/product/list'))
+  },
+  {
+    path: '/apps/product/edit',
+    exact: true,
+    component: () => <Redirect to='/apps/product/edit/1' />
+  },
+  {
+    path: '/apps/product/edit/:id',
+    component: lazy(() => import('../../views/apps/product/edit')),
+    meta: {
+      navLink: '/apps/product/edit'
+    }
+  },
+  {
+    path: '/apps/product/view',
+    exact: true,
+    component: () => <Redirect to='/apps/product/view/1' />
+  },
+  {
+    path: '/apps/product/view/:id',
+    component: lazy(() => import('../../views/apps/product/view')),
+    meta: {
+      navLink: '/apps/product/view'
+    }
+  },
   //category
   {
     path: '/apps/category/list',

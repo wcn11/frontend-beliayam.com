@@ -10,6 +10,7 @@ const initialState = {
 const users = (state = initialState, action) => {
   switch (action.type) {
     case 'GET_ALL_DATA':
+      console.log('ini user', action.data)
       return { ...state, allData: action.data }
     case 'GET_DATA':
       return {

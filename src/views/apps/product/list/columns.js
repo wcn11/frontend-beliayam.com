@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 import Avatar from '@components/avatar'
 
-import { deleteCategory, getCategoryById } from '../store/action'
+import { deleteProduct, getProductById } from '../store/action'
 import { store } from '@store/storeConfig/store'
 
 import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
@@ -70,10 +70,9 @@ export const columns = [
                 {renderClient(row)}
                 <div className='d-flex flex-column'>
                     <Link
-                        to={`/apps/category/view/${row._id}`}
+                        to={`/apps/category/view/${row.id}`}
                         className='user-name text-truncate mb-0'
-                    // onClick={() => store.dispatch(getCategoryById(row._id))}
-                    // onClick={}
+                        onClick={() => /*store.dispatch(getProductById(row.id))*/ console.log(store.dispatch(getProductById(row.id)))}
                     >
                         <span className='font-weight-bold'>{row.name}</span>
                     </Link>
@@ -111,7 +110,7 @@ export const columns = [
         selector: 'status',
         sortable: true,
         cell: row => (
-            <Badge className='text-capitalize light-success' color={statusObj[row.isActive]} pill>
+            <Badge className='text-capitalize' color={statusObj[row.isActive]} pill>
                 {row.status}
             </Badge>
         )
@@ -129,7 +128,7 @@ export const columns = [
                         tag={Link}
                         to={`/apps/category/view/${row.id}`}
                         className='w-100'
-                        onClick={() => store.dispatch(getCategoryById(row._id))}
+                        onClick={() => store.dispatch(getProductById(row.id))}
                     >
                         <FileText size={14} className='mr-50' />
                         <span className='align-middle'>Details</span>
@@ -138,12 +137,12 @@ export const columns = [
                         tag={Link}
                         to={`/apps/category/edit/${row.id}`}
                         className='w-100'
-                        onClick={() => store.dispatch(getCategoryById(row._id))}
+                        onClick={() => store.dispatch(getProductById(row.id))}
                     >
                         <Archive size={14} className='mr-50' />
                         <span className='align-middle'>Edit</span>
                     </DropdownItem>
-                    <DropdownItem className='w-100' onClick={() => store.dispatch(deleteCategory(row.id))}>
+                    <DropdownItem className='w-100' onClick={() => store.dispatch(deleteProduct(row.id))}>
                         <Trash2 size={14} className='mr-50' />
                         <span className='align-middle'>Delete</span>
                     </DropdownItem>

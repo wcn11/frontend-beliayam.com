@@ -1,7 +1,7 @@
 // ** Reactstrap
 import { Card, CardHeader, CardBody, Badge, UncontrolledTooltip, Button } from 'reactstrap'
 
-const PlanCard = ({ selectedCategory }) => {
+const PlanCard = ({ selectedProduct }) => {
     return (
         <Card className='plan-card border-primary'>
             <CardHeader className='d-flex justify-content-between align-items-center pt-75 pb-1'>
@@ -15,7 +15,7 @@ const PlanCard = ({ selectedCategory }) => {
             </CardHeader>
             <CardBody>
                 <Badge className='text-capitalize' color='light-primary'>
-                    {selectedCategory !== null ? selectedCategory.currentPlan : 'Basic'}
+                    {selectedProduct !== null ? selectedProduct.currentPlan : 'Basic'}
                 </Badge>
                 <ul className='list-unstyled my-1'>
                     <li>

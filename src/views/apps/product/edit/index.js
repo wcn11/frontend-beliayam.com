@@ -5,7 +5,7 @@ import { useParams, Link } from 'react-router-dom'
 import AccountTab from './Account'
 import InfoTab from './Information'
 
-import { getCategory } from '../store/action'
+import { getProduct } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { User, Info, Share2 } from 'react-feather'
@@ -13,10 +13,10 @@ import { Card, CardBody, Row, Col, Nav, NavItem, NavLink, TabContent, TabPane, A
 
 import '@styles/react/apps/app-users.scss'
 
-const CategoryEdit = () => {
+const ProductEdit = () => {
     // ** States & Vars
     const [activeTab, setActiveTab] = useState('1'),
-        store = useSelector(state => state.categories),
+        store = useSelector(state => state.users),
         dispatch = useDispatch(),
         { id } = useParams()
 
@@ -25,8 +25,8 @@ const CategoryEdit = () => {
 
     // ** Function to get user on mount
     useEffect(() => {
-        dispatch(getCategory(id))
-        return () => dispatch(getCategory(id))
+        dispatch(getProduct(id))
+        return () => dispatch(getProduct(id))
     }, [dispatch, id])
 
     return store.selectedUser !== null && store.selectedUser !== undefined ? (
@@ -79,4 +79,4 @@ const CategoryEdit = () => {
     )
 }
 
-export default CategoryEdit
+export default ProductEdit

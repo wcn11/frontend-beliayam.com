@@ -1,43 +1,33 @@
-// ** React Imports
 import { useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
-// ** Store & Actions
-import { getCategoryById } from '../store/action'
+import { getProductById } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
 
-// ** Reactstrap
 import { Row, Col, Alert } from 'reactstrap'
 
-// ** User View Components
 import PlanCard from './PlanCard'
-import CategoryInfoCard from './CategoryInfoCard'
-import CategoryTimeline from './CategoryTimeline'
+import ProductInfoCard from './ProductInfoCard'
+import ProductTimeline from './ProductTimeline'
 import InvoiceList from '../../invoice/list'
 import PermissionsTable from './PermissionsTable'
 
-// ** Styles
 import '@styles/react/apps/app-users.scss'
 
-
-const CategoryView = props => {
-    // ** Vars
-    const store = useSelector(state => state.categories),
+const ProductView = props => {
+    const store = useSelector(state => state.products),
         dispatch = useDispatch(),
         { id } = useParams()
 
-    // ** Get suer on mount
     useEffect(() => {
-        dispatch(getCategoryById(id))
-    }, [dispatch, id])
+        dispatch(getProductById(id))
+    }, [dispatch])
 
-    console.log(store)
-
-    return store.selectedCategory !== null && store.selectedCategory !== undefined ? (
+    return store.selectedProduct !== null && store.selectedProduct !== undefined ? (
         <div className='app-user-view'>
             <Row>
                 <Col xl='9' lg='8' md='7'>
-                    <CategoryInfoCard selectedCategory={store.selectedCategory} />
+                    <ProductInfoCard selectedCategory={store.selectedCategory} />
                 </Col>
                 <Col xl='3' lg='4' md='5'>
                     <PlanCard selectedCategory={store.selectedCategory} />
@@ -45,7 +35,7 @@ const CategoryView = props => {
             </Row>
             <Row>
                 <Col md='6'>
-                    <CategoryTimeline selectedCategory={store.selectedCategory} />
+                    <ProductTimeline />
                 </Col>
                 <Col md='6'>
                     <PermissionsTable />
@@ -66,4 +56,5 @@ const CategoryView = props => {
         </Alert>
     )
 }
-export default CategoryView
+
+export default ProductView

@@ -3,7 +3,7 @@ import Table from './Table'
 // ** Styles
 import '@styles/react/apps/app-users.scss'
 
-const CategorysList = () => {
+const ProductsList = () => {
     return (
         <div className='app-user-list'>
             <Table />
@@ -11,4 +11,4 @@ const CategorysList = () => {
     )
 }
 
-export default CategorysList
+export default ProductsList

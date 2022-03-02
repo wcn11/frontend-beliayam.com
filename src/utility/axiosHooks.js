@@ -81,11 +81,11 @@ export const fetcher = async (url, config) => {
 
     try {
         axiosInterceptor()
-        axiosWithTokenRefresh()
-        // const res = await axios.request(header)
+        // axiosWithTokenRefresh()
+        const res = await axios.request(header)
 
         if (res) {
-            axiosInterceptorResponse()
+            // axiosInterceptorResponse()
             return res
         }
     } catch (err) {
