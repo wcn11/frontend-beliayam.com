@@ -372,30 +372,147 @@
                   </div>
                 </div>
               </div>
-              <!-- <div class="card">
-                <div class="card-header" id="collapse3">
+              <div class="card">
+                <div class="card-header" id="collapse14">
                   <h2 class="mb-0">
                     <button
                       class="btn btn-block text-left collapsed"
                       type="button"
                       data-toggle="collapse"
-                      data-target="#collapseThree"
+                      data-target="#collapse-14"
                       aria-expanded="false"
-                      aria-controls="collapseThree"
+                      aria-controls="collapse-14"
                     >
-                      Collapsible Group Item #3
+                      Kapan pengiriman dilakukan ?
                     </button>
                   </h2>
                 </div>
                 <div
-                  id="collapseThree"
+                  id="collapse-14"
                   class="collapse"
-                  aria-labelledby="collapse3"
+                  aria-labelledby="collapse14"
                   data-parent="#accordionFAQ"
                 >
                   <div class="card-body">
-                    And lastly, the placeholder content for the third and final
-                    accordion panel. This panel is hidden by default.
+                    Pesanan akan dikirim dihari yang sama jika pemesanan masuk
+                    sebelum jam: 16.00 WIB
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="collapse15">
+                  <h2 class="mb-0">
+                    <button
+                      class="btn btn-block text-left collapsed"
+                      type="button"
+                      data-toggle="collapse"
+                      data-target="#collapse-15"
+                      aria-expanded="false"
+                      aria-controls="collapse-15"
+                    >
+                      Apakah ada minimal pembelanjaan ?
+                    </button>
+                  </h2>
+                </div>
+                <div
+                  id="collapse-15"
+                  class="collapse"
+                  aria-labelledby="collapse15"
+                  data-parent="#accordionFAQ"
+                >
+                  <div class="card-body">
+                    Tidak ada minimal pembelian di Beliayam.com
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="collapse16">
+                  <h2 class="mb-0">
+                    <button
+                      class="btn btn-block text-left collapsed"
+                      type="button"
+                      data-toggle="collapse"
+                      data-target="#collapse-16"
+                      aria-expanded="false"
+                      aria-controls="collapse-16"
+                    >
+                      Apakah Beliayam.com melayani pembelian dalam partai besar
+                      ?
+                    </button>
+                  </h2>
+                </div>
+                <div
+                  id="collapse-16"
+                  class="collapse"
+                  aria-labelledby="collapse16"
+                  data-parent="#accordionFAQ"
+                >
+                  <div class="card-body">
+                    Ya, kami melayani pembelian dalam jumlah besar,baik horeka
+                    maupun retail
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="collapse17">
+                  <h2 class="mb-0">
+                    <button
+                      class="btn btn-block text-left collapsed"
+                      type="button"
+                      data-toggle="collapse"
+                      data-target="#collapse-17"
+                      aria-expanded="false"
+                      aria-controls="collapse-17"
+                    >
+                      Apakah diperbolehkan untuk retur ?
+                    </button>
+                  </h2>
+                </div>
+                <div
+                  id="collapse-17"
+                  class="collapse"
+                  aria-labelledby="collapse17"
+                  data-parent="#accordionFAQ"
+                >
+                  <div class="card-body">
+                    Retur diperbolehkan apabila produk yang Anda terima tidak
+                    sesuai dan tidak memenuhi spesifikasi yang telah dipesan
+                    sebelumnya. Dengan catatan, pengecekan terhadap produk
+                    disaksikan oleh kurir pada saat pengantaran produk (Sebelum
+                    kurir pergi). Jika memang tidak sesuai, maka produk
+                    pengganti akan dikirim keesokan harinya.
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="collapse18">
+                  <h2 class="mb-0">
+                    <button
+                      class="btn btn-block text-left collapsed"
+                      type="button"
+                      data-toggle="collapse"
+                      data-target="#collapse-19"
+                      aria-expanded="false"
+                      aria-controls="collapse-19"
+                    >
+                      Bagaimana cara untuk komplain dan retur ?
+                    </button>
+                  </h2>
+                </div>
+                <div
+                  id="collapse-19"
+                  class="collapse"
+                  aria-labelledby="collapse18"
+                  data-parent="#accordionFAQ"
+                >
+                  <div class="card-body">
+                    1. setiap menerima produk dari Beliayam.com wajib di cek
+                    terlebih dahulu <br/> 2. jangan di terima jika produk yang di
+                    terima tidak sesuai pesanan, berbau, berlendir, berwarna
+                    hijau. dan harus di retur kembali ke beliayam.com 3. Info
+                    retur yang diterima oleh pihak beliayam.com maximal adalah 3
+                    jam setelah produk diterima. 4. wajib menyertakan foto atau
+                    video jika komplain terkait dengan berat dan warna hijau.
                   </div>
                 </div>
               </div>
@@ -696,114 +813,6 @@
                   </div>
                 </div>
               </div>
-              <div class="card">
-                <div class="card-header" id="collapse3">
-                  <h2 class="mb-0">
-                    <button
-                      class="btn btn-block text-left collapsed"
-                      type="button"
-                      data-toggle="collapse"
-                      data-target="#collapseThree"
-                      aria-expanded="false"
-                      aria-controls="collapseThree"
-                    >
-                      Collapsible Group Item #3
-                    </button>
-                  </h2>
-                </div>
-                <div
-                  id="collapseThree"
-                  class="collapse"
-                  aria-labelledby="collapse3"
-                  data-parent="#accordionFAQ"
-                >
-                  <div class="card-body">
-                    And lastly, the placeholder content for the third and final
-                    accordion panel. This panel is hidden by default.
-                  </div>
-                </div>
-              </div>
-              <div class="card">
-                <div class="card-header" id="collapse3">
-                  <h2 class="mb-0">
-                    <button
-                      class="btn btn-block text-left collapsed"
-                      type="button"
-                      data-toggle="collapse"
-                      data-target="#collapseThree"
-                      aria-expanded="false"
-                      aria-controls="collapseThree"
-                    >
-                      Collapsible Group Item #3
-                    </button>
-                  </h2>
-                </div>
-                <div
-                  id="collapseThree"
-                  class="collapse"
-                  aria-labelledby="collapse3"
-                  data-parent="#accordionFAQ"
-                >
-                  <div class="card-body">
-                    And lastly, the placeholder content for the third and final
-                    accordion panel. This panel is hidden by default.
-                  </div>
-                </div>
-              </div>
-              <div class="card">
-                <div class="card-header" id="collapse3">
-                  <h2 class="mb-0">
-                    <button
-                      class="btn btn-block text-left collapsed"
-                      type="button"
-                      data-toggle="collapse"
-                      data-target="#collapseThree"
-                      aria-expanded="false"
-                      aria-controls="collapseThree"
-                    >
-                      Collapsible Group Item #3
-                    </button>
-                  </h2>
-                </div>
-                <div
-                  id="collapseThree"
-                  class="collapse"
-                  aria-labelledby="collapse3"
-                  data-parent="#accordionFAQ"
-                >
-                  <div class="card-body">
-                    And lastly, the placeholder content for the third and final
-                    accordion panel. This panel is hidden by default.
-                  </div>
-                </div>
-              </div>
-              <div class="card">
-                <div class="card-header" id="collapse3">
-                  <h2 class="mb-0">
-                    <button
-                      class="btn btn-block text-left collapsed"
-                      type="button"
-                      data-toggle="collapse"
-                      data-target="#collapseThree"
-                      aria-expanded="false"
-                      aria-controls="collapseThree"
-                    >
-                      Collapsible Group Item #3
-                    </button>
-                  </h2>
-                </div>
-                <div
-                  id="collapseThree"
-                  class="collapse"
-                  aria-labelledby="collapse3"
-                  data-parent="#accordionFAQ"
-                >
-                  <div class="card-body">
-                    And lastly, the placeholder content for the third and final
-                    accordion panel. This panel is hidden by default.
-                  </div>
-                </div>
-              </div> -->
             </div>
           </div>
         </div>

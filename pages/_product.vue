@@ -367,7 +367,7 @@ export default {
           let discountPrice =
             (product.hasDiscount.discount / 100) * product.price;
           price = product.price - discountPrice;
-        } else if (product.discountBy === "price") {
+        } else if (product.hasDiscount.discountBy === "price") {
           price = product.price - product.hasDiscount.discount;
         } else {
           price = product.price;
