@@ -96,7 +96,9 @@ export const mutations = {
     },
     async SET_INCREMENT(state, data) {
 
-        state.carts[data.indexFilter].quantity++
+        console.log(data)
+
+        // state.carts[data.indexFilter].quantity++
     },
     async SET_DECREMENT(state, data) {
 
@@ -165,8 +167,6 @@ export const actions = {
 
     },
     async setIncrement({ commit }, data) {
-
-        console.log(data)
 
         commit('SET_INCREMENT', data);
 

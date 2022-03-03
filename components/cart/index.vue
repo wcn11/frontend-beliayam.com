@@ -15,7 +15,7 @@
 
     <section class="py-4 beliayam-main-body">
       <div class="container">
-        <div class="row" v-if="getCarts.length > 0">
+        <div class="row" v-if="carts.products && carts.products.length > 0">
           <div class="col-lg-8">
             <div class="accordion" id="accordionExample">
               <div
@@ -50,7 +50,7 @@
                       aria-expanded="true"
                       aria-controls="collapseOne"
                     >
-                      Keranjang ({{ getCarts.length }} items)
+                      Keranjang ({{ carts.products.length }} items)
                     </button>
                   </h2>
                 </div>
@@ -70,58 +70,158 @@
                           position-relative
                           border-bottom
                         "
-                        v-for="product in getCarts"
+                        v-for="product in carts.products"
                         :key="product._id"
                       >
-                        <a
-                          href="product_details.html"
-                          class="position-absolute"
-                        >
-                          <span class="badge badge-danger m-3">10%</span>
-                        </a>
                         <div class="d-flex align-items-center p-3">
-                          <a href="product_details.html"
-                            ><img src="img/cart/g1.png" class="img-fluid"
-                          /></a>
+                          <NuxtLink :to="`/${product.slug}`"
+                            ><img
+                              :src="`${baseApi}/${product.image}`"
+                              class="img-fluid"
+                          /></NuxtLink>
                           <div
                             class="ml-3 text-dark text-decoration-none w-100"
                           >
                             <h5 class="mb-1">{{ product.name }}</h5>
                             <p class="text-muted mb-2">
-                              {{ product.price | formatMoney }}
+                              {{ product.price | formatMoney }} x
+                              {{ product.quantity }}
                             </p>
-                            <div class="d-flex align-items-center">
-                              <p class="total_price font-weight-bold m-0">
-                               {{ (product.price * product.quantity) | formatMoney }}
-                              </p>                              
-                              <form
+                            <div
+                              class="
+                                d-flex
+                                align-items-center
+                                price-counter-container
+                              "
+                            >
+                              <h6 class="total_price font-weight-bold m-0">
+                                {{
+                                  (product.price * product.quantity)
+                                    | formatMoney
+                                }}
+                              </h6>
+                              <div
                                 id="myform"
                                 class="cart-items-number d-flex ml-auto"
-                                method="POST"
-                                action="#"
-                              >                                
+                              >
+                                <div
+                                  class="btn"
+                                  role="button"
+                                  @click="removeProduct(product._id)"
+                                >
+                                  <i class="far fa-trash-alt"></i>
+                                </div>
                                 <input
                                   type="button"
                                   value="-"
                                   class="qtyminus btn btn-success btn-sm"
-                                  field="quantity"
                                   @click="setDecrement(product._id)"
-                                />
+                                  :disabled="
+                                    product.quantity === 0 ||
+                                    product.quantity === 1 ||
+                                    product.quantity === '' ||
+                                    product.productOnLive.stock === 0
+                                  "
+                                >
                                 <input
-                                  type="number"
+                                  type="text"
                                   name="quantity"
-                                  value="1"
                                   class="qty form-control"
+                                  onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                                  @keyup="setQuantity($event, product._id)"
+                                  @change="checkQuantity($event, product._id)"
                                   v-model="product.quantity"
                                 />
                                  <input
                                   type="button"
                                   value="+"
                                   class="qtyplus btn btn-success btn-sm"
-                                  field="quantity"
-                                  @click="setIncrement(product._id)"
+                                  :disabled="
+                                    product.quantity === 0 ||
+                                    product.quantity === '' ||
+                                    product.productOnLive.stock <=
+                                      product.quantity
+                                  "
+                                  @click="setIncrement($event, product._id)"
+                                >
+                              </div>
+                            </div>
+                            <div v-if="!product.note">
+                              <span
+                                role="button"
+                                :class="`w-50 text-danger note note-${product._id}`"
+                                @click="setNote(product._id)"
+                              >
+                                tulis catatan
+                              </span>
+
+                              <div
+                                :class="`input-wrapper mt-2 input-none input-note input-note-${product._id}`"
+                                @focusout="closeNote()"
+                              >
+                                <input
+                                  class="input"
+                                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                  type="text"
+                                  v-model="product.note"
+                                  @change="updateNote($event, product._id)"
+                                  @keyup.enter="updateNote($event, product._id)"
                                 />
-                              </form>
+                                <span class="placeholder"
+                                  >Tulis catatan untuk item ini</span
+                                >
+                              </div>
+                            </div>
+                            <div class="d-flex" v-else>
+                              <span :class="`notes notes-${product._id}`">{{
+                                product.note
+                              }}</span>
+
+                              <div
+                                :class="`input-wrapper mt-2 input-none edit-input-note edit-input-note-${product._id}`"
+                                @focusout="closeNote()"
+                              >
+                                <input
+                                  class="input"
+                                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                  type="text"
+                                  v-model="product.note"
+                                  @change="updateNote($event, product._id)"
+                                  @keyup.enter="updateNote($event, product._id)"
+                                />
+                                <span class="placeholder"
+                                  >Tulis catatan untuk item ini</span
+                                >
+                              </div>
+
+                              <span
+                                role="button"
+                                :class="`w-25 text-danger edit-note edit-note-${product._id}`"
+                                @click="editNote(product._id)"
+                              >
+                                Ubah
+                              </span>
+                            </div>
+
+                            <div
+                              class="text-danger text-right"
+                              v-if="
+                                product.productOnLive.stock < product.quantity
+                              "
+                            >
+                              <p>
+                                Maks. beli
+                                {{ product.productOnLive.stock }} kuantitas
+                              </p>
+                            </div>
+                            <div
+                              class="text-danger text-right"
+                              v-if="
+                                parseInt(product.quantity) === 0 ||
+                                product.quantity === ''
+                              "
+                            >
+                              <p>Min. Pembelian 1 Item</p>
                             </div>
                           </div>
                         </div>
@@ -145,12 +245,13 @@
                           >
                             <div class="more text-white">
                               <h6 class="m-0">
-                                Subtotal 
-                                {{
-                                  ( getSelectedVouchers.grandTotalAfterDiscount
+                                Subtotal
+                                {{ countSubtotalProduct | formatMoney }}
+                                <!-- {{
+                                  getSelectedVouchers.grandTotalAfterDiscount
                                     ? getSelectedVouchers.grandTotalAfterDiscount
-                                    : getCountCart ) | formatMoney
-                                }}
+                                    : getCountCart | formatMoney
+                                }} -->
                               </h6>
                               <p class="small m-0">Lanjutkan ke pembayaran</p>
                             </div>
@@ -238,24 +339,26 @@
                     <p class="mb-1">
                       Total produk
                       <span class="small text-muted"
-                        >({{ this.$store.state.cart.carts.length }} item)</span
+                        >({{ carts.products.length }} item)</span
                       >
-                      <span class="float-right text-dark"
-                        > {{ getCountCart | formatMoney }}</span
+                      <span class="float-right text-dark">
+                        {{ countSubtotalProduct | formatMoney }}</span
                       >
                     </p>
                     <p class="mb-1">
                       Diskon
                       <span class="float-right text-dark"
-                        >- {{ getSelectedVouchers.totalVoucherFee | formatMoney}}</span
+                        >-
+                        {{
+                          getSelectedVouchers.totalVoucherFee | formatMoney
+                        }}</span
                       >
                     </p>
                   </div>
                   <div class="p-3 border-top">
                     <h5 class="mb-0">
                       SubTotal
-                      <span class="float-right text-danger"
-                        >
+                      <span class="float-right text-danger">
                         {{
                           (getSelectedVouchers.grandTotalAfterDiscount
                             ? getSelectedVouchers.grandTotalAfterDiscount
@@ -267,7 +370,8 @@
                 </div>
               </div>
               <p class="text-success text-center">
-                Anda Hemat {{ getSelectedVouchers.totalVoucherFee | formatMoney}}
+                Anda Hemat
+                {{ getSelectedVouchers.totalVoucherFee | formatMoney }}
               </p>
             </div>
           </div>
@@ -383,54 +487,148 @@
 
 <script>
 import { mapGetters } from "vuex";
+import moment from "moment";
+
+moment.locale("id-ID");
 export default {
   name: "Cart",
   data() {
     return {
       baseApi: process.env.NUXT_ENV_BASE_URL_API,
-      cart: {},
-      carts: [],
       vouchers: [],
+      carts: [],
       selectedVoucher: [],
       productIdTmp: "",
       displayDeleteConfirmation: true,
     };
   },
   async fetch() {
-    if (this.$store.state.cart.carts.length <= 0) {
-      await this.$store.dispatch("cart/setCarts");
-      this.carts = await this.$store.state.cart.carts;
-    }
-    await this.$store.dispatch("cart/setVouchers");
-    this.vouchers = await this.$store.state.cart.vouchers;
+    await this.fetchCart();
   },
   methods: {
+    async fetchCart() {
+      if (this.$store.state.cart.carts.length <= 0) {
+        await this.$axios
+          .$get(
+            `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/cart?page=1&show=6&sortBy=ASC&orderBy=name`
+          )
+          .then((results) => {
+            if (results.data) {
+              this.carts = results.data;
+            }
+          });
+        await this.$store.dispatch("cart/setVouchers");
+        this.vouchers = await this.$store.state.cart.vouchers;
+      }
+    },
+    closeNote() {
+      $(`.input-note`).css("display", "none");
+      $(`.edit-input-note`).css("display", "none");
+      $(`.edit-note`).css("display", "block");
+      $(`.notes`).css("display", "block");
+      $(`.note`).css("display", "block");
+    },
+    editNote(id) {
+      $(`.edit-note-${id}`).css("display", "none");
+      $(`.notes-${id}`).css("display", "none");
+      $(`.edit-input-note-${id} input`).focus();
+      $(`.edit-input-note-${id}`).css("display", "block");
+    },
+    setNote(id) {
+      $(`.input-note-${id}`).css("display", "block");
+      $(`.input-note-${id} input`).focus();
+      $(`.note-${id}`).css("display", "none");
+    },
+    async removeProduct(id) {
+      this.$axios
+        .$delete(
+          `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/cart/${this.$store.state.auth.user._id}/product/${id}`
+        )
+        .then(async (results) => {
+          if (results.data.error) {
+            this.$toast.warning(results.data.message);
+            return;
+          }
+          this.$toast.success(results.message);
+          await this.fetchCart();
+        })
+        .catch((err) => {
+          if (err && err.response && err.response.data.error) {
+            this.$toast.warning(err.response.data.message);
+          } else {
+            this.$toast.warning("Server Sibuk");
+          }
+        });
+    },
+    async updateNote(event, id) {
+      const note = event.target.value;
+      this.$axios
+        .$put(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/cart/update/note`, {
+          user_id: this.$store.state.auth.user._id,
+          product_id: id,
+          note,
+        })
+        .then(async (results) => {
+          if (results.data.error) {
+            this.$toast.warning(results.data.message);
+          }
+          this.$toast.success(results.message);
+          this.closeNote();
+        })
+        .catch((err) => {
+          if (err && err.response && err.response.data.error) {
+            this.$toast.warning(err.response.data.message);
+          } else {
+            this.$toast.warning("Server Sibuk");
+          }
+        });
+    },
+    setQuantity(evt, id) {
+      this.carts.products.filter((product) => {
+        if (product._id === id) {
+          if (product.quantity < product.productOnLive.stock) {
+            product.quantity = evt.target.value;
+          }
+        }
+      });
+    },
+    checkQuantity(e, id) {
+      this.carts.products.filter((product) => {
+        if (product._id === id) {
+          if (product.quantity === "" || parseInt(product.quantity) === 0) {
+            product.quantity = 1;
+            e.preventDefault();
+          }
+
+          if (product.quantity > product.productOnLive.stock) {
+            product.quantity = product.productOnLive.stock;
+            e.preventDefault();
+          }
+        }
+      });
+    },
     checkout() {
-      
-      const products = this.getCarts.map((product, index) => {
-          return product._id;
+      const products = this.carts.map((product, index) => {
+        return product._id;
       });
 
       this.$axios
-        .$post(
-          `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/checkout/cart`,
-          {
-            cart: {
-              cart_id: this.$store.state.cart.cart._id,
-              products: products,
-            },
-            user_id: this.$store.state.auth.user._id,
-            vouchers: [],
-            type: "checkout",
-            platform: "all",
-            isActive: "true",
+        .$post(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/checkout/cart`, {
+          cart: {
+            cart_id: this.$store.state.cart.cart._id,
+            products: products,
           },
-        )
+          user_id: this.$store.state.auth.user._id,
+          vouchers: [],
+          type: "checkout",
+          platform: "all",
+          isActive: "true",
+        })
         .then((results) => {
           if (results.data.error) {
             this.$toast.warning(results.data.message);
           }
-          console.log(results)
+          console.log(results);
         })
         .catch((err) => {
           if (err && err.response && err.response.data.error) {
@@ -441,65 +639,54 @@ export default {
         });
     },
     setVoucher(voucher, index) {
-      // voucher.voucherIndex = index;
-
       this.selectedVoucher.push(voucher);
 
       this.$store.dispatch("cart/setVoucher", voucher);
     },
-    setIncrement(productId) {
-      const product = this.getCarts.filter((product, index) => {
-        if (product._id === productId) {
-          product.indexFilter = index;
-          return product;
+    setIncrement(event, productId) {
+      this.carts.products.filter((product) => {
+        if (product._id == productId) {
+          if (product.quantity < product.productOnLive.stock) {
+            this.$axios
+              .$put(
+                `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/cart/update/quantity`,
+                {
+                  user_id: this.$store.state.auth.user._id,
+                  product_id: productId,
+                  type: "plus",
+                  quantity: 1,
+                }
+              )
+              .then((results) => {
+                if (results.data.error) {
+                  this.$toast.warning(results.data.message);
+                }
+                product.quantity++;
+              })
+              .catch((err) => {
+                if (err && err.response && err.response.data.error) {
+                  this.$toast.warning(err.response.data.message);
+                } else {
+                  this.$toast.warning("Server Sibuk");
+                }
+              });
+          }
+
+          event.preventDefault();
         }
       });
-
-      if (product.length > 0) {
-        if (product[0].productOnLive.stock > parseInt(product[0].quantity)) {
-          this.$store.dispatch("cart/setIncrement", product[0]);
-
-          this.$axios
-            .$put(
-              `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/cart/update/quantity`,
-              {
-                user_id: this.$cookies.get('client_id'),
-                product_id: productId,
-                type: "plus",
-                quantity: 1,
-              }
-            )
-            .then((results) => {
-              if (results.data.error) {
-                this.$toast.warning(results.data.message);
-              }
-            })
-            .catch((err) => {
-              if (err && err.response && err.response.data.error) {
-                this.$toast.warning(err.response.data.message);
-              } else {
-                this.$toast.warning("Server Sibuk");
-              }
-            });
-        }
-      }
     },
-    setDecrement(productId) {
-      const product = this.getCarts.filter((product, index) => {
-        if (product._id === productId) {console.log("dapet "+productId);
-          product.indexFilter = index;
-          return product;
-        }
-      });
-console.log(product.length)
-      if (product.length > 0) {console.log(parseInt(product[0].quantity))
-        if (parseInt(product[0].quantity) > 1) {
-          this.$store.dispatch("cart/setDecrement", product[0]);
+    setDecrement(event, productId) {
+      this.carts.products.filter((product) => {
+        if (product._id == productId) {
+          if (product.quantity <= 1) {
+            return;
+          }
           this.$axios
             .$put(
               `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/cart/update/quantity`,
               {
-                user_id: this.$cookies.get('client_id'),
+                user_id: this.$store.state.auth.user._id,
                 product_id: productId,
                 type: "minus",
                 quantity: 1,
@@ -509,6 +696,7 @@ console.log(product.length)
               if (results.data.error) {
                 this.$toast.warning(results.data.message);
               }
+              product.quantity--;
             })
             .catch((err) => {
               if (err && err.response && err.response.data.error) {
@@ -518,12 +706,11 @@ console.log(product.length)
               }
             });
         } else {
-          console.log("delete produc");
           this.productIdTmp = productId;
-          this.displayDeleteConfirmation = true;
           $("#modal-delete-confirmation").css("display", "block");
         }
-      } 
+          event.preventDefault();
+      });
     },
     openModalVouchers() {
       $("#modal-vouchers").css("display", "block");
@@ -572,16 +759,145 @@ console.log(product.length)
 
   computed: {
     ...mapGetters("cart", [
-      "getCarts",
       "getCountCart",
       "getCartsVouchers",
       "getSelectedVouchers",
     ]),
+    countSubtotalProduct() {
+      if (this.carts && this.carts.products) {
+        const cart = this.carts;
+        const products = cart.products;
+
+        let price = 0;
+
+        const subTotal = products.map((product) => {
+          let currentTime = moment().format();
+
+          if (
+            product.productOnLive.hasPromo &&
+            product.productOnLive.hasPromo.isActive &&
+            product.productOnLive.hasPromo.promoStart < currentTime &&
+            product.productOnLive.hasPromo.promoEnd > currentTime
+          ) {
+            if (product.productOnLive.hasPromo.promoBy === "percent") {
+              let discountPrice =
+                (product.productOnLive.hasPromo.promoValue / 100) *
+                product.productOnLive.price;
+              price +=
+                (product.productOnLive.price - discountPrice) *
+                product.quantity;
+            } else if (product.productOnLive.hasPromo.promoBy === "price") {
+              price +=
+                (product.productOnLive.price -
+                  product.productOnLive.hasPromo.promoValue) *
+                product.quantity;
+            } else {
+              price += product.productOnLive.price * product.quantity;
+            }
+          } else if (
+            product.productOnLive.hasDiscount &&
+            product.productOnLive.hasDiscount.isDiscount &&
+            product.productOnLive.hasDiscount.discountStart < currentTime &&
+            product.productOnLive.hasDiscount.discountEnd > currentTime
+          ) {
+            if (product.productOnLive.hasDiscount.discountBy === "percent") {
+              let discountPrice =
+                (product.productOnLive.hasDiscount.discount / 100) *
+                product.productOnLive.price;
+              price +=
+                (product.productOnLive.price - discountPrice) *
+                product.quantity;
+            } else if (
+              product.productOnLive.hasDiscount.discountBy === "price"
+            ) {
+              price +=
+                (product.productOnLive.price -
+                  product.productOnLive.hasDiscount.discount) *
+                product.quantity;
+            } else {
+              price += product.productOnLive.price * product.quantity;
+            }
+          } else {
+            price += product.productOnLive.price * product.quantity;
+          }
+          return price;
+        });
+        return subTotal[0];
+      }
+    },
   },
 };
 </script>
 
 <style scoped>
+.notes {
+  max-width: calc(65% - 4ch);
+  padding-right: 5px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.input-none {
+  display: none;
+}
+.input-wrapper {
+  max-width: 360px;
+  width: 100%;
+  position: relative;
+}
+.input {
+  height: 30px;
+  border-radius: 4px;
+  border: 1px solid #f52c5c;
+  width: 100%;
+  outline: none;
+  box-sizing: border-box;
+}
+.placeholder {
+  pointer-events: none;
+  position: absolute;
+  font-weight: 400;
+  top: 18px;
+  left: 8px;
+  padding: 0 8px;
+  background-color: #b4390c;
+  border-radius: 5px;
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  color: grey;
+}
+
+.input:not(:placeholder-shown).input:not(:focus) + .placeholder {
+  transform: scale(0.75) translateY(-36px) translateX(-15%);
+  color: white;
+  transition: 0.2s ease;
+}
+
+.input:focus {
+  border-color: #b4390c;
+}
+
+.input:focus + .placeholder {
+  transform: scale(0.75) translateY(-36px) translateX(-15%);
+  color: white;
+  transition: 0.2s ease;
+}
+
+.input:invalid:not(:placeholder-shown) {
+  transition: 0.2s ease;
+  border-color: #f52c5c;
+}
+
+.input:invalid:not(:placeholder-shown) + .placeholder {
+  transition: 0.2s ease;
+  color: white;
+}
+.input:invalid:not(:placeholder-shown).input:not(:focus) + .placeholder {
+  transform: scale(0.75) translateY(-36px) translateX(-15%);
+  color: white;
+  transition: 0.2s ease;
+}
+
 #modal-vouchers {
   background-color: #0000008f;
   position: fixed;
@@ -608,9 +924,18 @@ console.log(product.length)
   border-radius: 15px;
 }
 
-@media only screen and (max-device-width: 767px) {
+@media only screen and (max-device-width: 480px) {
   .content-heading {
     margin-top: 10px;
+  }
+  .total_price {
+    font-size: calc(45% + 8px);
+  }
+}
+
+@media only screen and (max-device-width: 380px) {
+  .total_price {
+    font-size: calc(45% + 7px);
   }
 }
 
