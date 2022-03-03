@@ -137,6 +137,18 @@ export const actions = {
                 }
             })
     },
+    // start update cart & cartnav
+    async setCartsAndCartsNav({ commit }) {
+
+        await this.$axios.$get(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/cart?page=1&show=6&sortBy=ASC&orderBy=name`)
+            .then((results) => {
+                if (results.data) {
+                    commit('SET_CARTS', results.data);
+                    commit('SET_CARTS_NAV', results.data);
+                }
+            })
+    },
+    // end
     async setVouchers({ commit }, data) {
 
         await this.$axios.$get(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/voucher/user?page=1&show=10&sortBy=ASC&orderBy=voucherCode&platform=website&isActive=true`)

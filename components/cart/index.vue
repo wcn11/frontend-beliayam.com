@@ -93,16 +93,20 @@
                             <div class="d-flex align-items-center">
                               <p class="total_price font-weight-bold m-0">
                                {{ (product.price * product.quantity) | formatMoney }}
-                              </p>
-                              <div
+                              </p>                              
+                              <form
                                 id="myform"
                                 class="cart-items-number d-flex ml-auto"
-                              >
-                                <button
+                                method="POST"
+                                action="#"
+                              >                                
+                                <input
                                   type="button"
+                                  value="-"
                                   class="qtyminus btn btn-success btn-sm"
-                                  @click="setDecrement(product._id)">-
-                                </button>
+                                  field="quantity"
+                                  @click="setDecrement(product._id)"
+                                />
                                 <input
                                   type="number"
                                   name="quantity"
@@ -110,12 +114,14 @@
                                   class="qty form-control"
                                   v-model="product.quantity"
                                 />
-                                <button
+                                 <input
                                   type="button"
+                                  value="+"
                                   class="qtyplus btn btn-success btn-sm"
-                                  @click="setIncrement(product._id)">+
-                                </button>
-                              </div>
+                                  field="quantity"
+                                  @click="setIncrement(product._id)"
+                                />
+                              </form>
                             </div>
                           </div>
                         </div>
@@ -139,11 +145,11 @@
                           >
                             <div class="more text-white">
                               <h6 class="m-0">
-                                Subtotal Rp.
+                                Subtotal 
                                 {{
-                                  getSelectedVouchers.grandTotalAfterDiscount
+                                  ( getSelectedVouchers.grandTotalAfterDiscount
                                     ? getSelectedVouchers.grandTotalAfterDiscount
-                                    : getCountCart
+                                    : getCountCart ) | formatMoney
                                 }}
                               </h6>
                               <p class="small m-0">Lanjutkan ke pembayaran</p>
@@ -350,6 +356,27 @@
           </div>
         </div>
       </div>
+      <!-- Delete confirmation -->      
+      <div class="modal fade show" id="modal-delete-confirmation" tabindex="-1" role="dialog" aria-labelledby="modal-delete-confirmationLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modal-delete-confirmationLabel">Peringatan</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Delete confirmation -->
     </section>
   </div>
 </template>
@@ -365,6 +392,8 @@ export default {
       carts: [],
       vouchers: [],
       selectedVoucher: [],
+      productIdTmp: "",
+      displayDeleteConfirmation: true,
     };
   },
   async fetch() {
@@ -434,7 +463,7 @@ export default {
             .$put(
               `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/cart/update/quantity`,
               {
-                user_id: this.$auth.user._id,
+                user_id: this.$cookies.get('client_id'),
                 product_id: productId,
                 type: "plus",
                 quantity: 1,
@@ -457,20 +486,20 @@ export default {
     },
     setDecrement(productId) {
       const product = this.getCarts.filter((product, index) => {
-        if (product._id === productId) {
+        if (product._id === productId) {console.log("dapet "+productId);
           product.indexFilter = index;
           return product;
         }
       });
-
-      if (product.length > 0) {
+console.log(product.length)
+      if (product.length > 0) {console.log(parseInt(product[0].quantity))
         if (parseInt(product[0].quantity) > 1) {
           this.$store.dispatch("cart/setDecrement", product[0]);
           this.$axios
             .$put(
               `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/cart/update/quantity`,
               {
-                user_id: this.$auth.user._id,
+                user_id: this.$cookies.get('client_id'),
                 product_id: productId,
                 type: "minus",
                 quantity: 1,
@@ -488,14 +517,56 @@ export default {
                 this.$toast.warning("Server Sibuk");
               }
             });
+        } else {
+          console.log("delete produc");
+          this.productIdTmp = productId;
+          this.displayDeleteConfirmation = true;
+          $("#modal-delete-confirmation").css("display", "block");
         }
-      }
+      } 
     },
     openModalVouchers() {
       $("#modal-vouchers").css("display", "block");
     },
     closeModal() {
       $("#modal-vouchers").css("display", "none");
+    },
+    removeProduct(productId) {
+      const product = this.getCarts.filter((product, index) => {
+        if (product._id === productId) {
+          product.indexFilter = index;
+          return product;
+        }
+      });
+
+      if (product.length > 0) {
+        // this.$store.dispatch("cart/setDecrement", product[0]);
+        this.$axios
+          .$delete(
+            `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/cart`,
+            {
+              user_id: this.$cookies.get('client_id'),
+              product_id: productId,
+            }
+          )
+          .then((results) => {
+            if (results.data.error) {
+              this.$toast.warning(results.data.message);
+            } else 
+                this.resetAllCarts();
+          })
+          .catch((err) => {
+            if (err && err.response && err.response.data.error) {
+              this.$toast.warning(err.response.data.message);
+            } else {
+              this.$toast.warning("Server Sibuk");
+            }
+          }
+        );
+      }
+    },
+    async resetAllCarts() {
+      await this.$store.dispatch("cart/setCartsAndCartsNav");
     },
   },
 
@@ -542,4 +613,22 @@ export default {
     margin-top: 10px;
   }
 }
+
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+  display: table;
+  transition: opacity .3s ease;
+}
+
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
 </style>
