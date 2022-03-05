@@ -8,11 +8,11 @@ import Avatar from '@components/avatar'
 import { Card, CardBody, CardText, Button, Row, Col } from 'reactstrap'
 import { DollarSign, TrendingUp, User, Check, Star, Flag, Phone } from 'react-feather'
 
-const CategoryInfoCard = ({ selectedCategory }) => {
+const CategoryInfoCard = ({ selectedProduct }) => {
     // ** render user img
     const renderUserImg = () => {
-        if (selectedCategory !== null && selectedCategory.avatar.length) {
-            return <img src={selectedCategory.avatar} alt='user-avatar' className='img-fluid rounded' height='104' width='104' />
+        if (selectedProduct !== null && selectedProduct.avatar.length) {
+            return <img src={selectedProduct.avatar} alt='user-avatar' className='img-fluid rounded' height='104' width='104' />
         } else {
             const stateNum = Math.floor(Math.random() * 6),
                 states = ['light-success', 'light-danger', 'light-warning', 'light-info', 'light-primary', 'light-secondary'],
@@ -22,7 +22,7 @@ const CategoryInfoCard = ({ selectedCategory }) => {
                     initials
                     color={color}
                     className='rounded'
-                    content={selectedCategory.fullName}
+                    content={selectedProduct.fullName}
                     contentStyles={{
                         borderRadius: 0,
                         fontSize: 'calc(36px)',
@@ -45,16 +45,16 @@ const CategoryInfoCard = ({ selectedCategory }) => {
                     <Col xl='6' lg='12' className='d-flex flex-column justify-content-between border-container-lg'>
                         <div className='user-avatar-section'>
                             <div className='d-flex justify-content-start'>
-                                {renderUserImg()}
+                                {/* {renderUserImg()} */}
                                 <div className='d-flex flex-column ml-1'>
                                     <div className='user-info mb-1'>
-                                        <h4 className='mb-0'>{selectedCategory !== null ? selectedCategory.fullName : 'Eleanor Aguilar'}</h4>
+                                        <h4 className='mb-0'>{selectedProduct !== null ? selectedProduct?.name : 'Eleanor Aguilar'}</h4>
                                         <CardText tag='span'>
-                                            {selectedCategory !== null ? selectedCategory.email : 'eleanor.aguilar@gmail.com'}
+                                            {selectedProduct !== null ? selectedProduct?.sku : 'eleanor.aguilar@gmail.com'}
                                         </CardText>
                                     </div>
                                     <div className='d-flex flex-wrap align-items-center'>
-                                        <Button.Ripple tag={Link} to={`/apps/user/edit/${selectedCategory.id}`} color='primary'>
+                                        <Button.Ripple tag={Link} to={`/apps/user/edit/${selectedProduct?._id}`} color='primary'>
                                             Edit
                                         </Button.Ripple>
                                         <Button.Ripple className='ml-1' color='danger' outline>
@@ -95,7 +95,7 @@ const CategoryInfoCard = ({ selectedCategory }) => {
                                     </CardText>
                                 </div>
                                 <CardText className='mb-0'>
-                                    {selectedCategory !== null ? selectedCategory.username : 'eleanor.aguilar'}
+                                    {selectedProduct !== null ? selectedProduct?.username : 'eleanor.aguilar'}
                                 </CardText>
                             </div>
                             <div className='d-flex flex-wrap align-items-center my-50'>
@@ -106,7 +106,7 @@ const CategoryInfoCard = ({ selectedCategory }) => {
                                     </CardText>
                                 </div>
                                 <CardText className='text-capitalize mb-0'>
-                                    {selectedCategory !== null ? selectedCategory.status : 'Active'}
+                                    {selectedProduct !== null ? selectedProduct?.status : 'Active'}
                                 </CardText>
                             </div>
                             <div className='d-flex flex-wrap align-items-center my-50'>
@@ -117,7 +117,7 @@ const CategoryInfoCard = ({ selectedCategory }) => {
                                     </CardText>
                                 </div>
                                 <CardText className='text-capitalize mb-0'>
-                                    {selectedCategory !== null ? selectedCategory.role : 'Admin'}
+                                    {selectedProduct !== null ? selectedProduct?.role : 'Admin'}
                                 </CardText>
                             </div>
                             <div className='d-flex flex-wrap align-items-center my-50'>
@@ -127,7 +127,7 @@ const CategoryInfoCard = ({ selectedCategory }) => {
                                         Country
                                     </CardText>
                                 </div>
-                                <CardText className='mb-0'>{selectedCategory !== null ? selectedCategory.country : 'England'}</CardText>
+                                <CardText className='mb-0'>{selectedProduct !== null ? selectedProduct?.country : 'England'}</CardText>
                             </div>
                             <div className='d-flex flex-wrap align-items-center'>
                                 <div className='user-info-title'>
@@ -136,7 +136,7 @@ const CategoryInfoCard = ({ selectedCategory }) => {
                                         Contact
                                     </CardText>
                                 </div>
-                                <CardText className='mb-0'>{selectedCategory !== null ? selectedCategory.contact : '(123) 456-7890'}</CardText>
+                                <CardText className='mb-0'>{selectedProduct !== null ? selectedProduct?.contact : '(123) 456-7890'}</CardText>
                             </div>
                         </div>
                     </Col>

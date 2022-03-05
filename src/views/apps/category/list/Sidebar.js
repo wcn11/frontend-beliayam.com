@@ -18,6 +18,7 @@ const SidebarNewCategory = ({ open, toggleSidebar }) => {
 
     const onSubmit = values => {
         if (isObjEmpty(errors)) {
+            console.log('data masuk')
             toggleSidebar()
             dispatch(
                 addCategory({
@@ -87,7 +88,6 @@ const SidebarNewCategory = ({ open, toggleSidebar }) => {
                     </Label>
                     <Input
                         type='number'
-                        maxlength='10'
                         name='position'
                         id='position'
                         placeholder='Position'

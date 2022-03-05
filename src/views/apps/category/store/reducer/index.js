@@ -19,9 +19,10 @@ const categories = (state = initialState, action) => {
                 params: action.params
             }
         case 'GET_CATEGORY_BYID':
-            console.log(state)
             return { ...state, selectedCategory: action.selectedCategory }
         case 'ADD_CATEGORY':
+            return { ...state }
+        case 'UPDATE_CATEGORY':
             return { ...state }
         case 'DELETE_CATEGORY':
             return { ...state }

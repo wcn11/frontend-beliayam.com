@@ -1,7 +1,5 @@
 import axios from 'axios'
 import { REFRESH_TOKEN } from './Url'
-import jwt_decode from 'jwt-decode'
-import dayjs from 'dayjs'
 
 axios.defaults.baseURL = 'https://be-dev.beliayam.com/'
 axios.defaults.headers.common['Authorization'] = 'Bearer token'
@@ -12,7 +10,7 @@ const getToken = (accessToken) => {
 }
 
 const axiosInterceptor = () => {
-    axiosApiInstance.interceptors.request.use(async config => {
+    axiosApiInstance.interceptors.request.use(async (config) => {
         if (!config.headers.Authorization) {
             const plainToken = getToken()
             const token = plainToken

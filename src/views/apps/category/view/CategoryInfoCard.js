@@ -50,7 +50,7 @@ const CategoryTimeline = () => {
         <Card>
             <CardHeader>
                 <CardTitle tag='h4' className='mb-2'>
-                    User Timeline
+                    Category
                 </CardTitle>
             </CardHeader>
             <CardBody>

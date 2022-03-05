@@ -62,7 +62,6 @@ const ProductEdit = () => {
                                 <InfoTab />
                             </TabPane>
                             <TabPane tabId='3'>
-                                <SocialTab />
                             </TabPane>
                         </TabContent>
                     </CardBody>

@@ -31,8 +31,6 @@ const CategoryView = props => {
         dispatch(getCategoryById(id))
     }, [dispatch, id])
 
-    console.log(store)
-
     return store.selectedCategory !== null && store.selectedCategory !== undefined ? (
         <div className='app-user-view'>
             <Row>
@@ -45,15 +43,15 @@ const CategoryView = props => {
             </Row>
             <Row>
                 <Col md='6'>
-                    <CategoryTimeline selectedCategory={store.selectedCategory} />
+                    {/* <CategoryTimeline selectedCategory={store.selectedCategory} /> */}
                 </Col>
                 <Col md='6'>
-                    <PermissionsTable />
+                    {/* <PermissionsTable /> */}
                 </Col>
             </Row>
             <Row>
                 <Col sm='12'>
-                    <InvoiceList />
+                    {/* <InvoiceList /> */}
                 </Col>
             </Row>
         </div>

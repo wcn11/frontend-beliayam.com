@@ -27,7 +27,7 @@ const UserView = props => {
 
   // ** Get suer on mount
   useEffect(() => {
-    dispatch(getUser(parseInt(id)))
+    dispatch(getUser(id))
   }, [dispatch])
 
   return store.selectedUser !== null && store.selectedUser !== undefined ? (
@@ -42,15 +42,15 @@ const UserView = props => {
       </Row>
       <Row>
         <Col md='6'>
-          <UserTimeline />
+          {/* <UserTimeline /> */}
         </Col>
         <Col md='6'>
-          <PermissionsTable />
+          {/* <PermissionsTable /> */}
         </Col>
       </Row>
       <Row>
         <Col sm='12'>
-          <InvoiceList />
+          {/* <InvoiceList /> */}
         </Col>
       </Row>
     </div>

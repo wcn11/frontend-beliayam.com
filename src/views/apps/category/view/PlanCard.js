@@ -29,7 +29,7 @@ const PlanCard = ({ selectedCategory }) => {
                     </li>
                 </ul>
                 <Button.Ripple className='text-center' color='primary' block>
-                    Upgrade Plan
+                    Category Image
                 </Button.Ripple>
             </CardBody>
         </Card>

@@ -77,7 +77,7 @@ export const columns = [
         {renderClient(row)}
         <div className='d-flex flex-column'>
           <Link
-            to={`/apps/user/view/${row.id}`}
+            to={`/apps/user/view/${row._id}`}
             className='user-name text-truncate mb-0'
             onClick={() => store.dispatch(getUser(row._id))}
           >
@@ -133,7 +133,7 @@ export const columns = [
             tag={Link}
             to={`/apps/user/view/${row.id}`}
             className='w-100'
-            onClick={() => store.dispatch(getUser(row.id))}
+            onClick={() => store.dispatch(getUser(row._id))}
           >
             <FileText size={14} className='mr-50' />
             <span className='align-middle'>Details</span>
@@ -142,12 +142,12 @@ export const columns = [
             tag={Link}
             to={`/apps/user/edit/${row.id}`}
             className='w-100'
-            onClick={() => store.dispatch(getUser(row.id))}
+            onClick={() => store.dispatch(getUser(row._id))}
           >
             <Archive size={14} className='mr-50' />
             <span className='align-middle'>Edit</span>
           </DropdownItem>
-          <DropdownItem className='w-100' onClick={() => store.dispatch(deleteUser(row.id))}>
+          <DropdownItem className='w-100' onClick={() => store.dispatch(deleteUser(row._id))}>
             <Trash2 size={14} className='mr-50' />
             <span className='align-middle'>Delete</span>
           </DropdownItem>

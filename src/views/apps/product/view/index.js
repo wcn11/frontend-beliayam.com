@@ -27,10 +27,10 @@ const ProductView = props => {
         <div className='app-user-view'>
             <Row>
                 <Col xl='9' lg='8' md='7'>
-                    <ProductInfoCard selectedCategory={store.selectedCategory} />
+                    {/* <ProductInfoCard selectedProduct={store.selectedProduct} /> */}
                 </Col>
                 <Col xl='3' lg='4' md='5'>
-                    <PlanCard selectedCategory={store.selectedCategory} />
+                    {/* <PlanCard selectedProduct={store.selectedProduct} /> */}
                 </Col>
             </Row>
             <Row>
@@ -43,15 +43,15 @@ const ProductView = props => {
             </Row>
             <Row>
                 <Col sm='12'>
-                    <InvoiceList />
+                    {/* <InvoiceList /> */}
                 </Col>
             </Row>
         </div>
     ) : (
         <Alert color='danger'>
-            <h4 className='alert-heading'>Category not found</h4>
+            <h4 className='alert-heading'>Product not found</h4>
             <div className='alert-body'>
-                Category with id: {id} doesn't exist. Check list of all categorys: <Link to='/apps/category/list'>categorys List</Link>
+                Product with id: {id} doesn't exist. Check list of all products: <Link to='/apps/product/list'>Products List</Link>
             </div>
         </Alert>
     )

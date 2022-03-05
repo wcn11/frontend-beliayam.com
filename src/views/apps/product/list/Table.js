@@ -84,13 +84,13 @@ const ProductList = () => {
     const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
 
     useEffect(() => {
-        // dispatch(getAllDataProduct())
+        dispatch(getAllDataProduct())
         dispatch(
             getProduct({
                 page: currentPage,
                 show: rowsPerPage,
                 sortBy: sortPerPage,
-                // orderBy: orderBy
+                orderBy
             })
         )
     }, [dispatch])

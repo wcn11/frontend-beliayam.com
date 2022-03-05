@@ -146,7 +146,7 @@ const AppRoutes = [
   {
     path: '/apps/user/edit',
     exact: true,
-    component: () => <Redirect to='/apps/user/edit/1' />
+    component: () => <Redirect to='/apps/user/edit/:id' />
   },
   {
     path: '/apps/user/edit/:id',
@@ -158,7 +158,7 @@ const AppRoutes = [
   {
     path: '/apps/user/view',
     exact: true,
-    component: () => <Redirect to='/apps/user/view/1' />
+    component: () => <Redirect to='/apps/user/view/:id' />
   },
   {
     path: '/apps/user/view/:id',
@@ -175,7 +175,7 @@ const AppRoutes = [
   {
     path: '/apps/product/edit',
     exact: true,
-    component: () => <Redirect to='/apps/product/edit/1' />
+    component: () => <Redirect to='/apps/product/edit/:id' />
   },
   {
     path: '/apps/product/edit/:id',
@@ -187,7 +187,7 @@ const AppRoutes = [
   {
     path: '/apps/product/view',
     exact: true,
-    component: () => <Redirect to='/apps/product/view/1' />
+    component: () => <Redirect to='/apps/product/view/:id' />
   },
   {
     path: '/apps/product/view/:id',
@@ -204,7 +204,7 @@ const AppRoutes = [
   {
     path: '/apps/category/edit',
     exact: true,
-    component: () => <Redirect to='/apps/category/edit/1' />
+    component: () => <Redirect to='/apps/category/edit/:id' />
   },
   {
     path: '/apps/category/edit/:id',
@@ -216,7 +216,7 @@ const AppRoutes = [
   {
     path: '/apps/category/view',
     exact: true,
-    component: () => <Redirect to='/apps/category/view/1' />
+    component: () => <Redirect to='/apps/category/view/:id' />
   },
   {
     path: '/apps/category/view/:id',

@@ -27,8 +27,8 @@ const UserAccountTab = ({ selectedUser }) => {
   useEffect(() => {
     if (selectedUser !== null || (selectedUser !== null && userData !== null && selectedUser.id !== userData.id)) {
       setUserData(selectedUser)
-      if (selectedUser.avatar.length) {
-        return setImg(selectedUser.avatar)
+      if (selectedUser?.avatar?.length) {
+        return setImg(selectedUser?.avatar)
       } else {
         return setImg(null)
       }
@@ -46,7 +46,7 @@ const UserAccountTab = ({ selectedUser }) => {
           initials
           color={color}
           className='rounded mr-2 my-25'
-          content={selectedUser.fullName}
+          content={selectedUser?.fullName}
           contentStyles={{
             borderRadius: 0,
             fontSize: 'calc(36px)',

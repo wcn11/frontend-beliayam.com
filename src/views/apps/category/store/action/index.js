@@ -31,10 +31,9 @@ export const getCategory = params => {
 
 // get product by id
 export const getCategoryById = id => {
-    return async dispatch => {
-        await fetcher(GET_CATEGORY_BYID(id))
+    return dispatch => {
+        fetcher(GET_CATEGORY_BYID(id))
             .then(response => {
-                console.log('ini id', response.data.data)
                 dispatch({
                     type: 'GET_CATEGORY_BYID',
                     selectedCategory: response?.data?.data
@@ -45,9 +44,9 @@ export const getCategoryById = id => {
 }
 
 export const addCategory = category => {
-    return (dispatch, getState) => {
-
-        fetcher(GET_CATEGORY, category)
+    return async (dispatch, getState) => {
+        const req = { method: 'POST', data: category }
+        await fetcher(GET_CATEGORY, req)
             .then(response => {
                 dispatch({
                     type: 'ADD_CATEGORY',
@@ -58,13 +57,12 @@ export const addCategory = category => {
                 dispatch(getCategory(getState().categorys?.params))
                 dispatch(getAllDataCategory())
             })
-            .catch(err => console.log(err))
     }
 }
 
 export const deleteCategory = id => {
-    return (dispatch, getState) => {
-        fetcher(GET_CATEGORY_BYID(id), {
+    return async (dispatch, getState) => {
+        await fetcher(GET_CATEGORY_BYID(id), {
             method: 'DELETE'
         })
             .then(response => {
@@ -73,8 +71,47 @@ export const deleteCategory = id => {
                 })
             })
             .then(() => {
-                dispatch(getCategory(getState().category.params))
-                dispatch(getAllData())
+                dispatch(getCategory(getState().category?.params))
+                dispatch(getAllDataCategory())
             })
+    }
+}
+
+export const updateCategory = (id, category) => {
+    return async (dispatch, getState) => {
+        try {
+            const { sku, slug, name, position, image_category, status, additional, description } = category
+            const formData = new FormData()
+            // formData.append("image_category", image_category[0])
+            formData.set('sku', sku)
+            formData.set('slug', slug)
+            formData.set('name', name)
+            formData.set('position', position)
+            formData.set('status', status)
+            formData.set('additional', additional)
+            formData.set('description', description)
+
+            const req = {
+                method: 'PUT',
+                data: formData,
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                }
+            }
+            await fetcher(GET_CATEGORY_BYID(id), req).then(res => {
+                if (res) {
+                    dispatch({
+                        type: 'UPDATE_CATEGORY',
+                        data: res?.data.data
+                    })
+                }
+            }).then(() => {
+                dispatch(getCategory(getState().categorys?.params))
+                dispatch(getAllDataCategory())
+            })
+
+        } catch (error) {
+            console.log(error)
+        }
     }
 }

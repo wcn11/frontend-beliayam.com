@@ -72,7 +72,6 @@ const CategoryList = () => {
     // ** Store Vars
     const dispatch = useDispatch()
     const store = useSelector(state => state.categories)
-    console.log(store.selectedCategory)
     // ** States
     const [searchTerm, setSearchTerm] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
@@ -87,7 +86,7 @@ const CategoryList = () => {
 
     // ** Get data on mount
     useEffect(() => {
-        dispatch(getAllDataCategory())
+        // dispatch(getAllDataCategory())
         dispatch(
             getCategory({
                 page: currentPage,

@@ -15,7 +15,7 @@ const PlanCard = ({ selectedUser }) => {
       </CardHeader>
       <CardBody>
         <Badge className='text-capitalize' color='light-primary'>
-          {selectedUser !== null ? selectedUser.currentPlan : 'Basic'}
+          {selectedUser !== null ? selectedUser?.currentPlan : 'Basic'}
         </Badge>
         <ul className='list-unstyled my-1'>
           <li>

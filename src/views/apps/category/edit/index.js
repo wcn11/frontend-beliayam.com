@@ -5,10 +5,10 @@ import { useParams, Link } from 'react-router-dom'
 import AccountTab from './Account'
 import InfoTab from './Information'
 
-import { getCategory } from '../store/action'
+import { getCategoryById } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { User, Info, Share2 } from 'react-feather'
+import { Clipboard, Info, Share2 } from 'react-feather'
 import { Card, CardBody, Row, Col, Nav, NavItem, NavLink, TabContent, TabPane, Alert } from 'reactstrap'
 
 import '@styles/react/apps/app-users.scss'
@@ -25,11 +25,11 @@ const CategoryEdit = () => {
 
     // ** Function to get user on mount
     useEffect(() => {
-        dispatch(getCategory(id))
-        return () => dispatch(getCategory(id))
+        dispatch(getCategoryById(id))
+        return () => dispatch(getCategoryById(id))
     }, [dispatch, id])
 
-    return store.selectedUser !== null && store.selectedUser !== undefined ? (
+    return store.selectedCategory !== null && store.selectedCategory !== undefined ? (
         <Row className='app-user-edit'>
             <Col sm='12'>
                 <Card>
@@ -37,8 +37,8 @@ const CategoryEdit = () => {
                         <Nav pills>
                             <NavItem>
                                 <NavLink active={activeTab === '1'} onClick={() => toggle('1')}>
-                                    <User size={14} />
-                                    <span className='align-middle d-none d-sm-block'>Account</span>
+                                    <Clipboard size={14} />
+                                    <span className='align-middle d-none d-sm-block'>Category</span>
                                 </NavLink>
                             </NavItem>
                             <NavItem>
@@ -47,23 +47,17 @@ const CategoryEdit = () => {
                                     <span className='align-middle d-none d-sm-block'>Information</span>
                                 </NavLink>
                             </NavItem>
-                            <NavItem>
-                                <NavLink active={activeTab === '3'} onClick={() => toggle('3')}>
-                                    <Share2 size={14} />
-                                    <span className='align-middle d-none d-sm-block'>Social</span>
-                                </NavLink>
-                            </NavItem>
                         </Nav>
                         <TabContent activeTab={activeTab}>
                             <TabPane tabId='1'>
-                                <AccountTab selectedUser={store.selectedUser} />
+                                <AccountTab selectedCategory={store.selectedCategory} />
                             </TabPane>
                             <TabPane tabId='2'>
                                 <InfoTab />
                             </TabPane>
-                            <TabPane tabId='3'>
+                            {/* <TabPane tabId='3'>
                                 <SocialTab />
-                            </TabPane>
+                            </TabPane> */}
                         </TabContent>
                     </CardBody>
                 </Card>

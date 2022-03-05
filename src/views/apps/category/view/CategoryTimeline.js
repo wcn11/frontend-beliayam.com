@@ -10,7 +10,6 @@ import { DollarSign, TrendingUp, User, Check, Star, Flag, Phone } from 'react-fe
 
 
 const CategoryInfoCard = ({ selectedCategory }) => {
-    console.log(selectedCategory)
     // ** render user img
     const renderUserImg = () => {
         if (selectedCategory !== null && selectedCategory?.avatar?.length) {
