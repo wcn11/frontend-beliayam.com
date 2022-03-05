@@ -9,7 +9,11 @@ const initialState = {
 const products = (state = initialState, action) => {
     switch (action.type) {
         case 'GET_ALL_DATA_PRODUCT':
-            return { ...state, allData: action.data }
+            return {
+                ...state,
+                allData: action.data,
+                params: action.params
+            }
         case 'GET_DATA_PRODUCT':
             return {
                 ...state,

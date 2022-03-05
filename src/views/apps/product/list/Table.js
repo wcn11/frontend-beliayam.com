@@ -90,6 +90,7 @@ const ProductList = () => {
                 page: currentPage,
                 show: rowsPerPage,
                 sortBy: sortPerPage,
+                // status: currentStatus.value,
                 orderBy
             })
         )

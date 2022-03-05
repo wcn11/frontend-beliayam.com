@@ -126,18 +126,18 @@ export default [
         icon: <Circle size={12} />,
         navLink: '/apps/product/list'
       },
-      {
-        id: 'view',
-        title: 'View',
-        icon: <Circle size={12} />,
-        navLink: '/apps/product/view'
-      },
-      {
-        id: 'edit',
-        title: 'Edit',
-        icon: <Circle size={12} />,
-        navLink: '/apps/product/edit'
-      }
+      // {
+      //   id: 'view',
+      //   title: 'View',
+      //   icon: <Circle size={12} />,
+      //   navLink: '/apps/product/view'
+      // },
+      // {
+      //   id: 'edit',
+      //   title: 'Edit',
+      //   icon: <Circle size={12} />,
+      //   navLink: '/apps/product/edit'
+      // }
     ]
   },
   {
@@ -151,18 +151,18 @@ export default [
         icon: <Circle size={12} />,
         navLink: '/apps/category/list'
       },
-      {
-        id: 'view',
-        title: 'View',
-        icon: <Circle size={12} />,
-        navLink: '/apps/category/view'
-      },
-      {
-        id: 'edit',
-        title: 'Edit',
-        icon: <Circle size={12} />,
-        navLink: '/apps/category/edit'
-      }
+      // {
+      //   id: 'view',
+      //   title: 'View',
+      //   icon: <Circle size={12} />,
+      //   navLink: '/apps/category/view'
+      // },
+      // {
+      //   id: 'edit',
+      //   title: 'Edit',
+      //   icon: <Circle size={12} />,
+      //   navLink: '/apps/category/edit'
+      // }
     ]
   }
 ]

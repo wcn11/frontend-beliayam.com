@@ -2,12 +2,13 @@ import { fetcher } from '@src/utility/axiosHooks'
 import { GET_PRODUCT, GET_PRODUCT_BYID } from '@src/utility/Url'
 
 // get all data product
-export const getAllDataProduct = () => {
+export const getAllDataProduct = (params) => {
    return async dispatch => {
       await fetcher(GET_PRODUCT).then(response => {
          dispatch({
             type: 'GET_ALL_DATA_PRODUCT',
-            data: response?.data?.data
+            data: response?.data?.data,
+            params
          })
       })
    }
@@ -42,19 +43,33 @@ export const getProductById = id => {
 }
 
 export const addProduct = product => {
-   return (dispatch, getState) => {
-      axios.post(GET_PRODUCT, product)
-         .then(response => {
-            dispatch({
-               type: 'ADD_PRODUCT',
-               product
+   return async (dispatch, getState) => {
+      try {
+         const req = {
+            method: 'POST',
+            data: product,
+            // headers: {
+            //    'Content-Type': 'multipart/form-data',
+            // }
+         }
+
+         await fetcher(GET_PRODUCT, req)
+            .then(res => {
+               if (res) {
+                  dispatch({
+                     type: 'ADD_PRODUCT',
+                     product
+                  })
+               }
             })
-         })
-         .then(() => {
-            dispatch(getProduct(getState().products?.params))
-            dispatch(getALLDataProduct())
-         })
-         .catch(err => console.log(err))
+            .then(() => {
+               dispatch(getProduct(getState().products?.params))
+               dispatch(getALLDataProduct())
+            })
+      } catch (error) {
+         console.log(error)
+      }
+
    }
 }
 

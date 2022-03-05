@@ -6,7 +6,7 @@ import classnames from 'classnames'
 import { useForm } from 'react-hook-form'
 import { Button, FormGroup, Label, FormText, Form, Input } from 'reactstrap'
 
-import { addCategory, addProduct } from '../store/action'
+import { addProduct } from '../store/action'
 import { useDispatch } from 'react-redux'
 
 const SidebarNewProduct = ({ open, toggleSidebar }) => {
@@ -103,7 +103,7 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
                         type='file'
                         name='image_category'
                         id='image_category'
-                        innerRef={register({ required: true })}
+                        innerRef={register({ required: false })}
                         className={classnames({ 'is-invalid': errors['image_category'] })}
                     />
                     <FormText color='muted'>receive format JPG, JPEG, PNG, SVG</FormText>
@@ -118,6 +118,7 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
                         name='price'
                         id='price'
                         placeholder='Position'
+                        onWheel={(e => e.target.blur())}
                         innerRef={register({ required: true })}
                         className={classnames({ 'is-invalid': errors['price'] })}
                     />
@@ -131,6 +132,7 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
                         maxlength='10'
                         name='stock'
                         id='stock'
+                        onWheel={(e => e.target.blur())}
                         placeholder='Position'
                         innerRef={register({ required: true })}
                         className={classnames({ 'is-invalid': errors['stock'] })}
