@@ -1,5 +1,6 @@
 
 import { resolve } from 'path'
+import webpack from 'webpack'
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -136,7 +137,13 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    // vendor: ['hc-offcanvas-nav'],
+    // vendor: ['lodash'],
+    plugins: [
+      new webpack.ProvidePlugin({
+        // global modules
+        _: 'lodash'
+      })
+    ],
     transpile: ['vue-final-modal']
   },
   target: 'static',

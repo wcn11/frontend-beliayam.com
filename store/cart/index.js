@@ -141,7 +141,7 @@ export const actions = {
     },
     async setVouchers({ commit }, data) {
 
-        await this.$axios.$get(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/voucher/user?page=1&show=10&sortBy=ASC&orderBy=voucherCode&platform=website&isActive=true`)
+        await this.$axios.$get(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/voucher?page=1&show=10&sortBy=ASC&orderBy=voucherCode`)
             .then((results) => {
                 if (results.data) {
                     commit('SET_VOUCHERS', results.data);

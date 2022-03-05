@@ -233,7 +233,7 @@
             </div>
           </div>
 
-          <div class="dropdown" v-if="isAuthenticated">
+          <!-- <div class="dropdown" v-if="isAuthenticated">
             <a
               href="#"
               class="text-dark dropdown-toggle not-drop"
@@ -325,7 +325,7 @@
                 </a>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <div class="dropdown" v-if="isAuthenticated">
             <NuxtLink

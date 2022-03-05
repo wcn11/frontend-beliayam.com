@@ -297,7 +297,7 @@ export default {
   async fetch() {
     await this.$axios
       .get(
-        `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/product/${this.$route.params.product}`
+        `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/product/slug/${this.$route.params.product}`
       )
       .then((res) => {
         this.product = res.data.data;
