@@ -93,4 +93,3 @@ sw.*
 *.swp
 
 # Nuxt generate
-dist
