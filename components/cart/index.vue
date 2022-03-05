@@ -111,8 +111,9 @@
                                 >
                                   <i class="far fa-trash-alt"></i>
                                 </div>
-                                <button
+                                <input
                                   type="button"
+                                  value="-"
                                   class="qtyminus btn btn-success btn-sm"
                                   @click="setDecrement(product._id)"
                                   :disabled="
@@ -122,8 +123,6 @@
                                     product.productOnLive.stock === 0
                                   "
                                 >
-                                  -
-                                </button>
                                 <input
                                   type="text"
                                   name="quantity"
@@ -133,8 +132,9 @@
                                   @change="checkQuantity($event, product._id)"
                                   v-model="product.quantity"
                                 />
-                                <button
+                                 <input
                                   type="button"
+                                  value="+"
                                   class="qtyplus btn btn-success btn-sm"
                                   :disabled="
                                     product.quantity === 0 ||
@@ -144,8 +144,6 @@
                                   "
                                   @click="setIncrement($event, product._id)"
                                 >
-                                  +
-                                </button>
                               </div>
                             </div>
                             <div v-if="!product.note">
@@ -462,6 +460,27 @@
           </div>
         </div>
       </div>
+      <!-- Delete confirmation -->      
+      <div class="modal fade show" id="modal-delete-confirmation" tabindex="-1" role="dialog" aria-labelledby="modal-delete-confirmationLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modal-delete-confirmationLabel">Peringatan</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Delete confirmation -->
     </section>
   </div>
 </template>
@@ -479,6 +498,8 @@ export default {
       vouchers: [],
       carts: [],
       selectedVoucher: [],
+      productIdTmp: "",
+      displayDeleteConfirmation: true,
     };
   },
   async fetch() {
@@ -655,13 +676,12 @@ export default {
         }
       });
     },
-    setDecrement(productId) {
+    setDecrement(event, productId) {
       this.carts.products.filter((product) => {
         if (product._id == productId) {
           if (product.quantity <= 1) {
             return;
           }
-
           this.$axios
             .$put(
               `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/cart/update/quantity`,
@@ -685,10 +705,11 @@ export default {
                 this.$toast.warning("Server Sibuk");
               }
             });
-          // }
-
-          event.preventDefault();
+        } else {
+          this.productIdTmp = productId;
+          $("#modal-delete-confirmation").css("display", "block");
         }
+          event.preventDefault();
       });
     },
     openModalVouchers() {
@@ -696,6 +717,43 @@ export default {
     },
     closeModal() {
       $("#modal-vouchers").css("display", "none");
+    },
+    removeProduct(productId) {
+      const product = this.getCarts.filter((product, index) => {
+        if (product._id === productId) {
+          product.indexFilter = index;
+          return product;
+        }
+      });
+
+      if (product.length > 0) {
+        // this.$store.dispatch("cart/setDecrement", product[0]);
+        this.$axios
+          .$delete(
+            `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/cart`,
+            {
+              user_id: this.$cookies.get('client_id'),
+              product_id: productId,
+            }
+          )
+          .then((results) => {
+            if (results.data.error) {
+              this.$toast.warning(results.data.message);
+            } else 
+                this.resetAllCarts();
+          })
+          .catch((err) => {
+            if (err && err.response && err.response.data.error) {
+              this.$toast.warning(err.response.data.message);
+            } else {
+              this.$toast.warning("Server Sibuk");
+            }
+          }
+        );
+      }
+    },
+    async resetAllCarts() {
+      await this.$store.dispatch("cart/setCartsAndCartsNav");
     },
   },
 
@@ -880,4 +938,22 @@ export default {
     font-size: calc(45% + 7px);
   }
 }
+
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+  display: table;
+  transition: opacity .3s ease;
+}
+
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
 </style>
