@@ -1,4 +1,4 @@
-import { Mail, MessageSquare, CheckSquare, Calendar, FileText, Circle, ShoppingCart, Clipboard, User, Box } from 'react-feather'
+import { Mail, MessageSquare, CheckSquare, Calendar, FileText, Circle, ShoppingCart, Clipboard, User, Box, Divide } from 'react-feather'
 
 export default [
   {
@@ -164,5 +164,30 @@ export default [
       //   navLink: '/apps/category/edit'
       // }
     ]
-  }
+  },
+  {
+    id: 'promo',
+    title: 'Promo',
+    icon: <Divide size={20} />,
+    children: [
+      {
+        id: 'list',
+        title: 'List',
+        icon: <Circle size={12} />,
+        navLink: '/apps/promo/list'
+      },
+      // {
+      //   id: 'view',
+      //   title: 'View',
+      //   icon: <Circle size={12} />,
+      //   navLink: '/apps/category/view'
+      // },
+      // {
+      //   id: 'edit',
+      //   title: 'Edit',
+      //   icon: <Circle size={12} />,
+      //   navLink: '/apps/category/edit'
+      // }
+    ]
+  },
 ]

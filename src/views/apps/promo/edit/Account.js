@@ -1,0 +1,363 @@
+// ** React Imports
+import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
+
+import { isObjEmpty } from '@utils'
+
+// ** Custom Components
+import Avatar from '@components/avatar'
+
+import { getPromoById, updatePromo } from '../store/action'
+
+// ** Third Party Components
+import { Lock, Edit, Trash2 } from 'react-feather'
+import { Media, Row, Col, Button, Form, Input, Label, FormGroup, Table, CustomInput } from 'reactstrap'
+
+
+const PromoAccountTab = ({ selectedPromo }) => {
+
+   const dispatch = useDispatch()
+   const { id } = useParams()
+
+   const { register, errors, handleSubmit } = useForm()
+   // ** States
+   // const [img, setImg] = useState(null)
+   // const [promoData, setPromoData] = useState(null)
+
+   // ** Function to change user image
+   const onChange = e => {
+      const reader = new FileReader(),
+         files = e.target.files
+      reader.onload = function () {
+         setImg(reader.result)
+      }
+      reader.readAsDataURL(files[0])
+   }
+
+   // ** Update user image on mount or change
+   useEffect(() => {
+      dispatch(getPromoById(id))
+      // if (selectedPromo !== null || (selectedPromo !== null && promoData !== null && selectedPromo?._id !== promoData?._id)) {
+      //    // setPromoData(selectedPromo)
+
+      //    // if (selectedPromo?.avatar?.length) {
+      //    //    return setImg(selectedPromo?.avatar)
+      //    // } else {
+      //    //    return setImg(null)
+      //    // }
+      // }
+   }, [])
+
+   useEffect(() => {
+      setPromoData(selectedPromo)
+   }, [selectedPromo])
+
+   const onSubmit = (values) => {
+      if (isObjEmpty(errors)) {
+         console.log(values)
+         dispatch(
+            updatePromo(id, {
+               // sku: values.sku,
+               // slug: values.slug,
+               // name: values.name,
+               // position: values.position,
+               // image_promo: values.image_promo,
+               // status: values.status,
+               // additional: values.additional,
+               // description: values.description
+            })
+         )
+      }
+   }
+
+   // ** Renders User
+   const renderUserAvatar = () => {
+      // if (img === null) {
+      //    const stateNum = Math.floor(Math.random() * 6),
+      //       states = ['light-success', 'light-danger', 'light-warning', 'light-info', 'light-primary', 'light-secondary'],
+      //       color = states[stateNum]
+      //    return (
+      //       <Avatar
+      //          initials
+      //          color={color}
+      //          className='rounded mr-2 my-25'
+      //          // content={selectedPromo?.fullName}
+      //          contentStyles={{
+      //             borderRadius: 0,
+      //             fontSize: 'calc(36px)',
+      //             width: '100%',
+      //             height: '100%'
+      //          }}
+      //          style={{
+      //             height: '90px',
+      //             width: '90px'
+      //          }}
+      //       />
+      //    )
+      // } else {
+      //    return (
+      //       <img
+      //          className='user-avatar rounded mr-2 my-25 cursor-pointer'
+      //          src={img}
+      //          alt='user profile avatar'
+      //          height='90'
+      //          width='90'
+      //       />
+      //    )
+      // }
+      return <h1>Under construction</h1>
+   }
+
+   // if (!promoData) {
+   //    return <div>ini kosong</div>
+   // } else {
+   //    return (
+   //       <Row>
+   //          <Col sm='12'>
+   //             <Media className='mb-2'>
+   //                {/* {renderUserAvatar()} */}
+   //                <Media className='mt-50' body>
+   //                   <h4>{promoData?.name} </h4>
+   //                   <div className='d-flex flex-wrap mt-1 px-0'>
+   //                      <Button.Ripple id='change-img' tag={Label} className='mr-75 mb-0' color='primary'>
+   //                         <span className='d-none d-sm-block'>Change Image</span>
+   //                         <span className='d-block d-sm-none'>
+   //                            <Edit size={14} />
+   //                         </span>
+   //                         <input type='file' hidden id='change-img' onChange={onChange} accept='image/*' />
+   //                      </Button.Ripple>
+   //                      <Button.Ripple color='secondary' outline>
+   //                         <span className='d-none d-sm-block'>Remove</span>
+   //                         <span className='d-block d-sm-none'>
+   //                            <Trash2 size={14} />
+   //                         </span>
+   //                      </Button.Ripple>
+   //                   </div>
+   //                </Media>
+   //             </Media>
+   //          </Col>
+   //          <Col sm='12'>
+   //             <Form onSubmit={handleSubmit(onSubmit)}>
+   //                <Row>
+   //                   <Col md='4' sm='12'>
+   //                      <FormGroup>
+   //                         <Label for='sku'>Sku</Label>
+   //                         <Input
+   //                            type='text'
+   //                            name='sku'
+   //                            id='sku'
+   //                            placeholder='Sku'
+   //                            defaultValue={selectedPromo?.sku}
+   //                            innerRef={register({ required: true })}
+   //                         />
+   //                      </FormGroup>
+   //                   </Col>
+   //                   <Col md='4' sm='12'>
+   //                      <FormGroup>
+   //                         <Label for='name'>Name</Label>
+   //                         <Input
+   //                            type='text'
+   //                            name='name'
+   //                            id='name'
+   //                            placeholder='Name'
+   //                            defaultValue={selectedPromo?.name}
+   //                            innerRef={register({ required: true })}
+   //                         />
+   //                      </FormGroup>
+   //                   </Col>
+   //                   <Col md='4' sm='12'>
+   //                      <FormGroup>
+   //                         <Label for='slug'>Slug</Label>
+   //                         <Input
+   //                            type='text'
+   //                            id='slug'
+   //                            name='slug'
+   //                            placeholder='Slug'
+   //                            defaultValue={promoData?.slug}
+   //                            innerRef={register({ required: true })}
+   //                         />
+   //                      </FormGroup>
+   //                   </Col>
+   //                   <Col md='4' sm='12'>
+   //                      <FormGroup>
+   //                         <Label for='slug'>Position</Label>
+   //                         <Input
+   //                            type='text'
+   //                            id='position'
+   //                            name='position'
+   //                            placeholder='Position'
+   //                            defaultValue={promoData?.position}
+   //                            innerRef={register({ required: true })}
+   //                         />
+   //                      </FormGroup>
+   //                   </Col>
+   //                   <Col md='4' sm='12'>
+   //                      <FormGroup>
+   //                         <Label for='additional'>Additional</Label>
+   //                         <Input
+   //                            type='text'
+   //                            id='additional'
+   //                            name='additional'
+   //                            defaultValue={promoData?.additional}
+   //                            placeholder='Additional'
+   //                            innerRef={register({ required: true })}
+   //                         />
+   //                      </FormGroup>
+   //                   </Col>
+   //                   <Col md='4' sm='12'>
+   //                      <FormGroup>
+   //                         <Label for='description'>Description</Label>
+   //                         <Input
+   //                            type='text'
+   //                            id='description'
+   //                            name='description'
+   //                            defaultValue={promoData?.description}
+   //                            placeholder='Add Description'
+   //                            innerRef={register({ required: true })}
+   //                         />
+   //                      </FormGroup>
+   //                   </Col>
+   //                   <Col md='4' sm='12'>
+   //                      <FormGroup>
+   //                         <Label for='description'>Image Promo</Label>
+   //                         <Input
+   //                            type='file'
+   //                            id='image_promo'
+   //                            name='image_promo'
+   //                            defaultValue={promoData?.image_promo}
+   //                            placeholder='Add Image Promo'
+   //                         // innerRef={register({ required: true })}
+   //                         />
+   //                      </FormGroup>
+   //                   </Col>
+   //                   <Col md='4' sm='12'>
+   //                      <FormGroup>
+   //                         <Label for='status'>Status</Label>
+   //                         <Input
+   //                            type='select'
+   //                            name='status'
+   //                            id='status'
+   //                            defaultValue={promoData?.status}
+   //                            innerRef={register({ required: true })}
+   //                         >
+   //                            <option value='pending'>Pending</option>
+   //                            <option value='active'>Active</option>
+   //                            <option value='nonactive'>Nonactive</option>
+   //                         </Input>
+   //                      </FormGroup>
+   //                   </Col>
+   //                   {/* <Col sm='12'>
+   //                              <div className='permissions border mt-1'>
+   //                                  <h6 className='py-1 mx-1 mb-0 font-medium-2'>
+   //                                      <Lock size={18} className='mr-25' />
+   //                                      <span className='align-middle'>Permissions</span>
+   //                                  </h6>
+   //                                  <Table borderless striped responsive>
+   //                                      <thead className='thead-light'>
+   //                                          <tr>
+   //                                              <th>Module</th>
+   //                                              <th>Read</th>
+   //                                              <th>Write</th>
+   //                                              <th>Create</th>
+   //                                              <th>Delete</th>
+   //                                          </tr>
+   //                                      </thead>
+   //                                      <tbody>
+   //                                          <tr>
+   //                                              <td>Admin</td>
+   //                                              <td>
+   //                                                  <CustomInput type='checkbox' id='admin-1' label='' defaultChecked />
+   //                                              </td>
+   //                                              <td>
+   //                                                  <CustomInput type='checkbox' id='admin-2' label='' />
+   //                                              </td>
+   //                                              <td>
+   //                                                  <CustomInput type='checkbox' id='admin-3' label='' />
+   //                                              </td>
+   //                                              <td>
+   //                                                  <CustomInput type='checkbox' id='admin-4' label='' />
+   //                                              </td>
+   //                                          </tr>
+   //                                          <tr>
+   //                                              <td>Staff</td>
+   //                                              <td>
+   //                                                  <CustomInput type='checkbox' id='staff-1' label='' />
+   //                                              </td>
+   //                                              <td>
+   //                                                  <CustomInput type='checkbox' id='staff-2' label='' defaultChecked />
+   //                                              </td>
+   //                                              <td>
+   //                                                  <CustomInput type='checkbox' id='staff-3' label='' />
+   //                                              </td>
+   //                                              <td>
+   //                                                  <CustomInput type='checkbox' id='staff-4' label='' />
+   //                                              </td>
+   //                                          </tr>
+   //                                          <tr>
+   //                                              <td>Author</td>
+   //                                              <td>
+   //                                                  <CustomInput type='checkbox' id='author-1' label='' defaultChecked />
+   //                                              </td>
+   //                                              <td>
+   //                                                  <CustomInput type='checkbox' id='author-2' label='' />
+   //                                              </td>
+   //                                              <td>
+   //                                                  <CustomInput type='checkbox' id='author-3' label='' defaultChecked />
+   //                                              </td>
+   //                                              <td>
+   //                                                  <CustomInput type='checkbox' id='author-4' label='' />
+   //                                              </td>
+   //                                          </tr>
+   //                                          <tr>
+   //                                              <td>Contributor</td>
+   //                                              <td>
+   //                                                  <CustomInput type='checkbox' id='contributor-1' label='' />
+   //                                              </td>
+   //                                              <td>
+   //                                                  <CustomInput type='checkbox' id='contributor-2' label='' />
+   //                                              </td>
+   //                                              <td>
+   //                                                  <CustomInput type='checkbox' id='contributor-3' label='' />
+   //                                              </td>
+   //                                              <td>
+   //                                                  <CustomInput type='checkbox' id='contributor-4' label='' />
+   //                                              </td>
+   //                                          </tr>
+   //                                          <tr>
+   //                                              <td>User</td>
+   //                                              <td>
+   //                                                  <CustomInput type='checkbox' id='user-1' label='' />
+   //                                              </td>
+   //                                              <td>
+   //                                                  <CustomInput type='checkbox' id='user-2' label='' />
+   //                                              </td>
+   //                                              <td>
+   //                                                  <CustomInput type='checkbox' id='user-3' label='' />
+   //                                              </td>
+   //                                              <td>
+   //                                                  <CustomInput type='checkbox' id='user-4' label='' defaultChecked />
+   //                                              </td>
+   //                                          </tr>
+   //                                      </tbody>
+   //                                  </Table>
+   //                              </div>
+   //                          </Col> */}
+   //                   <Col className='d-flex flex-sm-row flex-column mt-2' sm='12'>
+   //                      <Button.Ripple className='mb-1 mb-sm-0 mr-0 mr-sm-1' type='submit' color='primary'>
+   //                         Save Changes
+   //                      </Button.Ripple>
+   //                      <Button.Ripple color='secondary' outline>
+   //                         Reset
+   //                      </Button.Ripple>
+   //                   </Col>
+   //                </Row>
+   //             </Form>
+   //          </Col>
+   //       </Row>
+   //    )
+   // }
+}
+
+export default PromoAccountTab
