@@ -152,7 +152,8 @@ export default {
   },
 
   alias: {
-    'Modal': resolve(__dirname, './components/_partials/Modal.vue')
+    'Modal': resolve(__dirname, './components/_partials/Modal.vue'),
+    'paymentStatus': resolve(__dirname, './utility/paymentStatus.list.js')
   },
 
   publicRuntimeConfig: {

@@ -13,9 +13,12 @@
       </div>
     </nav>
 
-    <section class="py-4 beliayam-main-body">
+    <section class="py-4 beliayam-main-body" v-if="carts && carts.products">
       <div class="container">
-        <div class="row" v-if="carts.products && carts.products.length > 0">
+        <div
+          class="row"
+          v-if="carts && carts.products && carts.products.length > 0"
+        >
           <div class="col-lg-8">
             <div class="accordion" id="accordionExample">
               <div
@@ -122,7 +125,7 @@
                                     product.quantity === '' ||
                                     product.productOnLive.stock === 0
                                   "
-                                >
+                                />
                                 <input
                                   type="text"
                                   name="quantity"
@@ -132,7 +135,7 @@
                                   @change="checkQuantity($event, product._id)"
                                   v-model="product.quantity"
                                 />
-                                 <input
+                                <input
                                   type="button"
                                   value="+"
                                   class="qtyplus btn btn-success btn-sm"
@@ -143,7 +146,7 @@
                                       product.quantity
                                   "
                                   @click="setIncrement($event, product._id)"
-                                >
+                                />
                               </div>
                             </div>
                             <div v-if="!product.note">
@@ -246,7 +249,7 @@
                             <div class="more text-white">
                               <h6 class="m-0">
                                 Subtotal
-                                {{ countSubtotalProduct | formatMoney }}
+                                {{ countTotalToPay | formatMoney }}
                                 <!-- {{
                                   getSelectedVouchers.grandTotalAfterDiscount
                                     ? getSelectedVouchers.grandTotalAfterDiscount
@@ -314,7 +317,29 @@
                         Gunakan / Masukkan Voucher</span
                       >
                     </button>
-                    <p
+
+                    <div
+                      class="bg-white p-3 clearfix"
+                      v-if="Object.keys(selectedVoucher).length > 0"
+                    >
+                      <p class="mb-1">
+                        {{
+                          selectedVoucher.voucherName
+                            ? selectedVoucher.voucherName
+                            : selectedVoucher.voucherCode
+                        }}
+                        <span class="float-right text-dark">{{
+                          getPriceLabel(selectedVoucher) | formatMoney
+                        }}</span>
+                      </p>
+                      <br />
+                      <h6 class="mb-0 text-danger">
+                        Total Diskon<span class="float-right text-danger">{{
+                          getPriceLabel(selectedVoucher) | formatMoney
+                        }}</span>
+                      </h6>
+                    </div>
+                    <!-- <p
                       class="mb-1"
                       v-for="voucher in getSelectedVouchers.vouchers"
                       :key="voucher._id"
@@ -332,7 +357,7 @@
                       Total Diskon<span class="float-right text-success"
                         >- Rp. {{ getSelectedVouchers.totalVoucherFee }}</span
                       >
-                    </h6>
+                    </h6> -->
                   </div>
                   <div class="bg-white p-3 clearfix">
                     <p class="font-weight-bold small mb-2">Rincian Tagihan</p>
@@ -342,146 +367,282 @@
                         >({{ carts.products.length }} item)</span
                       >
                       <span class="float-right text-dark">
-                        {{ countSubtotalProduct | formatMoney }}</span
+                        {{ carts.subTotal | formatMoney }}</span
                       >
                     </p>
-                    <p class="mb-1">
+                    <div v-if="charges.length">
+                      <p
+                        class="mb-1"
+                        v-for="charge in charges"
+                        :key="charge._id"
+                      >
+                        {{ charge.chargeName }}
+                        <span class="float-right text-dark">{{
+                          charge.chargeValue | formatMoney
+                        }}</span>
+                      </p>
+                    </div>
+                    <p
+                      class="mb-1"
+                      v-if="
+                        selectedVoucher &&
+                        Object.keys(selectedVoucher).length > 0
+                      "
+                    >
                       Diskon
                       <span class="float-right text-dark"
                         >-
-                        {{
-                          getSelectedVouchers.totalVoucherFee | formatMoney
-                        }}</span
+                        {{ getPriceLabel(selectedVoucher) | formatMoney }}</span
                       >
                     </p>
                   </div>
                   <div class="p-3 border-top">
                     <h5 class="mb-0">
-                      SubTotal
+                      Total
                       <span class="float-right text-danger">
-                        {{
-                          (getSelectedVouchers.grandTotalAfterDiscount
-                            ? getSelectedVouchers.grandTotalAfterDiscount
-                            : getCountCart) | formatMoney
-                        }}</span
+                        {{ countTotalToPay | formatMoney }}</span
                       >
                     </h5>
                   </div>
                 </div>
               </div>
-              <p class="text-success text-center">
+              <p class="text-success text-center" v-if="selectedVoucher">
                 Anda Hemat
                 {{ getSelectedVouchers.totalVoucherFee | formatMoney }}
               </p>
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- Modal -->
-      <div id="modal-vouchers">
         <div
-          class="
-            modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg
-          "
+          class="order-body order-not-found"
+          v-if="carts.products.length <= 0"
         >
-          <div class="modal-content animate__animated animate__jello">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
-                <i class="fad fa-egg-fried text-success"></i> Gunakan Voucher
-              </h5>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-                @click="closeModal()"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
+          <div class="pb-3 text-center text-danger">
+            <h4><i class="fad fa-cart-plus"></i> Keranjang Kamu Kosong</h4>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div
+      class="order-body cart-not-found"
+      v-if="!carts && carts.products.length <= 0"
+    >
+      <div class="pb-3 text-center text-danger">
+        <h4><i class="fad fa-cart-plus"></i> Keranjang Kamu Kosong</h4>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="modal-vouchers"
+      data-backdrop="static"
+      data-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="modal-vouchersLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modal-vouchersLabel">Pakai Voucher</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group mb-3 input-wrapper mt-2">
+              <input
+                type="text"
+                class="input"
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                aria-label="Masukkan kode voucher"
+                aria-describedby="button-addon2"
+                v-model="appliedVoucher"
+              />
+              <span class="placeholder">Masukkan kode voucher</span>
+              <div class="input-group-append">
+                <button
+                  class="btn btn-outline-danger"
+                  type="button"
+                  id="button-addon2"
+                  @click="setVoucherByInput()"
+                >
+                  Terapkan
+                </button>
+              </div>
             </div>
-            <div class="modal-body">
-              <div>
-                <div class="paragraphs p-3">
-                  <div class="justify-content-center">
-                    <div
-                      class="voucher-list row"
-                      v-for="(voucher, index) in getCartsVouchers"
-                      :key="voucher._id"
-                    >
-                      <img
-                        class="col-md-4 d-flex clearfix img-fluid img-voucher"
-                        :src="`${baseApi}/${voucher.banner}`"
-                        :alt="`${
-                          voucher.voucherName
-                            ? voucher.voucherName
-                            : voucher.voucherCode
-                        }`"
-                      />
-                      <div class="col-md-8 content-heading pl-2 pr-2">
+            <span role="button" class="text-danger pl-3" @click="resetVoucher()"
+              >reset voucher</span
+            >
+            <div>
+              <div class="paragraphs p-3">
+                <div
+                  class="justify-content-center"
+                  v-if="getCartsVouchers.length > 0"
+                >
+                  <div
+                    class="voucher-list row"
+                    v-for="(voucher, index) in getCartsVouchers"
+                    :key="voucher._id"
+                  >
+                    <div class="col-md-12 content-heading pl-2 pr-2 mt-2">
+                      <div>
                         <div>
-                          <div>
-                            <p class="mb-1 label-voucher">
-                              {{
-                                voucher.voucherName
-                                  ? voucher.voucherName
-                                  : voucher.voucherCode
-                              }}
-                              <button
-                                class="
-                                  btn btn-outline-danger
-                                  font-weight-light
-                                  float-right
-                                "
-                                @click="setVoucher(voucher, index)"
-                              >
-                                gunakan
-                              </button>
-                            </p>
+                          <div class="mb-1 label-voucher">
+                            <h5 class="font-weight-bold">
+                              {{ voucher.voucherName }}
+                            </h5>
+                            <h6>kode: {{ voucher.voucherCode }}</h6>
+                            <button
+                              class="
+                                btn btn-outline-danger
+                                font-weight-light
+                                float-right
+                              "
+                              @click="applyVoucher(voucher, index)"
+                              :disabled="selectedVoucher._id && !voucher._id"
+                            >
+                              gunakan
+                            </button>
                           </div>
-                          <p>
-                            Donec id elit non mi porta gravida at eget metus.
-                            Etiam porta sem malesuada magna mollis euismod.
-                            Donec sed odio dui.
-                          </p>
+                        </div>
+                        <div>
+                          <span>Berakhir dalam:</span> <br />
+                          <span :id="`countDown-${voucher.voucherCode}`">
+                            {{
+                              formatDateToCountDown(
+                                voucher.discountEnd,
+                                voucher.voucherCode
+                              )
+                            }}
+                            lagi!</span
+                          ><br />
+
+                          <span class="text-danger">Lihat Detail</span>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <!-- <div v-for="voucher in getCartsVouchers" :key="voucher._id">
-                  <img :src="`${baseApi}/${voucher.banner}`" :alt="`${voucher.voucherName ? voucher.voucherName : voucher.voucherCode}`" class="img-fluid rounded">
-                  <p>
-                    {{ voucher.voucherName ? voucher.voucherName : voucher.voucherCode }}
-                  </p>
-                </div> -->
+
+                <div
+                  class="justify-content-center"
+                  v-if="getCartsVouchers.length <= 0"
+                >
+                  <h4 class="font-weight-bold">Keranjangmu kosong</h4>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <!-- Delete confirmation -->      
-      <div class="modal fade show" id="modal-delete-confirmation" tabindex="-1" role="dialog" aria-labelledby="modal-delete-confirmationLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="modal-delete-confirmationLabel">Peringatan</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+    </div>
+    <!-- <div
+      class="modal fade"
+      id="modal-vouchers"
+      data-backdrop="static"
+      data-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="modal-vouchersLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modal-vouchersLabel">Pakai Voucher</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group mb-3 input-wrapper mt-2">
+              <input
+                type="text"
+                class="input"
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                aria-label="Masukkan kode voucher"
+                aria-describedby="button-addon2"
+                v-model="appliedVoucher"
+              />
+              <span class="placeholder">Masukkan kode voucher</span>
+              <div class="input-group-append">
+                <button
+                  class="btn btn-outline-danger"
+                  type="button"
+                  id="button-addon2"
+                  @click="setVoucherByInput()"
+                >
+                  Terapkan
+                </button>
+              </div>
             </div>
-            <div class="modal-body">
-              ...
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+            <span role="button" class="text-danger pl-3" @click="resetVoucher()"
+              >reset voucher</span
+            >
+            <div>
+              <div class="paragraphs p-3">
+                <div class="justify-content-center">
+                  <div
+                    class="voucher-list row"
+                    v-for="(voucher, index) in getCartsVouchers"
+                    :key="voucher._id"
+                  >
+                    <div class="col-md-12 content-heading pl-2 pr-2 mt-2">
+                      <div>
+                        <div>
+                          <div class="mb-1 label-voucher">
+                            <h5 class="font-weight-bold">
+                              {{ voucher.voucherName }}
+                            </h5>
+                            <h6>kode: {{ voucher.voucherCode }}</h6>
+                            <button
+                              class="
+                                btn btn-outline-danger
+                                font-weight-light
+                                float-right
+                              "
+                              @click="applyVoucher(voucher, index)"
+                              :disabled="selectedVoucher._id && !voucher._id"
+                            >
+                              gunakan
+                            </button>
+                          </div>
+                        </div>
+                        <div>
+                          <span>Berakhir dalam:</span> <br />
+                          <span :id="`countDown-${voucher.voucherCode}`"
+                            >{{
+                              formatDateToCountDown(
+                                voucher.discountEnd,
+                                voucher.voucherCode
+                              )
+                            }}
+                            lagi!</span
+                          ><br />
+
+                          <span class="text-danger">Lihat Detail</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <!-- Delete confirmation -->
-    </section>
+    </div> -->
   </div>
 </template>
 
@@ -496,14 +657,25 @@ export default {
     return {
       baseApi: process.env.NUXT_ENV_BASE_URL_API,
       vouchers: [],
+      selectedVoucher: {},
+      appliedVoucher: "",
+      charges: [],
       carts: [],
-      selectedVoucher: [],
+      selectedVoucher: {},
       productIdTmp: "",
       displayDeleteConfirmation: true,
+      chargeSetting: {
+        page: 1,
+        show: 10,
+        sortBy: "ASC",
+        orderBy: "chargeName",
+      },
     };
   },
   async fetch() {
     await this.fetchCart();
+    await this.fetchCharges();
+    this.$store.dispatch("cart/setVouchers");
   },
   methods: {
     async fetchCart() {
@@ -520,6 +692,91 @@ export default {
         await this.$store.dispatch("cart/setVouchers");
         this.vouchers = await this.$store.state.cart.vouchers;
       }
+    },
+    async fetchCharges() {
+      if (this.$store.state.cart.carts.length <= 0) {
+        await this.$axios
+          .$get(
+            `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/charge?page=${this.chargeSetting.page}&show=${this.chargeSetting.show}&sortBy=${this.chargeSetting.sortBy}&orderBy=${this.chargeSetting.orderBy}`
+          )
+          .then((results) => {
+            if (!results.error) {
+              this.charges = results.data;
+            }
+          });
+      }
+    },
+    getPriceLabel(voucher) {
+      // let voucher = this.selectedVoucher;
+      let price = 0;
+
+      if (voucher.discountBy === "percent") {
+        let discountPrice = (voucher.discountValue / 100) * this.carts.subTotal;
+        price = this.carts.subTotal - discountPrice;
+      } else {
+        price = voucher.discountValue;
+      }
+      return price;
+    },
+
+    formatDateToCountDown(date, code) {
+      if (this.getCartsVouchers.length > 0) {
+        var countDownDate = new Date(date).getTime();
+
+        var x = setInterval(function () {
+          // Get today's date and time
+          var now = new Date().getTime();
+
+          // Find the distance between now and the count down date
+          var distance = countDownDate - now;
+
+          // Time calculations for days, hours, minutes and seconds
+          var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          var hours = Math.floor(
+            (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          );
+          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+          // Output the result in an element with id="demo"
+          document.getElementById(`countDown-${code}`).innerHTML =
+            days +
+            "hari " +
+            hours +
+            "jam " +
+            minutes +
+            "menit " +
+            seconds +
+            "detik ";
+
+          // If the count down is over, write some text
+          if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("demo").innerHTML = "EXPIRED";
+          }
+        }, 1000);
+      }
+    },
+    resetVoucher() {
+      this.selectedVoucher = {};
+      this.$toast.warning("Voucher Dihapus");
+    },
+    applyVoucher(voucher) {
+      this.selectedVoucher = voucher;
+      $("#modal-vouchers").modal("hide");
+      this.$toast.success("Voucher Diterapkan");
+    },
+    setVoucherByInput() {
+      let voucherExist = this.getCartsVouchers.filter(
+        (obj) =>
+          obj.voucherCode.toLowerCase() === this.appliedVoucher.toLowerCase()
+      );
+      if (voucherExist.length <= 0) {
+        this.$toast.warning("Kode Voucher Salah");
+        return;
+      }
+      $("#modal-vouchers").modal("hide");
+      this.selectedVoucher = voucherExist[0];
     },
     closeNote() {
       $(`.input-note`).css("display", "none");
@@ -608,34 +865,43 @@ export default {
       });
     },
     checkout() {
-      const products = this.carts.map((product, index) => {
+      const products = this.carts.products.map((product, index) => {
         return product._id;
       });
+
+      const vouchers = [];
+
+      if (this.selectedVoucher) {
+        vouchers.push(this.selectedVoucher._id);
+      }
 
       this.$axios
         .$post(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/checkout/cart`, {
           cart: {
-            cart_id: this.$store.state.cart.cart._id,
+            cart_id: this.carts._id,
             products: products,
           },
           user_id: this.$store.state.auth.user._id,
-          vouchers: [],
+          vouchers,
           type: "checkout",
           platform: "all",
           isActive: "true",
         })
         .then((results) => {
-          if (results.data.error) {
-            this.$toast.warning(results.data.message);
+          if (results.error) {
+            this.$toast.warning(results.message);
+            return;
           }
-          console.log(results);
+          this.$toast.success("Berhasil checkout!. Pilih Metode Pembayaran");
+          this.$router.push("/checkout");
         })
         .catch((err) => {
-          if (err && err.response && err.response.data.error) {
-            this.$toast.warning(err.response.data.message);
-          } else {
-            this.$toast.warning("Server Sibuk");
+          if (err && err.response && err.response.error) {
+            this.$toast.warning(err.response.message);
           }
+          // else {
+          //   this.$toast.warning("Server Sibuk");
+          // }
         });
     },
     setVoucher(voucher, index) {
@@ -662,6 +928,7 @@ export default {
                   this.$toast.warning(results.data.message);
                 }
                 product.quantity++;
+                this.fetchCart();
               })
               .catch((err) => {
                 if (err && err.response && err.response.data.error) {
@@ -676,7 +943,7 @@ export default {
         }
       });
     },
-    setDecrement(event, productId) {
+    setDecrement(productId) {
       this.carts.products.filter((product) => {
         if (product._id == productId) {
           if (product.quantity <= 1) {
@@ -697,6 +964,7 @@ export default {
                 this.$toast.warning(results.data.message);
               }
               product.quantity--;
+              this.fetchCart();
             })
             .catch((err) => {
               if (err && err.response && err.response.data.error) {
@@ -705,52 +973,34 @@ export default {
                 this.$toast.warning("Server Sibuk");
               }
             });
-        } else {
-          this.productIdTmp = productId;
-          $("#modal-delete-confirmation").css("display", "block");
         }
-          event.preventDefault();
       });
     },
     openModalVouchers() {
-      $("#modal-vouchers").css("display", "block");
+      $("#modal-vouchers").appendTo("body").modal("show");
     },
     closeModal() {
       $("#modal-vouchers").css("display", "none");
     },
     removeProduct(productId) {
-      const product = this.getCarts.filter((product, index) => {
-        if (product._id === productId) {
-          product.indexFilter = index;
-          return product;
-        }
-      });
-
-      if (product.length > 0) {
-        // this.$store.dispatch("cart/setDecrement", product[0]);
-        this.$axios
-          .$delete(
-            `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/cart`,
-            {
-              user_id: this.$cookies.get('client_id'),
-              product_id: productId,
-            }
-          )
-          .then((results) => {
-            if (results.data.error) {
-              this.$toast.warning(results.data.message);
-            } else 
-                this.resetAllCarts();
-          })
-          .catch((err) => {
-            if (err && err.response && err.response.data.error) {
-              this.$toast.warning(err.response.data.message);
-            } else {
-              this.$toast.warning("Server Sibuk");
-            }
+      this.$axios
+        .$delete(
+          `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/cart/${this.$store.state.auth.user._id}/product/${productId}`
+        )
+        .then((results) => {
+          if (results.data.error) {
+            this.$toast.warning(results.data.message);
+          } else {
+            this.fetchCart();
           }
-        );
-      }
+        })
+        .catch((err) => {
+          if (err && err.response && err.response.data.error) {
+            this.$toast.warning(err.response.data.message);
+          } else {
+            this.$toast.warning("Server Sibuk");
+          }
+        });
     },
     async resetAllCarts() {
       await this.$store.dispatch("cart/setCartsAndCartsNav");
@@ -763,14 +1013,34 @@ export default {
       "getCartsVouchers",
       "getSelectedVouchers",
     ]),
+    countTotalToPay() {
+      let cart = this.carts;
+
+      let subTotalProduct = cart.baseTotal;
+      let subTotalCharges = 0;
+      let voucher = 0;
+      let charges = this.charges;
+
+      if (this.getPriceLabel(this.selectedVoucher)) {
+        voucher = this.getPriceLabel(this.selectedVoucher);
+      }
+
+      for (let i = 0; i < charges.length; i++) {
+        if (charges[i].chargeBy === "price") {
+          subTotalCharges += charges[i].chargeValue;
+        }
+      }
+
+      return subTotalProduct + subTotalCharges - voucher;
+    },
     countSubtotalProduct() {
       if (this.carts && this.carts.products) {
-        const cart = this.carts;
-        const products = cart.products;
+        // const cart = this.carts;
+        // const products = cart.products;
 
         let price = 0;
 
-        const subTotal = products.map((product) => {
+        const subTotal = this.carts.products.map((product) => {
           let currentTime = moment().format();
 
           if (
@@ -923,6 +1193,10 @@ export default {
 .img-voucher {
   border-radius: 15px;
 }
+.cart-not-found {
+  margin-top: 15%;
+  margin-bottom: 15%;
+}
 
 @media only screen and (max-device-width: 480px) {
   .content-heading {
@@ -946,14 +1220,37 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, .5);
+  background-color: rgba(0, 0, 0, 0.5);
   display: table;
-  transition: opacity .3s ease;
+  transition: opacity 0.3s ease;
 }
 
 .modal-wrapper {
   display: table-cell;
   vertical-align: middle;
 }
+.btn-apply {
+  margin-left: 10px;
+  margin-top: 8px;
+}
+.content-heading {
+  border: 1px solid red;
+  border-radius: 5px;
+  padding: 5px;
+}
+.order-not-found {
+  margin-top: 25%;
+  margin-bottom: 25%;
+}
+@media only screen and (max-device-width: 480px) {
+  .input {
+    margin-left: 8px;
+  }
+}
 
+@media only screen and (max-device-width: 380px) {
+  .input {
+    margin-left: 8px;
+  }
+}
 </style>

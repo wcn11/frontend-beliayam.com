@@ -358,7 +358,7 @@
                         >
                       </button>
                     </div> -->
-                    <!-- <div
+                    <div
                       class="bg-white p-3 clearfix"
                       v-if="Object.keys(selectedVoucher).length > 0"
                     >
@@ -378,7 +378,7 @@
                           >Rp. {{ getPriceLabel(selectedVoucher) }}</span
                         >
                       </h6>
-                    </div> -->
+                    </div>
                     <div class="bg-white p-3 clearfix">
                       <p class="font-weight-bold small mb-2">Rincian Tagihan</p>
                       <p class="mb-1">
@@ -402,14 +402,6 @@
                           }}</span>
                         </p>
                       </div>
-                      <!-- <p>
-                        Ongkos Kirim
-                        <span class="text-info ml-1"
-                          ><i class="fad fa-circle-info"></i></span
-                        ><span class="float-right text-dark">{{
-                          0 | formatMoney
-                        }}</span>
-                      </p> -->
                       <p v-if="Object.keys(selectedVoucher).length > 0">
                         Diskon
                         <span class="text-info ml-1"
@@ -431,7 +423,7 @@
                     </div>
                     <div class="p-3 border-top">
                       <h5 class="mb-0">
-                        TO PAY
+                        Bayar
                         <span class="float-right text-danger">{{
                           countTotalToPay | formatMoney
                         }}</span>

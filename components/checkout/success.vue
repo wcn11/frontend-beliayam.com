@@ -32,16 +32,7 @@
           </h5>
           <div>
             <div>
-              <!-- <div v-if="order.payment.pg_type === 'cash'" class="p-2">
-                <span>Cash (Bayar Melalui Kurir)</span>
-                <label v-if="order.payment.pg_type === 'cash'">
-                  <span class="w-75">{{ order.payment.pg_name }}</span>
-                </label>
-              </div> -->
               <div v-if="order.payment.pg_type === 'emoney'" class="p-2">
-                <!-- <label>
-                  <span class="w-75">{{ order.payment.pg_name }}</span>
-                </label> -->
                 <a
                   :href="order.response.redirect_url"
                   class="btn btn-danger"
@@ -51,10 +42,6 @@
                 >
               </div>
               <div v-if="order.payment.pg_type === 'ibanking'" class="p-2">
-                <!-- <span>Internet Banking</span> -->
-                <!-- <label>
-                  <span class="w-75">{{ order.payment.pg_name }}</span>
-                </label> -->
                 <a
                   :href="order.response.redirect_url"
                   class="btn btn-danger"
@@ -64,11 +51,6 @@
                 >
               </div>
               <div v-if="order.payment.pg_type === 'jumapp'" class="p-2">
-                <!-- <span>App On The Go</span>
-                <label>
-                  <span class="w-75">{{ order.payment.pg_name }}</span>
-                </label> -->
-
                 <a
                   :href="order.response.redirect_url"
                   class="btn btn-danger"
@@ -78,11 +60,6 @@
                 >
               </div>
               <div v-if="order.payment.pg_type === 'qris'" class="p-2">
-                <!-- <span>QRIS</span>
-                <label>
-                  <span class="w-75">{{ order.payment.pg_name }}</span>
-                </label> -->
-
                 <a
                   :href="order.response.redirect_url"
                   class="btn btn-danger"
@@ -92,11 +69,6 @@
                 >
               </div>
               <div v-if="order.payment.pg_type === 'retail'" class="p-2">
-                <!-- <span>Retail (Pembayaran Gerai Aflamart / Indomaret)</span>
-                <label>
-                  <span class="w-75">{{ order.payment.pg_name }}</span>
-                </label> -->
-
                 <a
                   :href="order.response.redirect_url"
                   class="btn btn-danger"
@@ -105,12 +77,8 @@
                   {{ order.payment.pg_name }}</a
                 >
               </div>
-              <div v-if="order.payment.pg_type === 'va'" class="p-2">
-                <!-- <span>Virtual Akun (Transfer)</span>
-                <label>
-                  <span class="w-75">{{ order.payment.pg_name }}</span>
-                </label> -->
-
+              <div v-if="order.payment.pg_type === 'va'" class="p-2 va-container">
+                <span>Kode {{ order.payment.pg_name  }} Anda</span><h4>{{ order.response.trx_id }}</h4>
                 <a
                   :href="order.response.redirect_url"
                   class="btn btn-danger"
@@ -120,10 +88,8 @@
                 >
               </div>
             </div>
-            <!-- <h4>{{ order.response.trx_id }}</h4>
-            <p>{{ order.payment.pg_name }}</p> -->
           </div>
-          <p class="small text-muted">
+          <p class="small text-mutedm mt-2">
             Pesanan anda akan disiapkan dan akan segera datang
           </p>
 
@@ -132,38 +98,14 @@
             <h5>{{ order.bill.bill_total | formatMoney }}</h5>
           </div>
           <NuxtLink
-            :to="`/akun/pesanan-saya?order_id=${order.order_id}`"
+            :to="`/akun/pesanan-saya?trx_id=${order.order_id}`"
             class="btn rounded btn-warning btn-lg btn-block"
             >Lihat Pesanan Saya</NuxtLink
           >
-        </div>
-        <div v-else>
-          <p class="small text-muted">
-            Pesanan anda akan disiapkan dan akan segera datang
-          </p>
-
-          <div>
-            <h6>Total Pembayaran</h6>
-            <h5>{{ order.bill.bill_total | formatMoney }}</h5>
+          <div class="p-2">
+            <p class="text-muted font-italic">Muat ulang halaman jika status pembayaran belum berubah</p>
           </div>
-          <NuxtLink
-            :to="`/akun/pesanan-saya?order_id=${order.order_id}`"
-            class="btn rounded btn-warning btn-lg btn-block"
-            >Lihat Pesanan Saya</NuxtLink
-          >
         </div>
-
-        <!-- <div class="bg-white rounded p-3 m-5 text-center">
-          <h6 class="font-weight-bold mb-2">Mempersiapkan pesanan Anda</h6>
-          <p class="small text-muted">
-            Pesanan anda akan disiapkan dan akan segera datang
-          </p>
-          <NuxtLink
-            to="/akun/pesanan-saya"
-            class="btn rounded btn-warning btn-lg btn-block"
-            >Lihat Pesanan Saya</NuxtLink
-          >
-        </div> -->
       </div>
     </div>
   </div>
@@ -254,5 +196,9 @@ export default {
 <style scoped>
 .bg-success-order {
   background-color: #ce0000;
+}
+.va-container {
+  border: 3px solid #ce0000;
+  border-radius: 6px;
 }
 </style>

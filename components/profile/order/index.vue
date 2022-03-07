@@ -2,629 +2,207 @@
   <section class="py-4 beliayam-main-body">
     <div class="container">
       <div class="row">
-        <ProfilePartialSidebar />
-        <div class="col-lg-8">
-          <div class="row">
-            <div class="col-lg-12 mb-4">
-              <ul
-                class="
-                  nav nav-tabs
-                  custom-tabs
-                  border-0
-                  bg-white
-                  rounded
-                  overflow-hidden
-                  shadow-sm
-                  p-2
-                  c-t-order
-                  justify-content-around
-                "
-                id="myTab"
-                role="tablist"
+        <!-- <ProfilePartialSidebar /> -->
+
+        <div class="col-md-3">
+          <ul
+            class="
+              nav nav-tabs
+              custom-tabs
+              border-0
+              flex-column
+              bg-white
+              rounded
+              overflow-hidden
+              shadow-sm
+              p-2
+              c-t-order
+            "
+            id="myTab"
+            role="tablist"
+          >
+            <li class="nav-item" role="presentation" @click="getOrders()">
+              <a
+                class="nav-link border-0 text-dark py-3 active text-center"
+                id="all-tab"
+                data-toggle="tab"
+                href="#all"
+                role="tab"
+                aria-controls="all"
+                aria-selected="true"
               >
-                <li class="nav-item" role="presentation">
-                  <a
-                    class="nav-link border-0 text-dark py-3 active"
-                    id="completed-tab"
-                    data-toggle="tab"
-                    href="#completed"
-                    role="tab"
-                    aria-controls="completed"
-                    aria-selected="true"
-                  >
-                    <i class="fad fa-check mr-2 text-success mb-0"></i>
-                    Completed</a
-                  >
-                </li>
-                <li class="nav-item border-top" role="presentation">
-                  <a
-                    class="nav-link border-0 text-dark py-3"
-                    id="progress-tab"
-                    data-toggle="tab"
-                    href="#progress"
-                    role="tab"
-                    aria-controls="progress"
-                    aria-selected="false"
-                  >
-                    <i class="fad fa-clock mr-2 text-warning mb-0"></i> On
-                    Progress</a
-                  >
-                </li>
-                <li class="nav-item border-top" role="presentation">
-                  <a
-                    class="nav-link border-0 text-dark py-3"
-                    id="canceled-tab"
-                    data-toggle="tab"
-                    href="#canceled"
-                    role="tab"
-                    aria-controls="canceled"
-                    aria-selected="false"
-                  >
-                    <i class="fad fa-times mr-2 text-danger mb-0"></i>
-                    Canceled</a
-                  >
-                </li>
-              </ul>
+                <i class="fad fa-box-check mr-2 text-success mb-0"></i>
+                Semua</a
+              >
+            </li>
+            <li class="nav-item" role="presentation" @click="getOrders(2)">
+              <a
+                class="nav-link border-0 text-dark py-3 text-center"
+                id="completed-tab"
+                data-toggle="tab"
+                href="#completed"
+                role="tab"
+                aria-controls="completed"
+                aria-selected="true"
+              >
+                <i class="fad fa-check mr-2 text-success mb-0"></i>
+                Selesai</a
+              >
+            </li>
+            <li
+              class="nav-item border-top"
+              role="presentation"
+              @click="getOrders(1)"
+            >
+              <a
+                class="nav-link border-0 text-dark py-3 text-center"
+                id="progress-tab"
+                data-toggle="tab"
+                href="#progress"
+                role="tab"
+                aria-controls="progress"
+                aria-selected="false"
+              >
+                <i class="fad fa-clock mr-2 text-warning mb-0"></i>
+                Proses</a
+              >
+            </li>
+            <li
+              class="nav-item border-top"
+              role="presentation"
+              @click="getOrders(8)"
+            >
+              <a
+                class="nav-link border-0 text-dark py-3 text-center"
+                id="canceled-tab"
+                data-toggle="tab"
+                href="#canceled"
+                role="tab"
+                aria-controls="canceled"
+                aria-selected="false"
+              >
+                <i class="fad fa-ban mr-2 text-danger mb-0"></i>
+                Dibatalkan</a
+              >
+            </li>
+            <li
+              class="nav-item border-top"
+              role="presentation"
+              @click="getOrders(7)"
+            >
+              <a
+                class="nav-link border-0 text-dark py-3 text-center"
+                id="canceled-tab"
+                data-toggle="tab"
+                href="#canceled"
+                role="tab"
+                aria-controls="canceled"
+                aria-selected="false"
+              >
+                <i class="fad fa-calendar-times mr-2 text-danger mb-0"></i>
+                Pesanan Kadaluarsa</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="tab-content col-md-9" id="myTabContent">
+          <div
+            class="tab-pane fade show active"
+            id="all"
+            role="tabpanel"
+            aria-labelledby="all-tab"
+            v-if="orders.length > 1"
+          >
+            <div class="order-body" v-if="orders.length > 0">
+              <div class="pb-3" v-for="order in orders" :key="order._id">
+                <NuxtLink
+                  :to="`/akun/pesanan-saya/order?trx_id=${order.order_id}`"
+                  class="text-decoration-none text-dark"
+                >
+                  <div class="p-3 rounded shadow-sm bg-white">
+                    <div class="d-flex align-items-center mb-3">
+                      <p
+                        class="
+                          bg-warning
+                          text-white
+                          py-1
+                          px-2
+                          mb-0
+                          rounded
+                          small
+                        "
+                        v-if="order.payment.payment_status_code === 1"
+                      >
+                        {{ order.order_status.description }}
+                      </p>
+                      <p
+                        class="
+                          bg-success
+                          text-white
+                          py-1
+                          px-2
+                          mb-0
+                          rounded
+                          small
+                        "
+                        v-if="order.payment.payment_status_code === 2"
+                      >
+                        {{ order.order_status.description }}
+                      </p>
+                      <p
+                        class="
+                          bg-success
+                          text-white
+                          py-1
+                          px-2
+                          mb-0
+                          rounded
+                          small
+                        "
+                        v-if="order.payment.payment_status_code === 8"
+                      >
+                        {{ order.order_status.description }}
+                      </p>
+                      <p class="text-muted ml-auto small mb-0">
+                        <i class="icofont-clock-time"></i>
+                        {{ order.bill.bill_date | formatDate }}
+                      </p>
+                    </div>
+                    <div class="d-flex">
+                      <p class="text-muted m-0">
+                        Order. ID<br />
+                        <span class="text-dark font-weight-bold"
+                          >#{{ order.order_id }}</span
+                        >
+                      </p>
+                      <p class="text-muted m-0 ml-auto">
+                        Dikirim ke<br />
+                        <span class="text-dark font-weight-bold">{{
+                          order.shipping_address.label || "Alamat anda"
+                        }}</span>
+                      </p>
+                      <p class="text-muted m-0 ml-auto">
+                        Total Pembayaran<br />
+                        <span class="text-dark font-weight-bold">{{
+                          order.grand_total | formatMoney
+                        }}</span>
+                      </p>
+                    </div>
+                  </div>
+                </NuxtLink>
+              </div>
             </div>
-            <div class="tab-content col-lg-12" id="myTabContent">
-              <div
-                class="tab-pane fade show active"
-                id="completed"
-                role="tabpanel"
-                aria-labelledby="completed-tab"
-              >
-                <div class="order-body" @click="viewStatus()" v-if="orderCompleted">
-                  <div class="pb-3">
-                    <a
-                      href="javascript:void(0)"
-                      class="text-decoration-none text-dark"
-                    >
-                      <div class="p-3 rounded shadow-sm bg-white">
-                        <div class="d-flex align-items-center mb-3">
-                          <p
-                            class="
-                              bg-success
-                              text-white
-                              py-1
-                              px-2
-                              mb-0
-                              rounded
-                              small
-                            "
-                          >
-                            Delivered
-                          </p>
-                          <p class="text-muted ml-auto small mb-0">
-                            <i class="fad fa-clock"></i> 06/04/2020
-                          </p>
-                        </div>
-                        <div class="d-flex">
-                          <p class="text-muted m-0">
-                            Transaction. ID<br />
-                            <span class="text-dark font-weight-bold"
-                              >#321DERS</span
-                            >
-                          </p>
-                          <p class="text-muted m-0 ml-auto">
-                            Delivered to<br />
-                            <span class="text-dark font-weight-bold">Home</span>
-                          </p>
-                          <p class="text-muted m-0 ml-auto">
-                            Total Payment<br />
-                            <span class="text-dark font-weight-bold"
-                              >Rp. 100.000</span
-                            >
-                          </p>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="pb-3">
-                    <a
-                      href="status_complete.html"
-                      class="text-decoration-none text-dark"
-                    >
-                      <div class="p-3 rounded shadow-sm bg-white">
-                        <div class="d-flex align-items-center mb-3">
-                          <p
-                            class="
-                              bg-success
-                              text-white
-                              py-1
-                              px-2
-                              rounded
-                              small
-                              m-0
-                            "
-                          >
-                            Delivered
-                          </p>
-                          <p class="text-muted ml-auto small m-0">
-                            <i class="fad fa-clock"></i> 06/04/2020
-                          </p>
-                        </div>
-                        <div class="d-flex">
-                          <p class="text-muted m-0">
-                            Transaction. ID<br />
-                            <span class="text-dark font-weight-bold"
-                              >#321DERS</span
-                            >
-                          </p>
-                          <p class="text-muted m-0 ml-auto">
-                            Delivered to<br />
-                            <span class="text-dark font-weight-bold">Home</span>
-                          </p>
-                          <p class="text-muted m-0 ml-auto">
-                            Total Payment<br />
-                            <span class="text-dark font-weight-bold"
-                              >Rp. 100.000</span
-                            >
-                          </p>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="pb-3">
-                    <a
-                      href="status_complete.html"
-                      class="text-decoration-none text-dark"
-                    >
-                      <div class="p-3 rounded shadow-sm bg-white">
-                        <div class="d-flex align-items-center mb-3">
-                          <p
-                            class="
-                              bg-success
-                              text-white
-                              py-1
-                              px-2
-                              rounded
-                              small
-                              mb-0
-                            "
-                          >
-                            Delivered
-                          </p>
-                          <p class="text-muted ml-auto small m-0">
-                            <i class="fad fa-clock"></i> 06/04/2020
-                          </p>
-                        </div>
-                        <div class="d-flex">
-                          <p class="text-muted m-0">
-                            Transaction. ID<br />
-                            <span class="text-dark font-weight-bold"
-                              >#321DERS</span
-                            >
-                          </p>
-                          <p class="text-muted m-0 ml-auto">
-                            Delivered to<br />
-                            <span class="text-dark font-weight-bold">Home</span>
-                          </p>
-                          <p class="text-muted m-0 ml-auto">
-                            Total Payment<br />
-                            <span class="text-dark font-weight-bold"
-                              >Rp. 100.000</span
-                            >
-                          </p>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="pb-3">
-                    <a
-                      href="status_onprocess.html"
-                      class="text-decoration-none text-dark"
-                    >
-                      <div class="p-3 rounded shadow-sm bg-white">
-                        <div class="d-flex align-items-center mb-3">
-                          <p
-                            class="
-                              bg-warning
-                              text-white
-                              py-1
-                              px-2
-                              rounded
-                              small
-                              m-0
-                            "
-                          >
-                            On Process
-                          </p>
-                          <p class="text-muted ml-auto small m-0">
-                            <i class="fad fa-clock"></i> 06/04/2020
-                          </p>
-                        </div>
-                        <div class="d-flex">
-                          <p class="text-muted m-0">
-                            Transaction. ID<br />
-                            <span class="text-dark font-weight-bold"
-                              >#321DERS</span
-                            >
-                          </p>
-                          <p class="text-muted m-0 ml-auto">
-                            Delivered to<br />
-                            <span class="text-dark font-weight-bold">Home</span>
-                          </p>
-                          <p class="text-muted m-0 ml-auto">
-                            Total Payment<br />
-                            <span class="text-dark font-weight-bold"
-                              >Rp. 100.000</span
-                            >
-                          </p>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="pb-3">
-                    <a
-                      href="status_canceled.html"
-                      class="text-decoration-none text-dark"
-                    >
-                      <div class="p-3 rounded shadow-sm bg-white">
-                        <div class="d-flex align-items-center mb-3">
-                          <p
-                            class="
-                              bg-danger
-                              text-white
-                              py-1
-                              px-2
-                              rounded
-                              small
-                              m-0
-                            "
-                          >
-                            Canceled
-                          </p>
-                          <p class="text-muted ml-auto small m-0">
-                            <i class="fad fa-clock"></i> 06/04/2020
-                          </p>
-                        </div>
-                        <div class="d-flex">
-                          <p class="text-muted m-0">
-                            Transaction. ID<br />
-                            <span class="text-dark font-weight-bold"
-                              >#321DERS</span
-                            >
-                          </p>
-                          <p class="text-muted m-0 ml-auto">
-                            Delivered to<br />
-                            <span class="text-dark font-weight-bold">Home</span>
-                          </p>
-                          <p class="text-muted m-0 ml-auto">
-                            Total Payment<br />
-                            <span class="text-dark font-weight-bold"
-                              >Rp. 100.000</span
-                            >
-                          </p>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-
-                <div class="beliayam-status bg-white" v-else>
-                  <div
-                    class="
-                      p-3
-                      status-order
-                      bg-white
-                      border-bottom
-                      d-flex
-                      align-items-center
-                    "
-                  >
-                    <p class="m-0">
-                      <i class="fad fa-calendar-alt"></i> 16 June, 11:30AM
-                    </p>
-                    <a
-                      href="review.html"
-                      class="text-success ml-auto text-decoration-none"
-                      >Review</a
-                    >
-                  </div>
-                  <div class="p-3 border-bottom">
-                    <h6 class="font-weight-bold">Order Status</h6>
-                    <div class="tracking-wrap">
-                      <div class="my-1 step active">
-                        <span class="icon text-success"
-                          ><i class="fad fa-check"></i
-                        ></span>
-                        <span class="text small">Preparing order</span>
-                      </div>
-
-                      <div class="my-1 step active">
-                        <span class="icon text-success"
-                          ><i class="fad fa-check"></i
-                        ></span>
-                        <span class="text small"> Ready to collect</span>
-                      </div>
-
-                      <div class="my-1 step">
-                        <span class="icon text-success"
-                          ><i class="fad fa-check"></i
-                        ></span>
-                        <span class="text small"> On the way </span>
-                      </div>
-
-                      <div class="my-1 step">
-                        <span class="icon text-success"
-                          ><i class="fad fa-check"></i
-                        ></span>
-                        <span class="text small">Delivered Order</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="p-3 border-bottom bg-white">
-                    <h6 class="font-weight-bold">Destination</h6>
-                    <p class="m-0 small">
-                      Jl. Fatmawati No.19, Jakarta Selatan
-                    </p>
-                  </div>
-                  <div class="p-3 border-bottom">
-                    <p class="font-weight-bold small mb-1">Courier</p>
-                    <img
-                      src="img/logo.png"
-                      class="img-fluid sc-beliayam-logo mr-2"
-                    />
-                    <span class="small text-success font-weight-bold"
-                      >Beliayam.com Courier
-                    </span>
-                  </div>
-
-                  <div class="p-3 bg-white">
-                    <div class="d-flex align-items-center mb-2">
-                      <h6 class="font-weight-bold mb-1">Total Cost</h6>
-                      <h6 class="font-weight-bold ml-auto mb-1">Rp. 100.000</h6>
-                    </div>
-                    <p class="m-0 small text-muted">
-                      You can check your order detail here,<br />Thank you for
-                      order.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="tab-pane fade"
-                id="progress"
-                role="tabpanel"
-                aria-labelledby="progress-tab"
-              >
-                <div class="order-body">
-                  <div class="pb-3">
-                    <a
-                      href="status_onprocess.html"
-                      class="text-decoration-none text-dark"
-                    >
-                      <div class="p-3 rounded shadow-sm bg-white">
-                        <div class="d-flex align-items-center mb-3">
-                          <p
-                            class="
-                              bg-warning
-                              text-white
-                              py-1
-                              px-2
-                              rounded
-                              small
-                              m-0
-                            "
-                          >
-                            On Process
-                          </p>
-                          <p class="text-muted ml-auto small m-0">
-                            <i class="fad fa-clock"></i> 06/04/2020
-                          </p>
-                        </div>
-                        <div class="d-flex">
-                          <p class="text-muted m-0">
-                            Transaction. ID<br />
-                            <span class="text-dark font-weight-bold"
-                              >#321DERS</span
-                            >
-                          </p>
-                          <p class="text-muted m-0 ml-auto">
-                            Delivered to<br />
-                            <span class="text-dark font-weight-bold">Home</span>
-                          </p>
-                          <p class="text-muted m-0 ml-auto">
-                            Total Payment<br />
-                            <span class="text-dark font-weight-bold"
-                              >Rp. 100.000</span
-                            >
-                          </p>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="pb-3">
-                    <a
-                      href="status_onprocess.html"
-                      class="text-decoration-none text-dark"
-                    >
-                      <div class="p-3 rounded shadow-sm bg-white">
-                        <div class="d-flex align-items-center mb-3">
-                          <p
-                            class="
-                              bg-warning
-                              text-white
-                              py-1
-                              px-2
-                              rounded
-                              small
-                              m-0
-                            "
-                          >
-                            Dispatching
-                          </p>
-                          <p class="text-muted ml-auto small m-0">
-                            <i class="fad fa-clock"></i> 06/04/2020
-                          </p>
-                        </div>
-                        <div class="d-flex">
-                          <p class="text-muted m-0">
-                            Transaction. ID<br />
-                            <span class="text-dark font-weight-bold"
-                              >#321DERS</span
-                            >
-                          </p>
-                          <p class="text-muted m-0 ml-auto">
-                            Delivered to<br />
-                            <span class="text-dark font-weight-bold">Home</span>
-                          </p>
-                          <p class="text-muted m-0 ml-auto">
-                            Total Payment<br />
-                            <span class="text-dark font-weight-bold"
-                              >Rp. 100.000</span
-                            >
-                          </p>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="pb-3">
-                    <a
-                      href="status_onprocess.html"
-                      class="text-decoration-none text-dark"
-                    >
-                      <div class="p-3 rounded shadow-sm bg-white">
-                        <div class="d-flex align-items-center mb-3">
-                          <p
-                            class="
-                              bg-warning
-                              text-white
-                              py-1
-                              px-2
-                              rounded
-                              small
-                              m-0
-                            "
-                          >
-                            On the way
-                          </p>
-                          <p class="text-muted ml-auto small m-0">
-                            <i class="fad fa-clock"></i> 06/04/2020
-                          </p>
-                        </div>
-                        <div class="d-flex">
-                          <p class="text-muted m-0">
-                            Transaction. ID<br />
-                            <span class="text-dark font-weight-bold"
-                              >#321DERS</span
-                            >
-                          </p>
-                          <p class="text-muted m-0 ml-auto">
-                            Delivered to<br />
-                            <span class="text-dark font-weight-bold">Home</span>
-                          </p>
-                          <p class="text-muted m-0 ml-auto">
-                            Total Payment<br />
-                            <span class="text-dark font-weight-bold"
-                              >Rp. 100.000</span
-                            >
-                          </p>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="tab-pane fade"
-                id="canceled"
-                role="tabpanel"
-                aria-labelledby="canceled-tab"
-              >
-                <div class="order-body">
-                  <div class="pb-3">
-                    <a
-                      href="status_canceled.html"
-                      class="text-decoration-none text-dark"
-                    >
-                      <div class="p-3 rounded shadow-sm bg-white">
-                        <div class="d-flex align-items-center mb-3">
-                          <p
-                            class="
-                              bg-danger
-                              text-white
-                              py-1
-                              px-2
-                              rounded
-                              small
-                              m-0
-                            "
-                          >
-                            Failed Payment
-                          </p>
-                          <p class="text-muted ml-auto small m-0">
-                            <i class="fad fa-clock"></i> 06/04/2020
-                          </p>
-                        </div>
-                        <div class="d-flex">
-                          <p class="text-muted m-0">
-                            Transaction. ID<br />
-                            <span class="text-dark font-weight-bold"
-                              >#321DERS</span
-                            >
-                          </p>
-                          <p class="text-muted m-0 ml-auto">
-                            Delivered to<br />
-                            <span class="text-dark font-weight-bold">Home</span>
-                          </p>
-                          <p class="text-muted m-0 ml-auto">
-                            Total Payment<br />
-                            <span class="text-dark font-weight-bold"
-                              >Rp. 100.000</span
-                            >
-                          </p>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="pb-3">
-                    <a
-                      href="status_canceled.html"
-                      class="text-decoration-none text-dark"
-                    >
-                      <div class="p-3 rounded shadow-sm bg-white">
-                        <div class="d-flex align-items-center mb-3">
-                          <p
-                            class="
-                              bg-danger
-                              text-white
-                              py-1
-                              px-2
-                              rounded
-                              small
-                              m-0
-                            "
-                          >
-                            Canceled
-                          </p>
-                          <p class="text-muted ml-auto small m-0">
-                            <i class="fad fa-clock"></i> 06/04/2020
-                          </p>
-                        </div>
-                        <div class="d-flex">
-                          <p class="text-muted m-0">
-                            Transaction. ID<br />
-                            <span class="text-dark font-weight-bold"
-                              >#321DERS</span
-                            >
-                          </p>
-                          <p class="text-muted m-0 ml-auto">
-                            Delivered to<br />
-                            <span class="text-dark font-weight-bold">Home</span>
-                          </p>
-                          <p class="text-muted m-0 ml-auto">
-                            Total Payment<br />
-                            <span class="text-dark font-weight-bold"
-                              >Rp. 100.000</span
-                            >
-                          </p>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                </div>
+          </div>
+          <div
+            class="tab-pane fade show active"
+            id="all"
+            role="tabpanel"
+            aria-labelledby="all-tab"
+            v-else
+          >
+            <div class="order-body order-not-found">
+              <div class="pb-3 text-center">
+                <h4>Belum Ada Pesanan</h4>
               </div>
             </div>
           </div>
@@ -635,16 +213,63 @@
 </template>
 
 <script>
+import moment from "moment";
+
+moment.locale("id-ID");
 export default {
+  async fetch() {
+    await this.getOrders();
+  },
   data() {
     return {
       orderCompleted: true,
+      orders: [],
+      ordersSetting: {
+        status: "",
+        page: 1,
+        show: 10,
+        sortBy: "ASC",
+        orderBy: "payment_date",
+        fromDate: "",
+        toDate: "",
+      },
     };
   },
   methods: {
-    viewStatus(){
-      this.orderCompleted = !this.orderCompleted;
-    }
-  }
+    async getOrders(status = "") {
+      await this.$axios
+        .$get(
+          `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/users/orders?status=${status}&page=${this.ordersSetting.page}&show=${this.ordersSetting.show}&sortBy=${this.ordersSetting.sortBy}&orderBy=${this.ordersSetting.orderBy}&fromDate=${this.ordersSetting.fromDate}&toDate=${this.ordersSetting.toDate}`
+        )
+        .then((results) => {
+          if (!results.error) {
+            this.orders = results.data;
+          }
+        });
+    },
+  },
+  filters: {
+    formatDate(date) {
+      return moment(date).format("dddd, Do MMMM YYYY HH:mm");
+    },
+    formatMoney(val) {
+      let formatter = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+      });
+
+      return formatter.format(val);
+    },
+  },
 };
 </script>
+
+<style scoped>
+.bg-success {
+  background-color: #4fa845 !important;
+}
+.order-not-found {
+  margin-top: 25%;
+  margin-bottom: 25%;
+}
+</style>
