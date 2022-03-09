@@ -141,7 +141,7 @@ export default {
   },
   methods: {
     async loginByFacebook() {
-      const data = await FB.login(
+      const user = await FB.login(
         async function (response) {
           if (response.authResponse) {
             return await FB.api(`/me?fields=email,name`, function (responseUser) {
@@ -157,11 +157,9 @@ export default {
         { scope: "email,public_profile", return_scopes: true }
       );
 
-      console.log(data)
-
-      // if (user) {
-      //   await this.getSuccessData(user, "facebook");
-      // }
+      if (user) {
+        await this.getSuccessData(user, "facebook");
+      }
     },
     async getSuccessData(user, loginBy = "google") {
       await this.$axios
