@@ -139,12 +139,14 @@ export default {
     };
   },
   methods: {
-    loginByFacebook() {
+    async loginByFacebook() {
+      let user = {};
+
       FB.login(
         function (response) {
           if (response.authResponse) {
             FB.api(`/me?fields=email,name`, async function (responseUser) {
-              await this.getSuccessData(responseUser.email, "facebook");
+              user = responseUser;
             });
           } else {
             this.$toast.warning(
@@ -154,9 +156,13 @@ export default {
         },
         { scope: "email,public_profile", return_scopes: true }
       );
+
+      if (user) {
+        await this.getSuccessData(user, "facebook");
+      }
     },
     async getSuccessData(user, loginBy = "google") {
-      this.$axios
+      await this.$axios
         .$post(
           `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/social/login`,
           {
