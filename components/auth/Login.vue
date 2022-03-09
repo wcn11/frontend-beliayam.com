@@ -141,26 +141,27 @@ export default {
   },
   methods: {
     async loginByFacebook() {
-      await FB.login(
+      const data = await FB.login(
         async function (response) {
-          let user = {};
           if (response.authResponse) {
-            FB.api(`/me?fields=email,name`, function (responseUser) {
+            return await FB.api(`/me?fields=email,name`, function (responseUser) {
               console.log(responseUser);
-              user = responseUser;
+              return responseUser;
             });
           } else {
             this.$toast.warning(
               "User cancelled login or did not fully authorize."
             );
           }
-
-          if (user) {
-            await this.getSuccessData(user, "facebook");
-          }
         },
         { scope: "email,public_profile", return_scopes: true }
       );
+
+      console.log(data)
+
+      // if (user) {
+      //   await this.getSuccessData(user, "facebook");
+      // }
     },
     async getSuccessData(user, loginBy = "google") {
       await this.$axios
