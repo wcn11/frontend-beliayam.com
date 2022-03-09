@@ -145,7 +145,7 @@ export default {
         async function (response) {
           if (response.authResponse) {
             return await FB.api(`/me?fields=email,name`, function (responseUser) {
-              console.log(responseUser);
+              // console.log(responseUser);
               return responseUser;
             });
           } else {
@@ -156,6 +156,7 @@ export default {
         },
         { scope: "email,public_profile", return_scopes: true }
       );
+        console.log(user)
 
       if (user && user.email) {
         console.log(user)
