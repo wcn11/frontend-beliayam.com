@@ -146,14 +146,15 @@ export default {
           console.log(response)
           if (response.authResponse) {
             console.log("Welcome!  Fetching your information.... ");
-            FB.api("/me", function (response) {
-              console.log("Good to see you, " + response.name + ".");
+            FB.api("/me", function (response2) {
+              console.log("Good to see you, " + response2.name + ".");
+              console.log(response2)
             });
           } else {
             console.log("User cancelled login or did not fully authorize.");
           }
         },
-        { scope: "email,user_likes" }
+        { scope: "email,public_profile", return_scopes: true }
       );
       // console.log("login by facebook. response = " + data);
       // console.log(data);
