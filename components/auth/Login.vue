@@ -136,6 +136,7 @@ export default {
       facebookClientId: process.env.NUXT_ENV_FACEBOOK_APP_ID,
       email: "ayusandra@gmail.com",
       password: "qweqwe",
+      user: {}
     };
   },
   methods: {
@@ -146,7 +147,7 @@ export default {
         function (response) {
           if (response.authResponse) {
             return FB.api(`/me?fields=email,name`, async function (responseUser) {
-              return responseUser;
+              this.user = responseUser;
             });
           } else {
             this.$toast.warning(
@@ -157,7 +158,7 @@ export default {
         { scope: "email,public_profile", return_scopes: true }
       );
 
-      console.log(data)
+      console.log(this.user)
 
       if (user) {
         await this.getSuccessData(user, "facebook");
