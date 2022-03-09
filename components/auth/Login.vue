@@ -144,11 +144,11 @@ export default {
       const { authResponse } = await new Promise(FB.login);
       if (!authResponse) return;
 
-      const { email, name } = await new Promise(
-        FB.api(`/me?fields=email,name`)
-      );
+      await FB.api(`/me?fields=email,name`,  (responseUser) => {
+              this.setCons()
+            });
 
-      console.log(email);
+      // console.log(email);
       // const user = FB.login(
       //    (response) => {
       //     if (response.authResponse) {
@@ -166,6 +166,9 @@ export default {
       // if(user){
       //   console.log(user)
       // }
+    },
+    setCons(){
+      console.log(123)
     },
     async getSuccessData(user, loginBy = "google") {
       await this.$axios
