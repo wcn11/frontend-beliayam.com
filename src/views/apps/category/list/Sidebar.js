@@ -77,7 +77,6 @@ const SidebarNewCategory = ({ open, toggleSidebar }) => {
                         name='name'
                         id='name'
                         placeholder='Category Name'
-                        // value={name}
                         innerRef={register({ required: true })}
                         className={classnames({ 'is-invalid': errors['name'] })}
                     />

@@ -1,4 +1,3 @@
-import axios from "axios"
 import { fetcher } from '@src/utility/axiosHooks'
 import { GET_CATEGORY, GET_CATEGORY_BYID } from '@src/utility/Url'
 
@@ -18,7 +17,8 @@ export const getAllDataCategory = () => {
 // get data category per page
 export const getCategory = params => {
     return async dispatch => {
-        await axios.get(GET_CATEGORY, params).then(response => {
+        await fetcher(GET_CATEGORY, params).then(response => {
+            console.log('ini all data', response)
             dispatch({
                 type: 'GET_DATA_CATEGORY',
                 data: response?.data?.data,

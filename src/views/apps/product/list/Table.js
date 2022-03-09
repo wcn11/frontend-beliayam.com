@@ -84,7 +84,7 @@ const ProductList = () => {
     const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
 
     useEffect(() => {
-        dispatch(getAllDataProduct())
+        // dispatch(getAllDataProduct())
         dispatch(
             getProduct({
                 page: currentPage,
@@ -98,8 +98,8 @@ const ProductList = () => {
 
     const statusOptions = [
         { value: 'pending', label: 'Select Status', number: 0 },
-        { value: 'active', label: 'Pending', number: 1 },
-        { value: 'inactive', label: 'Active', number: 2 }
+        { value: 'active', label: 'Active', number: 1 },
+        { value: 'nonactive', label: 'Nonactive', number: 2 }
     ]
 
     const handlePagination = page => {

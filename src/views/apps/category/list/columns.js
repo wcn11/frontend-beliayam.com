@@ -111,7 +111,7 @@ export const columns = [
       selector: 'status',
       sortable: true,
       cell: row => (
-         <Badge className='text-capitalize light-success' color={statusObj[row.isActive]} pill>
+         <Badge className='text-capitalize light-success' color={statusObj['active']} pill>
             {row.status}
          </Badge>
       )

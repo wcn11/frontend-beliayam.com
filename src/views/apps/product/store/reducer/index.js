@@ -25,6 +25,8 @@ const products = (state = initialState, action) => {
             return { ...state, selectedProduct: action.selectedProduct }
         case 'ADD_PRODUCT':
             return { ...state }
+        case 'UPDATE_PRODUCT':
+            return { ...state }
         case 'DELETE_PRODUCT':
             return { ...state }
         default:

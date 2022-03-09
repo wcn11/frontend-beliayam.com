@@ -1,3 +1,9 @@
 {
-  "Dashboard": "Dashboard"
+  "Dashboard": "Dashboard",
+  "Product": "Product",
+  "Category": "Category",
+  "Order": "Order",
+  "Discount": "Discount",
+  "Charge": "Charge",
+  "Promo": "Promo"
 }

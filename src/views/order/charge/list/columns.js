@@ -1,8 +1,6 @@
 import { Link } from 'react-router-dom'
 
-import Avatar from '@components/avatar'
-
-import { deleteProduct, getProductById, updateProduct } from '../store/action'
+import { deleteCharge, getChargeById } from '../store/action'
 import { store } from '@store/storeConfig/store'
 
 import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
@@ -19,40 +17,6 @@ const renderClient = row => {
    // }
 }
 
-const renderRole = row => {
-   const roleObj = {
-      subscriber: {
-         class: 'text-primary',
-         icon: User
-      },
-      maintainer: {
-         class: 'text-success',
-         icon: Database
-      },
-      editor: {
-         class: 'text-info',
-         icon: Edit2
-      },
-      author: {
-         class: 'text-warning',
-         icon: Settings
-      },
-      admin: {
-         class: 'text-danger',
-         icon: Slack
-      }
-   }
-
-   const Icon = roleObj[row.role] ? roleObj[row.role].icon : Edit2
-
-   return (
-      <span className='text-truncate text-capitalize align-middle'>
-         <Icon size={18} className={`${roleObj[row.name] ? roleObj[row.name].class : ''} mr-50`} />
-         {row.name}
-      </span>
-   )
-}
-
 const statusObj = {
    pending: 'light-warning',
    active: 'light-success',
@@ -61,8 +25,8 @@ const statusObj = {
 
 export const columns = [
    {
-      name: 'Product',
-      minWidth: '297px',
+      name: 'Charge',
+      minWidth: '172px',
       selector: 'fullName',
       sortable: true,
       cell: row => (
@@ -70,53 +34,45 @@ export const columns = [
             {renderClient(row)}
             <div className='d-flex flex-column'>
                <Link
-                  to={`/apps/product/view/${row._id}`}
+                  to={`/order/charge/view/${row._id}`}
                   className='user-name text-truncate mb-0'
-                  onClick={() => store.dispatch(getProductById(row._id))}
+               // onClick={() => store.dispatch(getCategoryById(row._id))}
+               // onClick={}
                >
-                  <span className='font-weight-bold'>{row.name}</span>
+                  <span className='font-weight-bold'>{row.chargeName}</span>
                </Link>
-               <small className='text-truncate text-muted mb-0'>{row.sku}</small>
+               <small className='text-truncate text-muted mb-0'>{row.chargeBy}</small>
             </div>
          </div>
       )
    },
    {
-      name: 'Image',
-      minWidth: '320px',
-      selector: 'image',
-      sortable: true,
-      cell: row => (
-         <img src={`https://be-dev.beliayam.com/api/v1/${row.image}`} alt="" />
-      )
-   },
-   {
-      name: 'Pos',
-      minWidth: '100px',
-      selector: 'role',
-      sortable: true,
-      cell: row => <span className='align-center'>{row.position}</span>
-   },
-   {
-      name: 'Price',
-      minWidth: '172px',
-      selector: 'role',
-      sortable: true,
-      cell: row => row.price
-   },
-   {
-      name: 'Stock',
-      minWidth: '172px',
-      selector: 'role',
-      sortable: true,
-      cell: row => row.stock
-   },
-   {
-      name: 'Slug',
+      name: 'Charge Value',
       minWidth: '138px',
-      selector: 'currentPlan',
+      selector: 'role',
       sortable: true,
-      cell: row => <span className='text-capitalize'>{row.slug}</span>
+      cell: row => row.chargeValue
+   },
+   {
+      name: 'Short Description',
+      minWidth: '172px',
+      selector: 'role',
+      sortable: true,
+      cell: row => row.shortDescription
+   },
+   {
+      name: 'Description',
+      minWidth: '172px',
+      selector: 'role',
+      sortable: true,
+      cell: row => row.description
+   },
+   {
+      name: 'Default',
+      minWidth: '172px',
+      selector: 'role',
+      sortable: true,
+      cell: row => row.default
    },
    {
       name: 'Status',
@@ -125,7 +81,7 @@ export const columns = [
       sortable: true,
       cell: row => (
          <Badge className='text-capitalize light-success' color={statusObj['active']} pill>
-            {row.status}
+            {row.isActive === true && <>active</>}
          </Badge>
       )
    },
@@ -140,23 +96,23 @@ export const columns = [
             <DropdownMenu right>
                <DropdownItem
                   tag={Link}
-                  to={`/apps/product/view/${row._id}`}
+                  to={`/order/charge/view/${row._id}`}
                   className='w-100'
-                  onClick={() => store.dispatch(getProductById(row._id))}
+                  onClick={() => store.dispatch(getChargeById(row._id))}
                >
                   <FileText size={14} className='mr-50' />
                   <span className='align-middle'>Details</span>
                </DropdownItem>
                <DropdownItem
                   tag={Link}
-                  to={`/apps/product/edit/${row._id}`}
+                  to={`/order/charge/edit/${row._id}`}
                   className='w-100'
-                  onClick={() => store.dispatch(updateProduct(row._id))}
+                  onClick={() => store.dispatch(getChargeById(row._id))}
                >
                   <Archive size={14} className='mr-50' />
                   <span className='align-middle'>Edit</span>
                </DropdownItem>
-               <DropdownItem className='w-100' onClick={() => store.dispatch(deleteProduct(row._id))}>
+               <DropdownItem className='w-100' onClick={() => store.dispatch(deleteCharge(row._id))}>
                   <Trash2 size={14} className='mr-50' />
                   <span className='align-middle'>Delete</span>
                </DropdownItem>

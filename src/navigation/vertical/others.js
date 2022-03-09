@@ -1,67 +1,115 @@
-import { Menu, Circle, EyeOff, Folder, LifeBuoy, Shield } from 'react-feather'
+import { Scissors, Circle, Percent, DollarSign, LifeBuoy, Shield, FileText } from 'react-feather'
 export default [
   {
-    header: 'Misc'
+    header: 'Order'
   },
   {
-    id: 'access-control',
-    title: 'Access Control',
-    icon: <Shield size={12} />,
-    action: 'read',
-    resource: 'ACL',
-    navLink: '/access-control'
-  },
-  {
-    id: 'menuLevels',
-    title: 'Menu Levels',
-    icon: <Menu size={20} />,
+    id: 'invoiceApp',
+    title: 'Invoice',
+    icon: <FileText size={20} />,
     children: [
       {
-        id: 'secondLevel',
-        title: 'Second Level 2.1',
+        id: 'invoiceList',
+        title: 'List',
         icon: <Circle size={12} />,
-        navLink: ''
+        navLink: '/apps/invoice/list'
       },
       {
-        id: 'secondLevel1',
-        title: 'Second Level 2.2',
+        id: 'invoicePreview',
+        title: 'Preview',
         icon: <Circle size={12} />,
-        children: [
-          {
-            id: 'ThirdLevel',
-            title: 'Third Level 3.1',
-            navLink: ''
-          },
-          {
-            id: 'ThirdLevel1',
-            title: 'Third Level 3.2',
-            navLink: ''
-          }
-        ]
+        navLink: '/apps/invoice/preview'
+      },
+      {
+        id: 'invoiceEdit',
+        title: 'Edit',
+        icon: <Circle size={12} />,
+        navLink: '/apps/invoice/edit'
+      },
+      {
+        id: 'invoiceAdd',
+        title: 'Add',
+        icon: <Circle size={12} />,
+        navLink: '/apps/invoice/add'
       }
     ]
   },
   {
-    id: 'disabledMenu',
-    title: 'Disabled Menu',
-    icon: <EyeOff size={20} />,
-    navLink: '#',
-    disabled: true
+    id: 'access-control',
+    title: 'Promo',
+    icon: <Percent size={12} />,
+    action: 'read',
+    resource: 'ACL',
+    navLink: '/access-control'
   },
+  // {
+  //   id: 'menuLevels',
+  //   title: 'Menu Levels',
+  //   icon: <Menu size={20} />,
+  //   children: [
+  //     {
+  //       id: 'secondLevel',
+  //       title: 'Second Level 2.1',
+  //       icon: <Circle size={12} />,
+  //       navLink: ''
+  //     },
+  //     {
+  //       id: 'secondLevel1',
+  //       title: 'Second Level 2.2',
+  //       icon: <Circle size={12} />,
+  //       children: [
+  //         {
+  //           id: 'ThirdLevel',
+  //           title: 'Third Level 3.1',
+  //           navLink: ''
+  //         },
+  //         {
+  //           id: 'ThirdLevel1',
+  //           title: 'Third Level 3.2',
+  //           navLink: ''
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // },
+  // {
+  //   id: 'disabledMenu',
+  //   title: 'Disabled Menu',
+  //   icon: <EyeOff size={20} />,
+  //   navLink: '#',
+  //   disabled: true
+  // },
   {
     id: 'documentation',
-    title: 'Documentation',
-    icon: <Folder size={20} />,
+    title: 'Discount',
+    icon: <Scissors size={20} />,
     externalLink: true,
     newTab: true,
     navLink: 'https://pixinvent.com/demo/vuexy-react-admin-dashboard-template/documentation'
   },
   {
     id: 'raiseSupport',
-    title: 'Raise Support',
-    icon: <LifeBuoy size={20} />,
-    externalLink: true,
-    newTab: true,
-    navLink: 'https://pixinvent.ticksy.com/'
+    title: 'Charge',
+    icon: <DollarSign size={20} />,
+    children: [
+      {
+        id: 'ThirdLevel',
+        title: 'List',
+        icon: <Circle size={12} />,
+        navLink: '/order/charge/list'
+      },
+      // {
+      //   id: 'ThirdLevel1',
+      //   title: 'Edit',
+      //   icon: <Circle size={12} />,
+      //   navLink: '/order/charge/edit'
+      // },
+      // {
+      //   id: 'ThirdLevel1',
+      //   title: 'View',
+      //   icon: <Circle size={12} />,
+      //   navLink: '/order/charge/view'
+      // }
+    ]
   }
 ]

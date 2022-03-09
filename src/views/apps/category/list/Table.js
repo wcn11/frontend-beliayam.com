@@ -4,7 +4,7 @@ import Sidebar from './Sidebar'
 
 import { columns } from './columns'
 
-import { getAllDataCategory, getCategory } from '../store/action'
+import { getCategory } from '../store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Select from 'react-select'

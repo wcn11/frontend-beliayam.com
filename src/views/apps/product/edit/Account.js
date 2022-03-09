@@ -1,14 +1,25 @@
 import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
+
+import { isObjEmpty } from '@utils'
 
 import Avatar from '@components/avatar'
+
+import { updateProduct, getProductById } from '../store/action'
 
 import { Lock, Edit, Trash2 } from 'react-feather'
 import { Media, Row, Col, Button, Form, Input, Label, FormGroup, Table, CustomInput } from 'reactstrap'
 
-const ProductAccountTab = ({ selectedCategory }) => {
+const ProductAccountTab = ({ selectedProduct }) => {
+    const dispatch = useDispatch(),
+        { id } = useParams()
+
+    const { register, errors, handleSubmit } = useForm()
     // ** States
     const [img, setImg] = useState(null)
-    const [userData, setUserData] = useState(null)
+    const [productData, setProductData] = useState(null)
 
     // ** Function to change user image
     const onChange = e => {
@@ -22,15 +33,43 @@ const ProductAccountTab = ({ selectedCategory }) => {
 
     // ** Update user image on mount or change
     useEffect(() => {
-        if (selectedCategory !== null || (selectedCategory !== null && userData !== null && selectedCategory.id !== userData.id)) {
-            setUserData(selectedCategory)
-            if (selectedCategory.avatar.length) {
-                return setImg(selectedCategory.avatar)
-            } else {
-                return setImg(null)
-            }
+        dispatch(getProductById(id))
+        // if (selectedCategory !== null || (selectedCategory !== null && categoryData !== null && selectedCategory?._id !== categoryData?._id)) {
+        //    // setCategoryData(selectedCategory)
+
+        //    // if (selectedCategory?.avatar?.length) {
+        //    //    return setImg(selectedCategory?.avatar)
+        //    // } else {
+        //    //    return setImg(null)
+        //    // }
+        // }
+    }, [id])
+
+    useEffect(() => {
+        setProductData(selectedProduct)
+    }, [selectedProduct])
+
+    const onSubmit = (values) => {
+        if (isObjEmpty(errors)) {
+            console.log('berhasil diupdate')
+            dispatch(
+                updateProduct(id, {
+                    category_id: values.category_id,
+                    sku: values.sku,
+                    slug: values.slug,
+                    name: values.name,
+                    position: values.position,
+                    price: values.price,
+                    stock: values.stock,
+                    weight: values.weight,
+                    image_category: values.image_category,
+                    status: values.status,
+                    additional: values.additional,
+                    description: values.description
+                })
+            )
         }
-    }, [selectedCategory])
+    }
 
     // ** Renders User
     const renderUserAvatar = () => {
@@ -43,7 +82,7 @@ const ProductAccountTab = ({ selectedCategory }) => {
                     initials
                     color={color}
                     className='rounded mr-2 my-25'
-                    content={selectedCategory.fullName}
+                    content={selectedProduct.fullName}
                     contentStyles={{
                         borderRadius: 0,
                         fontSize: 'calc(36px)',
@@ -69,16 +108,16 @@ const ProductAccountTab = ({ selectedCategory }) => {
         }
     }
 
-    if (userData === null || userData === undefined) {
+    if (!productData) {
         return null
     } else {
         return (
             <Row>
                 <Col sm='12'>
                     <Media className='mb-2'>
-                        {renderUserAvatar()}
+                        {/* {renderUserAvatar()} */}
                         <Media className='mt-50' body>
-                            <h4>{selectedCategory.fullName} </h4>
+                            <h4>{selectedProduct.name} </h4>
                             <div className='d-flex flex-wrap mt-1 px-0'>
                                 <Button.Ripple id='change-img' tag={Label} className='mr-75 mb-0' color='primary'>
                                     <span className='d-none d-sm-block'>Change</span>
@@ -98,30 +137,57 @@ const ProductAccountTab = ({ selectedCategory }) => {
                     </Media>
                 </Col>
                 <Col sm='12'>
-                    <Form onSubmit={e => e.preventDefault()}>
+                    <Form onSubmit={handleSubmit(onSubmit)}>
                         <Row>
                             <Col md='4' sm='12'>
                                 <FormGroup>
-                                    <Label for='username'>Username</Label>
-                                    <Input type='text' id='username' placeholder='Username' defaultValue={userData.username} />
-                                </FormGroup>
-                            </Col>
-                            <Col md='4' sm='12'>
-                                <FormGroup>
                                     <Label for='name'>Name</Label>
-                                    <Input type='text' id='name' placeholder='Name' defaultValue={userData.fullName} />
+                                    <Input
+                                        type='text'
+                                        id='name'
+                                        name='name'
+                                        placeholder='Product name'
+                                        defaultValue={productData.name}
+                                        innerRef={register({ required: true })}
+                                    />
                                 </FormGroup>
                             </Col>
                             <Col md='4' sm='12'>
                                 <FormGroup>
-                                    <Label for='email'>Email</Label>
-                                    <Input type='text' id='email' placeholder='Email' defaultValue={userData.email} />
+                                    <Label for='sku'>Sku</Label>
+                                    <Input
+                                        type='text'
+                                        id='sku'
+                                        name='sku'
+                                        placeholder='Sku'
+                                        defaultValue={productData.sku}
+                                        innerRef={register({ required: true })}
+                                    />
+                                </FormGroup>
+                            </Col>
+                            <Col md='4' sm='12'>
+                                <FormGroup>
+                                    <Label for='slug'>Slug</Label>
+                                    <Input
+                                        type='text'
+                                        id='slug'
+                                        name='slug'
+                                        placeholder='Slug'
+                                        defaultValue={productData.slug}
+                                        innerRef={register({ required: true })}
+                                    />
                                 </FormGroup>
                             </Col>
                             <Col md='4' sm='12'>
                                 <FormGroup>
                                     <Label for='status'>Status</Label>
-                                    <Input type='select' name='status' id='status' defaultValue={userData.status}>
+                                    <Input
+                                        type='select'
+                                        name='status'
+                                        id='status'
+                                        defaultValue={productData.status}
+                                        innerRef={register({ required: true })}
+                                    >
                                         <option value='pending'>Pending</option>
                                         <option value='active'>Active</option>
                                         <option value='inactive'>Inactive</option>
@@ -130,122 +196,95 @@ const ProductAccountTab = ({ selectedCategory }) => {
                             </Col>
                             <Col md='4' sm='12'>
                                 <FormGroup>
-                                    <Label for='role'>Role</Label>
-                                    <Input type='select' name='role' id='role' defaultValue={userData.role}>
-                                        <option value='admin'>Admin</option>
-                                        <option value='author'>Author</option>
-                                        <option value='editor'>Editor</option>
-                                        <option value='maintainer'>Maintainer</option>
-                                        <option value='subscriber'>Subscriber</option>
+                                    <Label for='category_id'>Categori</Label>
+                                    <Input
+                                        type='select'
+                                        name='category_id'
+                                        id='category_id'
+                                        defaultValue={productData.category[0].name}
+                                        innerRef={register({ required: true })}
+                                    >
+                                        <option value={productData.category[0]._id}>{productData.category[0].name}</option>
                                     </Input>
                                 </FormGroup>
                             </Col>
                             <Col md='4' sm='12'>
                                 <FormGroup>
-                                    <Label for='company'>Company</Label>
+                                    <Label for='position'>Position</Label>
                                     <Input
-                                        type='text'
-                                        id='company'
-                                        defaultValue={userData.company}
-                                        placeholder='WinDon Technologies Pvt Ltd'
+                                        type='number'
+                                        id='position'
+                                        name='position'
+                                        defaultValue={productData.position}
+                                        placeholder='Position...'
+                                        innerRef={register({ required: true })}
                                     />
                                 </FormGroup>
                             </Col>
-                            <Col sm='12'>
-                                <div className='permissions border mt-1'>
-                                    <h6 className='py-1 mx-1 mb-0 font-medium-2'>
-                                        <Lock size={18} className='mr-25' />
-                                        <span className='align-middle'>Permissions</span>
-                                    </h6>
-                                    <Table borderless striped responsive>
-                                        <thead className='thead-light'>
-                                            <tr>
-                                                <th>Module</th>
-                                                <th>Read</th>
-                                                <th>Write</th>
-                                                <th>Create</th>
-                                                <th>Delete</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Admin</td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='admin-1' label='' defaultChecked />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='admin-2' label='' />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='admin-3' label='' />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='admin-4' label='' />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Staff</td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='staff-1' label='' />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='staff-2' label='' defaultChecked />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='staff-3' label='' />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='staff-4' label='' />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Author</td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='author-1' label='' defaultChecked />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='author-2' label='' />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='author-3' label='' defaultChecked />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='author-4' label='' />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Contributor</td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='contributor-1' label='' />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='contributor-2' label='' />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='contributor-3' label='' />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='contributor-4' label='' />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>User</td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='user-1' label='' />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='user-2' label='' />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='user-3' label='' />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='user-4' label='' defaultChecked />
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </Table>
-                                </div>
+                            <Col md='4' sm='12'>
+                                <FormGroup>
+                                    <Label for='price'>Price</Label>
+                                    <Input
+                                        type='text'
+                                        id='price'
+                                        name='price'
+                                        defaultValue={productData.price}
+                                        placeholder='Price...'
+                                        innerRef={register({ required: true })}
+                                    />
+                                </FormGroup>
+                            </Col>
+                            <Col md='4' sm='12'>
+                                <FormGroup>
+                                    <Label for='stock'>Stock</Label>
+                                    <Input
+                                        type='text'
+                                        id='stock'
+                                        name='stock'
+                                        defaultValue={productData.stock}
+                                        placeholder='Stock...'
+                                        innerRef={register({ required: true })}
+                                    />
+                                </FormGroup>
+                            </Col>
+                            <Col md='4' sm='12'>
+                                <FormGroup>
+                                    <Label for='weight'>Weight</Label>
+                                    <Input
+                                        type='text'
+                                        id='weight'
+                                        name='weight'
+                                        defaultValue={productData.weight}
+                                        placeholder='Weight...'
+                                        innerRef={register({ required: true })}
+                                    />
+                                </FormGroup>
+                            </Col>
+                            <Col md='4' sm='12'>
+                                <FormGroup>
+                                    <Label for='additional'>Additional</Label>
+                                    <Input
+                                        type='text'
+                                        id='additional'
+                                        name='additional'
+                                        defaultValue={productData.additional}
+                                        placeholder='additional..'
+                                        innerRef={register({ required: true })}
+                                    />
+                                </FormGroup>
+                            </Col>
+                            <Col md='4' sm='12'>
+                                <FormGroup>
+                                    <Label for='company'>Description</Label>
+                                    <Input
+                                        type='text'
+                                        id='company'
+                                        name='description'
+                                        defaultValue={productData.description}
+                                        placeholder='description...'
+                                        innerRef={register({ required: true })}
+                                    />
+                                </FormGroup>
                             </Col>
                             <Col className='d-flex flex-sm-row flex-column mt-2' sm='12'>
                                 <Button.Ripple className='mb-1 mb-sm-0 mr-0 mr-sm-1' type='submit' color='primary'>

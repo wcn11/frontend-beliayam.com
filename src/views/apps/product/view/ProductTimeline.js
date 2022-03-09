@@ -54,7 +54,7 @@ const CategoryInfoCard = ({ selectedProduct }) => {
                                         </CardText>
                                     </div>
                                     <div className='d-flex flex-wrap align-items-center'>
-                                        <Button.Ripple tag={Link} to={`/apps/user/edit/${selectedProduct?._id}`} color='primary'>
+                                        <Button.Ripple tag={Link} to={`/apps/product/edit/${selectedProduct?._id}`} color='primary'>
                                             Edit
                                         </Button.Ripple>
                                         <Button.Ripple className='ml-1' color='danger' outline>

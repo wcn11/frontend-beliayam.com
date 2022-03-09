@@ -15,3 +15,7 @@ export const GET_CATEGORY_SLUG = (slug) => `https://be-dev.beliayam.com/api/v1/a
 export const GET_PRODUCT = 'https://be-dev.beliayam.com/api/v1/admin/product'
 export const GET_PRODUCT_BYID = (id) => `https://be-dev.beliayam.com/api/v1/admin/product/${id}`
 export const GET_PRODUCT_SLUG = (slug) => `https://be-dev.beliayam.com/api/v1/admin/product/${slug}`
+
+// charge url
+export const GET_CHARGE = 'https://be-dev.beliayam.com/api/v1/admin/charge'
+export const GET_CHARGE_BYID = (id) => `https://be-dev.beliayam.com/api/v1/admin/charge/${id}`

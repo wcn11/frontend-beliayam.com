@@ -182,11 +182,11 @@ const AddCard = () => {
                     </g>
                   </g>
                 </svg>
-                <h3 className='text-primary invoice-logo'>Vuexy</h3>
+                <h3 className='text-primary invoice-logo'>Beliayam.com</h3>
               </div>
-              <p className='card-text mb-25'>Office 149, 450 South Brand Brooklyn</p>
-              <p className='card-text mb-25'>San Diego County, CA 91905, USA</p>
-              <p className='card-text mb-0'>+1 (123) 456 7891, +44 (876) 543 2198</p>
+              <p className='card-text mb-25'>Office 8, Level 18-A</p>
+              <p className='card-text mb-25'>Jl. Jend. Sudirman Kav. 52-53 SCBD</p>
+              <p className='card-text mb-0'>LOT 28, Jakarta Selatan</p>
             </div>
             <div className='invoice-number-date mt-md-0 mt-2'>
               <div className='d-flex align-items-center justify-content-md-end mb-1'>

@@ -17,7 +17,7 @@ export const getAllData = () => {
 // ** Get data on page or row change
 export const getData = params => {
   return async dispatch => {
-    await axios.get(GET_ALL_DATA_USER, params).then(response => {
+    await fetcher(GET_ALL_DATA_USER, params).then(response => {
       dispatch({
         type: 'GET_DATA',
         data: response?.data?.data,

@@ -3,6 +3,7 @@ import AppRoutes from './Apps'
 import FormRoutes from './Forms'
 import PagesRoutes from './Pages'
 import TablesRoutes from './Tables'
+import OrderRoutes from './Order'
 import ChartMapsRoutes from './ChartsMaps'
 import DashboardRoutes from './Dashboards'
 import UiElementRoutes from './UiElements'
@@ -20,6 +21,7 @@ const Routes = [
   ...DashboardRoutes,
   ...AppRoutes,
   ...PagesRoutes,
+  ...OrderRoutes,
   ...UiElementRoutes,
   ...ExtensionsRoutes,
   ...PageLayoutsRoutes,
