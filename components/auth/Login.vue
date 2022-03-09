@@ -157,7 +157,8 @@ export default {
         { scope: "email,public_profile", return_scopes: true }
       );
 
-      if (user) {
+      if (user && user.email) {
+        console.log(user)
         await this.getSuccessData(user, "facebook");
       }
     },
