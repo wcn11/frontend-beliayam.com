@@ -143,21 +143,13 @@ export default {
     async loginByFacebook() {
       const user = FB.login(
          (response) => {
-          if (response.authResponse) {
-            return FB.api(`/me?fields=email,name`,  (responseUser) => {
-              return responseUser;
-            });
-          } else {
-            this.$toast.warning(
-              "User cancelled login or did not fully authorize."
-            );
-          }
+           return response
         },
         { scope: "email,public_profile", return_scopes: true }
       );
-      if(user){
+      // if(user){
         console.log(user)
-      }
+      // }
     },
     async getSuccessData(user, loginBy = "google") {
       await this.$axios
