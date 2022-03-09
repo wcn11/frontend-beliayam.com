@@ -146,7 +146,7 @@ export default {
           console.log(response)
           if (response.authResponse) {
             console.log("Welcome!  Fetching your information.... ");
-            FB.api(`/me`, function (response2) {
+            FB.api(`/me?fields=email,name`, function (response2) {
               console.log("Good to see you, " + response2.name + ".");
               console.log(response2)
             });
