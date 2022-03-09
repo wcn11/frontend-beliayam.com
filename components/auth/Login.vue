@@ -141,10 +141,43 @@ export default {
   },
   methods: {
     async loginByFacebook() {
-      const user = await FB.login(
+      FB.login(
         function (response) {
           if (response.authResponse) {
-            return response.authResponse
+            FB.api(`/me?fields=email,name`, function (responseUser) {
+              this.$axios
+                .$post(
+                  `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/social/login`,
+                  {
+                    name: responseUser.name,
+                    email: responseUser.email,
+                    loginBy: "facebook",
+                    loginAt: "website",
+                  }
+                )
+                .then((results) => {
+                  if (results.error) {
+                    this.$toast.warning(results.message);
+                    return;
+                  }
+
+                  this.$store.dispatch(
+                    "auth/loginBySocial",
+                    results.data.token
+                  );
+
+                  this.$router.push("/");
+                })
+                .catch((err) => {
+                  if (err && err.response && err.response.error) {
+                    this.$toast.warning(err.response.message);
+                  } else {
+                    this.$toast.warning("Server Sibuk");
+                  }
+                });
+
+              return responseUser;
+            });
           } else {
             this.$toast.warning(
               "User cancelled login or did not fully authorize."
@@ -153,16 +186,6 @@ export default {
         },
         { scope: "email,public_profile", return_scopes: true }
       );
-
-            // return await FB.api(`/me?fields=email,name`, function (responseUser) {
-            //   return responseUser;
-            // });
-        console.log(user)
-
-      // if (user && user.email) {
-      //   console.log(user)
-      //   await this.getSuccessData(user, "facebook");
-      // }
     },
     async getSuccessData(user, loginBy = "google") {
       await this.$axios
