@@ -144,9 +144,13 @@ export default {
       const { authResponse } = await new Promise(FB.login);
       if (!authResponse) return;
 
-      const {email, name} = await new Promise(FB.api(`/me?fields=email,name`));
+      const { email, name } = await new Promise(
+        FB.api(`/me?fields=email,name`, (responseUser) => {
+          return resolve(responseUser);
+        })
+      );
 
-      console.log(email)
+      console.log(email);
       // const user = FB.login(
       //    (response) => {
       //     if (response.authResponse) {
