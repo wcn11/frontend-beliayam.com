@@ -81,6 +81,8 @@
                 text-class=" rounded text-white"
                 role="button"
                 @login="loginByFacebook"
+                :login-options="scopeLoginByFacebook"
+                options="{ cookie: true, xfbml: true, autoLogAppEvents: false }"
               >
                 <span slot="login">Masuk Dengan Facebook</span>
               </v-facebook-login>
@@ -134,6 +136,7 @@ export default {
       facebookClientId: process.env.NUXT_ENV_FACEBOOK_APP_ID,
       email: "ayusandra@gmail.com",
       password: "qweqwe",
+      scopeLoginByFacebook: {scope: 'public_profile,email'}
     };
   },
   methods: {
