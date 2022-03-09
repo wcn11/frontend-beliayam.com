@@ -142,11 +142,11 @@ export default {
     async loginByFacebook() {
       let user = {};
 
-      FB.login(
+      const data = FB.login(
         function (response) {
           if (response.authResponse) {
-            FB.api(`/me?fields=email,name`, async function (responseUser) {
-              user = responseUser;
+            return FB.api(`/me?fields=email,name`, async function (responseUser) {
+              return responseUser;
             });
           } else {
             this.$toast.warning(
@@ -156,6 +156,8 @@ export default {
         },
         { scope: "email,public_profile", return_scopes: true }
       );
+
+      console.log(data)
 
       if (user) {
         await this.getSuccessData(user, "facebook");
