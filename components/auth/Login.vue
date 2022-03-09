@@ -146,7 +146,7 @@ export default {
           if (response.authResponse) {
             FB.api(`/me?fields=email,name`, function (responseUser) {
               this.$axios
-                .$post(
+                .post(
                   `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/social/login`,
                   {
                     name: responseUser.name,
