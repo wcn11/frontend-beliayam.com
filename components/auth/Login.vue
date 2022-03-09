@@ -136,37 +136,33 @@ export default {
       facebookClientId: process.env.NUXT_ENV_FACEBOOK_APP_ID,
       email: "ayusandra@gmail.com",
       password: "qweqwe",
-      // scopeLoginByFacebook: {scope: 'public_profile,email'}
     };
   },
   methods: {
     loginByFacebook() {
       FB.login(
         function (response) {
-          console.log(response)
           if (response.authResponse) {
-            console.log("Welcome!  Fetching your information.... ");
-            FB.api(`/me?fields=email,name`, function (response2) {
-              console.log("Good to see you, " + response2.name + ".");
-              console.log(response2)
+            FB.api(`/me?fields=email,name`, async function (responseUser) {
+              await this.getSuccessData(responseUser.email, "facebook");
             });
           } else {
-            console.log("User cancelled login or did not fully authorize.");
+            this.$toast.warning(
+              "User cancelled login or did not fully authorize."
+            );
           }
         },
         { scope: "email,public_profile", return_scopes: true }
       );
-      // console.log("login by facebook. response = " + data);
-      // console.log(data);
     },
-    async getSuccessData(user) {
-      const register = this.$axios
+    async getSuccessData(user, loginBy = "google") {
+      this.$axios
         .$post(
           `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/social/login`,
           {
             name: user.name,
             email: user.email,
-            loginBy: "google",
+            loginBy: loginBy,
             loginAt: "website",
           }
         )
