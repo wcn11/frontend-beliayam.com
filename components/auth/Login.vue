@@ -76,7 +76,7 @@
                 <i class="fad fa-mobile-alt"></i> Masuk Dengan Telepon
               </NuxtLink>
 
-              <v-facebook-login
+              <!-- <v-facebook-login
                 :app-id="facebookClientId"
                 text-class=" rounded text-white"
                 role="button"
@@ -84,13 +84,14 @@
                 :login-options="scopeLoginByFacebook"
               >
                 <span slot="login">Masuk Dengan Facebook</span>
-              </v-facebook-login>
-              <!-- <a
+              </v-facebook-login> -->
+              <a
                 href="javascript:void(0)"
                 class="btn btn-info btn-block rounded btn-lg btn-facebook"
+                @click="loginByFacebook"
               >
                 <i class="fab fa-facebook mr-2"></i> Masuk Dengan Facebook
-              </a> -->
+              </a>
 
               <a
                 id="buttonLoginByGoogle"
@@ -135,13 +136,27 @@ export default {
       facebookClientId: process.env.NUXT_ENV_FACEBOOK_APP_ID,
       email: "ayusandra@gmail.com",
       password: "qweqwe",
-      scopeLoginByFacebook: {scope: 'public_profile,email'}
+      // scopeLoginByFacebook: {scope: 'public_profile,email'}
     };
   },
   methods: {
-    loginByFacebook(data) {
-      console.log("login by facebook. response = " + data);
-      console.log(data)
+    loginByFacebook() {
+      FB.login(
+        function (response) {
+          console.log(response)
+          if (response.authResponse) {
+            console.log("Welcome!  Fetching your information.... ");
+            FB.api("/me", function (response) {
+              console.log("Good to see you, " + response.name + ".");
+            });
+          } else {
+            console.log("User cancelled login or did not fully authorize.");
+          }
+        },
+        { scope: "email,user_likes" }
+      );
+      // console.log("login by facebook. response = " + data);
+      // console.log(data);
     },
     async getSuccessData(user) {
       const register = this.$axios
