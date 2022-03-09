@@ -17,9 +17,9 @@ export default function ({
     $axios.onError(async (error) => {
         const statusCode = error.response ? error.response.status : -1;
 
-        if (statusCode === 401 || statusCode === 422) {
+        if (statusCode === 401) {
             const refreshToken = store.state.auth.refreshToken;
-            if (error.response.data.errorCode === 'JWT_TOKEN_EXPIRED' && refreshToken) {
+            if (error.response.data.code === 401 && refreshToken) {
                 if (Object.prototype.hasOwnProperty.call(error.config, 'retryAttempts')) {
                     store.commit('auth/logout');
                     return redirect('/');

@@ -87,7 +87,8 @@
                           >
                             <h5 class="mb-1">{{ product.name }}</h5>
                             <p class="text-muted mb-2">
-                              {{ product.price | formatMoney }} x
+                              {{ setPriceWithDiscount(product) | formatMoney }}
+                              x
                               {{ product.quantity }}
                             </p>
                             <div
@@ -99,7 +100,7 @@
                             >
                               <h6 class="total_price font-weight-bold m-0">
                                 {{
-                                  (product.price * product.quantity)
+                                  setTotalPriceProductWithDiscount(product)
                                     | formatMoney
                                 }}
                               </h6>
@@ -329,13 +330,15 @@
                             : selectedVoucher.voucherCode
                         }}
                         <span class="float-right text-dark">{{
-                          getPriceLabel(selectedVoucher) | formatMoney
+                          getPriceVoucherLabelPrice(selectedVoucher)
+                            | formatMoney
                         }}</span>
                       </p>
                       <br />
                       <h6 class="mb-0 text-danger">
                         Total Diskon<span class="float-right text-danger">{{
-                          getPriceLabel(selectedVoucher) | formatMoney
+                          getPriceVoucherLabelPrice(selectedVoucher)
+                            | formatMoney
                         }}</span>
                       </h6>
                     </div>
@@ -367,7 +370,7 @@
                         >({{ carts.products.length }} item)</span
                       >
                       <span class="float-right text-dark">
-                        {{ carts.subTotal | formatMoney }}</span
+                        {{ countSubtotalProduct() | formatMoney }}</span
                       >
                     </p>
                     <div v-if="charges.length">
@@ -389,10 +392,13 @@
                         Object.keys(selectedVoucher).length > 0
                       "
                     >
-                      Diskon
+                      Voucher
                       <span class="float-right text-dark"
                         >-
-                        {{ getPriceLabel(selectedVoucher) | formatMoney }}</span
+                        {{
+                          getPriceVoucherLabelPrice(selectedVoucher)
+                            | formatMoney
+                        }}</span
                       >
                     </p>
                   </div>
@@ -476,6 +482,9 @@
                   Terapkan
                 </button>
               </div>
+              <span class="text-danger font-italic"
+                >*apply voucher akan mereset promo atau diskon pada produk</span
+              >
             </div>
             <span role="button" class="text-danger pl-3" @click="resetVoucher()"
               >reset voucher</span
@@ -515,12 +524,7 @@
                         <div>
                           <span>Berakhir dalam:</span> <br />
                           <span :id="`countDown-${voucher.voucherCode}`">
-                            {{
-                              formatDateToCountDown(
-                                voucher.discountEnd,
-                                voucher.voucherCode
-                              )
-                            }}
+                            {{ voucher.discountEnd | formatDate }}
                             lagi!</span
                           ><br />
 
@@ -706,7 +710,7 @@ export default {
           });
       }
     },
-    getPriceLabel(voucher) {
+    getPriceVoucherLabelPrice(voucher) {
       // let voucher = this.selectedVoucher;
       let price = 0;
 
@@ -718,45 +722,44 @@ export default {
       }
       return price;
     },
+    // formatDateToCountDown(date, code) {
+    //   if (this.getCartsVouchers.length > 0) {
+    //     var countDownDate = new Date(date).getTime();
 
-    formatDateToCountDown(date, code) {
-      if (this.getCartsVouchers.length > 0) {
-        var countDownDate = new Date(date).getTime();
+    //     var x = setInterval(function () {
+    //       // Get today's date and time
+    //       var now = new Date().getTime();
 
-        var x = setInterval(function () {
-          // Get today's date and time
-          var now = new Date().getTime();
+    //       // Find the distance between now and the count down date
+    //       var distance = countDownDate - now;
 
-          // Find the distance between now and the count down date
-          var distance = countDownDate - now;
+    //       // Time calculations for days, hours, minutes and seconds
+    //       var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    //       var hours = Math.floor(
+    //         (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    //       );
+    //       var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    //       var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-          // Time calculations for days, hours, minutes and seconds
-          var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-          var hours = Math.floor(
-            (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-          );
-          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-          var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    //       // Output the result in an element with id="demo"
+    //       document.getElementById(`countDown-${code}`).innerHTML =
+    //         days +
+    //         "hari " +
+    //         hours +
+    //         "jam " +
+    //         minutes +
+    //         "menit " +
+    //         seconds +
+    //         "detik ";
 
-          // Output the result in an element with id="demo"
-          document.getElementById(`countDown-${code}`).innerHTML =
-            days +
-            "hari " +
-            hours +
-            "jam " +
-            minutes +
-            "menit " +
-            seconds +
-            "detik ";
-
-          // If the count down is over, write some text
-          if (distance < 0) {
-            clearInterval(x);
-            document.getElementById("demo").innerHTML = "EXPIRED";
-          }
-        }, 1000);
-      }
-    },
+    //       // If the count down is over, write some text
+    //       if (distance < 0) {
+    //         clearInterval(x);
+    //         document.getElementById("demo").innerHTML = "EXPIRED";
+    //       }
+    //     }, 1000);
+    //   }
+    // },
     resetVoucher() {
       this.selectedVoucher = {};
       this.$toast.warning("Voucher Dihapus");
@@ -1005,39 +1008,129 @@ export default {
     async resetAllCarts() {
       await this.$store.dispatch("cart/setCartsAndCartsNav");
     },
-  },
+    setPriceWithDiscount(item) {
+      if (this.carts && this.carts.products) {
+        let price = 0;
+        this.carts.products.filter((product) => {
+          if (product._id === item._id) {
+            let currentTime = moment().format();
 
-  computed: {
-    ...mapGetters("cart", [
-      "getCountCart",
-      "getCartsVouchers",
-      "getSelectedVouchers",
-    ]),
-    countTotalToPay() {
-      let cart = this.carts;
-
-      let subTotalProduct = cart.baseTotal;
-      let subTotalCharges = 0;
-      let voucher = 0;
-      let charges = this.charges;
-
-      if (this.getPriceLabel(this.selectedVoucher)) {
-        voucher = this.getPriceLabel(this.selectedVoucher);
+            // if (Object.keys(this.selectedVoucher).length <= 0) {
+              if (
+                product.productOnLive.hasPromo &&
+                product.productOnLive.hasPromo.isActive &&
+                product.productOnLive.hasPromo.promoStart < currentTime &&
+                product.productOnLive.hasPromo.promoEnd > currentTime
+              ) {
+                if (product.productOnLive.hasPromo.promoBy === "percent") {
+                  let discountPrice =
+                    (product.productOnLive.hasPromo.promoValue / 100) *
+                    product.productOnLive.price;
+                  price += product.productOnLive.price - discountPrice;
+                } else if (product.productOnLive.hasPromo.promoBy === "price") {
+                  price +=
+                    product.productOnLive.price -
+                    product.productOnLive.hasPromo.promoValue;
+                } else {
+                  price += product.productOnLive.price;
+                }
+              } else if (
+                product.productOnLive.hasDiscount &&
+                product.productOnLive.hasDiscount.isDiscount &&
+                product.productOnLive.hasDiscount.discountStart < currentTime &&
+                product.productOnLive.hasDiscount.discountEnd > currentTime
+              ) {
+                if (
+                  product.productOnLive.hasDiscount.discountBy === "percent"
+                ) {
+                  let discountPrice =
+                    (product.productOnLive.hasDiscount.discount / 100) *
+                    product.productOnLive.price;
+                  price += product.productOnLive.price - discountPrice;
+                } else if (
+                  product.productOnLive.hasDiscount.discountBy === "price"
+                ) {
+                  price +=
+                    product.productOnLive.price -
+                    product.productOnLive.hasDiscount.discount;
+                } else {
+                  price += product.productOnLive.price;
+                }
+              } else {
+                price += product.productOnLive.price;
+              }
+              // return price += product.productOnLive.price;
+            // }
+            return price// += product.productOnLive.price;;
+          }
+        });
+        return price;
       }
-
-      for (let i = 0; i < charges.length; i++) {
-        if (charges[i].chargeBy === "price") {
-          subTotalCharges += charges[i].chargeValue;
-        }
-      }
-
-      return subTotalProduct + subTotalCharges - voucher;
     },
+    setTotalPriceProductWithDiscount(item) {
+      if (this.carts && this.carts.products) {
+        let price = 0;
+
+        this.carts.products.filter((product) => {
+          if (product._id === item._id) {
+            let currentTime = moment().format();
+
+            if (
+              product.productOnLive.hasPromo &&
+              product.productOnLive.hasPromo.isActive &&
+              product.productOnLive.hasPromo.promoStart < currentTime &&
+              product.productOnLive.hasPromo.promoEnd > currentTime
+            ) {
+              if (product.productOnLive.hasPromo.promoBy === "percent") {
+                let discountPrice =
+                  (product.productOnLive.hasPromo.promoValue / 100) *
+                  product.productOnLive.price;
+                price +=
+                  (product.productOnLive.price - discountPrice) *
+                  product.quantity;
+              } else if (product.productOnLive.hasPromo.promoBy === "price") {
+                price +=
+                  (product.productOnLive.price -
+                    product.productOnLive.hasPromo.promoValue) *
+                  product.quantity;
+              } else {
+                price += product.productOnLive.price * product.quantity;
+              }
+            } else if (
+              product.productOnLive.hasDiscount &&
+              product.productOnLive.hasDiscount.isDiscount &&
+              product.productOnLive.hasDiscount.discountStart < currentTime &&
+              product.productOnLive.hasDiscount.discountEnd > currentTime
+            ) {
+              if (product.productOnLive.hasDiscount.discountBy === "percent") {
+                let discountPrice =
+                  (product.productOnLive.hasDiscount.discount / 100) *
+                  product.productOnLive.price;
+                price +=
+                  (product.productOnLive.price - discountPrice) *
+                  product.quantity;
+              } else if (
+                product.productOnLive.hasDiscount.discountBy === "price"
+              ) {
+                price +=
+                  (product.productOnLive.price -
+                    product.productOnLive.hasDiscount.discount) *
+                  product.quantity;
+              } else {
+                price += product.productOnLive.price * product.quantity;
+              }
+            } else {
+              price += product.productOnLive.price * product.quantity;
+            }
+            return price;
+          }
+        });
+        return price;
+      }
+    },
+
     countSubtotalProduct() {
       if (this.carts && this.carts.products) {
-        // const cart = this.carts;
-        // const products = cart.products;
-
         let price = 0;
 
         const subTotal = this.carts.products.map((product) => {
@@ -1096,6 +1189,101 @@ export default {
       }
     },
   },
+  filters: {
+    formatDate(date) {
+      return moment(date).format("DD-MM-yyyy, HH:mm");
+    },
+    formatMoney(val) {
+      let formatter = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+      });
+
+      return formatter.format(val);
+    },
+  },
+
+  computed: {
+    ...mapGetters("cart", [
+      "getCountCart",
+      "getCartsVouchers",
+      "getSelectedVouchers",
+    ]),
+    countTotalToPay() {
+      let price = 0;
+      if (this.carts && this.carts.products) {
+        this.carts.products.map((product) => {
+          let currentTime = moment().format();
+
+          if (
+            product.productOnLive.hasPromo &&
+            product.productOnLive.hasPromo.isActive &&
+            product.productOnLive.hasPromo.promoStart < currentTime &&
+            product.productOnLive.hasPromo.promoEnd > currentTime
+          ) {
+            if (product.productOnLive.hasPromo.promoBy === "percent") {
+              let discountPrice =
+                (product.productOnLive.hasPromo.promoValue / 100) *
+                product.productOnLive.price;
+              price +=
+                (product.productOnLive.price - discountPrice) *
+                product.quantity;
+            } else if (product.productOnLive.hasPromo.promoBy === "price") {
+              price +=
+                (product.productOnLive.price -
+                  product.productOnLive.hasPromo.promoValue) *
+                product.quantity;
+            } else {
+              price += product.productOnLive.price * product.quantity;
+            }
+          } else if (
+            product.productOnLive.hasDiscount &&
+            product.productOnLive.hasDiscount.isDiscount &&
+            product.productOnLive.hasDiscount.discountStart < currentTime &&
+            product.productOnLive.hasDiscount.discountEnd > currentTime
+          ) {
+            if (product.productOnLive.hasDiscount.discountBy === "percent") {
+              let discountPrice =
+                (product.productOnLive.hasDiscount.discount / 100) *
+                product.productOnLive.price;
+              price +=
+                (product.productOnLive.price - discountPrice) *
+                product.quantity;
+            } else if (
+              product.productOnLive.hasDiscount.discountBy === "price"
+            ) {
+              price +=
+                (product.productOnLive.price -
+                  product.productOnLive.hasDiscount.discount) *
+                product.quantity;
+            } else {
+              price += product.productOnLive.price * product.quantity;
+            }
+          } else {
+            price += product.productOnLive.price * product.quantity;
+          }
+          return price;
+        });
+      }
+
+      let subTotalProduct = price;
+      let subTotalCharges = 0;
+      let voucher = 0;
+      let charges = this.charges;
+
+      if (this.getPriceVoucherLabelPrice(this.selectedVoucher)) {
+        voucher = this.getPriceVoucherLabelPrice(this.selectedVoucher);
+      }
+
+      for (let i = 0; i < charges.length; i++) {
+        if (charges[i].chargeBy === "price") {
+          subTotalCharges += charges[i].chargeValue;
+        }
+      }
+
+      return subTotalProduct + subTotalCharges - voucher;
+    },
+  },
 };
 </script>
 
@@ -1111,15 +1299,15 @@ export default {
   display: none;
 }
 .input-wrapper {
-  max-width: 360px;
   width: 100%;
+  margin-left: 8px;
   position: relative;
 }
 .input {
-  height: 30px;
+  height: 35px;
   border-radius: 4px;
   border: 1px solid #f52c5c;
-  width: 100%;
+  width: 79%;
   outline: none;
   box-sizing: border-box;
 }
@@ -1242,15 +1430,24 @@ export default {
   margin-top: 25%;
   margin-bottom: 25%;
 }
+
+.cart-items-number {
+  width: 120px;
+}
+
 @media only screen and (max-device-width: 480px) {
   .input {
     margin-left: 8px;
+    height: 35px;
+    width: 70%;
   }
 }
 
 @media only screen and (max-device-width: 380px) {
   .input {
     margin-left: 8px;
+    height: 35px;
+    width: 72%;
   }
 }
 </style>

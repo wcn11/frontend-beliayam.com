@@ -139,6 +139,7 @@ export default {
   methods: {
     loginByFacebook(data) {
       console.log("login by facebook. response = " + data);
+      console.log(data)
     },
     async getSuccessData(user) {
       const register = this.$axios

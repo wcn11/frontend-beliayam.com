@@ -25,6 +25,17 @@
                     Kehabisan Persediaan
                   </span>
                 </div>
+                <span
+                  class="badge badge-danger badge-discount"
+                  v-if="product.hasDiscount.discountBy === 'price'"
+                  >Diskon
+                  {{
+                    (product.hasDiscount.discount / product.price) * 100
+                  }}%</span
+                >
+                <span class="badge badge-danger badge-discount" v-else
+                  >Diskon {{ product.hasDiscount.discount | formatMoney }}</span
+                >
                 <img
                   :src="`${this.$config.baseApi}/${product.image}`"
                   class="img-fluid shadow-sm rounded w-100"
@@ -64,6 +75,17 @@
                 >
                   <i class="fad fa-shopping-cart m-0 mr-2"></i> Beli
                 </button>
+              </div>
+              <div class="text-danger font-italic" v-if="product.hasPromo">
+                *Pembelian produk saat promo, me-reset produk yang sama pada
+                keranjang
+              </div>
+              <div
+                class="text-danger font-italic"
+                v-else-if="product.hasDiscount.isDiscount"
+              >
+                *Pembelian produk saat diskon, me-reset produk yang sama pada
+                keranjang
               </div>
             </div>
             <div class="col-lg-6">
@@ -223,7 +245,7 @@
             </div>
           </div>
 
-          <Product :products="relatedProducts" />
+          <ProductRelatedProducts :products="relatedProducts" />
         </div>
       </section>
 
@@ -587,6 +609,10 @@ export default {
 </script>
 
 <style scoped>
+.badge-discount {
+  position: absolute;
+  margin: 2%;
+}
 .badge-danger-out-of-stock {
   color: #ffe5e5;
   background-color: rgb(205 77 0);

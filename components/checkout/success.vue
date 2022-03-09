@@ -124,7 +124,8 @@ export default {
   },
   async fetch() {
     if (!this.$route.query.order_id) {
-      this.$route.push("/");
+      this.$toast.error("Pesanan tidak ditemukan")
+      this.$router.push("/");
       return;
     }
 

@@ -111,7 +111,7 @@
             id="all"
             role="tabpanel"
             aria-labelledby="all-tab"
-            v-if="orders.length > 1"
+            v-if="orders"
           >
             <div class="order-body" v-if="orders.length > 0">
               <div class="pb-3" v-for="order in orders" :key="order._id">
