@@ -141,14 +141,26 @@ export default {
   },
   methods: {
     async loginByFacebook() {
-      const user = FB.login(
-         (response) => {
-           return response
-        },
-        { scope: "email,public_profile", return_scopes: true }
-      );
+      const { authResponse } = await new Promise(FB.login);
+      if (!authResponse) return;
+
+      console.log(authResponse)
+      // const user = FB.login(
+      //    (response) => {
+      //     if (response.authResponse) {
+      //       return FB.api(`/me?fields=email,name`,  (responseUser) => {
+      //         return responseUser;
+      //       });
+      //     } else {
+      //       this.$toast.warning(
+      //         "User cancelled login or did not fully authorize."
+      //       );
+      //     }
+      //   },
+      //   { scope: "email,public_profile", return_scopes: true }
+      // );
       // if(user){
-        console.log(user)
+      //   console.log(user)
       // }
     },
     async getSuccessData(user, loginBy = "google") {
