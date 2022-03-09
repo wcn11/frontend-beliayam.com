@@ -144,31 +144,9 @@ export default {
       const { authResponse } = await new Promise(FB.login);
       if (!authResponse) return;
 
-      await FB.api(`/me?fields=email,name`,  (responseUser) => {
-              this.setCons()
-            });
-
-      // console.log(email);
-      // const user = FB.login(
-      //    (response) => {
-      //     if (response.authResponse) {
-      //       return FB.api(`/me?fields=email,name`,  (responseUser) => {
-      //         return responseUser;
-      //       });
-      //     } else {
-      //       this.$toast.warning(
-      //         "User cancelled login or did not fully authorize."
-      //       );
-      //     }
-      //   },
-      //   { scope: "email,public_profile", return_scopes: true }
-      // );
-      // if(user){
-      //   console.log(user)
-      // }
-    },
-    setCons(){
-      console.log(123)
+      await FB.api(`/me?fields=email,name`, async (responseUser) => {
+        this.getSuccessData(responseUser, "facebook");
+      });
     },
     async getSuccessData(user, loginBy = "google") {
       await this.$axios
