@@ -142,12 +142,9 @@ export default {
   methods: {
     async loginByFacebook() {
       const user = await FB.login(
-        async function (response) {
+        function (response) {
           if (response.authResponse) {
-            return await FB.api(`/me?fields=email,name`, function (responseUser) {
-              // console.log(responseUser);
-              return responseUser;
-            });
+            return response.authResponse
           } else {
             this.$toast.warning(
               "User cancelled login or did not fully authorize."
@@ -156,12 +153,16 @@ export default {
         },
         { scope: "email,public_profile", return_scopes: true }
       );
+
+            // return await FB.api(`/me?fields=email,name`, function (responseUser) {
+            //   return responseUser;
+            // });
         console.log(user)
 
-      if (user && user.email) {
-        console.log(user)
-        await this.getSuccessData(user, "facebook");
-      }
+      // if (user && user.email) {
+      //   console.log(user)
+      //   await this.getSuccessData(user, "facebook");
+      // }
     },
     async getSuccessData(user, loginBy = "google") {
       await this.$axios
