@@ -123,11 +123,6 @@ import moment from "moment";
 moment.locale("id-ID");
 export default {
   name: "PaymentSuccess",
-  data() {
-    return {
-      order: {},
-    };
-  },
   async fetch() {
       const { 
           merchant_id,
@@ -142,26 +137,31 @@ export default {
           signature
         } = this.$route.query
 
-        console.log(merchant_id)
+        console.log(bill_no)
 
-    if (!trx_id) {
-      this.$toast.error("Pesanan tidak ditemukan")
-      this.$router.push("/");
-      return;
-    }
+    // if (!trx_id) {
+    //   this.$toast.error("Pesanan tidak ditemukan")
+    //   this.$router.push("/");
+    //   return;
+    // }
 
-    let order_id = this.$route.query.order_id;
+    let order_id = bill_no;
 
     await this.$axios
       .get(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/order/${order_id}`)
       .then((res) => {
         this.order = res.data.data;
+        this.$toast.success("Test development check")
+        console.log(res)
       })
       .catch((err) => {
         console.error(err);
       });
   },
-  methods: {
+  data() {
+    return {
+      order: {},
+    };
   },
   filters: {
     formatDate(date) {
