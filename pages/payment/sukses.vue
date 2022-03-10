@@ -1,12 +1,12 @@
 <template>
   <div id="page-checkout-success" class="animate__animated">
-      <CheckoutSuccess/>
+      <PaymentSuccess/>
   </div>
 </template>
 
 <script>
 export default {
-  name: "PageCheckoutSukses",
+  name: "PagePaymentSukses",
   // layout: "blog"
 
   head: {
