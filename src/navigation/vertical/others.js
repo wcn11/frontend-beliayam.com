@@ -5,7 +5,7 @@ export default [
   },
   {
     id: 'invoiceApp',
-    title: 'Invoice',
+    title: 'Order',
     icon: <FileText size={20} />,
     children: [
       {
@@ -81,11 +81,16 @@ export default [
   // },
   {
     id: 'documentation',
-    title: 'Discount',
+    title: 'Voucher',
     icon: <Scissors size={20} />,
-    externalLink: true,
-    newTab: true,
-    navLink: 'https://pixinvent.com/demo/vuexy-react-admin-dashboard-template/documentation'
+    children: [
+      {
+        id: 'ThirdLevel',
+        title: 'List',
+        icon: <Circle size={12} />,
+        navLink: '/order/voucher/list'
+      }
+    ]
   },
   {
     id: 'raiseSupport',

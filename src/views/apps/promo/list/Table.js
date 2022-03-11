@@ -4,7 +4,7 @@ import Sidebar from './Sidebar'
 
 import { columns } from './columns'
 
-import { getAllDataProduct, getProduct } from '../store/action'
+import { getAllDataPromo, getPromo } from '../store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Select from 'react-select'
@@ -60,7 +60,7 @@ const CustomHeader = ({ toggleSidebar, handlePerPage, rowsPerPage, handleFilter,
                         />
                     </div>
                     <Button.Ripple color='primary' onClick={toggleSidebar}>
-                        New Product
+                        New Promo
                     </Button.Ripple>
                 </Col>
             </Row>
@@ -68,71 +68,101 @@ const CustomHeader = ({ toggleSidebar, handlePerPage, rowsPerPage, handleFilter,
     )
 }
 
-const ProductList = () => {
+const PromoList = () => {
+    // ** Store Vars
     const dispatch = useDispatch()
-    const store = useSelector(state => state.products)
-
+    const store = useSelector(state => state.categories)
+    // ** States
     const [searchTerm, setSearchTerm] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const [rowsPerPage, setRowsPerPage] = useState(10)
+    const [sidebarOpen, setSidebarOpen] = useState(false)
     const [sortPerPage, setSortPerPage] = useState('ASC')
     const [orderBy, setOrderBy] = useState('name')
-    const [sidebarOpen, setSidebarOpen] = useState(false)
-
+    const [platforms, setPlatform] = useState('all')
+    // const [currentRole, setCurrentRole] = useState({ value: '', label: 'Select Role' })
+    // const [currentPlan, setCurrentPlan] = useState({ value: '', label: 'Select Plan' })
     const [currentStatus, setCurrentStatus] = useState({ value: '', label: 'Select Status', number: 0 })
 
+    // ** Function to toggle sidebar
     const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
 
+    // ** Get data on mount
     useEffect(() => {
-        // dispatch(getAllDataProduct())
+        // dispatch(getAllDataPromo())
         dispatch(
-            getProduct({
+            getPromo({
                 page: currentPage,
                 show: rowsPerPage,
                 sortBy: sortPerPage,
+                orderBy,
+                platform: [platforms]
                 // status: currentStatus.value,
-                orderBy
+                // q: searchTerm
             })
         )
-    }, [dispatch])
+    }, [dispatch, store?.data?.length])
+
+    // ** User filter options
+    // const roleOptions = [
+    //     { value: '', label: 'Select Role' },
+    //     { value: 'admin', label: 'Admin' },
+    //     { value: 'author', label: 'Author' },
+    //     { value: 'editor', label: 'Editor' },
+    //     { value: 'maintainer', label: 'Maintainer' },
+    //     { value: 'subscriber', label: 'Subscriber' }
+    // ]
+
+    // const planOptions = [
+    //     { value: '', label: 'Select Plan' },
+    //     { value: 'basic', label: 'Basic' },
+    //     { value: 'company', label: 'Company' },
+    //     { value: 'enterprise', label: 'Enterprise' },
+    //     { value: 'team', label: 'Team' }
+    // ]
 
     const statusOptions = [
         { value: 'pending', label: 'Select Status', number: 0 },
-        { value: 'active', label: 'Active', number: 1 },
-        { value: 'nonactive', label: 'Nonactive', number: 2 }
+        { value: 'active', label: 'Pending', number: 1 },
+        { value: 'inactive', label: 'Active', number: 2 }
     ]
 
+    // ** Function in get data on page change
     const handlePagination = page => {
         dispatch(
-            getProduct({
+            getPromo({
                 page: page.selected + 1,
-                show: rowsPerPage,
-                sortBy: sortPerPage,
-                // status: currentStatus.value,
-                orderBy
+                perPage: rowsPerPage,
+                // role: currentRole.value,
+                // currentPlan: currentPlan.value,
+                status: currentStatus.value,
+                q: searchTerm
             })
         )
         setCurrentPage(page.selected + 1)
     }
 
+    // ** Function in get data on rows per page
     const handlePerPage = e => {
         const value = parseInt(e.currentTarget.value)
         dispatch(
-            getProduct({
+            getPromo({
                 page: currentPage,
-                show: value,
-                sortBy: sortPerPage,
-                // status: currentStatus.value,
-                orderBy
+                perPage: value,
+                // role: currentRole.value,
+                // currentPlan: currentPlan.value,
+                status: currentStatus.value,
+                q: searchTerm
             })
         )
         setRowsPerPage(value)
     }
 
+    // ** Function in get data on search query change
     const handleFilter = val => {
         setSearchTerm(val)
         dispatch(
-            getProduct({
+            getPromo({
                 page: currentPage,
                 perPage: rowsPerPage,
                 // role: currentRole.value,
@@ -143,6 +173,7 @@ const ProductList = () => {
         )
     }
 
+    // ** Custom Pagination
     const CustomPagination = () => {
         const count = Number(Math.ceil(store.total / rowsPerPage))
 
@@ -165,6 +196,7 @@ const ProductList = () => {
         )
     }
 
+    // ** Table data to render
     const dataToRender = () => {
         const filters = {
             // role: currentRole.value,
@@ -251,7 +283,7 @@ const ProductList = () => {
                                 onChange={data => {
                                     setCurrentStatus(data)
                                     dispatch(
-                                        getProduct({
+                                        getPromo({
                                             page: currentPage,
                                             perPage: rowsPerPage,
                                             // role: currentRole.value,
@@ -296,4 +328,4 @@ const ProductList = () => {
     )
 }
 
-export default ProductList
+export default PromoList

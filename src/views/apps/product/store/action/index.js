@@ -112,7 +112,7 @@ export const deleteProduct = id => {
 export const updateProduct = (id, product) => {
    return async (dispatch, getState) => {
       try {
-         const { sku, category_id, slug, name, position, image_product, price, stock, weight, status, additional, description } = product
+         const { sku, category_id, slug, isDiscount, name, position, image_product, price, stock, weight, status, additional, description } = product
          const formData = new FormData()
          // formData.append("image_product", image_product[0])
          formData.set('category_id', category_id)
@@ -126,6 +126,11 @@ export const updateProduct = (id, product) => {
          formData.set('weight', weight)
          formData.set('additional', additional)
          formData.set('description', description)
+         formData.set('isDiscount', isDiscount)
+         // formData.set('discount', discount)
+         // formData.set('discountStart', discountStart)
+         // formData.set('discountEnd', discountEnd)
+
 
          const req = {
             method: 'PUT',

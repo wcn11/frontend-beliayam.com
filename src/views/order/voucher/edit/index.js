@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
-import ChargeAccountTab from './Account'
+import VoucherAccountTab from './Account'
 
-import { getChargeById } from '../store/action'
+import { getVoucherById } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { Box, Info, Share2 } from 'react-feather'
@@ -11,20 +11,20 @@ import { Card, CardBody, Row, Col, Nav, NavItem, NavLink, TabContent, TabPane, A
 
 import '@styles/react/apps/app-users.scss'
 
-const ChargeEdit = () => {
+const VoucherEdit = () => {
    const [activeTab, setActiveTab] = useState('1'),
-      store = useSelector(state => state.charges),
+      store = useSelector(state => state.vouchers),
       dispatch = useDispatch(),
       { id } = useParams()
 
    const toggle = tab => setActiveTab(tab)
 
    useEffect(() => {
-      dispatch(getChargeById(id))
-      return () => dispatch(getChargeById(id))
+      dispatch(getVoucherById(id))
+      return () => dispatch(getVoucherById(id))
    }, [dispatch, id])
 
-   return store.selectedCharge !== null && store.selectedCharge !== undefined ? (
+   return store.selectedVoucher !== null && store.selectedVoucher !== undefined ? (
       <Row className='app-user-edit'>
          <Col sm='12'>
             <Card>
@@ -51,7 +51,7 @@ const ChargeEdit = () => {
                   </Nav>
                   <TabContent activeTab={activeTab}>
                      <TabPane tabId='1'>
-                        <ChargeAccountTab selectedCharge={store.selectedCharge} />
+                        <VoucherAccountTab selectedVoucher={store.selectedVoucher} />
                      </TabPane>
                      <TabPane tabId='2'>
                         {/* <InfoTab /> */}
@@ -65,12 +65,12 @@ const ChargeEdit = () => {
       </Row>
    ) : (
       <Alert color='danger'>
-         <h4 className='alert-heading'>Product not found</h4>
+         <h4 className='alert-heading'>Voucher not found</h4>
          <div className='alert-body'>
-            Product with id: {id} doesn't exist. Check list of all Products: <Link to='/order/charge/list'>Products List</Link>
+            Voucher with id: {id} doesn't exist. Check list of all Vouchers: <Link to='/order/voucher/list'>Vouchers List</Link>
          </div>
       </Alert>
    )
 }
 
-export default ChargeEdit
+export default VoucherEdit

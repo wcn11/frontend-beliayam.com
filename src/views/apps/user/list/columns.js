@@ -69,7 +69,7 @@ const statusObj = {
 export const columns = [
   {
     name: 'User',
-    minWidth: '297px',
+    minWidth: '180px',
     selector: 'fullName',
     sortable: true,
     cell: row => (
@@ -83,14 +83,14 @@ export const columns = [
           >
             <span className='font-weight-bold'>{row.name}</span>
           </Link>
-          <small className='text-truncate text-muted mb-0'>@{row.username}</small>
+          <small className='text-truncate text-muted mb-0'>{row.registerBy}</small>
         </div>
       </div>
     )
   },
   {
     name: 'Email',
-    minWidth: '320px',
+    minWidth: '300px',
     selector: 'email',
     sortable: true,
     cell: row => row.email
@@ -115,8 +115,8 @@ export const columns = [
     selector: 'status',
     sortable: true,
     cell: row => (
-      <Badge className='text-capitalize' color={statusObj[row.isActive]} pill>
-        {row.isActive}
+      <Badge className='text-capitalize light-success' color={statusObj['active']} pill>
+        {row.isActive === true && <>active</>}
       </Badge>
     )
   },

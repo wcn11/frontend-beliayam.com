@@ -61,7 +61,7 @@ export const deleteCharge = id => {
             dispatch(getCharge(getState().charges?.params))
          })
       } catch (error) {
-
+         console.log(error)
       }
    }
 }
@@ -74,16 +74,17 @@ export const updateCharge = (id, charge) => {
             data: charge,
          }
 
-         await fetcher(GET_CHARGE_BYID(id), req).then(res => {
-            if (res) {
-               dispatch({
-                  type: 'UPDATE_CHARGE',
-                  data: res?.data?.data
-               })
-            }
-         }).then(() => {
-            dispatch(getCharge(getState().charges?.params))
-         })
+         await fetcher(GET_CHARGE_BYID(id), req)
+            .then(res => {
+               if (res) {
+                  dispatch({
+                     type: 'UPDATE_CHARGE',
+                     data: res?.data?.data
+                  })
+               }
+            }).then(() => {
+               dispatch(getCharge(getState().charges?.params))
+            })
       } catch (error) {
          console.log(error)
       }

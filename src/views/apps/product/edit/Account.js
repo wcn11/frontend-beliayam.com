@@ -20,6 +20,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
     // ** States
     const [img, setImg] = useState(null)
     const [productData, setProductData] = useState(null)
+    const [disc, setDisc] = useState(false)
 
     // ** Function to change user image
     const onChange = e => {
@@ -65,10 +66,23 @@ const ProductAccountTab = ({ selectedProduct }) => {
                     image_category: values.image_category,
                     status: values.status,
                     additional: values.additional,
-                    description: values.description
+                    description: values.description,
+                    isDiscount: values.isDiscount
+                    // discount: values.discount,
+                    // discountStart: values.discountStart,
+                    // discountEnd: values.discountEnd,
+                    // priceAfterDiscount: values.priceAfterDiscount
                 })
             )
         }
+    }
+
+    const discount = (hargaAwal) => {
+        hargaAwal = productData.price
+        const discount = productData.hasDiscount.discount
+        const hargaDiscount = hargaAwal - discount
+
+        return hargaDiscount
     }
 
     // ** Renders User
@@ -118,7 +132,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                         {/* {renderUserAvatar()} */}
                         <Media className='mt-50' body>
                             <h4>{selectedProduct.name} </h4>
-                            <div className='d-flex flex-wrap mt-1 px-0'>
+                            {/* <div className='d-flex flex-wrap mt-1 px-0'>
                                 <Button.Ripple id='change-img' tag={Label} className='mr-75 mb-0' color='primary'>
                                     <span className='d-none d-sm-block'>Change</span>
                                     <span className='d-block d-sm-none'>
@@ -132,7 +146,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                         <Trash2 size={14} />
                                     </span>
                                 </Button.Ripple>
-                            </div>
+                            </div> */}
                         </Media>
                     </Media>
                 </Col>
@@ -190,7 +204,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                     >
                                         <option value='pending'>Pending</option>
                                         <option value='active'>Active</option>
-                                        <option value='inactive'>Inactive</option>
+                                        <option value='nonactive'>Nonactive</option>
                                     </Input>
                                 </FormGroup>
                             </Col>
@@ -275,10 +289,10 @@ const ProductAccountTab = ({ selectedProduct }) => {
                             </Col>
                             <Col md='4' sm='12'>
                                 <FormGroup>
-                                    <Label for='company'>Description</Label>
+                                    <Label for='description'>Description</Label>
                                     <Input
                                         type='text'
-                                        id='company'
+                                        id='description'
                                         name='description'
                                         defaultValue={productData.description}
                                         placeholder='description...'
@@ -286,6 +300,104 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                     />
                                 </FormGroup>
                             </Col>
+                            <Col md='4' sm='12'>
+                                <FormGroup>
+                                    <Label for='isDiscount'>Is Discount?</Label>
+                                    <Input
+                                        type='select'
+                                        name='isDiscount'
+                                        id='isDiscount'
+                                        defaultValue={productData.hasDiscount.isDiscount}
+                                        innerRef={register({ required: true })}
+                                        onChange={e => setDisc(e.target.value)}
+                                    >
+                                        <option value={true}>Active</option>
+                                        <option value={false}>Nonactive</option>
+                                    </Input>
+                                </FormGroup>
+                            </Col>
+                            {disc ? (<>
+                                <Col sm='12'>
+                                    <Media className='mb-2'>
+                                        {/* {renderUserAvatar()} */}
+                                        <Media className='mt-50' body>
+                                            <h4>Discount (optional)</h4>
+                                            {/* <div className='d-flex flex-wrap mt-1 px-0'>
+                                <Button.Ripple id='change-img' tag={Label} className='mr-75 mb-0' color='primary'>
+                                    <span className='d-none d-sm-block'>Change</span>
+                                    <span className='d-block d-sm-none'>
+                                        <Edit size={14} />
+                                    </span>
+                                    <input type='file' hidden id='change-img' onChange={onChange} accept='image/*' />
+                                </Button.Ripple>
+                                <Button.Ripple color='secondary' outline>
+                                    <span className='d-none d-sm-block'>Remove</span>
+                                    <span className='d-block d-sm-none'>
+                                        <Trash2 size={14} />
+                                    </span>
+                                </Button.Ripple>
+                            </div> */}
+                                        </Media>
+                                    </Media>
+                                </Col>
+                                <Col md='4' sm='12'>
+                                    <FormGroup>
+                                        <Label for='discount'>Discount</Label>
+                                        <Input
+                                            type='number'
+                                            id='discount'
+                                            name='discount'
+                                            onWheel={(e) => e.target.blur()}
+                                            defaultValue={productData.hasDiscount.discount}
+                                            placeholder='description...'
+                                            innerRef={register({ required: false })}
+                                        />
+                                    </FormGroup>
+                                </Col>
+                                <Col md='4' sm='12'>
+                                    <FormGroup>
+                                        <Label for='discountStart'>Discount Start</Label>
+                                        <Input
+                                            type='datetime-local'
+                                            id='discountStart'
+                                            name='discountStart'
+                                            onWheel={(e) => e.target.blur()}
+                                            defaultValue={productData.hasDiscount.discountStart}
+                                            placeholder='discount start ...'
+                                            innerRef={register({ required: false })}
+                                        />
+                                    </FormGroup>
+                                </Col>
+                                <Col md='4' sm='12'>
+                                    <FormGroup>
+                                        <Label for='discountEnd'>Discount End</Label>
+                                        <Input
+                                            type='datetime-local'
+                                            id='discountEnd'
+                                            name='discountEnd'
+                                            onWheel={(e) => e.target.blur()}
+                                            defaultValue={productData.hasDiscount.discountEnd}
+                                            placeholder='discount end ...'
+                                            innerRef={register({ required: false })}
+                                        />
+                                    </FormGroup>
+                                </Col>
+                                <Col md='4' sm='12'>
+                                    <FormGroup>
+                                        <Label for='priceAfterDiscount'>Price After Discount</Label>
+                                        <Input
+                                            type='number'
+                                            id='priceAfterDiscount'
+                                            name='priceAfterDiscount'
+                                            onWheel={(e) => e.target.blur()}
+                                            defaultValue={discount(productData.price)}
+                                            placeholder='price after discount ...'
+                                            disabled
+                                            innerRef={register({ required: false })}
+                                        />
+                                    </FormGroup>
+                                </Col></>) : (<div></div>)}
+
                             <Col className='d-flex flex-sm-row flex-column mt-2' sm='12'>
                                 <Button.Ripple className='mb-1 mb-sm-0 mr-0 mr-sm-1' type='submit' color='primary'>
                                     Save Changes

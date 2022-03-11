@@ -2,6 +2,7 @@ import { lazy } from 'react'
 import { Redirect } from 'react-router-dom'
 
 const OrderRoutes = [
+   //charge
    {
       path: '/order/charge/list',
       component: lazy(() => import('../../views/order/charge/list'))
@@ -29,6 +30,24 @@ const OrderRoutes = [
    //       navLink: '/order/charge/view'
    //    }
    // },
+
+   //voucher
+   {
+      path: '/order/voucher/list',
+      component: lazy(() => import('../../views/order/voucher/list'))
+   },
+   {
+      path: '/order/voucher/edit',
+      exact: true,
+      component: () => <Redirect to='/order/voucher/edit/:id' />
+   },
+   {
+      path: '/order/voucher/edit/:id',
+      component: lazy(() => import('../../views/order/voucher/edit')),
+      meta: {
+         navLink: '/order/voucher/edit'
+      }
+   },
 ]
 
 export default OrderRoutes
