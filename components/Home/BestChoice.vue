@@ -33,21 +33,14 @@
                     class="img-fluid item-img w-100 mb-3 rounded"
                   />
 
-                  <h5
-                    style="
-                      white-space: nowrap;
-                      width: 100%;
-                      overflow: hidden;
-                      text-overflow: ellipsis;
-                    "
-                  >
+                  <p class="text-label">
                     {{ product.name }}
-                  </h5>
-                  <h6 class="price m-0 text-dark">
+                  </p>
+                  <p class="">
                     <i class="fas fa-weight"></i> {{ product.weight }} Kilogram
-                  </h6>
+                  </p>
                   <h6
-                    class="price m-0 text-dark"
+                    class="price m-0 text-dark mt-2"
                     style="font-size: large; text-align: right"
                   >
                     {{ product.price | formatMoney }}
@@ -113,5 +106,13 @@ export default {
 <style scoped>
 .item-img {
   max-height: 150px;
+}
+.text-label {
+  white-space: nowrap;
+  width: 100%;
+  line-height: 1.5;
+  font-size: 0.86rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

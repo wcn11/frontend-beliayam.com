@@ -25,7 +25,7 @@
                 <h4>
                   {{ toFirstLetterUpperCase(this.$route.params.category) }}
                 </h4>
-                <div class="m-0 text-center ml-auto">
+                <!-- <div class="m-0 text-center ml-auto">
                   <a
                     href="#"
                     data-toggle="modal"
@@ -40,7 +40,7 @@
                     class="btn text-muted bg-white"
                     ><i class="fad fa-signal mr-1"></i> Sort</a
                   >
-                </div>
+                </div> -->
               </div>
 
               <div class="d-flex align-items-center mb-3 category-description">

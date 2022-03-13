@@ -4,23 +4,33 @@
       <section class="footer-top py-4">
         <div class="container">
           <div class="row">
-            <div class="col-md-12 text-md-right">
+            <div class="col-md-12 text-md-right text-center">
               <a
+                target="_blank"
                 href="https://www.facebook.com/beliayamcom"
                 class="btn btn-icon btn-light"
                 ><i class="fab fa-facebook"></i
               ></a>
               <a
+                target="_blank"
                 href="https://twitter.com/beliayamcom"
                 class="btn btn-icon btn-light"
                 ><i class="fab fa-twitter"></i
               ></a>
               <a
+                target="_blank"
+                href="https://www.tiktok.com/@beliayamcom"
+                class="btn btn-icon btn-light"
+                ><i class="fab fa-tiktok"></i
+              ></a>
+              <a
+                target="_blank"
                 href="https://www.instagram.com/beliayamcom"
                 class="btn btn-icon btn-light"
                 ><i class="fab fa-instagram"></i
               ></a>
               <a
+                target="_blank"
                 href="https://www.youtube.com/channel/UCzsf-wBSJxGb61pxkoXxrjA"
                 class="btn btn-icon btn-light"
                 ><i class="fab fa-youtube"></i
@@ -34,37 +44,167 @@
         <div class="container">
           <div class="row">
             <aside class="column col-md">
-              <h6 class="title">Products</h6>
+              <h6 class="title">Kategori</h6>
               <ul class="list-unstyled list-padding">
-                <li><a href="listing.html" class="text-dark">Listing</a></li>
                 <li>
-                  <a href="product_details.html" class="text-dark">Detail</a>
+                  <a href="/kategori/broiler" class="text-dark">Broiler</a>
                 </li>
                 <li>
-                  <a href="picks_today.html" class="text-dark">Trending</a>
+                  <a href="/kategori/merah" class="text-dark">Merah</a>
                 </li>
                 <li>
-                  <a href="recommend.html" class="text-dark">Recommended</a>
+                  <a href="/kategori/kampung" class="text-dark">Kampung</a>
                 </li>
                 <li>
-                  <a href="fresh_chiken.html" class="text-dark">Most Popular</a>
+                  <a href="/kategori/pejantan" class="text-dark">Pejantan</a>
+                </li>
+                <li>
+                  <a href="/kategori/parting" class="text-dark">Parting</a>
                 </li>
               </ul>
             </aside>
             <aside class="column col-md">
-              <h6 class="title">Checkout Process</h6>
+              <h6 class="title">Ketentuan</h6>
               <ul class="list-unstyled list-padding">
-                <li><a href="cart.html" class="text-dark">Cart</a></li>
-                <li><a href="cart.html" class="text-dark">Order Address</a></li>
-                <li><a href="cart.html" class="text-dark">Delivery Time</a></li>
-                <li><a href="cart.html" class="text-dark">Order Payment</a></li>
-                <li><a href="checkout.html" class="text-dark">Checkout</a></li>
                 <li>
-                  <a href="successful.html" class="text-dark">Successful</a>
+                  <a href="javascript:void(0)" class="text-dark">Kemitraan</a>
+                </li>
+                <li>
+                  <a href="javascript:void(0)" class="text-dark"
+                    >Syarat & Ketentuan</a
+                  >
+                </li>
+                <li>
+                  <a href="javascript:void(0)" class="text-dark"
+                    >Kebijakan Pengguna</a
+                  >
+                </li>
+                <li>
+                  <a href="javascript:void(0)" class="text-dark"
+                    >Retur Pembelian</a
+                  >
                 </li>
               </ul>
             </aside>
             <aside class="column col-md">
+              <h6 class="title">FAQ</h6>
+              <ul class="list-unstyled list-padding">
+                <li>
+                  <a href="/faq" class="text-dark">FAQ</a>
+                </li>
+                <li>
+                  <a href="javascript:void(0)" class="text-dark">FAQ Bisnis</a>
+                </li>
+              </ul>
+            </aside>
+            <aside class="column col-md">
+              <h6 class="title">Pembayaran</h6>
+              <ul class="list-unstyled list-padding">
+                <li class="mb-2 row">
+                  <img
+                    class="img-responsive col-xs 4"
+                    :src="require('static/icons/payment-gateway/bca.png')"
+                  />
+                  <img
+                    class="img-responsive col-xs 4"
+                    :src="require('static/icons/payment-gateway/bni.png')"
+                  />
+                  <img
+                    class="img-responsive col-xs 4"
+                    :src="require('static/icons/payment-gateway/bri.png')"
+                  />
+                </li>
+                <li class="mb-2 row">
+                  <img
+                    class="img-responsive col-xs 4"
+                    :src="require('static/icons/payment-gateway/cimb.png')"
+                  />
+                  <img
+                    class="img-responsive col-xs 4"
+                    :src="require('static/icons/payment-gateway/mandiri.png')"
+                  />
+                  <img
+                    class="img-responsive col-xs 4"
+                    :src="require('static/icons/payment-gateway/danamon.png')"
+                  />
+                </li>
+                <li class="mb-2 row">
+                  <img
+                    class="img-responsive col-xs 4"
+                    :src="require('static/icons/payment-gateway/maybank.png')"
+                  />
+                  <img
+                    class="img-responsive col-xs 4"
+                    :src="require('static/icons/payment-gateway/permata.png')"
+                  />
+                  <img
+                    class="img-responsive col-xs 4"
+                    :src="require('static/icons/payment-gateway/maybank2u.png')"
+                  />
+                </li>
+                <li class="mb-2 row">
+                  <img
+                    class="img-responsive col-xs 4"
+                    :src="
+                      require('static/icons/payment-gateway/danamon-aja.png')
+                    "
+                  />
+                  <img
+                    class="img-responsive col-xs 4"
+                    :src="require('static/icons/payment-gateway/sinarmas.png')"
+                  />
+                  <img
+                    class="img-responsive col-xs 4"
+                    :src="require('static/icons/payment-gateway/dana.png')"
+                  />
+                </li>
+                <li class="mb-2 row">
+                  <img
+                    class="img-responsive col-xs 4"
+                    :src="require('static/icons/payment-gateway/link.png')"
+                  />
+                  <img
+                    class="img-responsive col-xs 4"
+                    :src="require('static/icons/payment-gateway/ovo.png')"
+                  />
+                  <img
+                    class="img-responsive col-xs 4"
+                    :src="require('static/icons/payment-gateway/shopee.png')"
+                  />
+                </li>
+                <li class="mb-2 row">
+                  <img
+                    class="img-responsive col-xs 4"
+                    :src="require('static/icons/payment-gateway/link-app.png')"
+                  />
+                  <img
+                    class="img-responsive col-xs 4"
+                    :src="
+                      require('static/icons/payment-gateway/shopee-qris.png')
+                    "
+                  />
+                  <img
+                    class="img-responsive col-xs 4"
+                    :src="require('static/icons/payment-gateway/alfamart.png')"
+                  />
+                </li>
+              </ul>
+            </aside>
+
+            <aside class="column col-md">
+              <h6 class="title">Hubungi Kami</h6>
+              <div class="list-unstyled list-adding">
+                <p>
+                  Office 8, Level 18-A Jl. Jend. Sudirman Kav. 52-53 SCBD LOT
+                  28, Jakarta Selatan
+                </p>
+                <div>
+                  <span>Telp. 0251 8395655</span>
+                  <span> Email support@beliayam.com </span>
+                </div>
+              </div>
+            </aside>
+            <!-- <aside class="column col-md">
               <h6 class="title">My Order</h6>
               <ul class="list-unstyled list-padding">
                 <li><a href="my_order.html" class="text-dark">My order</a></li>
@@ -85,8 +225,8 @@
                 </li>
                 <li><a href="review.html" class="text-dark">Review</a></li>
               </ul>
-            </aside>
-            <aside class="column col-md">
+            </aside> -->
+            <!-- <aside class="column col-md">
               <h6 class="title">My Account</h6>
               <ul class="list-unstyled list-padding">
                 <li>
@@ -111,8 +251,8 @@
                 </li>
                 <li><a class="text-dark" href="signin.html"> Logout</a></li>
               </ul>
-            </aside>
-            <aside class="column col-md">
+            </aside> -->
+            <!-- <aside class="column col-md">
               <h6 class="title">Extra Pages</h6>
               <ul class="list-unstyled list-padding">
                 <li>
@@ -138,17 +278,20 @@
                 <li><a href="faq.html" class="text-dark"> FAQ </a></li>
                 <li><a href="signin.html" class="text-dark"> Sign In </a></li>
               </ul>
-            </aside>
+            </aside> -->
             <aside class="column col-md">
-              <h6 class="title">Download Apps Now</h6>
+              <h6 class="title">Unduh Aplikasi</h6>
               <div style="margin: 20px"></div>
-              <div href="#">
+              <a href="javascript:void(0)">
                 <img :src="require('static/img/appstore.png')" height="40" />
-              </div>
+              </a>
               <div style="margin: 20px"></div>
-              <div href="#">
-                <img src="require('static/img/playmarket.png')" height="40" />
-              </div>
+              <a
+                target="_blank"
+                href="https://play.google.com/store/apps/details?id=com.ptbeliayam.beliayamcom"
+              >
+                <img :src="require('static/img/googleplay.png')" height="40" />
+              </a>
             </aside>
           </div>
         </div>

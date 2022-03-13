@@ -15,7 +15,7 @@
 
         <p class="ml-auto m-0">
           <a
-            href="javascript:void(0)"
+            href="/produk/diskon"
             class="
               text-decoration-none
               bg-white
@@ -27,7 +27,7 @@
             "
           >
             <i class="text-dark fad fa-badge-percent"></i>
-            <span class="badge badge-danger p-1 ml-1 small">50%</span>
+            <span class="badge badge-danger p-1 ml-1 small">DISKON%</span>
           </a>
         </p>
         <NuxtLink

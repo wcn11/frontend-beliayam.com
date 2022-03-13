@@ -88,7 +88,9 @@
                             {{ product.weight || 1 }} Kilogram.
                           </p>
 
-                        <p class="text-danger mb-0 small">Sisa {{ product.stock }} item</p>
+                          <p class="text-danger mb-0 small">
+                            Sisa {{ product.stock }} item
+                          </p>
                           <h6
                             class="price m-0 text-dark"
                             style="font-size: large; text-align: right"
@@ -192,7 +194,6 @@ export default {
 </script>
 
 <style scoped>
-
 .badge-danger-out-of-stock {
   color: #ffe5e5;
   background-color: rgb(205 77 0);
@@ -218,9 +219,33 @@ export default {
   margin: 10%;
 }
 
-
 .item-img {
   max-height: 180px;
   height: 180px;
+}
+
+@media (max-width: 1200px) {
+  .item-img {
+    max-height: 170px;
+    height: 170;
+  }
+}
+@media (max-width: 992px) {
+  .item-img {
+    max-height: 280px;
+    height: 280px;
+  }
+}
+@media (max-width: 768px) {
+  .item-img {
+    max-height: 235px;
+    height: 235px;
+  }
+}
+@media (max-width: 480px) {
+  .item-img {
+    max-height: 235px;
+    height: 235px;
+  }
 }
 </style>

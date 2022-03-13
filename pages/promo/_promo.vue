@@ -19,9 +19,24 @@
         v-if="promos.products && promos.products.length > 0"
       >
         <div class="container">
-          <h2>Promo {{ promos.name }}</h2>
-          <div class="d-flex align-items-center mb-3 category-description">
-            {{ promos && promos.description }}
+          <!-- <h2>Promo {{ promos.name }}</h2> -->
+
+          <img
+            :src="`${baseApi}/${promos.image_promo}`"
+            class="img-fluid img-responsive promo-image"
+            :alt="promos.name"
+          />
+
+          <div
+            class="
+              d-flex
+              align-items-center
+              category-description
+              mt-lg-5
+              mb-lg-5
+            "
+          >
+            <h3 class="font-weight-light">Produk Promo</h3>
           </div>
           <div class="row mt-4">
             <div
@@ -66,7 +81,7 @@
                         <i class="fas fa-weight"></i> 1 Ekor
                       </h6>
                       <h6
-                        class="price m-0 text-dark"
+                        class="price mt-3 text-dark"
                         style="font-size: large; text-align: right"
                       >
                         {{ promo.price | formatMoney }}
@@ -216,6 +231,10 @@ export default {
 
 .card-shadow {
   box-shadow: 1px 1px 5px 0px grey;
+}
+
+.promo-image {
+  border-radius: 10px 10px;
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {

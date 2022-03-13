@@ -31,7 +31,11 @@
     <section class="py-4 beliayam-main-body">
       <div class="container">
         <div class="row">
-          <div class="col-md-4 margin-bottom-10" v-for="promo in promos" :key="promo._id">
+          <div
+            class="col-md-4 margin-bottom-10"
+            v-for="promo in promos"
+            :key="promo._id"
+          >
             <div class="rounded bg-promo text-center card-shadow">
               <div class="bg-white rounded shadow-sm mb-3">
                 <img
@@ -42,8 +46,8 @@
 
               <h5 class="mt-2 mb-1 text-white">{{ promo.name }}</h5>
               <p class="mt-2 mb-1 text-white bg-danger">
-                <i class="fad fa-badge-discount"></i> {{ promo.tags}}
-                </p>
+                <i class="fad fa-badge-discount"></i> {{ promo.tags }}
+              </p>
               <div class="pt-3 p-2">
                 <NuxtLink :to="`/promo/${promo.slug}`">
                   <p
@@ -53,17 +57,43 @@
                   </p>
                 </NuxtLink>
               </div>
-              <NuxtLink to="/promo/by-one-get-one/detail">
+              <div @click="openModalDetailPromo(promo)" role="button">
                 <p class="mb-0 pt-2 pb-2 small text-dark">
                   <i class="fad fa-file-contract mr-1"></i> Syarat & Ketentuan
                 </p>
-              </NuxtLink>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
+    <div
+      class="modal fade"
+      id="modal-promo-detail"
+      tabindex="-1"
+      aria-labelledby="modal-promo-detailLabel"
+      aria-hidden="true"
+      v-if="selectedPromo"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modal-promo-detailLabel">
+              Syarat & Ketentuan
+            </h5>
+          </div>
+          <div class="modal-body">
+            {{ selectedPromo.termsAndConditions }}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
+              oke
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -80,11 +110,11 @@ export default {
         this.promos = res.data;
       });
   },
-  data(){
+  data() {
     return {
-
       baseApi: process.env.NUXT_ENV_BASE_URL_API,
       promos: [],
+      selectedPromo: {},
       promo: {
         page: 1,
         show: 10,
@@ -93,7 +123,7 @@ export default {
         platform: ["all"],
         isActive: true,
       },
-    }
+    };
   },
   head: {
     title: "Promo Beliayam.com",
@@ -101,8 +131,16 @@ export default {
       lang: "id",
     },
   },
+  methods: {
+    openModalDetailPromo(promo) {
+      this.selectedPromo = promo;
+      $("#modal-promo-detail").appendTo("body").modal("show");
+    },
+  },
   mounted() {
-    document.getElementById("page-promo-index").classList.add("animate__fadeInRight");
+    document
+      .getElementById("page-promo-index")
+      .classList.add("animate__fadeInRight");
   },
   beforeDestroy() {
     document

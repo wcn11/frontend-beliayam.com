@@ -177,8 +177,8 @@
                     data-parent="#accordionPaymentChannels"
                   >
                     <div>
-                      <div v-if="paymentMethod.data.cash">
-                        <span>Cash (Bayar Melalui Kurir)</span>
+                      <div v-if="paymentMethod.data.cash" class="mb-4">
+                        <h6>Cash (Bayar Melalui Kurir)</h6>
                         <label
                           v-for="payment in paymentMethod.data.cash"
                           :key="payment.pg_code"
@@ -195,7 +195,13 @@
                             "
                             :checked="cart.user && cart.user.isPhoneVerified"
                           />
-                          <span class="w-75">{{ payment.pg_name }}</span>
+                          <span class="w-75 font-weight-bold">
+                            <img
+                              :src="payment.icon"
+                              class="img-fluid img-responsive"
+                            />
+                            {{ payment.pg_name }}</span
+                          >
 
                           <div
                             role="text"
@@ -210,8 +216,8 @@
                           </div>
                         </label>
                       </div>
-                      <div v-if="paymentMethod.data.emoney">
-                        <span>Dompet Digital</span>
+                      <div v-if="paymentMethod.data.emoney" class="mb-4">
+                        <h6>Dompet Digital</h6>
                         <label
                           v-for="payment in paymentMethod.data.emoney"
                           :key="payment.pg_code"
@@ -222,11 +228,17 @@
                             :value="payment"
                             v-model="selectedPayment.data"
                           />
-                          <span class="w-75">{{ payment.pg_name }}</span>
+                          <span class="w-75 font-weight-bold">
+                            <img
+                              :src="payment.icon"
+                              class="img-fluid img-responsive mr-3 ml-3"
+                            />
+                            {{ payment.pg_name }}</span
+                          >
                         </label>
                       </div>
-                      <div v-if="paymentMethod.data.emoney">
-                        <span>Internet Banking</span>
+                      <div v-if="paymentMethod.data.emoney" class="mb-4">
+                        <h6>Internet Banking</h6>
                         <label
                           v-for="payment in paymentMethod.data.ibanking"
                           :key="payment.pg_code"
@@ -237,11 +249,17 @@
                             :value="payment"
                             v-model="selectedPayment.data"
                           />
-                          <span class="w-75">{{ payment.pg_name }}</span>
+                          <span class="w-75 font-weight-bold">
+                            <img
+                              :src="payment.icon"
+                              class="img-fluid img-responsive mr-3 ml-3"
+                            />
+                            {{ payment.pg_name }}</span
+                          >
                         </label>
                       </div>
-                      <div v-if="paymentMethod.data.jumapp">
-                        <span>App On The Go</span>
+                      <div v-if="paymentMethod.data.jumapp" class="mb-4">
+                        <h6>App On The Go</h6>
                         <label
                           v-for="payment in paymentMethod.data.jumapp"
                           :key="payment.pg_code"
@@ -252,11 +270,17 @@
                             :value="payment"
                             v-model="selectedPayment.data"
                           />
-                          <span class="w-75">{{ payment.pg_name }}</span>
+                          <span class="w-75 font-weight-bold">
+                            <img
+                              :src="payment.icon"
+                              class="img-fluid img-responsive mr-3 ml-3"
+                            />
+                            {{ payment.pg_name }}</span
+                          >
                         </label>
                       </div>
-                      <div v-if="paymentMethod.data.qris">
-                        <span>QRIS</span>
+                      <div v-if="paymentMethod.data.qris" class="mb-4">
+                        <h6>QRIS</h6>
                         <label
                           v-for="payment in paymentMethod.data.qris"
                           :key="payment.pg_code"
@@ -267,12 +291,18 @@
                             :value="payment"
                             v-model="selectedPayment.data"
                           />
-                          <span class="w-75">{{ payment.pg_name }}</span>
+                          <span class="w-75 font-weight-bold">
+                            <img
+                              :src="payment.icon"
+                              class="img-fluid img-responsive mr-3 ml-3"
+                            />
+                            {{ payment.pg_name }}</span
+                          >
                         </label>
                       </div>
-                      <div v-if="paymentMethod.data.retail">
-                        <span
-                          >Retail (Pembayaran Gerai Aflamart / Indomaret)</span
+                      <div v-if="paymentMethod.data.retail" class="mb-4">
+                        <h6
+                          >Retail (Pembayaran Gerai Aflamart / Indomaret)</h6
                         >
                         <label
                           v-for="payment in paymentMethod.data.retail"
@@ -284,11 +314,17 @@
                             :value="payment"
                             v-model="selectedPayment.data"
                           />
-                          <span class="w-75">{{ payment.pg_name }}</span>
+                          <span class="w-75 font-weight-bold">
+                            <img
+                              :src="payment.icon"
+                              class="img-fluid img-responsive mr-3 ml-3"
+                            />
+                            {{ payment.pg_name }}</span
+                          >
                         </label>
                       </div>
-                      <div v-if="paymentMethod.data.va">
-                        <span>Virtual Akun (Transfer)</span>
+                      <div v-if="paymentMethod.data.va" class="mb-4">
+                        <h6>Virtual Akun (Transfer)</h6>
                         <label
                           v-for="payment in paymentMethod.data.va"
                           :key="payment.pg_code"
@@ -299,7 +335,13 @@
                             :value="payment"
                             v-model="selectedPayment.data"
                           />
-                          <span class="w-75">{{ payment.pg_name }}</span>
+                          <span class="w-75 font-weight-bold">
+                            <img
+                              :src="payment.icon"
+                              class="img-fluid img-responsive mr-3 ml-3"
+                            />
+                            {{ payment.pg_name }}</span
+                          >
                         </label>
                       </div>
                     </div>
@@ -659,9 +701,9 @@ export default {
         this.cart = res.data.data;
       })
       .catch((err) => {
-        if(err.response.data.error){
+        if (err.response.data.error) {
           this.$toast.warning(err.response.data.message);
-          this.$router.push("/")
+          this.$router.push("/");
         }
       });
 

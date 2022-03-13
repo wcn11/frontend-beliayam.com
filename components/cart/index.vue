@@ -307,7 +307,7 @@
                   </div>
                 </div>
                 <div>
-                  <div class="bg-white p-3 clearfix">
+                  <div class="bg-white pl-2 pr-2 clearfix">
                     <p class="font-weight-bold small mb-2">Voucher</p>
                     <button
                       class="btn btn-light mb-1 w-100"
@@ -487,7 +487,7 @@
               >
             </div>
             <span role="button" class="text-danger pl-3" @click="resetVoucher()"
-              >reset voucher</span
+              ><i class="fad fa-sync-alt"></i> reset voucher</span
             >
             <div>
               <div class="paragraphs p-3">
@@ -762,12 +762,14 @@ export default {
     // },
     resetVoucher() {
       this.selectedVoucher = {};
+      this.appliedVoucher = "";
+      $("#modal-vouchers").modal("hide");
       this.$toast.warning("Voucher Dihapus");
     },
     applyVoucher(voucher) {
       this.selectedVoucher = voucher;
-      $("#modal-vouchers").modal("hide");
       this.$toast.success("Voucher Diterapkan");
+      $("#modal-vouchers").modal("hide");
     },
     setVoucherByInput() {
       let voucherExist = this.getCartsVouchers.filter(
@@ -779,6 +781,7 @@ export default {
         return;
       }
       $("#modal-vouchers").modal("hide");
+      this.$toast.success("Voucher Diterapkan");
       this.selectedVoucher = voucherExist[0];
     },
     closeNote() {
@@ -887,7 +890,7 @@ export default {
           user_id: this.$store.state.auth.user._id,
           vouchers,
           type: "checkout",
-          platform: "all"
+          platform: "all",
         })
         .then((results) => {
           if (results.error) {
@@ -1014,7 +1017,7 @@ export default {
           if (product._id === item._id) {
             let currentTime = moment().format();
 
-            // if (Object.keys(this.selectedVoucher).length <= 0) {
+            if (Object.keys(this.selectedVoucher).length <= 0) {
               if (
                 product.productOnLive.hasPromo &&
                 product.productOnLive.hasPromo.isActive &&
@@ -1058,9 +1061,11 @@ export default {
               } else {
                 price += product.productOnLive.price;
               }
-              // return price += product.productOnLive.price;
+              return price;
+            }
+            return (price = product.productOnLive.price);
+            // return price += product.productOnLive.price;
             // }
-            return price// += product.productOnLive.price;;
           }
         });
         return price;
@@ -1074,6 +1079,73 @@ export default {
           if (product._id === item._id) {
             let currentTime = moment().format();
 
+            if (Object.keys(this.selectedVoucher).length <= 0) {
+              if (
+                product.productOnLive.hasPromo &&
+                product.productOnLive.hasPromo.isActive &&
+                product.productOnLive.hasPromo.promoStart < currentTime &&
+                product.productOnLive.hasPromo.promoEnd > currentTime
+              ) {
+                if (product.productOnLive.hasPromo.promoBy === "percent") {
+                  let discountPrice =
+                    (product.productOnLive.hasPromo.promoValue / 100) *
+                    product.productOnLive.price;
+                  price +=
+                    (product.productOnLive.price - discountPrice) *
+                    product.quantity;
+                } else if (product.productOnLive.hasPromo.promoBy === "price") {
+                  price +=
+                    (product.productOnLive.price -
+                      product.productOnLive.hasPromo.promoValue) *
+                    product.quantity;
+                } else {
+                  price += product.productOnLive.price * product.quantity;
+                }
+              } else if (
+                product.productOnLive.hasDiscount &&
+                product.productOnLive.hasDiscount.isDiscount &&
+                product.productOnLive.hasDiscount.discountStart < currentTime &&
+                product.productOnLive.hasDiscount.discountEnd > currentTime
+              ) {
+                if (
+                  product.productOnLive.hasDiscount.discountBy === "percent"
+                ) {
+                  let discountPrice =
+                    (product.productOnLive.hasDiscount.discount / 100) *
+                    product.productOnLive.price;
+                  price +=
+                    (product.productOnLive.price - discountPrice) *
+                    product.quantity;
+                } else if (
+                  product.productOnLive.hasDiscount.discountBy === "price"
+                ) {
+                  price +=
+                    (product.productOnLive.price -
+                      product.productOnLive.hasDiscount.discount) *
+                    product.quantity;
+                } else {
+                  price += product.productOnLive.price * product.quantity;
+                }
+              } else {
+                price += product.productOnLive.price * product.quantity;
+              }
+              return price;
+            }
+
+            return (price += product.productOnLive.price * product.quantity);
+          }
+        });
+        return price;
+      }
+    },
+    countSubtotalProduct() {
+      if (this.carts && this.carts.products) {
+        let price = 0;
+
+        const subTotal = this.carts.products.map((product) => {
+          let currentTime = moment().format();
+
+          if (Object.keys(this.selectedVoucher).length <= 0) {
             if (
               product.productOnLive.hasPromo &&
               product.productOnLive.hasPromo.isActive &&
@@ -1123,65 +1195,7 @@ export default {
             }
             return price;
           }
-        });
-        return price;
-      }
-    },
-    countSubtotalProduct() {
-      if (this.carts && this.carts.products) {
-        let price = 0;
-
-        const subTotal = this.carts.products.map((product) => {
-          let currentTime = moment().format();
-
-          if (
-            product.productOnLive.hasPromo &&
-            product.productOnLive.hasPromo.isActive &&
-            product.productOnLive.hasPromo.promoStart < currentTime &&
-            product.productOnLive.hasPromo.promoEnd > currentTime
-          ) {
-            if (product.productOnLive.hasPromo.promoBy === "percent") {
-              let discountPrice =
-                (product.productOnLive.hasPromo.promoValue / 100) *
-                product.productOnLive.price;
-              price +=
-                (product.productOnLive.price - discountPrice) *
-                product.quantity;
-            } else if (product.productOnLive.hasPromo.promoBy === "price") {
-              price +=
-                (product.productOnLive.price -
-                  product.productOnLive.hasPromo.promoValue) *
-                product.quantity;
-            } else {
-              price += product.productOnLive.price * product.quantity;
-            }
-          } else if (
-            product.productOnLive.hasDiscount &&
-            product.productOnLive.hasDiscount.isDiscount &&
-            product.productOnLive.hasDiscount.discountStart < currentTime &&
-            product.productOnLive.hasDiscount.discountEnd > currentTime
-          ) {
-            if (product.productOnLive.hasDiscount.discountBy === "percent") {
-              let discountPrice =
-                (product.productOnLive.hasDiscount.discount / 100) *
-                product.productOnLive.price;
-              price +=
-                (product.productOnLive.price - discountPrice) *
-                product.quantity;
-            } else if (
-              product.productOnLive.hasDiscount.discountBy === "price"
-            ) {
-              price +=
-                (product.productOnLive.price -
-                  product.productOnLive.hasDiscount.discount) *
-                product.quantity;
-            } else {
-              price += product.productOnLive.price * product.quantity;
-            }
-          } else {
-            price += product.productOnLive.price * product.quantity;
-          }
-          return price;
+          return (price += product.productOnLive.price * product.quantity);
         });
         return subTotal[0];
       }
@@ -1213,54 +1227,57 @@ export default {
         this.carts.products.map((product) => {
           let currentTime = moment().format();
 
-          if (
-            product.productOnLive.hasPromo &&
-            product.productOnLive.hasPromo.isActive &&
-            product.productOnLive.hasPromo.promoStart < currentTime &&
-            product.productOnLive.hasPromo.promoEnd > currentTime
-          ) {
-            if (product.productOnLive.hasPromo.promoBy === "percent") {
-              let discountPrice =
-                (product.productOnLive.hasPromo.promoValue / 100) *
-                product.productOnLive.price;
-              price +=
-                (product.productOnLive.price - discountPrice) *
-                product.quantity;
-            } else if (product.productOnLive.hasPromo.promoBy === "price") {
-              price +=
-                (product.productOnLive.price -
-                  product.productOnLive.hasPromo.promoValue) *
-                product.quantity;
-            } else {
-              price += product.productOnLive.price * product.quantity;
-            }
-          } else if (
-            product.productOnLive.hasDiscount &&
-            product.productOnLive.hasDiscount.isDiscount &&
-            product.productOnLive.hasDiscount.discountStart < currentTime &&
-            product.productOnLive.hasDiscount.discountEnd > currentTime
-          ) {
-            if (product.productOnLive.hasDiscount.discountBy === "percent") {
-              let discountPrice =
-                (product.productOnLive.hasDiscount.discount / 100) *
-                product.productOnLive.price;
-              price +=
-                (product.productOnLive.price - discountPrice) *
-                product.quantity;
-            } else if (
-              product.productOnLive.hasDiscount.discountBy === "price"
+          if (Object.keys(this.selectedVoucher).length <= 0) {
+            if (
+              product.productOnLive.hasPromo &&
+              product.productOnLive.hasPromo.isActive &&
+              product.productOnLive.hasPromo.promoStart < currentTime &&
+              product.productOnLive.hasPromo.promoEnd > currentTime
             ) {
-              price +=
-                (product.productOnLive.price -
-                  product.productOnLive.hasDiscount.discount) *
-                product.quantity;
+              if (product.productOnLive.hasPromo.promoBy === "percent") {
+                let discountPrice =
+                  (product.productOnLive.hasPromo.promoValue / 100) *
+                  product.productOnLive.price;
+                price +=
+                  (product.productOnLive.price - discountPrice) *
+                  product.quantity;
+              } else if (product.productOnLive.hasPromo.promoBy === "price") {
+                price +=
+                  (product.productOnLive.price -
+                    product.productOnLive.hasPromo.promoValue) *
+                  product.quantity;
+              } else {
+                price += product.productOnLive.price * product.quantity;
+              }
+            } else if (
+              product.productOnLive.hasDiscount &&
+              product.productOnLive.hasDiscount.isDiscount &&
+              product.productOnLive.hasDiscount.discountStart < currentTime &&
+              product.productOnLive.hasDiscount.discountEnd > currentTime
+            ) {
+              if (product.productOnLive.hasDiscount.discountBy === "percent") {
+                let discountPrice =
+                  (product.productOnLive.hasDiscount.discount / 100) *
+                  product.productOnLive.price;
+                price +=
+                  (product.productOnLive.price - discountPrice) *
+                  product.quantity;
+              } else if (
+                product.productOnLive.hasDiscount.discountBy === "price"
+              ) {
+                price +=
+                  (product.productOnLive.price -
+                    product.productOnLive.hasDiscount.discount) *
+                  product.quantity;
+              } else {
+                price += product.productOnLive.price * product.quantity;
+              }
             } else {
               price += product.productOnLive.price * product.quantity;
             }
-          } else {
-            price += product.productOnLive.price * product.quantity;
+            return price;
           }
-          return price;
+          return (price += product.productOnLive.price * product.quantity);
         });
       }
 
