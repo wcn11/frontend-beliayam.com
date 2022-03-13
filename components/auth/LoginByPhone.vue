@@ -70,6 +70,7 @@
               <a
                 href="javascript:void(0)"
                 class="btn btn-info btn-block rounded btn-lg btn-facebook"
+                @click="loginByFacebook"
               >
                 <i class="fab fa-facebook mr-2"></i> Masuk Dengan Facebook
               </a>
@@ -117,7 +118,15 @@ export default {
     };
   },
   methods: {
-    async getSuccessData(user) {
+    async loginByFacebook() {
+      const { authResponse } = await new Promise(FB.login);
+      if (!authResponse) return;
+
+      await FB.api(`/me?fields=email,name`, async (responseUser) => {
+        this.getSuccessData(responseUser, "facebook");
+      });
+    },
+    async getSuccessData(user, loginBy = "google") {
 
       const register = this.$axios
         .$post(
@@ -125,7 +134,7 @@ export default {
           {
             name: user.name,
             email: user.email,
-            loginBy: "google",
+            loginBy: loginBy,
             loginAt: "website",
           }
         )
