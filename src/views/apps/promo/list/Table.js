@@ -71,7 +71,7 @@ const CustomHeader = ({ toggleSidebar, handlePerPage, rowsPerPage, handleFilter,
 const PromoList = () => {
     // ** Store Vars
     const dispatch = useDispatch()
-    const store = useSelector(state => state.categories)
+    const store = useSelector(state => state.promos)
     // ** States
     const [searchTerm, setSearchTerm] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
@@ -97,8 +97,6 @@ const PromoList = () => {
                 sortBy: sortPerPage,
                 orderBy,
                 platform: [platforms]
-                // status: currentStatus.value,
-                // q: searchTerm
             })
         )
     }, [dispatch, store?.data?.length])

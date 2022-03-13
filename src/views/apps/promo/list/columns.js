@@ -3,11 +3,14 @@ import { Link } from 'react-router-dom'
 
 import { deletePromo, getPromoById } from '../store/action'
 import { store } from '@store/storeConfig/store'
+import { formatDateTime } from '@utils'
 
 import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
-import { Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2, Archive } from 'react-feather'
+import { Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2, Archive, AlignCenter } from 'react-feather'
 
 const renderClient = row => {
+   console.log('renderClient')
+   console.log(row)
    const stateNum = Math.floor(Math.random() * 6),
       states = ['light-success', 'light-danger', 'light-warning', 'light-info', 'light-primary', 'light-secondary'],
       color = states[stateNum]
@@ -53,7 +56,6 @@ const renderRole = row => {
 }
 
 const statusObj = {
-   pending: 'light-warning',
    active: 'light-success',
    inactive: 'light-secondary'
 }
@@ -61,48 +63,52 @@ const statusObj = {
 export const columns = [
    {
       name: 'Promo',
-      minWidth: '297px',
+      minWidth: '138px',
       selector: 'fullName',
       sortable: true,
       cell: row => (
          <div className='d-flex justify-content-left align-items-center'>
-            {renderClient(row)}
+            {/* {renderClient(row)} */}
             <div className='d-flex flex-column'>
                <Link
                   to={`/apps/promo/view/${row._id}`}
                   className='user-name text-truncate mb-0'
-               // onClick={() => store.dispatch(getPromoById(row._id))}
-               // onClick={}
                >
                   <span className='font-weight-bold'>{row.name}</span>
                </Link>
-               <small className='text-truncate text-muted mb-0'>{row.sku}</small>
             </div>
          </div>
       )
    },
+   // {
+   //    name: 'Image',
+   //    minWidth: '320px',
+   //    selector: 'image',
+   //    sortable: true,
+   //    cell: row => (
+   //       <img src={`https://be-dev.beliayam.com/api/v1/${row.image}`} alt="" />
+   //    )
+   // },
+   // {
+   //    name: 'Name',
+   //    minWidth: '172px',
+   //    selector: 'role',
+   //    sortable: true,
+   //    cell: row => row.name
+   // },
    {
-      name: 'Image',
-      minWidth: '320px',
-      selector: 'image',
-      sortable: true,
-      cell: row => (
-         <img src={`https://be-dev.beliayam.com/api/v1/${row.image}`} alt="" />
-      )
-   },
-   {
-      name: 'Position',
-      minWidth: '172px',
-      selector: 'role',
-      sortable: true,
-      cell: row => row.position
-   },
-   {
-      name: 'Slug',
-      minWidth: '138px',
+      name: 'Start',
+      minWidth: '100px',
       selector: 'currentPlan',
       sortable: true,
-      cell: row => <span className='text-capitalize'>{row.slug}</span>
+      cell: row => <span className='text-capitalize'>{formatDateTime(row.promoStart)}</span>
+   },
+   {
+      name: 'End',
+      minWidth: '100px',
+      selector: 'currentPlan',
+      sortable: true,
+      cell: row => <span className='text-capitalize'>{formatDateTime(row.promoEnd)}</span>
    },
    {
       name: 'Status',
@@ -110,8 +116,8 @@ export const columns = [
       selector: 'status',
       sortable: true,
       cell: row => (
-         <Badge className='text-capitalize light-success' color={statusObj[row.isActive]} pill>
-            {row.status}
+         <Badge className='text-capitalize light-success' color={statusObj[row.isActive ? 'active' : 'inactive']} pill>
+            {row.isActive ? 'active' : 'inactive'} 
          </Badge>
       )
    },

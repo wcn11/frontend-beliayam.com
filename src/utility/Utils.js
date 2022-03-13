@@ -44,6 +44,27 @@ export const formatDateToMonthShort = (value, toTimeForCurrentDay = true) => {
 }
 
 /**
+ * for date to and date from
+ * @param {String} value date to format
+ * @returns date in humaniize format
+ */
+export const formatDateTime = (value) => {
+  const date = new Date(value)
+  const formatting = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric'
+  }
+
+  return new Intl.DateTimeFormat('id-ID', formatting).format(date)
+}
+
+
+/**
  ** Return if user is logged in
  ** This is completely up to you and how you want to store the token in your frontend application
  *  ? e.g. If you are using cookies to store the application please update this function

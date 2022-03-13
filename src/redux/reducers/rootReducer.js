@@ -10,6 +10,7 @@ import todo from '@src/views/apps/todo/store/reducer'
 import users from '@src/views/apps/user/store/reducer'
 import categories from '@src/views/apps/category/store/reducer'
 import products from '@src/views/apps/product/store/reducer'
+import promos from '@src/views/apps/promo/store/reducer'
 import email from '@src/views/apps/email/store/reducer'
 import invoice from '@src/views/apps/invoice/store/reducer'
 import calendar from '@src/views/apps/calendar/store/reducer'
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   users,
   categories,
   products,
+  promos,
   navbar,
   layout,
   invoice,

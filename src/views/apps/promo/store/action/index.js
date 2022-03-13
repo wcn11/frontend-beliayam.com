@@ -17,8 +17,6 @@ export const getAllDataPromo = () => {
 
 // get promo - pagination
 export const getPromo = (params) => {
-    console.log('ini1')
-    console.log(params)
     return async dispatch => {
         await axios.get(GET_PROMO, {params}).then(response => {
             dispatch({
