@@ -887,8 +887,7 @@ export default {
           user_id: this.$store.state.auth.user._id,
           vouchers,
           type: "checkout",
-          platform: "all",
-          isActive: "true",
+          platform: "all"
         })
         .then((results) => {
           if (results.error) {
@@ -1128,7 +1127,6 @@ export default {
         return price;
       }
     },
-
     countSubtotalProduct() {
       if (this.carts && this.carts.products) {
         let price = 0;

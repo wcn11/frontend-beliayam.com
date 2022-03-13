@@ -75,16 +75,6 @@
               >
                 <i class="fad fa-mobile-alt"></i> Masuk Dengan Telepon
               </NuxtLink>
-
-              <!-- <v-facebook-login
-                :app-id="facebookClientId"
-                text-class=" rounded text-white"
-                role="button"
-                @login="loginByFacebook"
-                :login-options="scopeLoginByFacebook"
-              >
-                <span slot="login">Masuk Dengan Facebook</span>
-              </v-facebook-login> -->
               <a
                 href="javascript:void(0)"
                 class="btn btn-info btn-block rounded btn-lg btn-facebook"
