@@ -14,6 +14,9 @@ import DataTable from 'react-data-table-component'
 import { selectThemeColors } from '@utils'
 import { Card, CardHeader, CardTitle, CardBody, Input, Row, Col, Label, CustomInput, Button } from 'reactstrap'
 
+import '@styles/react/libs/react-select/_react-select.scss'
+import '@styles/react/libs/tables/react-dataTable-component.scss'
+
 const CustomHeader = ({ toggleSidebar, handlePerPage, rowsPerPage, handleFilter, searchTerm }) => {
    return (
       <div className='invoice-list-table-header w-100 mr-1 ml-50 mt-2 mb-75'>
@@ -57,7 +60,7 @@ const CustomHeader = ({ toggleSidebar, handlePerPage, rowsPerPage, handleFilter,
                   />
                </div>
                <Button.Ripple color='primary' onClick={toggleSidebar}>
-                  New Voucher
+                  New Charge
                </Button.Ripple>
             </Col>
          </Row>
@@ -65,15 +68,16 @@ const CustomHeader = ({ toggleSidebar, handlePerPage, rowsPerPage, handleFilter,
    )
 }
 
-const PromoList = () => {
+const ChargeList = () => {
    const dispatch = useDispatch()
-   const store = useSelector(state => state.vouchers)
+   const store = useSelector(state => state.promos)
 
    const [searchTerm, setSearchTerm] = useState('')
    const [currentPage, setCurrentPage] = useState(1)
    const [rowsPerPage, setRowsPerPage] = useState(10)
    const [sortPerPage, setSortPerPage] = useState('ASC')
    const [orderBy, setOrderBy] = useState('name')
+   const [platform, setPlatform] = useState(['all'])
    const [sidebarOpen, setSidebarOpen] = useState(false)
 
    const [currentStatus, setCurrentStatus] = useState({ value: '', label: 'Select Status', number: 0 })
@@ -87,6 +91,7 @@ const PromoList = () => {
             show: rowsPerPage,
             sortBy: sortPerPage,
             // status: currentStatus.value,
+            platform,
             orderBy
          })
       )
@@ -140,7 +145,6 @@ const PromoList = () => {
          })
       )
    }
-
 
    const CustomPagination = () => {
       const count = Number(Math.ceil(store.total / rowsPerPage))
@@ -291,7 +295,6 @@ const PromoList = () => {
          <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} />
       </Fragment>
    )
-
 }
 
-export default PromoList
+export default ChargeList
