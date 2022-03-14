@@ -1,11 +1,10 @@
-import axios from "axios"
 import { fetcher } from '@src/utility/axiosHooks'
 import { GET_PROMO, GET_PROMO_BYID } from '@src/utility/Url'
 
 // get ALL promo list
 export const getAllDataPromo = () => {
     return async dispatch => {
-        await fetcher(GET_PROMO).then(response => {
+        await fetcher(GET_ALL_DATA_PROMO).then(response => {
             console.log('ini all data', response)
             dispatch({
                 type: 'GET_ALL_DATA_PROMO',
@@ -17,10 +16,8 @@ export const getAllDataPromo = () => {
 
 // get promo - pagination
 export const getPromo = (params) => {
-    console.log('ini1')
-    console.log(params)
     return async dispatch => {
-        await axios.get(GET_PROMO, {params}).then(response => {
+        await fetcher(GET_PROMO, {params}).then(response => {
             dispatch({
                 type: 'GET_DATA_PROMO',
                 data: response?.data?.data,
@@ -38,20 +35,6 @@ export const getPromoById = id => {
             .then(response => {
                 dispatch({
                     type: 'GET_PROMO_BYID',
-                    selectedPromo: response?.data?.data
-                })
-            })
-            .catch(err => console.log(err))
-    }
-}
-
-// get product by id
-export const getPromoBySlug = slug => {
-    return dispatch => {
-        fetcher(GET_PROMO_BYSLUG(slug))
-            .then(response => {
-                dispatch({
-                    type: 'GET_PROMO_BYSLUG',
                     selectedPromo: response?.data?.data
                 })
             })

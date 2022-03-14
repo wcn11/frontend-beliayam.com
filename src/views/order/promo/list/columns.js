@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 
-
 import { deletePromo, getPromoById } from '../store/action'
 import { store } from '@store/storeConfig/store'
 
@@ -18,40 +17,6 @@ const renderClient = row => {
    // }
 }
 
-const renderRole = row => {
-   const roleObj = {
-      subscriber: {
-         class: 'text-primary',
-         icon: User
-      },
-      maintainer: {
-         class: 'text-success',
-         icon: Database
-      },
-      editor: {
-         class: 'text-info',
-         icon: Edit2
-      },
-      author: {
-         class: 'text-warning',
-         icon: Settings
-      },
-      admin: {
-         class: 'text-danger',
-         icon: Slack
-      }
-   }
-
-   const Icon = roleObj[row.role] ? roleObj[row.role].icon : Edit2
-
-   return (
-      <span className='text-truncate text-capitalize align-middle'>
-         <Icon size={18} className={`${roleObj[row.name] ? roleObj[row.name].class : ''} mr-50`} />
-         {row.name}
-      </span>
-   )
-}
-
 const statusObj = {
    pending: 'light-warning',
    active: 'light-success',
@@ -60,8 +25,8 @@ const statusObj = {
 
 export const columns = [
    {
-      name: 'Promo',
-      minWidth: '297px',
+      name: 'Voucher',
+      minWidth: '172px',
       selector: 'fullName',
       sortable: true,
       cell: row => (
@@ -69,40 +34,44 @@ export const columns = [
             {renderClient(row)}
             <div className='d-flex flex-column'>
                <Link
-                  to={`/apps/promo/view/${row._id}`}
+                  to={`/order/promo/view/${row._id}`}
                   className='user-name text-truncate mb-0'
-               // onClick={() => store.dispatch(getPromoById(row._id))}
-               // onClick={}
+               // onClick={() => store.dispatch(getCategoryById(row._id))}
                >
                   <span className='font-weight-bold'>{row.name}</span>
                </Link>
-               <small className='text-truncate text-muted mb-0'>{row.sku}</small>
+               <small className='text-truncate text-muted mb-0'>{row.tags}</small>
             </div>
          </div>
       )
    },
    {
-      name: 'Image',
-      minWidth: '320px',
-      selector: 'image',
+      name: 'Code',
+      minWidth: '138px',
+      selector: 'role',
       sortable: true,
-      cell: row => (
-         <img src={`https://be-dev.beliayam.com/api/v1/${row.image}`} alt="" />
-      )
+      cell: row => row.voucherCode
    },
    {
-      name: 'Position',
+      name: 'Minimum Order',
       minWidth: '172px',
       selector: 'role',
       sortable: true,
-      cell: row => row.position
+      cell: row => row.minimumOrderValue
    },
    {
-      name: 'Slug',
-      minWidth: '138px',
-      selector: 'currentPlan',
+      name: 'Discount Start',
+      minWidth: '172px',
+      selector: 'role',
       sortable: true,
-      cell: row => <span className='text-capitalize'>{row.slug}</span>
+      cell: row => row.discountStart
+   },
+   {
+      name: 'Discount End',
+      minWidth: '172px',
+      selector: 'role',
+      sortable: true,
+      cell: row => row.discountEnd
    },
    {
       name: 'Status',
@@ -110,8 +79,8 @@ export const columns = [
       selector: 'status',
       sortable: true,
       cell: row => (
-         <Badge className='text-capitalize light-success' color={statusObj[row.isActive]} pill>
-            {row.status}
+         <Badge className='text-capitalize light-success' color={statusObj['active']} pill>
+            {row.isActive === true && <>active</>}
          </Badge>
       )
    },
@@ -126,7 +95,7 @@ export const columns = [
             <DropdownMenu right>
                <DropdownItem
                   tag={Link}
-                  to={`/apps/promo/view/${row._id}`}
+                  to={`/order/promo/view/${row._id}`}
                   className='w-100'
                   onClick={() => store.dispatch(getPromoById(row._id))}
                >
@@ -135,7 +104,7 @@ export const columns = [
                </DropdownItem>
                <DropdownItem
                   tag={Link}
-                  to={`/apps/promo/edit/${row._id}`}
+                  to={`/order/promo/edit/${row._id}`}
                   className='w-100'
                   onClick={() => store.dispatch(getPromoById(row._id))}
                >

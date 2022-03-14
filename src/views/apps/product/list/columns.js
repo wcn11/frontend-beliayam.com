@@ -99,14 +99,14 @@ export const columns = [
    },
    {
       name: 'Price',
-      minWidth: '172px',
+      minWidth: '100px',
       selector: 'role',
       sortable: true,
       cell: row => row.price
    },
    {
       name: 'Stock',
-      minWidth: '172px',
+      minWidth: '100px',
       selector: 'role',
       sortable: true,
       cell: row => row.stock

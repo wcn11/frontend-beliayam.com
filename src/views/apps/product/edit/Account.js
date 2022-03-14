@@ -5,11 +5,12 @@ import { useDispatch } from 'react-redux'
 
 import { isObjEmpty } from '@utils'
 
+import ToastUpdate from '../../../components/toasts/ToastUpdate'
 import Avatar from '@components/avatar'
 
 import { updateProduct, getProductById } from '../store/action'
-
-import { Lock, Edit, Trash2 } from 'react-feather'
+import { toast, Slide } from 'react-toastify'
+import { Check, Edit, Trash2 } from 'react-feather'
 import { Media, Row, Col, Button, Form, Input, Label, FormGroup, Table, CustomInput } from 'reactstrap'
 
 const ProductAccountTab = ({ selectedProduct }) => {
@@ -75,6 +76,14 @@ const ProductAccountTab = ({ selectedProduct }) => {
                 })
             )
         }
+
+        toast.success(
+            <ToastUpdate
+                icon={<Check size={12} />}
+                content='Product'
+            />,
+            { transition: Slide, hideProgressBar: true, autoClose: 8000 }
+        )
     }
 
     const discount = (hargaAwal) => {

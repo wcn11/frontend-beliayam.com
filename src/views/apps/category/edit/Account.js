@@ -8,11 +8,12 @@ import { isObjEmpty } from '@utils'
 
 // ** Custom Components
 import Avatar from '@components/avatar'
-
+import ToastUpdate from '../../../components/toasts/ToastUpdate'
 import { getCategoryById, updateCategory } from '../store/action'
 
 // ** Third Party Components
-import { Lock, Edit, Trash2 } from 'react-feather'
+import { toast, Slide } from 'react-toastify'
+import { Check, Edit, Trash2 } from 'react-feather'
 import { Media, Row, Col, Button, Form, Input, Label, FormGroup, Table, CustomInput } from 'reactstrap'
 
 
@@ -70,6 +71,14 @@ const CategoryAccountTab = ({ selectedCategory }) => {
             })
          )
       }
+
+      toast.success(
+         <ToastUpdate
+            icon={<Check size={12} />}
+            content='Category'
+         />,
+         { transition: Slide, hideProgressBar: true, autoClose: 8000 }
+      )
    }
 
    // ** Renders User

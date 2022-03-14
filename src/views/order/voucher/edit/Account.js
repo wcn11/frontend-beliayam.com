@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 import { useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 
+import ToastUpdate from '../../../components/toasts/ToastUpdate'
 import { isObjEmpty } from '@utils'
-
 import { updateVoucher, getVoucherById } from '../store/action'
-
-import { Lock, Edit, Trash2 } from 'react-feather'
+import { toast, Slide } from 'react-toastify'
+import { Edit, Trash2, Check } from 'react-feather'
 import { Media, Row, Col, Button, Form, Input, Label, FormGroup, Table, CustomInput } from 'reactstrap'
 
 const VoucherAccountTab = ({ selectedVoucher }) => {
@@ -57,9 +57,18 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
              discountEnd: values.discountEnd,
              minimumOrderValue: values.minimumOrderValue,
              termsAndConditions: values.termsAndConditions,
-           }),
+           })
          )
       }
+
+      toast.success(
+        <ToastUpdate 
+        icon={<Check size={12}/>} 
+        content='Voucher'
+        />,  
+        { transition: Slide, hideProgressBar: true, autoClose: 5000 }
+      )
+
    }
 
    if (!voucherData) {
@@ -157,7 +166,7 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
                 </Col>
                 <Col md='4' sm='12'>
                   <FormGroup>
-                    <Label for='discountStart'>Discount Start</Label>
+                    <Label for='discountStart'>Discount Start </Label>
                     <Input
                       type='datetime-local'
                       id='discountStart'

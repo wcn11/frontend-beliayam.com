@@ -1,8 +1,9 @@
 import { useState, useContext, Fragment } from 'react'
+import { LOGIN_URL } from '@src/utility/Url'
+import { fetcher } from '@src/utility/axiosHooks'
 import classnames from 'classnames'
 import Avatar from '@components/avatar'
 import { useSkin } from '@hooks/useSkin'
-import axios from 'axios'
 import { useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { toast, Slide } from 'react-toastify'
@@ -29,8 +30,6 @@ import {
 } from 'reactstrap'
 
 import '@styles/base/pages/page-auth.scss'
-import { LOGIN_URL } from '../../../utility/Url'
-import { fetcher } from '../../../utility/axiosHooks'
 
 const ToastContent = ({ name, role }) => (
   <Fragment>

@@ -6,8 +6,9 @@ import { useDispatch } from 'react-redux'
 import { isObjEmpty } from '@utils'
 
 import { updateCharge, getChargeById } from '../store/action'
-
-import { Lock, Edit, Trash2 } from 'react-feather'
+import { toast, Slide } from 'react-toastify'
+import ToastUpdate from '../../../components/toasts/ToastUpdate'
+import { Check, Edit, Trash2 } from 'react-feather'
 import { Media, Row, Col, Button, Form, Input, Label, FormGroup, Table, CustomInput } from 'reactstrap'
 
 const ChargeAccountTab = ({ selectedCharge }) => {
@@ -58,6 +59,14 @@ const ChargeAccountTab = ({ selectedCharge }) => {
             })
          )
       }
+
+      toast.success(
+         <ToastUpdate
+            icon={<Check size={12} />}
+            content='Charge'
+         />,
+         { transition: Slide, hideProgressBar: true, autoClose: 8000 }
+      )
    }
 
    if (!chargeData) {

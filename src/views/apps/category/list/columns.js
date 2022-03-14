@@ -93,7 +93,7 @@ export const columns = [
    },
    {
       name: 'Position',
-      minWidth: '172px',
+      minWidth: '100px',
       selector: 'role',
       sortable: true,
       cell: row => row.position

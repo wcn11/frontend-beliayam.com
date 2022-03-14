@@ -4,31 +4,31 @@ const initialState = {
     data: [],
     total: 1,
     params: {},
-    selectedCategory: null
+    selectedPromo: null
 }
 
-const categories = (state = initialState, action) => {
+const promos = (state = initialState, action) => {
     switch (action.type) {
-        case 'GET_ALL_DATA_CATEGORY':
+        case 'GET_ALL_DATA_PROMO':
             return { ...state, allData: action.data }
-        case 'GET_DATA_CATEGORY':
+        case 'GET_DATA_PROMO':
             return {
                 ...state,
                 data: action.data,
                 total: action.totalPages,
                 params: action.params
             }
-        case 'GET_CATEGORY_BYID':
+        case 'GET_PROMO_BYID':
             return { ...state, selectedCategory: action.selectedCategory }
-        case 'ADD_CATEGORY':
+        case 'ADD_PROMO':
             return { ...state }
-        case 'UPDATE_CATEGORY':
+        case 'UPDATE_PROMO':
             return { ...state }
-        case 'DELETE_CATEGORY':
+        case 'DELETE_PROMO':
             return { ...state }
         default:
             return { ...state }
     }
 }
 
-export default categories
+export default promos

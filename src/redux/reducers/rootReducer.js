@@ -12,6 +12,7 @@ import categories from '@src/views/apps/category/store/reducer'
 import products from '@src/views/apps/product/store/reducer'
 import charges from '../../views/order/charge/store/reducer'
 import vouchers from '../../views/order/voucher/store/reducer'
+import promos from '../../views/order/promo/store/reducer'
 import email from '@src/views/apps/email/store/reducer'
 import invoice from '@src/views/apps/invoice/store/reducer'
 import calendar from '@src/views/apps/calendar/store/reducer'
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   charges,
   vouchers,
   products,
+  promos,
   navbar,
   layout,
   invoice,

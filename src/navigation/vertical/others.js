@@ -1,12 +1,12 @@
-import { Scissors, Circle, Percent, DollarSign, LifeBuoy, Shield, FileText } from 'react-feather'
+import { Scissors, Circle, Percent, DollarSign, ShoppingCart } from 'react-feather'
 export default [
   {
-    header: 'Order'
+    header: 'Transaction'
   },
   {
     id: 'invoiceApp',
     title: 'Order',
-    icon: <FileText size={20} />,
+    icon: <ShoppingCart size={20} />,
     children: [
       {
         id: 'invoiceList',
@@ -38,9 +38,14 @@ export default [
     id: 'access-control',
     title: 'Promo',
     icon: <Percent size={12} />,
-    action: 'read',
-    resource: 'ACL',
-    navLink: '/access-control'
+    children: [
+      {
+        id: 'ThirdLevel',
+        title: 'List',
+        icon: <Circle size={12} />,
+        navLink: '/order/promo/list'
+      }
+    ]
   },
   // {
   //   id: 'menuLevels',

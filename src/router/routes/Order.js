@@ -48,6 +48,12 @@ const OrderRoutes = [
          navLink: '/order/voucher/edit'
       }
    },
+
+   //promo
+   {
+      path: '/order/promo/list',
+      component: lazy(() => import('../../views/order/promo/list'))
+   },
 ]
 
 export default OrderRoutes
