@@ -19,7 +19,11 @@ const promos = (state = initialState, action) => {
                 params: action.params
             }
         case 'GET_PROMO_BYID':
+<<<<<<< HEAD:src/views/order/promo/store/reducer/index.js
             return { ...state, selectedCategory: action.selectedCategory }
+=======
+            return { ...state, selectedPromo: action.selectedPromo }
+>>>>>>> refs/remotes/origin/main:src/views/apps/promo/store/reducer/index.js
         case 'ADD_PROMO':
             return { ...state }
         case 'UPDATE_PROMO':
