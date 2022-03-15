@@ -63,6 +63,18 @@ export const formatDateTime = (value) => {
   return new Intl.DateTimeFormat('id-ID', formatting).format(date)
 }
 
+/**
+ * Thousand Separator
+ * @returns String
+ */
+
+export const numberFormat = (value, format = 2) => {
+  return new Intl.NumberFormat('id',  { 
+                                            style: 'currency', 
+                                            currency: 'IDR',
+                                            maximumSignificantDigits: format
+                                          }).format(value)
+}
 
 /**
  ** Return if user is logged in
