@@ -273,6 +273,13 @@ const AppRoutes = [
       navLink: '/apps/order/view'
     }
   },
+  {
+    path: '/apps/order/preview/:id',
+    component: lazy(() => import('../../views/apps/order/preview')),
+    meta: {
+      navLink: '/apps/order/preview'
+    }
+  },
 ]
 
 export default AppRoutes

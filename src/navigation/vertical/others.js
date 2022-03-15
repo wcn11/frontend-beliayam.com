@@ -1,4 +1,4 @@
-import { Scissors, Circle, Percent, DollarSign, ShoppingCart } from 'react-feather'
+import { Scissors, Circle, Percent, DollarSign, ShoppingCart, ShoppingBag } from 'react-feather'
 export default [
   {
     header: 'Transaction'
@@ -32,6 +32,37 @@ export default [
         icon: <Circle size={12} />,
         navLink: '/apps/invoice/add'
       }
+    ]
+  },
+  {
+    id: 'order',
+    title: 'Order',
+    icon: <ShoppingBag size={20} />,
+    children: [
+      {
+        id: 'orderList',
+        title: 'List',
+        icon: <Circle size={12} />,
+        navLink: '/apps/order/list'
+      },
+      // {
+      //   id: 'orderPreview',
+      //   title: 'Preview',
+      //   icon: <Circle size={12} />,
+      //   navLink: '/apps/order/preview'
+      // },
+      // {
+      //   id: 'invoiceEdit',
+      //   title: 'Edit',
+      //   icon: <Circle size={12} />,
+      //   navLink: '/apps/invoice/edit'
+      // },
+      // {
+      //   id: 'invoiceAdd',
+      //   title: 'Add',
+      //   icon: <Circle size={12} />,
+      //   navLink: '/apps/invoice/add'
+      // }
     ]
   },
   {

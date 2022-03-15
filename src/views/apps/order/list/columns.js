@@ -99,13 +99,14 @@ const renderPaymentStatus = (status) => {
 export const columns = [
   {
     name: "Order ID",
-    minWidth: "138px",
+    minWidth: "150px",
+    selector: "order_id",
     sortable: true,
     cell: (row) => (
       <div className="d-flex justify-content-left align-items-center">        
         <div className="d-flex flex-column">
           <Link
-            to={`/apps/order/view/${row.order_id}`}
+            to={`/apps/order/preview/${row.order_id}`}
             className="user-name text-truncate mb-0"
           >
             <span className="font-weight-bold">{row.order_id}</span>
@@ -116,38 +117,57 @@ export const columns = [
   },
   {
     name: "Customer",
-    minWidth: "130px",
+    minWidth: "250px",
+    selector: "user",
     sortable: true,
-    cell: (row) => row.user.email
+    // cell: (row) => row.user.email
+    cell: row => {
+      const name = row.user && row.user.name ? row.user.name : 'Frank Exanple',
+        email = row.user ? row.user.email : 'example@mail.com'
+      return (
+        <div className='d-flex justify-content-left align-items-center'>
+          {/* {renderClient(row)} */}
+          <div className='d-flex flex-column'>
+            <h6 className='user-name text-truncate mb-0'>{name}</h6>
+            <small className='text-truncate text-muted mb-0'>{email}</small>
+          </div>
+        </div>
+      )
+    }
   },
   {
     name: "Platform",
     minWidth: "130px",
     sortable: true,
+    selector: "platform",
     cell: (row) => row.platform
   },
   {
     name: "Order Date",
     minWidth: "130px",
     sortable: true,
+    selector: "createdAt",
     cell: (row) => formatDateTime(row.createdAt)
   },
   {
     name: "Grand Total",
     minWidth: "130px",
     sortable: true,
+    selector: "grand_total",
     cell: (row) => numberFormat(row.grand_total)
   },
   {
     name: "Order Status",
     minWidth: "130px",
     sortable: true,
+    selector: "order_status",
     cell: (row) => renderPaymentStatus(row.order_status.status.replace("_", " "))
   },
   {
     name: "Payment Type",
     minWidth: "130px",
     sortable: true,
+    selector: "payment",
     cell: (row) => row.payment.pg_type
   }
 ]

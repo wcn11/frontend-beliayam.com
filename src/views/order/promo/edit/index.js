@@ -22,7 +22,6 @@ const PromoEdit = () => {
    useEffect(() => {
       dispatch(getPromoById(id))
       return () => dispatch(getPromoById(id))
-      console.log(selectedPromo)
    }, [dispatch, id])
 
    return store.selectedPromo !== null && store.selectedPromo !== undefined ? (<Row className='app-user-edit'>
