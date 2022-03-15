@@ -84,7 +84,7 @@ export const updatePromo = (id, promo) => {
                 slug, 
                 tags, 
                 products, 
-                ermsAndConditions, 
+                termsAndConditions, 
                 promoValue,
                 promoBy,
                 promoStart,
@@ -92,7 +92,7 @@ export const updatePromo = (id, promo) => {
                 isActive,
                 description,
                 platform,
-                image_promo 
+                image_promo
             } = promo
             const formData = new FormData()
             // formData.append("image_promo", image_promo[0])
@@ -100,7 +100,7 @@ export const updatePromo = (id, promo) => {
             formData.set('slug', slug) 
             formData.set('tags', tags) 
             formData.set('products', products) 
-            formData.set('ermsAndConditions', ermsAndConditions) 
+            formData.set('termsAndConditions', termsAndConditions) 
             formData.set('promoValue', promoValue)
             formData.set('promoBy', promoBy)
             formData.set('promoStart', promoStart)

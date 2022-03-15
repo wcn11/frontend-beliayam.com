@@ -54,6 +54,18 @@ const OrderRoutes = [
       path: '/order/promo/list',
       component: lazy(() => import('../../views/order/promo/list'))
    },
+   {
+      path: '/order/promo/edit',
+      exact: true,
+      component: () => <Redirect to='/order/promo/edit/:id' />
+   },
+   {
+      path: '/order/promo/edit/:id',
+      component: lazy(() => import('../../views/order/promo/edit')),
+      meta: {
+         navLink: '/order/promo/edit'
+      }
+   }
 ]
 
 export default OrderRoutes

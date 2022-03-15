@@ -6,7 +6,7 @@ import ChargeAccountTab from './Account'
 import { getChargeById } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { Box, Info, Share2 } from 'react-feather'
+import { DollarSign } from 'react-feather'
 import { Card, CardBody, Row, Col, Nav, NavItem, NavLink, TabContent, TabPane, Alert } from 'reactstrap'
 
 import '@styles/react/apps/app-users.scss'
@@ -32,8 +32,8 @@ const ChargeEdit = () => {
                   <Nav pills>
                      <NavItem>
                         <NavLink active={activeTab === '1'} onClick={() => toggle('1')}>
-                           <Box size={14} />
-                           <span className='align-middle d-none d-sm-block'>Product</span>
+                           <DollarSign size={14} />
+                           <span className='align-middle d-none d-sm-block'>Charge</span>
                         </NavLink>
                      </NavItem>
                      {/* <NavItem>

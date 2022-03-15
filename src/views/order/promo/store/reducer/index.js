@@ -19,7 +19,7 @@ const promos = (state = initialState, action) => {
                 params: action.params
             }
         case 'GET_PROMO_BYID':
-            return { ...state, selectedCategory: action.selectedPromo }
+            return { ...state, selectedPromo: action.selectedPromo }
         case 'ADD_PROMO':
             return { ...state }
         case 'UPDATE_PROMO':

@@ -9,7 +9,12 @@ import { updateCharge, getChargeById } from '../store/action'
 import { toast, Slide } from 'react-toastify'
 import ToastUpdate from '../../../components/toasts/ToastUpdate'
 import { Check, Edit, Trash2 } from 'react-feather'
-import { Media, Row, Col, Button, Form, Input, Label, FormGroup, Table, CustomInput } from 'reactstrap'
+import {
+   Media, Row, Col, Button, Form, Input, Label, FormGroup, ModalHeader,
+   ModalBody,
+   ModalFooter,
+   Modal,
+   FormText } from 'reactstrap'
 
 const ChargeAccountTab = ({ selectedCharge }) => {
    const dispatch = useDispatch(),
@@ -19,6 +24,7 @@ const ChargeAccountTab = ({ selectedCharge }) => {
    // ** States
    const [img, setImg] = useState(null)
    const [chargeData, setChargeData] = useState(null)
+   const [centeredModal, setCenteredModal] = useState(false)
 
    const onChange = e => {
       const reader = new FileReader(),
@@ -60,12 +66,32 @@ const ChargeAccountTab = ({ selectedCharge }) => {
          )
       }
 
+      setCenteredModal(!centeredModal)
+
       toast.success(
          <ToastUpdate
             icon={<Check size={12} />}
             content='Charge'
          />,
-         { transition: Slide, hideProgressBar: true, autoClose: 8000 }
+         { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+      )
+   }
+
+   const centerModal = () => {
+      return (
+         <Modal isOpen={centeredModal} toggle={() => setCenteredModal(!centeredModal)} className='modal-dialog-centered'>
+            <ModalHeader toggle={() => setCenteredModal(!centeredModal)}>Vertically Centered</ModalHeader>
+            <ModalBody>
+               Oat cake ice cream candy chocolate cake chocolate cake cotton candy dragée apple pie. Brownie carrot cake
+               candy canes bonbon fruitcake topping halvah. Cake sweet roll cake cheesecake cookie chocolate cake
+               liquorice.
+            </ModalBody>
+            <ModalFooter>
+               <Button color='primary' onClick={() => setCenteredModal(!centeredModal)}>
+                  Accept
+               </Button>{' '}
+            </ModalFooter>
+         </Modal>
       )
    }
 
@@ -98,7 +124,7 @@ const ChargeAccountTab = ({ selectedCharge }) => {
                </Media>
             </Col>
             <Col sm='12'>
-               <Form onSubmit={handleSubmit(onSubmit)}>
+               <Form onClick={e => e.preventDefault(centerModal)}>
                   <Row>
                      <Col md='4' sm='12'>
                         <FormGroup>
@@ -152,19 +178,7 @@ const ChargeAccountTab = ({ selectedCharge }) => {
                            />
                         </FormGroup>
                      </Col>
-                     <Col md='4' sm='12'>
-                        <FormGroup>
-                           <Label for='description'>Description</Label>
-                           <Input
-                              type='text'
-                              id='description'
-                              name='description'
-                              placeholder='Short Description....'
-                              defaultValue={chargeData.description}
-                              innerRef={register({ required: true })}
-                           />
-                        </FormGroup>
-                     </Col>
+
                      <Col md='4' sm='12'>
                         <FormGroup>
                            <Label for='termsAndConditions'>Terms And Condition</Label>
@@ -178,13 +192,42 @@ const ChargeAccountTab = ({ selectedCharge }) => {
                            />
                         </FormGroup>
                      </Col>
+                     <Col md='12' sm='12'>
+                        <FormGroup>
+                           <Label for='description'>Description</Label>
+                           <Input
+                              type='textarea'
+                              id='description'
+                              name='description'
+                              placeholder='Short Description....'
+                              defaultValue={chargeData.description}
+                              innerRef={register({ required: true })}
+                           />
+                        </FormGroup>
+                     </Col>
                      <Col className='d-flex flex-sm-row flex-column mt-2' sm='12'>
-                        <Button.Ripple className='mb-1 mb-sm-0 mr-0 mr-sm-1' type='submit' color='primary'>
+                        <Button.Ripple onClick={() => setCenteredModal(!centeredModal)} className='mb-1 mb-sm-0 mr-0 mr-sm-1' type='submit' color='primary'>
                            Save Changes
                         </Button.Ripple>
                         <Button.Ripple color='secondary' outline>
                            Reset
                         </Button.Ripple>
+
+                        <Modal isOpen={centeredModal} toggle={() => setCenteredModal(!centeredModal)} className='modal-dialog-centered'>
+                           <ModalHeader toggle={() => setCenteredModal(!centeredModal)}>Update Charge</ModalHeader>
+                           <ModalBody>
+                              Apakah anda yakin untuk mengedit data tersebut?, pastikan sudah benar, cek lagi apa sudah yakin?
+                           </ModalBody>
+                           <ModalFooter>
+                              <Button color='primary' onClick={handleSubmit(onSubmit)}>
+                                 Accept
+                              </Button>{' '}
+                              <Button color='primary' outline onClick={() => setCenteredModal(!centeredModal)}>
+                                 Cancel
+                              </Button>{' '}
+                           </ModalFooter>
+                        </Modal>
+
                      </Col>
                   </Row>
                </Form>
