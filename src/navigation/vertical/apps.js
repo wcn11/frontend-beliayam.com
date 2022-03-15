@@ -1,4 +1,4 @@
-import { Mail, MessageSquare, CheckSquare, Calendar, FileText, Circle, ShoppingCart, Clipboard, User, Box, Divide } from 'react-feather'
+import { Mail, MessageSquare, CheckSquare, Calendar, FileText, Circle, ShoppingCart, Clipboard, User, Box, Divide, ShoppingBag } from 'react-feather'
 
 export default [
   {
