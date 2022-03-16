@@ -10,9 +10,7 @@ import todo from '@src/views/apps/todo/store/reducer'
 import users from '@src/views/apps/user/store/reducer'
 import categories from '@src/views/apps/category/store/reducer'
 import products from '@src/views/apps/product/store/reducer'
-import charges from '@src/views/order/charge/store/reducer'
-import vouchers from '@src/views/order/voucher/store/reducer'
-import promos from '@src/views/order/promo/store/reducer'
+// import promos from '@src/views/apps/promo/store/reducer' // gua remark dulu bikin error
 import orders from '@src/views/apps/order/store/reducer'
 import email from '@src/views/apps/email/store/reducer'
 import invoice from '@src/views/apps/invoice/store/reducer'
@@ -27,10 +25,10 @@ const rootReducer = combineReducers({
   email,
   users,
   categories,
-  charges,
-  vouchers,
+  // charges, // gua remark dulu bikin error
+  // vouchers, // gua remark dulu bikin error
   products,
-  promos,
+  // promos, // gua remark dulu bikin error
   orders,
   navbar,
   layout,

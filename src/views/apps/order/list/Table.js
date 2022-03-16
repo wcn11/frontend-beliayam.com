@@ -276,17 +276,19 @@ const OrderList = () => {
       </Card>
 
       <Card>
-        <DataTable
-          noHeader
-          pagination
-          subHeader
-          responsive
-          paginationServer
-          columns={columns}
-          sortIcon={<ChevronDown />}
-          className="react-dataTable"
-          paginationComponent={CustomPagination}
-          data={dataToRender()}
+      <DataTable
+            noHeader
+            pagination
+            paginationServer
+            subHeader={true}
+            columns={columns}
+            responsive={true}
+            sortIcon={<ChevronDown />}
+            className='react-dataTable'
+            defaultSortField='orderId'
+            paginationDefaultPage={currentPage}
+            paginationComponent={CustomPagination}
+            data={dataToRender()}
           subHeaderComponent={
             <CustomHeader
               toggleSidebar={toggleSidebar}

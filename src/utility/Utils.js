@@ -51,13 +51,13 @@ export const formatDateToMonthShort = (value, toTimeForCurrentDay = true) => {
 export const formatDateTime = (value) => {
   const date = new Date(value)
   const formatting = {
-    weekday: 'long',
+    // weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric'
+    // hour: 'numeric',
+    // minute: 'numeric',
+    // second: 'numeric'
   }
 
   return new Intl.DateTimeFormat('id-ID', formatting).format(date)

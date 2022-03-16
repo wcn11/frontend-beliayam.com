@@ -12,7 +12,6 @@ const orders = (state = initialState, action) => {
     case "GET_ALL_DATA_ORDER":
       return { ...state, allData: action.data }
     case "GET_DATA_ORDER":
-      console.log(action)
       return {
         ...state,
         data: action.data,
