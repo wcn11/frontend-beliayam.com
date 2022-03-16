@@ -301,9 +301,7 @@
                         </label>
                       </div>
                       <div v-if="paymentMethod.data.retail" class="mb-4">
-                        <h6
-                          >Retail (Pembayaran Gerai Aflamart / Indomaret)</h6
-                        >
+                        <h6>Retail (Pembayaran Gerai Aflamart / Indomaret)</h6>
                         <label
                           v-for="payment in paymentMethod.data.retail"
                           :key="payment.pg_code"
@@ -388,39 +386,6 @@
                 </div>
                 <div>
                   <div class="bg-white p-3 clearfix">
-                    <!-- <div class="bg-white p-3 clearfix">
-                      <p class="font-weight-bold small mb-2">Voucher</p>
-                      <button
-                        class="btn btn-light mb-1 w-100"
-                        @click="openModalVouchers()"
-                      >
-                        <i class="fad fa-badge-percent text-danger"></i>
-                        <span class="small text-muted">
-                          Gunakan / Masukkan Voucher</span
-                        >
-                      </button>
-                    </div> -->
-                    <div
-                      class="bg-white p-3 clearfix"
-                      v-if="Object.keys(selectedVoucher).length > 0"
-                    >
-                      <p class="mb-1">
-                        {{
-                          selectedVoucher.voucherName
-                            ? selectedVoucher.voucherName
-                            : selectedVoucher.voucherCode
-                        }}
-                        <span class="float-right text-dark"
-                          >Rp. {{ getPriceLabel(selectedVoucher) }}</span
-                        >
-                      </p>
-                      <br />
-                      <h6 class="mb-0 text-danger">
-                        Total Diskon<span class="float-right text-danger"
-                          >Rp. {{ getPriceLabel(selectedVoucher) }}</span
-                        >
-                      </h6>
-                    </div>
                     <div class="bg-white p-3 clearfix">
                       <p class="font-weight-bold small mb-2">Rincian Tagihan</p>
                       <p class="mb-1">
@@ -444,35 +409,39 @@
                           }}</span>
                         </p>
                       </div>
-                      <p v-if="Object.keys(selectedVoucher).length > 0">
-                        Diskon
-                        <span class="text-info ml-1"
-                          ><i class="fad fa-circle-info"></i></span
-                        ><span class="float-right text-dark"
-                          >-{{
-                            getPriceLabel(selectedVoucher) | formatMoney
-                          }}</span
-                        >
-                      </p>
-                      <p v-else>
-                        Diskon
-                        <span class="text-info ml-1"
-                          ><i class="fad fa-circle-info"></i></span
-                        ><span class="float-right text-dark">{{
-                          0 | formatMoney
-                        }}</span>
-                      </p>
-                    </div>
-                    <div class="p-3 border-top">
-                      <h5 class="mb-0">
-                        Bayar
-                        <span class="float-right text-danger">{{
-                          countTotalToPay | formatMoney
-                        }}</span>
-                      </h5>
+                      <div v-if="cart.vouchers && cart.vouchers.length > 0">
+                        <p>
+                          Voucher
+                          <span class="text-info ml-1"
+                            ><i class="fad fa-circle-info"></i></span
+                          >
+                          <span class="float-right text-dark"
+                            >-{{
+                              cart.subTotalVoucher | formatMoney
+                            }}</span
+                          >
+                        </p>
+                        <!-- <p v-else>
+                          Diskon
+                          <span class="text-info ml-1"
+                            ><i class="fad fa-circle-info"></i></span
+                          ><span class="float-right text-dark">{{
+                            0 | formatMoney
+                          }}</span>
+                        </p> -->
+                      </div>
                     </div>
                   </div>
                 </div>
+
+                  <div class="p-3 border-top">
+                    <h5 class="mb-0">
+                      Total
+                      <span class="float-right text-danger">
+                        {{ cart.baseTotal | formatMoney }}</span
+                      >
+                    </h5>
+                  </div>
                 <button
                   class="btn btn-success btn-lg btn-block mt-3 mb-3"
                   @click="payOrder()"
@@ -483,7 +452,7 @@
                   class="text-success text-center"
                   v-if="Object.keys(selectedVoucher).length > 1"
                 >
-                  Kamu hemat {{ getPriceLabel(selectedVoucher) | formatMoney }}
+                  Kamu hemat {{ cart && cart.subTotalVoucher | formatMoney }}
                 </p>
               </div>
             </div>
@@ -491,108 +460,6 @@
         </div>
       </div>
     </section>
-
-    <!-- Modal -->
-    <!-- <div
-      class="modal fade"
-      id="modal-vouchers"
-      data-backdrop="static"
-      data-keyboard="false"
-      tabindex="-1"
-      aria-labelledby="modal-vouchersLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modal-vouchersLabel">Pakai Voucher</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="input-group mb-3 input-wrapper mt-2">
-              <input
-                type="text"
-                class="input"
-                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                aria-label="Masukkan kode voucher"
-                aria-describedby="button-addon2"
-                v-model="appliedVoucher"
-              />
-              <span class="placeholder">Masukkan kode voucher</span>
-              <div class="input-group-append">
-                <button
-                  class="btn btn-outline-danger"
-                  type="button"
-                  id="button-addon2"
-                  @click="setVoucherByInput()"
-                >
-                  Terapkan
-                </button>
-              </div>
-            </div>
-            <span role="button" class="text-danger pl-3" @click="resetVoucher()"
-              >reset voucher</span
-            >
-            <div>
-              <div class="paragraphs p-3">
-                <div class="justify-content-center">
-                  <div
-                    class="voucher-list row"
-                    v-for="(voucher, index) in getCartsVouchers"
-                    :key="voucher._id"
-                  >
-                    <div class="col-md-12 content-heading pl-2 pr-2 mt-2">
-                      <div>
-                        <div>
-                          <div class="mb-1 label-voucher">
-                            <h5 class="font-weight-bold">
-                              {{ voucher.voucherName }}
-                            </h5>
-                            <h6>kode: {{ voucher.voucherCode }}</h6>
-                            <button
-                              class="
-                                btn btn-outline-danger
-                                font-weight-light
-                                float-right
-                              "
-                              @click="applyVoucher(voucher, index)"
-                              :disabled="selectedVoucher._id && !voucher._id"
-                            >
-                              gunakan
-                            </button>
-                          </div>
-                        </div>
-                        <div>
-                          <span>Berakhir dalam:</span> <br />
-                          <span :id="`countDown-${voucher.voucherCode}`"
-                            >{{
-                              formatDateToCountDown(
-                                voucher.discountEnd,
-                                voucher.voucherCode
-                              )
-                            }}
-                            lagi!</span
-                          ><br />
-
-                          <span class="text-danger">Lihat Detail</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
 
     <div
       class="modal fade"
@@ -770,12 +637,11 @@ export default {
           platform: "website",
         })
         .then((res) => {
-          console.log(res);
-          if (res.data.data.error) {
-            this.$toast.warning(res.data.data.message);
+          if (res.data.error) {
+            this.$toast.warning(res.data.message);
             return;
           }
-          if (res.data.data.response.response_code) {
+          if (res.data.data.response.response_code == 200) {
             this.$toast.success("Pesanan berhasil diproses");
             this.$router.push({
               path: "/checkout/sukses",
@@ -786,8 +652,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.error(err);
-          if (err.response.data.error) {
+          if (err && err.response && err.response.data.error) {
             this.$toast.warning(err.response.data.message);
           }
         });

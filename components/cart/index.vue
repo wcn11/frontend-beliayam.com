@@ -826,6 +826,7 @@ export default {
             this.$toast.success("Voucher Diterapkan");
             $("#modal-vouchers").modal("hide");
             this.selectedVoucher = voucherExist[0];
+            this.appliedVoucher = "";
             return;
           }
           this.appliedVoucher = "";

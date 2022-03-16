@@ -77,8 +77,12 @@
                   {{ order.payment.pg_name }}</a
                 >
               </div>
-              <div v-if="order.payment.pg_type === 'va'" class="p-2 va-container">
-                <span>Kode {{ order.payment.pg_name  }} Anda</span><h4>{{ order.response.trx_id }}</h4>
+              <div
+                v-if="order.payment.pg_type === 'va'"
+                class="p-2 va-container"
+              >
+                <span>Kode {{ order.payment.pg_name }} Anda</span>
+                <h4>{{ order.response.trx_id }}</h4>
                 <a
                   :href="order.response.redirect_url"
                   class="btn btn-danger"
@@ -98,12 +102,14 @@
             <h5>{{ order.bill.bill_total | formatMoney }}</h5>
           </div>
           <NuxtLink
-            :to="`/akun/pesanan-saya?trx_id=${order.order_id}`"
+            :to="`/akun/pesanan-saya/order?trx_id=${order.order_id}`"
             class="btn rounded btn-warning btn-lg btn-block"
             >Lihat Pesanan Saya</NuxtLink
           >
           <div class="p-2">
-            <p class="text-muted font-italic">Muat ulang halaman jika status pembayaran belum berubah</p>
+            <p class="text-muted font-italic">
+              Muat ulang halaman jika status pembayaran belum berubah
+            </p>
           </div>
         </div>
       </div>
@@ -124,7 +130,7 @@ export default {
   },
   async fetch() {
     if (!this.$route.query.order_id) {
-      this.$toast.error("Pesanan tidak ditemukan")
+      this.$toast.error("Pesanan tidak ditemukan");
       this.$router.push("/");
       return;
     }
@@ -139,6 +145,16 @@ export default {
       .catch((err) => {
         console.error(err);
       });
+
+    if (
+      this.order &&
+      this.order.payment &&
+      this.order.payment.payment_status_code !== 1
+    ) {
+      this.$router.push(
+        `/akun/pesanan-saya/order?trx_id=${this.order.order_id}`
+      );
+    }
   },
   methods: {
     formatDateToCountDown(date) {

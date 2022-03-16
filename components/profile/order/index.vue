@@ -219,6 +219,10 @@ moment.locale("id-ID");
 export default {
   async fetch() {
     await this.getOrders();
+
+    if(this.order){
+      
+    }
   },
   data() {
     return {

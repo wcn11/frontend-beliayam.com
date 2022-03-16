@@ -2,7 +2,7 @@
   <section class="py-4 beliayam-main-body">
     <div class="container">
       <div class="row">
-        <div class="col-md-12" v-if="Object.keys(order).length > 0">
+        <div class="col-md-12" v-if="order && Object.keys(order).length > 0">
           <section
             class="
               bg-white
@@ -55,6 +55,12 @@
                               >Menunggu Pembayaran</span
                             >
                           </h5>
+                          <button
+                            class="btn btn-danger"
+                            @click="openModalCancelOrder()"
+                          >
+                            batalkan pesanan
+                          </button>
                           <div
                             v-if="order.payment.pg_type === 'va'"
                             class="font-weight-light mt-3 mb-3"
@@ -85,12 +91,12 @@
                             }}</span>
                           </h5>
 
-                            <div>
-                              <p class="m-0">
-                                {{ order.payment.payment_channel }}
-                              </p>
-                              <h5 class="mt-2">#{{ order.response.trx_id }}</h5>
-                            </div>
+                          <div>
+                            <p class="m-0">
+                              {{ order.payment.payment_channel }}
+                            </p>
+                            <h5 class="mt-2">#{{ order.response.trx_id }}</h5>
+                          </div>
                           <!-- <p>{{ order.order_status.status }}</p> -->
                         </div>
                       </div>
@@ -158,14 +164,14 @@
                               item.product.price | formatMoney
                             }}</span>
                           </div>
+                          <span class="font-weight-light"
+                            >Berat: {{ item.product.weight }} Kilogram
+                          </span>
+                          <br />
                           <span
                             class="small text-success font-weight-bold"
                             v-if="item.details.note"
                             >Catatan: {{ item.details.note }}
-                          </span>
-                          <span
-                            class="font-weight-light"
-                            >Berat: {{ item.product.weight }} Kilogram
                           </span>
                         </div>
                       </div>
@@ -178,7 +184,11 @@
                           {{ order.sub_total_product | formatMoney }}
                         </h6>
                       </div>
-                      <div v-if="order.charges.length > 0">
+                      <div
+                        v-if="
+                          order && order.charges && order.charges.length > 0
+                        "
+                      >
                         <div
                           v-for="charge in order.charges"
                           :key="charge._id"
@@ -205,7 +215,7 @@
                       <div class="d-flex align-items-center mb-2">
                         <h5 class="font-weight-bold mb-1">Total Pembayaran</h5>
                         <h5 class="font-weight-bold ml-auto mb-1">
-                          {{ order.grand_total | formatMoney }}
+                          -{{ order.grand_total | formatMoney }}
                         </h5>
                       </div>
                       <p class="m-0 small text-muted">
@@ -223,6 +233,49 @@
         <div class="not-found-anything col-md-12" v-else>
           <div class="text-center">
             <h4>Pesanan yang kamu cari telah diubah atau tidak ditemukan</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="modalConfirmCancelOrder"
+      data-backdrop="static"
+      data-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="modalConfirmCancelOrderLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-danger">
+            <h5 class="modal-title" id="modalConfirmCancelOrderLabel">
+              Batalkan Pesanan
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h6>Apakah anda yakin membatalkan pesanan ?</h6>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              tutup
+            </button>
+            <button type="button" class="btn btn-danger" @click="cancelOrder()">
+              Ya, Batalkan pesanan
+            </button>
           </div>
         </div>
       </div>
@@ -253,7 +306,38 @@ export default {
       order: {},
     };
   },
-  methods: {},
+  methods: {
+    async cancelOrder() {
+      await this.$axios
+        .put(
+          `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/order/cancel-order`,
+          {
+            user_id: this.$store.state.auth.user._id,
+            order_id: this.order.order_id,
+          }
+        )
+        .then((res) => {
+          console.log(res)
+          if (res.data.error) {
+            this.$toast.warning(res.data.message);
+            $("#modalConfirmCancelOrder").modal("hide");
+            return;
+          }
+          this.$toast.success(res.data.message);
+          $("#modalConfirmCancelOrder").modal("hide");
+          this.order = res.data.data;
+          window.location.reload();
+        })
+        .catch((err) => {
+          if (err && err.response && err.response.data.error) {
+            this.$toast.warning(err.response.data.message);
+          }
+        });
+    },
+    openModalCancelOrder(type = "show") {
+      $("#modalConfirmCancelOrder").appendTo("body").modal(type);
+    },
+  },
   filters: {
     formatDate(date) {
       return moment(date).format("dddd, Do MMMM YYYY HH:mm");
