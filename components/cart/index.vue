@@ -539,7 +539,7 @@
                   class="justify-content-center"
                   v-if="getCartsVouchers.length <= 0"
                 >
-                  <h4 class="font-weight-bold">Keranjangmu kosong</h4>
+                  <h4 class="font-weight-bold">Voucher Tidak Tersedia</h4>
                 </div>
               </div>
             </div>
@@ -674,6 +674,14 @@ export default {
         sortBy: "ASC",
         orderBy: "chargeName",
       },
+      voucherSetting: {
+        page: 1,
+        show: 10,
+        sortBy: "ASC",
+        orderBy: "voucherCode",
+        platform: "website",
+        isActive: true,
+      },
     };
   },
   async fetch() {
@@ -693,7 +701,7 @@ export default {
               this.carts = results.data;
             }
           });
-        await this.$store.dispatch("cart/setVouchers");
+        await this.$store.dispatch("cart/setVouchers", this.voucherSetting);
         this.vouchers = await this.$store.state.cart.vouchers;
       }
     },
@@ -766,12 +774,33 @@ export default {
       $("#modal-vouchers").modal("hide");
       this.$toast.warning("Voucher Dihapus");
     },
-    applyVoucher(voucher) {
-      this.selectedVoucher = voucher;
-      this.$toast.success("Voucher Diterapkan");
-      $("#modal-vouchers").modal("hide");
+    async applyVoucher(voucher) {
+      await this.$axios
+        .$post(
+          `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/cart/voucher/apply`,
+          {
+            voucher_id: voucher._id,
+            user_id: this.$store.state.auth.user._id,
+            cart_id: this.carts._id,
+            platform: "website",
+          }
+        )
+        .then((results) => {
+          if (!results.error) {
+            this.selectedVoucher = results.data;
+            this.$toast.success("Voucher Diterapkan");
+            $("#modal-vouchers").modal("hide");
+            return;
+          }
+          this.$toast.warning(results.message);
+        })
+        .catch((err) => {
+          if (err && err.response && err.response.error) {
+            this.$toast.warning(err.response.message);
+          }
+        });
     },
-    setVoucherByInput() {
+    async setVoucherByInput() {
       let voucherExist = this.getCartsVouchers.filter(
         (obj) =>
           obj.voucherCode.toLowerCase() === this.appliedVoucher.toLowerCase()
@@ -780,9 +809,34 @@ export default {
         this.$toast.warning("Kode Voucher Salah");
         return;
       }
-      $("#modal-vouchers").modal("hide");
-      this.$toast.success("Voucher Diterapkan");
-      this.selectedVoucher = voucherExist[0];
+
+      await this.$axios
+        .$post(
+          `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/cart/voucher/apply?voucherCode=${this.appliedVoucher}`,
+          {
+            voucher_id: voucherExist[0]._id,
+            user_id: this.$store.state.auth.user._id,
+            cart_id: this.carts._id,
+            platform: "website",
+          }
+        )
+        .then((results) => {
+          if (!results.error) {
+            this.selectedVoucher = results.data;
+            this.$toast.success("Voucher Diterapkan");
+            $("#modal-vouchers").modal("hide");
+            this.selectedVoucher = voucherExist[0];
+            return;
+          }
+          this.appliedVoucher = "";
+          this.$toast.warning(results.message);
+        })
+        .catch((err) => {
+          if (err && err.response && err.response.error) {
+            this.appliedVoucher = "";
+            this.$toast.warning(err.response.message);
+          }
+        });
     },
     closeNote() {
       $(`.input-note`).css("display", "none");
@@ -836,7 +890,7 @@ export default {
             this.$toast.warning(results.data.message);
           }
           this.$toast.success(results.message);
-          this.closeNote();
+          // this.closeNote();
         })
         .catch((err) => {
           if (err && err.response && err.response.data.error) {
@@ -877,7 +931,7 @@ export default {
 
       const vouchers = [];
 
-      if (this.selectedVoucher) {
+      if (Object.keys(this.selectedVoucher).length > 0) {
         vouchers.push(this.selectedVoucher._id);
       }
 
@@ -1019,24 +1073,24 @@ export default {
 
             if (Object.keys(this.selectedVoucher).length <= 0) {
               if (
-                product.productOnLive.hasPromo &&
-                product.productOnLive.hasPromo.isActive &&
-                product.productOnLive.hasPromo.promoStart < currentTime &&
-                product.productOnLive.hasPromo.promoEnd > currentTime
+                product.hasPromo &&
+                product.hasPromo.isActive &&
+                product.hasPromo.promoStart < currentTime &&
+                product.hasPromo.promoEnd > currentTime
               ) {
-                if (product.productOnLive.hasPromo.promoBy === "percent") {
+                if (product.hasPromo.promoBy === "percent") {
                   let discountPrice =
-                    (product.productOnLive.hasPromo.promoValue / 100) *
+                    (product.hasPromo.promoValue / 100) *
                     product.productOnLive.price;
                   price += product.productOnLive.price - discountPrice;
-                } else if (product.productOnLive.hasPromo.promoBy === "price") {
+                } else if (product.hasPromo.promoBy === "price") {
                   price +=
-                    product.productOnLive.price -
-                    product.productOnLive.hasPromo.promoValue;
+                    product.productOnLive.price - product.hasPromo.promoValue;
                 } else {
                   price += product.productOnLive.price;
                 }
               } else if (
+                !product.hasPromo &&
                 product.productOnLive.hasDiscount &&
                 product.productOnLive.hasDiscount.isDiscount &&
                 product.productOnLive.hasDiscount.discountStart < currentTime &&
@@ -1081,27 +1135,28 @@ export default {
 
             if (Object.keys(this.selectedVoucher).length <= 0) {
               if (
-                product.productOnLive.hasPromo &&
-                product.productOnLive.hasPromo.isActive &&
-                product.productOnLive.hasPromo.promoStart < currentTime &&
-                product.productOnLive.hasPromo.promoEnd > currentTime
+                product.hasPromo &&
+                product.hasPromo.isActive &&
+                product.hasPromo.promoStart < currentTime &&
+                product.hasPromo.promoEnd > currentTime
               ) {
-                if (product.productOnLive.hasPromo.promoBy === "percent") {
+                if (product.hasPromo.promoBy === "percent") {
                   let discountPrice =
-                    (product.productOnLive.hasPromo.promoValue / 100) *
+                    (product.hasPromo.promoValue / 100) *
                     product.productOnLive.price;
                   price +=
                     (product.productOnLive.price - discountPrice) *
                     product.quantity;
-                } else if (product.productOnLive.hasPromo.promoBy === "price") {
+                } else if (product.hasPromo.promoBy === "price") {
                   price +=
                     (product.productOnLive.price -
-                      product.productOnLive.hasPromo.promoValue) *
+                      product.hasPromo.promoValue) *
                     product.quantity;
                 } else {
                   price += product.productOnLive.price * product.quantity;
                 }
               } else if (
+                !product.hasPromo &&
                 product.productOnLive.hasDiscount &&
                 product.productOnLive.hasDiscount.isDiscount &&
                 product.productOnLive.hasDiscount.discountStart < currentTime &&
@@ -1147,22 +1202,21 @@ export default {
 
           if (Object.keys(this.selectedVoucher).length <= 0) {
             if (
-              product.productOnLive.hasPromo &&
-              product.productOnLive.hasPromo.isActive &&
-              product.productOnLive.hasPromo.promoStart < currentTime &&
-              product.productOnLive.hasPromo.promoEnd > currentTime
+              product.hasPromo &&
+              product.hasPromo.isActive &&
+              product.hasPromo.promoStart < currentTime &&
+              product.hasPromo.promoEnd > currentTime
             ) {
-              if (product.productOnLive.hasPromo.promoBy === "percent") {
+              if (product.hasPromo.promoBy === "percent") {
                 let discountPrice =
-                  (product.productOnLive.hasPromo.promoValue / 100) *
+                  (product.hasPromo.promoValue / 100) *
                   product.productOnLive.price;
                 price +=
                   (product.productOnLive.price - discountPrice) *
                   product.quantity;
-              } else if (product.productOnLive.hasPromo.promoBy === "price") {
+              } else if (product.hasPromo.promoBy === "price") {
                 price +=
-                  (product.productOnLive.price -
-                    product.productOnLive.hasPromo.promoValue) *
+                  (product.productOnLive.price - product.hasPromo.promoValue) *
                   product.quantity;
               } else {
                 price += product.productOnLive.price * product.quantity;
@@ -1229,22 +1283,21 @@ export default {
 
           if (Object.keys(this.selectedVoucher).length <= 0) {
             if (
-              product.productOnLive.hasPromo &&
-              product.productOnLive.hasPromo.isActive &&
-              product.productOnLive.hasPromo.promoStart < currentTime &&
-              product.productOnLive.hasPromo.promoEnd > currentTime
+              product.hasPromo &&
+              product.hasPromo.isActive &&
+              product.hasPromo.promoStart < currentTime &&
+              product.hasPromo.promoEnd > currentTime
             ) {
-              if (product.productOnLive.hasPromo.promoBy === "percent") {
+              if (product.hasPromo.promoBy === "percent") {
                 let discountPrice =
-                  (product.productOnLive.hasPromo.promoValue / 100) *
+                  (product.hasPromo.promoValue / 100) *
                   product.productOnLive.price;
                 price +=
                   (product.productOnLive.price - discountPrice) *
                   product.quantity;
-              } else if (product.productOnLive.hasPromo.promoBy === "price") {
+              } else if (product.hasPromo.promoBy === "price") {
                 price +=
-                  (product.productOnLive.price -
-                    product.productOnLive.hasPromo.promoValue) *
+                  (product.productOnLive.price - product.hasPromo.promoValue) *
                   product.quantity;
               } else {
                 price += product.productOnLive.price * product.quantity;

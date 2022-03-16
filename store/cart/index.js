@@ -96,7 +96,6 @@ export const mutations = {
     },
     async SET_INCREMENT(state, data) {
 
-        console.log(data)
 
         // state.carts[data.indexFilter].quantity++
     },
@@ -153,7 +152,21 @@ export const actions = {
     // end
     async setVouchers({ commit }, data) {
 
-        await this.$axios.$get(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/voucher?page=1&show=10&sortBy=ASC&orderBy=voucherCode`)
+        let setting = data
+
+        if (!data) {
+            setting = {
+
+                page: 1,
+                show: 10,
+                sortBy: "ASC",
+                orderBy: "voucherCode",
+                platform: "website",
+                isActive: true,
+            }
+        }
+
+        await this.$axios.$get(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/voucher/user?page=${setting.page}&show=${setting.show}&sortBy=${setting.sortBy}&orderBy=${setting.orderBy}&platform=${setting.platform}&isActive=${setting.isActive}`)
             .then((results) => {
                 if (results.data) {
                     commit('SET_VOUCHERS', results.data);

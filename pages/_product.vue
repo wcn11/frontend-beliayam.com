@@ -25,17 +25,29 @@
                     Kehabisan Persediaan
                   </span>
                 </div>
-                <span
-                  class="badge badge-danger badge-discount"
-                  v-if="product.hasDiscount.discountBy === 'price'"
-                  >Diskon
-                  {{
-                    (product.hasDiscount.discount / product.price) * 100
-                  }}%</span
-                >
-                <span class="badge badge-danger badge-discount" v-else
-                  >Diskon {{ product.hasDiscount.discount | formatMoney }}</span
-                >
+                <div v-if="product.hasPromo">
+                  <span
+                    class="badge badge-success badge-discount"
+                    v-if="product.hasPromo.promoBy === 'percent'"
+                    >
+                      #{{product.hasPromo.tags}}
+                    </span
+                  >
+                </div>
+                <div v-else-if="product.hasDiscount && product.hasDiscount.isDiscount">
+                  <span
+                    class="badge badge-danger badge-discount"
+                    v-if="product.hasDiscount.discountBy === 'price'"
+                    >Diskon
+                    {{
+                      (product.hasDiscount.discount / product.price) * 100
+                    }}%</span
+                  >
+                  <span class="badge badge-danger badge-discount" v-else
+                    >Diskon
+                    {{ product.hasDiscount.discount | formatMoney }}</span
+                  >
+                </div>
                 <img
                   :src="`${this.$config.baseApi}/${product.image}`"
                   class="img-fluid shadow-sm rounded w-100"

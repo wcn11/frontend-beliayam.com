@@ -12,21 +12,22 @@
       <VueSlickCarousel
         v-bind="settings"
         class="categories-slider"
+        v-if="categories && categories.length > 0"
       >
-        <div class="col-c">
+        <div class="col-c" v-for="category in categories" :key="category._id">
           <div
             class="bg-white shadow-sm rounded text-center my-2 px-2 py-3 c-it"
           >
-            <NuxtLink to="/kategori/pejantan">
+            <NuxtLink :to="`/${category.slug}`">
               <img
-                :src="`${this.$config.baseURL}/img/categorie/1.png`"
+                :src="`${baseApi}/${category.icon}`"
                 class="img-fluid px-2 mx-auto"
               />
-              <p class="m-0 pt-2 text-muted text-center">Ayam Pejantan</p>
+              <p class="m-0 pt-2 text-muted text-center">{{ category.name }}</p>
             </NuxtLink>
           </div>
         </div>
-        <div class="col-c">
+        <!-- <div class="col-c">
           <div
             class="bg-white shadow-sm rounded text-center my-2 px-2 py-3 c-it"
           >
@@ -116,7 +117,7 @@
               <p class="m-0 pt-2 text-muted text-center">Nugget</p>
             </NuxtLink>
           </div>
-        </div>
+        </div> -->
       </VueSlickCarousel>
     </div>
   </div>
@@ -127,8 +128,27 @@ import VueSlickCarousel from "vue-slick-carousel";
 export default {
   name: "HomeCategories",
   components: { VueSlickCarousel },
+
+  async fetch() {
+    await this.$axios
+      .get(
+        `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/category?page=${this.fetchCategorySetting.page}&show=${this.fetchCategorySetting.show}&sortBy=${this.fetchCategorySetting.sortBy}&orderBy=${this.fetchCategorySetting.orderBy}&status=${this.fetchCategorySetting.status}`
+      )
+      .then((res) => {
+        this.categories = res.data.data;
+      });
+  },
   data() {
     return {
+      baseApi: process.env.NUXT_ENV_BASE_URL_API,
+      categories: [],
+      fetchCategorySetting: {
+        page: 1,
+        show: 8,
+        sortBy: "ASC",
+        orderBy: "name",
+        status: "active"
+      },
       settings: {
         slidesToScroll: 3,
         slidesToShow: 8,

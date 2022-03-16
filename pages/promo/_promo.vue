@@ -80,12 +80,38 @@
                       <h6 class="price m-0 text-danger">
                         <i class="fas fa-weight"></i> 1 Ekor
                       </h6>
-                      <h6
-                        class="price mt-3 text-dark"
-                        style="font-size: large; text-align: right"
+                      <div
+                        class="text-right"
+                        v-if="promos.promoBy === 'percent'"
                       >
-                        {{ promo.price | formatMoney }}
-                      </h6>
+                        <h6
+                          class="price mt-3 text-dark"
+                          style="font-size: large; text-align: right"
+                        >
+                          {{
+                            (promo.price -
+                              (promos.promoValue / 100) * promo.price)
+                              | formatMoney
+                          }}
+                        </h6>
+                        <del class="text-danger text-right">{{
+                          promo.price | formatMoney
+                        }}</del>
+                      </div>
+                      <div
+                        class="text-right"
+                        v-else
+                      >
+                        <h6
+                          class="price mt-3 text-dark"
+                          style="font-size: large; text-align: right"
+                        >
+                          {{ (promo.price - promos.promoValue) | formatMoney }}
+                        </h6>
+                        <del class="text-danger text-right">{{
+                          promo.price | formatMoney
+                        }}</del>
+                      </div>
                       <div style="text-align: center; padding-top: 5%">
                         <h6 class="btn btn-success w-100">
                           <i class="fas fa-cart-plus"></i> Tambahkan
