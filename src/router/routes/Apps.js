@@ -225,37 +225,6 @@ const AppRoutes = [
       navLink: '/apps/category/view'
     }
   },
-  //promo
-  // gua remark dulu bikin error
-  // {
-  //   path: '/apps/promo/list',
-  //   component: lazy(() => import('../../views/apps/promo/list'))
-  // },
-  // {
-  //   path: '/apps/promo/edit',
-  //   exact: true,
-  //   component: () => <Redirect to='/apps/promo/edit/:id' />
-  // },
-  // {
-  //   path: '/apps/promo/edit/:id',
-  //   component: lazy(() => import('../../views/apps/promo/edit')),
-  //   meta: {
-  //     navLink: '/apps/category/edit'
-  //   }
-  // },
-  // {
-  //   path: '/apps/promo/view',
-  //   exact: true,
-  //   component: () => <Redirect to='/apps/promo/view/:id' />
-  // },
-  // {
-  //   path: '/apps/promo/view/:id',
-  //   component: lazy(() => import('../../views/apps/promo/view')),
-  //   meta: {
-  //     navLink: '/apps/promo/view'
-  //   }
-  // },
-  // gua remark dulu bikin error
   //order
   {
     path: '/apps/order/list',
