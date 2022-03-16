@@ -1,17 +1,29 @@
 // ** React Imports
 import { useState, useEffect } from 'react'
-
+import { useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
 // ** Custom Components
 import Avatar from '@components/avatar'
+
+import { isObjEmpty } from '@utils'
 
 // ** Third Party Components
 import { Lock, Edit, Trash2 } from 'react-feather'
 import { Media, Row, Col, Button, Form, Input, Label, FormGroup, Table, CustomInput } from 'reactstrap'
+import { getUserById, updateUserActive } from '../store/action'
 
 const UserAccountTab = ({ selectedUser }) => {
   // ** States
   const [img, setImg] = useState(null)
   const [userData, setUserData] = useState(null)
+
+  const { register, errors, handleSubmit } = useForm()
+
+  const dispatch = useDispatch()
+  const { id, active } = useParams()
+
+  console.log(active)
 
   // ** Function to change user image
   const onChange = e => {
@@ -25,15 +37,28 @@ const UserAccountTab = ({ selectedUser }) => {
 
   // ** Update user image on mount or change
   useEffect(() => {
-    if (selectedUser !== null || (selectedUser !== null && userData !== null && selectedUser.id !== userData.id)) {
-      setUserData(selectedUser)
-      if (selectedUser?.avatar?.length) {
-        return setImg(selectedUser?.avatar)
-      } else {
-        return setImg(null)
-      }
-    }
+    dispatch(getUserById(id))
+      // if (selectedUser?.avatar?.length) {
+      //   return setImg(selectedUser?.avatar)
+      // } else {
+      //   return setImg(null)
+      // }
+    
+  }, [id])
+
+  useEffect(() => {
+    setUserData(selectedUser)
   }, [selectedUser])
+
+  const onSubmit = (values) => {
+    if (isObjEmpty(errors)) {
+      dispatch(
+        updateUserActive(active, {
+          isActive: values.isActive
+        })
+      )
+    }
+  }
 
   // ** Renders User
   const renderUserAvatar = () => {
@@ -46,7 +71,7 @@ const UserAccountTab = ({ selectedUser }) => {
           initials
           color={color}
           className='rounded mr-2 my-25'
-          content={selectedUser?.fullName}
+          content={selectedUser?.name}
           contentStyles={{
             borderRadius: 0,
             fontSize: 'calc(36px)',
@@ -79,7 +104,7 @@ const UserAccountTab = ({ selectedUser }) => {
       <Row>
         <Col sm='12'>
           <Media className='mb-2'>
-            {renderUserAvatar()}
+            {/* {renderUserAvatar()} */}
             <Media className='mt-50' body>
               <h4>{selectedUser.fullName} </h4>
               <div className='d-flex flex-wrap mt-1 px-0'>
@@ -101,37 +126,58 @@ const UserAccountTab = ({ selectedUser }) => {
           </Media>
         </Col>
         <Col sm='12'>
-          <Form onSubmit={e => e.preventDefault()}>
+          <Form onSubmit={handleSubmit(onSubmit)}>
             <Row>
               <Col md='4' sm='12'>
                 <FormGroup>
-                  <Label for='username'>Username</Label>
-                  <Input type='text' id='username' placeholder='Username' defaultValue={userData.username} />
-                </FormGroup>
-              </Col>
-              <Col md='4' sm='12'>
-                <FormGroup>
                   <Label for='name'>Name</Label>
-                  <Input type='text' id='name' placeholder='Name' defaultValue={userData.fullName} />
+                  <Input 
+                  type='text' 
+                  id='name' 
+                  name='name'
+                  placeholder='name...'
+                  disabled
+                  defaultValue={userData[0].name} />
                 </FormGroup>
               </Col>
               <Col md='4' sm='12'>
                 <FormGroup>
                   <Label for='email'>Email</Label>
-                  <Input type='text' id='email' placeholder='Email' defaultValue={userData.email} />
+                  <Input 
+                    type='email' 
+                    id='email' 
+                    disabled
+                    name='email...'
+                    placeholder='Email' 
+                  defaultValue={userData[0].email} />
                 </FormGroup>
               </Col>
+              {/* <Col md='4' sm='12'>
+                <FormGroup>
+                  <Label for='phone'>Email</Label>
+                  <Input 
+                    type='text' 
+                    id='phone' 
+                    disabled
+                    name='phone'
+                    placeholder='Phone Number....' 
+                  defaultValue={userData[0].phone} />
+                </FormGroup>
+              </Col> */}
               <Col md='4' sm='12'>
                 <FormGroup>
                   <Label for='status'>Status</Label>
-                  <Input type='select' name='status' id='status' defaultValue={userData.status}>
-                    <option value='pending'>Pending</option>
-                    <option value='active'>Active</option>
-                    <option value='inactive'>Inactive</option>
+                  <Input 
+                  type='select' 
+                  name='status' 
+                  id='status' 
+                  defaultValue={userData[0].isActive}>
+                    <option value={true}>Active</option>
+                    <option value={false}>Nonactive</option>
                   </Input>
                 </FormGroup>
               </Col>
-              <Col md='4' sm='12'>
+              {/* <Col md='4' sm='12'>
                 <FormGroup>
                   <Label for='role'>Role</Label>
                   <Input type='select' name='role' id='role' defaultValue={userData.role}>
@@ -142,8 +188,8 @@ const UserAccountTab = ({ selectedUser }) => {
                     <option value='subscriber'>Subscriber</option>
                   </Input>
                 </FormGroup>
-              </Col>
-              <Col md='4' sm='12'>
+              </Col> */}
+              {/* <Col md='4' sm='12'>
                 <FormGroup>
                   <Label for='company'>Company</Label>
                   <Input
@@ -153,8 +199,8 @@ const UserAccountTab = ({ selectedUser }) => {
                     placeholder='WinDon Technologies Pvt Ltd'
                   />
                 </FormGroup>
-              </Col>
-              <Col sm='12'>
+              </Col> */}
+              {/* <Col sm='12'>
                 <div className='permissions border mt-1'>
                   <h6 className='py-1 mx-1 mb-0 font-medium-2'>
                     <Lock size={18} className='mr-25' />
@@ -249,7 +295,7 @@ const UserAccountTab = ({ selectedUser }) => {
                     </tbody>
                   </Table>
                 </div>
-              </Col>
+              </Col> */}
               <Col className='d-flex flex-sm-row flex-column mt-2' sm='12'>
                 <Button.Ripple className='mb-1 mb-sm-0 mr-0 mr-sm-1' type='submit' color='primary'>
                   Save Changes

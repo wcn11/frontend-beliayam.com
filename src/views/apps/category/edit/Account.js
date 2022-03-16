@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 
 import { isObjEmpty } from '@utils'
 
+import FileUploaderBasic from '../../../forms/form-elements/file-uploader/FileUploaderBasic'
 // ** Custom Components
 import Avatar from '@components/avatar'
 import ToastUpdate from '../../../components/toasts/ToastUpdate'
@@ -92,7 +93,7 @@ const CategoryAccountTab = ({ selectedCategory }) => {
                initials
                color={color}
                className='rounded mr-2 my-25'
-               content={selectedCategory?.fullName}
+               content={selectedCategory?.name}
                contentStyles={{
                   borderRadius: 0,
                   fontSize: 'calc(36px)',

@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom'
 import { deleteVoucher, getVoucherById } from '../store/action'
 import { store } from '@store/storeConfig/store'
 
-import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
-import { Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2, Archive } from 'react-feather'
+import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap'
+import {  MoreVertical, FileText, Trash2, Archive } from 'react-feather'
+import { useState } from 'react'
+
 
 const renderClient = row => {
    const stateNum = Math.floor(Math.random() * 6),
@@ -15,6 +17,25 @@ const renderClient = row => {
    // } else {
    //   return <Avatar color={color || 'primary'} className='mr-1' content={row.fullName} initials />
    // }
+}
+
+const centerModal = () => {
+   const [centeredModal, setCenteredModal] = useState(false)
+   return (
+      <Modal isOpen={centeredModal} toggle={() => setCenteredModal(!centeredModal)} className='modal-dialog-centered'>
+         <ModalHeader toggle={() => setCenteredModal(!centeredModal)}>Vertically Centered</ModalHeader>
+         <ModalBody>
+            Oat cake ice cream candy chocolate cake chocolate cake cotton candy dragée apple pie. Brownie carrot cake
+            candy canes bonbon fruitcake topping halvah. Cake sweet roll cake cheesecake cookie chocolate cake
+            liquorice.
+         </ModalBody>
+         <ModalFooter>
+            <Button color='primary' onClick={() => setCenteredModal(!centeredModal)}>
+               Accept
+            </Button>{' '}
+         </ModalFooter>
+      </Modal>
+   )
 }
 
 const statusObj = {
@@ -111,12 +132,14 @@ export const columns = [
                   <Archive size={14} className='mr-50' />
                   <span className='align-middle'>Edit</span>
                </DropdownItem>
-               <DropdownItem className='w-100' onClick={() => store.dispatch(deleteVoucher(row._id))}>
+               <DropdownItem className='w-100' onClick={(e) => e.preventDefault(centerModal)}>
                   <Trash2 size={14} className='mr-50' />
                   <span className='align-middle'>Delete</span>
                </DropdownItem>
             </DropdownMenu>
          </UncontrolledDropdown>
+         
       )
+      
    }
 ]

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import Avatar from '@components/avatar'
 
 // ** Store & Actions
-import { getUser, deleteUser } from '../store/action'
+import { getUserById, deleteUser } from '../store/action'
 import { store } from '@store/storeConfig/store'
 
 // ** Third Party Components
@@ -66,6 +66,8 @@ const statusObj = {
   inactive: 'light-secondary'
 }
 
+console.log(store.dispatch(getUserById()))
+
 export const columns = [
   {
     name: 'User',
@@ -79,7 +81,7 @@ export const columns = [
           <Link
             to={`/apps/user/view/${row._id}`}
             className='user-name text-truncate mb-0'
-            onClick={() => store.dispatch(getUser(row._id))}
+            onClick={() => store.dispatch(getUserById(row._id))}
           >
             <span className='font-weight-bold'>{row.name}</span>
           </Link>
@@ -131,18 +133,18 @@ export const columns = [
         <DropdownMenu right>
           <DropdownItem
             tag={Link}
-            to={`/apps/user/view/${row.id}`}
+            to={`/apps/user/view/${row._id}`}
             className='w-100'
-            onClick={() => store.dispatch(getUser(row._id))}
+            onClick={() => store.dispatch(getUserById(row._id))}
           >
             <FileText size={14} className='mr-50' />
             <span className='align-middle'>Details</span>
           </DropdownItem>
           <DropdownItem
             tag={Link}
-            to={`/apps/user/edit/${row.id}`}
+            to={`/apps/user/edit/${row._id}`}
             className='w-100'
-            onClick={() => store.dispatch(getUser(row._id))}
+            onClick={() => store.dispatch(getUserById(row._id))}
           >
             <Archive size={14} className='mr-50' />
             <span className='align-middle'>Edit</span>

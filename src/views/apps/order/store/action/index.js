@@ -99,7 +99,7 @@ export const updateOrder = (id, order) => {
         slug,
         tags,
         products,
-        ermsAndConditions,
+        termsAndConditions,
         orderValue,
         orderBy,
         orderStart,
@@ -115,7 +115,7 @@ export const updateOrder = (id, order) => {
       formData.set("slug", slug)
       formData.set("tags", tags)
       formData.set("products", products)
-      formData.set("ermsAndConditions", ermsAndConditions)
+      formData.set("ermsAndConditions", termsAndConditions)
       formData.set("orderValue", orderValue)
       formData.set("orderBy", orderBy)
       formData.set("orderStart", orderStart)

@@ -8,13 +8,27 @@ import { isObjEmpty } from '@utils'
 import { updateVoucher, getVoucherById } from '../store/action'
 import { toast, Slide } from 'react-toastify'
 import { Edit, Trash2, Check } from 'react-feather'
-import { Media, Row, Col, Button, Form, Input, Label, FormGroup, Table, CustomInput } from 'reactstrap'
+import {
+  Media, 
+  Row, 
+  Col, 
+  Button, 
+  Form, 
+  Input, 
+  Label, 
+  FormGroup, 
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Modal,
+  FormText } from 'reactstrap'
 
 const VoucherAccountTab = ({ selectedVoucher }) => {
    const dispatch = useDispatch(),
       { id } = useParams()
 
    const { register, errors, handleSubmit } = useForm()
+   const [centeredModal, setCenteredModal] = useState(false)
 
    const [img, setImg] = useState(null)
    const [voucherData, setVoucherData] = useState(null)
@@ -61,6 +75,8 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
          )
       }
 
+     setCenteredModal(!centeredModal)
+
       toast.success(
         <ToastUpdate 
         icon={<Check size={12}/>} 
@@ -68,8 +84,25 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
         />,  
         { transition: Slide, hideProgressBar: true, autoClose: 5000 }
       )
-
    }
+
+  const centerModal = () => {
+    return (
+      <Modal isOpen={centeredModal} toggle={() => setCenteredModal(!centeredModal)} className='modal-dialog-centered'>
+        <ModalHeader toggle={() => setCenteredModal(!centeredModal)}>Vertically Centered</ModalHeader>
+        <ModalBody>
+          Oat cake ice cream candy chocolate cake chocolate cake cotton candy dragée apple pie. Brownie carrot cake
+          candy canes bonbon fruitcake topping halvah. Cake sweet roll cake cheesecake cookie chocolate cake
+          liquorice.
+        </ModalBody>
+        <ModalFooter>
+          <Button color='primary' onClick={() => setCenteredModal(!centeredModal)}>
+            Accept
+          </Button>{' '}
+        </ModalFooter>
+      </Modal>
+    )
+  }
 
    if (!voucherData) {
       return null
@@ -110,7 +143,7 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
             </Media>
           </Col>
           <Col sm='12'>
-            <Form onSubmit={handleSubmit(onSubmit)}>
+            <Form onSubmit={e => e.preventDefault(centerModal)}>
               <Row>
                 <Col md='4' sm='12'>
                   <FormGroup>
@@ -218,6 +251,7 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
                 </Col>
                 <Col className='d-flex flex-sm-row flex-column mt-2' sm='12'>
                   <Button.Ripple
+                    onClick={() => setCenteredModal(!centeredModal)}
                     className='mb-1 mb-sm-0 mr-0 mr-sm-1'
                     type='submit'
                     color='primary'>
@@ -227,6 +261,22 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
                     Reset
                   </Button.Ripple>
                 </Col>
+
+                <Modal isOpen={centeredModal} toggle={() => setCenteredModal(!centeredModal)} className='modal-dialog-centered'>
+                  <ModalHeader toggle={() => setCenteredModal(!centeredModal)}>Update Promo</ModalHeader>
+                  <ModalBody>
+                    Apakah anda yakin untuk mengedit data tersebut?, pastikan sudah benar, cek lagi apa sudah yakin?
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button color='primary' onClick={handleSubmit(onSubmit)}>
+                      Accept
+                    </Button>{' '}
+                    <Button color='primary' outline onClick={() => setCenteredModal(!centeredModal)}>
+                      Cancel
+                    </Button>{' '}
+                  </ModalFooter>
+                </Modal>
+
               </Row>
             </Form>
           </Col>

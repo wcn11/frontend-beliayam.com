@@ -77,6 +77,8 @@ const PromoAccountTab = ({selectedPromo}) => {
          )
       }
 
+      setCenteredModal(!centeredModal)
+
       toast.success(
          <ToastUpdate
             icon={<Check size={12} />}

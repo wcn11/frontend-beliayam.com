@@ -4,6 +4,10 @@ import thumbnailGenerator from '@uppy/thumbnail-generator'
 import { DragDrop } from '@uppy/react'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 
+import 'uppy/dist/uppy.css'
+import '@uppy/status-bar/dist/style.css'
+import '@styles/react/libs/file-uploader/file-uploader.scss'
+
 const FileUploaderBasic = () => {
   const [img, setImg] = useState(null)
 
@@ -21,7 +25,7 @@ const FileUploaderBasic = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle tag='h4'> Basic </CardTitle>
+        <CardTitle tag='h4'> Image Category </CardTitle>
       </CardHeader>
       <CardBody>
         <DragDrop uppy={uppy} />

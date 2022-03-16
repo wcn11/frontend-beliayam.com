@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { fetcher } from '@src/utility/axiosHooks'
-import { GET_ALL_DATA_USER, GET_USER_BYID } from '@src/utility/Url'
+import { GET_ALL_DATA_USER, GET_USER_BYID, GET_USER_BYACTIVE } from '@src/utility/Url'
 
 // ** Get all Data users
 export const getAllData = () => {
@@ -29,13 +29,13 @@ export const getData = params => {
 }
 
 // ** Get User
-export const getUser = id => {
-  return async dispatch => {
-    await fetcher(GET_USER_BYID(id))
+export const getUserById = id => {
+  return dispatch => {
+    fetcher(GET_USER_BYID(id))
       .then(response => {
         dispatch({
-          type: 'GET_USER',
-          selectedUser: response.data.user
+          type: 'GET_USER_BYID',
+          selectedUser: response?.data?.data
         })
       })
       .catch(err => console.log(err))
@@ -45,8 +45,7 @@ export const getUser = id => {
 // ** Add new user
 export const addUser = user => {
   return (dispatch, getState) => {
-    axios
-      .post('/apps/users/add-user', user)
+    fetcher('/apps/users/add-user', user)
       .then(response => {
         dispatch({
           type: 'ADD_USER',
@@ -76,5 +75,27 @@ export const deleteUser = id => {
         dispatch(getData(getState().users.params))
         dispatch(getAllData())
       })
+  }
+}
+
+export const updateUserActive = (active, user) => {
+  return async (dispatch, getState) => {
+    try {
+
+      const req = {
+        method: 'PUT',
+      }
+      await fetcher(GET_USER_BYACTIVE(active), req).then(res => {
+        dispatch({
+          type: 'GET_USER_BYACTIVE',
+          selectedUser: res.data?.data
+        })
+      }).then(() => {
+        dispatch(getUser(getState().users?.params))
+      })
+    } catch (error) {
+      console.log(error)
+    }
+
   }
 }

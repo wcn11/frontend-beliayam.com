@@ -4,7 +4,7 @@
 const themeConfig = {
   app: {
     appName: 'Beliayam.com',
-    appLogoImage: require('@src/assets/images/logo/logo.svg').default
+    appLogoImage: require('@src/assets/images/logo/Logo.png').default
   },
   layout: {
     isRTL: false,

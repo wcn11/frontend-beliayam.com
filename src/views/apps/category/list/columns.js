@@ -88,7 +88,7 @@ export const columns = [
       selector: 'image',
       sortable: true,
       cell: row => (
-         <img src={`https://be-dev.beliayam.com/api/v1/${row.image}`} alt="" />
+         <img src={row.image} alt="" />
       )
    },
    {

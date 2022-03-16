@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
 // ** Store & Actions
-import { getUser } from '../store/action'
+import { getUserById } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
 
 // ** Reactstrap
@@ -27,7 +27,7 @@ const UserView = props => {
 
   // ** Get suer on mount
   useEffect(() => {
-    dispatch(getUser(id))
+    dispatch(getUserById(id))
   }, [dispatch])
 
   return store.selectedUser !== null && store.selectedUser !== undefined ? (

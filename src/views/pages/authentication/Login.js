@@ -12,7 +12,7 @@ import { AbilityContext } from '@src/utility/context/Can'
 import { Link, useHistory } from 'react-router-dom'
 import InputPasswordToggle from '@components/input-password-toggle'
 import { getHomeRouteForLoggedInUser, isObjEmpty } from '@utils'
-import Logo from '@src/assets/images/logo/logo.svg'
+import logo from '@src/assets/images/logo/Logo.png'
 import { Coffee } from 'react-feather'
 import {
   Alert,
@@ -103,8 +103,8 @@ const Login = props => {
     <div className='auth-wrapper auth-v2'>
       <Row className='auth-inner m-0'>
         <Link className='brand-logo' to='/' onClick={e => e.preventDefault()}>
-          <img src={Logo} alt="" />
-          <h2 className='brand-text text-primary ml-1'>Beliayam.com</h2>
+          <img src={logo} height='40' alt="" />
+          <h1 className='brand-text text-primary ml-1'>Beliayam.com</h1>
         </Link>
         <Col className='d-none d-lg-flex align-items-center p-5' lg='8' sm='12'>
           <div className='w-100 d-lg-flex align-items-center justify-content-center px-5'>

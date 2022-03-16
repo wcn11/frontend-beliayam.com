@@ -10,7 +10,6 @@ const initialState = {
 const users = (state = initialState, action) => {
   switch (action.type) {
     case 'GET_ALL_DATA':
-      console.log('ini user', action.data)
       return { ...state, allData: action.data }
     case 'GET_DATA':
       return {
@@ -19,12 +18,14 @@ const users = (state = initialState, action) => {
         total: action.totalPages,
         params: action.params
       }
-    case 'GET_USER':
+    case 'GET_USER_BYID':
       return { ...state, selectedUser: action.selectedUser }
     case 'ADD_USER':
       return { ...state }
     case 'DELETE_USER':
       return { ...state }
+    case 'GET_USER_BYACTIVE':
+      return {...state }
     default:
       return { ...state }
   }

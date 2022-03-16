@@ -8,7 +8,7 @@ import AccountTab from './Account'
 import InfoTab from './Information'
 
 // ** Store & Actions
-import { getUser } from '../store/action'
+import { getUserById } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
 
 // ** Third Party Components
@@ -30,8 +30,8 @@ const UserEdit = () => {
 
   // ** Function to get user on mount
   useEffect(() => {
-    dispatch(getUser(parseInt(id)))
-    return () => dispatch(getUser(parseInt(0)))
+    dispatch(getUserById(id))
+    return () => dispatch(getUserById(id))
   }, [dispatch, id])
 
   return store.selectedUser !== null && store.selectedUser !== undefined ? (
@@ -64,10 +64,10 @@ const UserEdit = () => {
                 <AccountTab selectedUser={store.selectedUser} />
               </TabPane>
               <TabPane tabId='2'>
-                <InfoTab />
+                {/* <InfoTab /> */}
               </TabPane>
               <TabPane tabId='3'>
-                <SocialTab />
+                {/* <SocialTab /> */}
               </TabPane>
             </TabContent>
           </CardBody>
