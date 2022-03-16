@@ -24,12 +24,12 @@ const FileUploaderBasic = () => {
   })
   return (
     <Card>
-      <CardHeader>
+      {/* <CardHeader>
         <CardTitle tag='h4'> Image Category </CardTitle>
-      </CardHeader>
+      </CardHeader> */}
       <CardBody>
         <DragDrop uppy={uppy} />
-        {img !== null ? <img className='rounded mt-2' src={img} alt='avatar' /> : null}
+        {img !== null ? <img className='rounded' src={img} alt='avatar' /> : null}
       </CardBody>
     </Card>
   )

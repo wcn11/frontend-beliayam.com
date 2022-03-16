@@ -6,8 +6,6 @@ import classnames from 'classnames'
 import { useForm } from 'react-hook-form'
 import { Button, FormGroup, Label, FormText, Form, Input } from 'reactstrap'
 
-import Select from 'react-select'
-
 import { addProduct } from '../store/action'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
@@ -18,6 +16,16 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
         store = useSelector(state => state.categories)
 
     const { register, errors, handleSubmit } = useForm()
+    const [img, setImg] = useState('')
+
+    const onChange = e => {
+        const reader = new FileReader(),
+            files = e.target.files
+        reader.onload = function () {
+            setImg(reader.result)
+        }
+        reader.readAsDataURL(files[0])
+    }
 
     useEffect(() => {
         dispatch(getAllDataCategory())
@@ -34,7 +42,7 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
                     slug: values.slug,
                     name: values.name,
                     position: values.position,
-                    image_product: values.image_product,
+                    image: values.image,
                     price: values.price,
                     stock: values.stock,
                     weight: values.weight,
@@ -64,10 +72,11 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
                         innerRef={register({ required: true })}
                     >
                         {store.allData.map((item) => {
-                            return <option value={item._id}>{item.name}</option>
+                            return <option key={item._id} value={item._id}>{item.name}</option>
                         })}
 
                     </Input>
+                    <FormText>*Pilih category untuk product</FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label>
@@ -80,6 +89,7 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
                         innerRef={register({ required: true })}
                         className={classnames({ 'is-invalid': errors['sku'] })}
                     />
+                    <FormText>*Stock Keeping Unit. contoh: 0001xxx</FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label>
@@ -92,6 +102,7 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
                         innerRef={register({ required: true })}
                         className={classnames({ 'is-invalid': errors['slug'] })}
                     />
+                    <FormText>*Jangan beri spasi tapi ganti dengan dash. contoh: ayam-ku</FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label>
@@ -118,6 +129,7 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
                         innerRef={register({ required: true })}
                         className={classnames({ 'is-invalid': errors['position'] })}
                     />
+                    <FormText>*beri angka 1-10 saja, jangan jaill ya :)</FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label>
@@ -125,12 +137,13 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
                     </Label>
                     <Input
                         type='file'
-                        name='image_category'
-                        id='image_category'
-                        innerRef={register({ required: false })}
-                        className={classnames({ 'is-invalid': errors['image_category'] })}
+                        name='image'
+                        id='image'
+                        // onChange={onChange}
+                        innerRef={register({ required: true })}
+                        className={classnames({ 'is-invalid': errors['image'] })}
                     />
-                    <FormText color='muted'>receive format JPG, JPEG, PNG, SVG</FormText>
+                    <FormText color='muted'>menerima format JPG, JPEG, PNG, SVG</FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label>
@@ -145,6 +158,7 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
                         innerRef={register({ required: true })}
                         className={classnames({ 'is-invalid': errors['price'] })}
                     />
+                    <FormText>*Jangan diinputkan mahal-mahal biar cepet laku hehe :)</FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label>
@@ -159,6 +173,7 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
                         innerRef={register({ required: true })}
                         className={classnames({ 'is-invalid': errors['stock'] })}
                     />
+                    <FormText>*Minimal stock yang bisa diinputkan 3</FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label>
@@ -167,11 +182,13 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
                     <Input
                         type='number'
                         name='weight'
+                        onWheel={(e => e.target.blur())}
                         id='weight'
                         placeholder='Position'
                         innerRef={register({ required: true })}
                         className={classnames({ 'is-invalid': errors['weight'] })}
                     />
+                    <FormText>*Minimal berat yang bisa diinputkan 0.1</FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label>
@@ -180,9 +197,11 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
                     <Input
                         name='additional'
                         id='additional'
+                        name='additional'
                         placeholder='Additional...'
-                        innerRef={register({ required: true })}
+                        innerRef={register({ required: false })}
                     />
+                    <FormText>*Beri additional(tambahan) jika diperlukan</FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label>
@@ -191,9 +210,11 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
                     <Input
                         name='description'
                         id='description'
+                        name='description'
                         placeholder='description...'
-                        innerRef={register({ required: true })}
+                        innerRef={register({ required: false })}
                     />
+                    <FormText>*Beri description jika diperlukan</FormText>
                 </FormGroup>
                 <Button type='submit' className='mr-1' color='primary'>
                     Submit

@@ -84,7 +84,13 @@ const ProductList = () => {
     const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
 
     useEffect(() => {
-        // dispatch(getAllDataProduct())
+        dispatch(getAllDataProduct({
+            page: currentPage,
+            show: rowsPerPage,
+            sortBy: sortPerPage,
+            // status: currentStatus.value,
+            orderBy
+        }))
         dispatch(
             getProduct({
                 page: currentPage,
@@ -97,7 +103,6 @@ const ProductList = () => {
     }, [dispatch])
 
     const statusOptions = [
-        { value: 'pending', label: 'Select Status', number: 0 },
         { value: 'active', label: 'Active', number: 1 },
         { value: 'nonactive', label: 'Nonactive', number: 2 }
     ]

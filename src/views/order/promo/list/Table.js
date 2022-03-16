@@ -60,7 +60,7 @@ const CustomHeader = ({ toggleSidebar, handlePerPage, rowsPerPage, handleFilter,
                   />
                </div>
                <Button.Ripple color='primary' onClick={toggleSidebar}>
-                  New Charge
+                  New Promo
                </Button.Ripple>
             </Col>
          </Row>

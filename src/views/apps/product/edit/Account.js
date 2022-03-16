@@ -10,8 +10,9 @@ import Avatar from '@components/avatar'
 
 import { updateProduct, getProductById } from '../store/action'
 import { toast, Slide } from 'react-toastify'
-import { Check, Edit, Trash2 } from 'react-feather'
-import { Media, Row, Col, Button, Form, Input, Label, FormGroup, Table, CustomInput } from 'reactstrap'
+import { Check } from 'react-feather'
+import { Media, Row, Col, Button, Form, Input, Label, FormGroup, FormText } from 'reactstrap'
+
 
 const ProductAccountTab = ({ selectedProduct }) => {
     const dispatch = useDispatch(),
@@ -39,11 +40,11 @@ const ProductAccountTab = ({ selectedProduct }) => {
         // if (selectedCategory !== null || (selectedCategory !== null && categoryData !== null && selectedCategory?._id !== categoryData?._id)) {
         //    // setCategoryData(selectedCategory)
 
-        //    // if (selectedCategory?.avatar?.length) {
-        //    //    return setImg(selectedCategory?.avatar)
-        //    // } else {
-        //    //    return setImg(null)
-        //    // }
+        //    if (selectedPromo?.image) {
+        //       return setImg(selectedCategory?.image)
+        //    } else {
+        //       return setImg(null)
+        //    }
         // }
     }, [id])
 
@@ -64,7 +65,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                     price: values.price,
                     stock: values.stock,
                     weight: values.weight,
-                    image_category: values.image_category,
+                    image: values.image,
                     status: values.status,
                     additional: values.additional,
                     description: values.description,
@@ -77,13 +78,13 @@ const ProductAccountTab = ({ selectedProduct }) => {
             )
         }
 
-        toast.success(
-            <ToastUpdate
-                icon={<Check size={12} />}
-                content='Product'
-            />,
-            { transition: Slide, hideProgressBar: true, autoClose: 8000 }
-        )
+        // toast.success(
+        //     <ToastUpdate
+        //         icon={<Check size={12} />}
+        //         content='Product'
+        //     />,
+        //     { transition: Slide, hideProgressBar: true, autoClose: 4000 }
+        // )
     }
 
     const discount = (hargaAwal) => {
@@ -162,7 +163,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                 <Col sm='12'>
                     <Form onSubmit={handleSubmit(onSubmit)}>
                         <Row>
-                            <Col md='4' sm='12'>
+                            <Col md='6' sm='12'>
                                 <FormGroup>
                                     <Label for='name'>Name</Label>
                                     <Input
@@ -175,7 +176,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                     />
                                 </FormGroup>
                             </Col>
-                            <Col md='4' sm='12'>
+                            <Col md='6' sm='12'>
                                 <FormGroup>
                                     <Label for='sku'>Sku</Label>
                                     <Input
@@ -188,7 +189,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                     />
                                 </FormGroup>
                             </Col>
-                            <Col md='4' sm='12'>
+                            <Col md='6' sm='12'>
                                 <FormGroup>
                                     <Label for='slug'>Slug</Label>
                                     <Input
@@ -201,7 +202,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                     />
                                 </FormGroup>
                             </Col>
-                            <Col md='4' sm='12'>
+                            <Col md='6' sm='12'>
                                 <FormGroup>
                                     <Label for='status'>Status</Label>
                                     <Input
@@ -217,7 +218,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                     </Input>
                                 </FormGroup>
                             </Col>
-                            <Col md='4' sm='12'>
+                            <Col md='6' sm='12'>
                                 <FormGroup>
                                     <Label for='category_id'>Categori</Label>
                                     <Input
@@ -231,7 +232,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                     </Input>
                                 </FormGroup>
                             </Col>
-                            <Col md='4' sm='12'>
+                            <Col md='6' sm='12'>
                                 <FormGroup>
                                     <Label for='position'>Position</Label>
                                     <Input
@@ -242,9 +243,10 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                         placeholder='Position...'
                                         innerRef={register({ required: true })}
                                     />
+                                    <FormText>*Hanya untuk menentukan posisi</FormText>
                                 </FormGroup>
                             </Col>
-                            <Col md='4' sm='12'>
+                            <Col md='6' sm='12'>
                                 <FormGroup>
                                     <Label for='price'>Price</Label>
                                     <Input
@@ -257,7 +259,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                     />
                                 </FormGroup>
                             </Col>
-                            <Col md='4' sm='12'>
+                            <Col md='6' sm='12'>
                                 <FormGroup>
                                     <Label for='stock'>Stock</Label>
                                     <Input
@@ -270,7 +272,22 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                     />
                                 </FormGroup>
                             </Col>
-                            <Col md='4' sm='12'>
+                            <Col md='6' sm='12'>
+                                <FormGroup>
+                                    <Label for='image'>Image Product</Label>
+                                    <Input
+                                        type='file'
+                                        id='image'
+                                        name='image'
+                                        img={img}
+                                        onChange={onChange}
+                                        // defaultValue={productData.image}
+                                        placeholder='Weight...'
+                                        innerRef={register({ required: false })}
+                                    />
+                                </FormGroup>
+                            </Col>
+                            <Col md='6' sm='12'>
                                 <FormGroup>
                                     <Label for='weight'>Weight</Label>
                                     <Input
@@ -283,24 +300,27 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                     />
                                 </FormGroup>
                             </Col>
-                            <Col md='4' sm='12'>
+                            <Col md='12' sm='12'>
                                 <FormGroup>
                                     <Label for='additional'>Additional</Label>
                                     <Input
-                                        type='text'
+                                        type='textarea'
+                                        rows='5'
                                         id='additional'
                                         name='additional'
                                         defaultValue={productData.additional}
                                         placeholder='additional..'
                                         innerRef={register({ required: true })}
                                     />
+                                    <FormText>*Jangan Lupa Diisi</FormText>
                                 </FormGroup>
                             </Col>
-                            <Col md='4' sm='12'>
+                            <Col md='12' sm='12'>
                                 <FormGroup>
                                     <Label for='description'>Description</Label>
                                     <Input
-                                        type='text'
+                                        type='textarea'
+                                        rows='8'
                                         id='description'
                                         name='description'
                                         defaultValue={productData.description}
@@ -309,9 +329,9 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                     />
                                 </FormGroup>
                             </Col>
-                            <Col md='4' sm='12'>
+                            <Col md='6' sm='12'>
                                 <FormGroup>
-                                    <Label for='isDiscount'>Is Discount?</Label>
+                                    <Label for='isDiscount'>Dikasih Discount gak ?</Label>
                                     <Input
                                         type='select'
                                         name='isDiscount'

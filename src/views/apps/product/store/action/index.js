@@ -1,11 +1,13 @@
 import { fetcher } from '@src/utility/axiosHooks'
 import { GET_PRODUCT, GET_PRODUCT_BYID } from '@src/utility/Url'
+import { Toast } from '../../../../../utility/Toast'
+import ToastUpdate from '../../../../components/toasts/ToastUpdate'
 
 // get all data product
 export const getAllDataProduct = (params) => {
    return async dispatch => {
       try {
-         await fetcher(GET_PRODUCT).then(response => {
+         await fetcher(GET_PRODUCT, {params}).then(response => {
             dispatch({
                type: 'GET_ALL_DATA_PRODUCT',
                data: response?.data?.data,
@@ -59,12 +61,46 @@ export const getProductById = (id) => {
 export const addProduct = product => {
    return async (dispatch, getState) => {
       try {
+         const {
+            sku,
+            category_id,
+            slug,
+            isDiscount,
+            name,
+            position,
+            image,
+            price,
+            stock,
+            weight,
+            status,
+            additional,
+            description } = product
+
+         const formData = new FormData()
+
+         formData.append('image_product', image)
+         formData.append('category_id', category_id)
+         formData.set('sku', sku)
+         formData.set('slug', slug)
+         formData.set('name', name)
+         formData.set('position', position)
+         formData.set('status', status)
+         formData.set('price', price)
+         formData.set('stock', stock)
+         formData.set('weight', weight)
+         formData.set('additional', additional)
+         formData.set('description', description)
+         formData.set('isDiscount', true)
+         // formData.set('discount', discount)
+         // formData.set('discountStart', discountStart)
+         // formData.set('discountEnd', discountEnd)
+
          const req = {
             method: 'POST',
-            data: product,
-            // headers: {
-            //    'Content-Type': 'multipart/form-data',
-            // }
+            data: formData,
+            headers: {
+               'Content-Type': 'multipart/form-data',
+            }
          }
 
          await fetcher(GET_PRODUCT, req)
@@ -112,10 +148,24 @@ export const deleteProduct = id => {
 export const updateProduct = (id, product) => {
    return async (dispatch, getState) => {
       try {
-         const { sku, category_id, slug, isDiscount, name, position, image_product, price, stock, weight, status, additional, description } = product
+         const { 
+            sku, 
+            category_id, 
+            slug, 
+            isDiscount, 
+            name, 
+            position, 
+            image, 
+            price, 
+            stock,
+            weight, 
+            status, 
+            additional, 
+            description } = product
+
          const formData = new FormData()
-         // formData.append("image_product", image_product[0])
-         formData.set('category_id', category_id)
+         formData.append('image', image)
+         formData.append('category_id', category_id)
          formData.set('sku', sku)
          formData.set('slug', slug)
          formData.set('name', name)
@@ -149,10 +199,11 @@ export const updateProduct = (id, product) => {
             }
          }).then(() => {
             dispatch(getProduct(getState().products?.params))
-            // dispatch(getAllDataProduct())
+            Toast({title: 'coba', content: 'ini isi content' })
          })
 
       } catch (error) {
+         Toast({ title: 'error', content: 'ini isi content kalo error' })
          console.log(error)
       }
    }

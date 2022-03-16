@@ -12,6 +12,7 @@ const products = (state = initialState, action) => {
             return {
                 ...state,
                 allData: action.data,
+                total: action.totalPages,
                 params: action.params
             }
         case 'GET_DATA_PRODUCT':

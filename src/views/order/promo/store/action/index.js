@@ -95,7 +95,7 @@ export const updatePromo = (id, promo) => {
                 image_promo
             } = promo
             const formData = new FormData()
-            // formData.append("image_promo", image_promo[0])
+            formData.append("image_promo", image_promo[0])
             formData.set('name', name) 
             formData.set('slug', slug) 
             formData.set('tags', tags) 
@@ -108,7 +108,6 @@ export const updatePromo = (id, promo) => {
             formData.set('isActive', isActive)
             formData.set('description', description)
             formData.set('platform', platform)
-            // formData.set('image_promo', image_promo) 
 
             const req = {
                 method: 'PUT',

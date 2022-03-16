@@ -86,9 +86,7 @@ export const columns = [
       minWidth: '320px',
       selector: 'image',
       sortable: true,
-      cell: row => (
-         <img src={`https://be-dev.beliayam.com/api/v1/${row.image}`} alt="" />
-      )
+      cell: row => <img src={row.image} alt="" />
    },
    {
       name: 'Pos',
@@ -124,7 +122,7 @@ export const columns = [
       selector: 'status',
       sortable: true,
       cell: row => (
-         <Badge className='text-capitalize light-success' color={statusObj['active']} pill>
+         <Badge className='text-capitalize light-success' color={statusObj[row.status]} pill>
             {row.status}
          </Badge>
       )
@@ -142,7 +140,7 @@ export const columns = [
                   tag={Link}
                   to={`/apps/product/view/${row._id}`}
                   className='w-100'
-                  onClick={() => store.dispatch(getProductById(row._id))}
+                  // onClick={() => store.dispatch(getProductById(row._id))}
                >
                   <FileText size={14} className='mr-50' />
                   <span className='align-middle'>Details</span>
@@ -151,7 +149,7 @@ export const columns = [
                   tag={Link}
                   to={`/apps/product/edit/${row._id}`}
                   className='w-100'
-                  onClick={() => store.dispatch(updateProduct(row._id))}
+                  // onClick={() => store.dispatch(updateProduct(row._id))}
                >
                   <Archive size={14} className='mr-50' />
                   <span className='align-middle'>Edit</span>
