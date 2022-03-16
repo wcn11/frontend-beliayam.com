@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { deleteVoucher, getVoucherById } from '../store/action'
@@ -5,7 +6,8 @@ import { store } from '@store/storeConfig/store'
 
 import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap'
 import {  MoreVertical, FileText, Trash2, Archive } from 'react-feather'
-import { useState } from 'react'
+
+import { formatDateTime, numberFormat, toCamelCase } from "@utils"
 
 
 const renderClient = row => {
@@ -85,14 +87,14 @@ export const columns = [
       minWidth: '172px',
       selector: 'role',
       sortable: true,
-      cell: row => row.discountStart
+      cell: row => formatDateTime(row.discountStart)
    },
    {
       name: 'Discount End',
       minWidth: '172px',
       selector: 'role',
       sortable: true,
-      cell: row => row.discountEnd
+      cell: row => formatDateTime(row.discountEnd)
    },
    {
       name: 'Status',

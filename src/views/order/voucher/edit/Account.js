@@ -22,6 +22,7 @@ import {
   ModalFooter,
   Modal,
   FormText } from 'reactstrap'
+import moment from 'moment'
 
 const VoucherAccountTab = ({ selectedVoucher }) => {
    const dispatch = useDispatch(),
@@ -205,7 +206,7 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
                       id='discountStart'
                       name='discountStart'
                       placeholder='Discount Start....'
-                      defaultValue={voucherData.discountStart}
+                      defaultValue={formatDateTime(voucherData.discountStart)}
                       innerRef={register({ required: true })}
                     />
                   </FormGroup>
@@ -263,7 +264,7 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
                 </Col>
 
                 <Modal isOpen={centeredModal} toggle={() => setCenteredModal(!centeredModal)} className='modal-dialog-centered'>
-                  <ModalHeader toggle={() => setCenteredModal(!centeredModal)}>Update Promo</ModalHeader>
+                  <ModalHeader toggle={() => setCenteredModal(!centeredModal)}>Update Voucher</ModalHeader>
                   <ModalBody>
                     Apakah anda yakin untuk mengedit data tersebut?, pastikan sudah benar, cek lagi apa sudah yakin?
                   </ModalBody>
