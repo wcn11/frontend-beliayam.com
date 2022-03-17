@@ -93,7 +93,7 @@
                   <a href="/faq" class="text-dark">FAQ</a>
                 </li>
                 <li>
-                  <a href="javascript:void(0)" class="text-dark">FAQ Bisnis</a>
+                  <a href="/faq/faq-bisnis" class="text-dark">FAQ Bisnis</a>
                 </li>
               </ul>
             </aside>
@@ -303,10 +303,10 @@
             <div class="col-md-6">
               <span class="pr-2">© 2019 - {{ currentYear }} beliayam.com</span>
               <span class="pr-2"
-                ><a href="privacy.html" class="text-dark">Privacy</a></span
+                ><a href="javascript:void(0)" class="text-dark">Privacy</a></span
               >
               <span class="pr-2"
-                ><a href="javascript:void()" class="text-dark"
+                ><a href="javascript:void(0)" class="text-dark"
                   >Terms & Conditions</a
                 ></span
               >

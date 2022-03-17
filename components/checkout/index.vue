@@ -641,7 +641,7 @@ export default {
             this.$toast.warning(res.data.message);
             return;
           }
-          if (res.data.data.response.response_code == 200) {
+          if (res.data.data.bill.bill_no) {
             this.$toast.success("Pesanan berhasil diproses");
             this.$router.push({
               path: "/checkout/sukses",
@@ -663,7 +663,6 @@ export default {
       $("#modalChangeAddress").modal("hide");
     },
     getPriceLabel(voucher) {
-      // let voucher = this.selectedVoucher;
       let price = 0;
 
       if (voucher.discountBy === "percent") {
