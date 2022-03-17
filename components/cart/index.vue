@@ -76,7 +76,7 @@
                         v-for="product in carts.products"
                         :key="product._id"
                       >
-                        <div class="d-flex align-items-center p-3">
+                        <div class="d-flex align-items-center p-3" v-if="product.productOnLive">
                           <NuxtLink :to="`/${product.slug}`"
                             ><img
                               :src="`${baseApi}/${product.image}`"
