@@ -4,7 +4,7 @@
     <GlobalModal />
   </div>
 </template>
-<script>
+<script> 
 import GlobalModal from "../components/_partials/GlobalLoading.vue";
 
 export default {
