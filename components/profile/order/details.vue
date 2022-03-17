@@ -62,14 +62,14 @@
                             batalkan pesanan
                           </button>
                           <div
-                            v-if="order.payment.pg_type === 'va'"
+                            v-if="order.payment.pg_type !== 'cash'"
                             class="font-weight-light mt-3 mb-3"
                           >
                             <div>
                               <p class="m-0">
-                                {{ order.payment.payment_channel }}
+                                Kode Virtual {{ order.payment.payment_channel }}
                               </p>
-                              <h5 class="mt-2">#{{ order.response.trx_id }}</h5>
+                              <h5 class="mt-2">{{ order.response.trx_id }}</h5>
                             </div>
                             <a
                               :href="order.response.redirect_url"
@@ -79,6 +79,12 @@
                               <i class="fad fa-file-invoice"></i> Bayar
                               sekarang</a
                             >
+                            <div class="mt-4">
+                              <p class="m-0">
+                                Batas Akhir Pembayaran
+                              </p>
+                              <h6 class="mt-2">{{ order.bill.bill_expired | formatDate}}</h6>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -209,13 +215,13 @@
                       <div class="d-flex align-items-center mb-2">
                         <h6 class="mb-1">Diskon Voucher</h6>
                         <h6 class="ml-auto mb-1">
-                          {{ order.sub_total_voucher | formatMoney }}
+                          -{{ order.sub_total_voucher | formatMoney }}
                         </h6>
                       </div>
                       <div class="d-flex align-items-center mb-2">
                         <h5 class="font-weight-bold mb-1">Total Pembayaran</h5>
                         <h5 class="font-weight-bold ml-auto mb-1">
-                          -{{ order.grand_total | formatMoney }}
+                          {{ order.grand_total | formatMoney }}
                         </h5>
                       </div>
                       <p class="m-0 small text-muted">

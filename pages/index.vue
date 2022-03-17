@@ -12,10 +12,6 @@ export default {
     return {
     };
   },
-  methods: {},
-  mounted() {
-    document.getElementById("page-home").classList.add("animate__fadeInRight");
-  },
   beforeDestroy() {
     document.getElementById("page-home").classList.add("animate__fadeOutLeft");
   },

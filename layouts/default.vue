@@ -5,24 +5,16 @@
     <LayoutsFooter :user="user"></LayoutsFooter>
 
     <div v-if="$nuxt.isOffline">You are offline</div>
+    
+    <GlobalModal/>
 
-    <!-- Modal -->
-    <!-- <div
-      class="modal fade"
-      id="modal-loading"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="justify-content-center text-center loading-container">
-        <img :src="require('~/static/gif/loading.gif')" />
-      </div>
-    </div> -->
   </div>
 </template>
 
 
 <script>
+import GlobalModal from "../components/_partials/GlobalLoading.vue"
+
 export default {
   async fetch() {
     if (this.$store.getters["auth/isAuthenticated"]) {
@@ -33,6 +25,9 @@ export default {
       this.$store.commit("auth/setUser", user.data);
       this.user = user.data;
     }
+  },
+  components: {
+    GlobalModal
   },
   data() {
     return {

@@ -1,22 +1,23 @@
 export const state = () => ({
-    modal: {
-        show: false,
-        data: {}
-    }
+    globalModal: false,
 })
 
-export const mutations = {
-    setModal(state, data) {
+export const getters = {
+    getGlobalModalState: state => state.globalModal
+}
 
-        state.modal.data = data
+export const mutations = {
+    SET_GLOBAL_MODAL(state, active = false) {
+
+        state.globalModal = active
     },
 }
 
 
 export const actions = {
 
-    async setModal({ commit }, data) {
+    async setGlobalModal({ commit }, active) {
 
-        commit('setModal', data);
+        commit('SET_GLOBAL_MODAL', active);
     },
 }

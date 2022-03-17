@@ -413,12 +413,10 @@
                         <p>
                           Voucher
                           <span class="text-info ml-1"
-                            ><i class="fad fa-circle-info"></i></span
-                          >
+                            ><i class="fad fa-circle-info"></i
+                          ></span>
                           <span class="float-right text-dark"
-                            >-{{
-                              cart.subTotalVoucher | formatMoney
-                            }}</span
+                            >-{{ cart.subTotalVoucher | formatMoney }}</span
                           >
                         </p>
                         <!-- <p v-else>
@@ -434,14 +432,14 @@
                   </div>
                 </div>
 
-                  <div class="p-3 border-top">
-                    <h5 class="mb-0">
-                      Total
-                      <span class="float-right text-danger">
-                        {{ cart.baseTotal | formatMoney }}</span
-                      >
-                    </h5>
-                  </div>
+                <div class="p-3 border-top">
+                  <h5 class="mb-0">
+                    Total
+                    <span class="float-right text-danger">
+                      {{ cart.baseTotal | formatMoney }}</span
+                    >
+                  </h5>
+                </div>
                 <button
                   class="btn btn-success btn-lg btn-block mt-3 mb-3"
                   @click="payOrder()"
@@ -562,6 +560,8 @@ moment.locale("id-ID");
 export default {
   name: "Checkout",
   async fetch() {
+    this.$store.dispatch("setGlobalModal", true);
+
     await this.$axios
       .get(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/checkout/cart`)
       .then((res) => {
@@ -579,6 +579,8 @@ export default {
     this.$store.dispatch("cart/setVouchers");
 
     this.$store.dispatch("auth/getUser");
+
+    this.$store.dispatch("setGlobalModal");
   },
   components: { LocationPicker }, // if installComponents is false
   data() {
@@ -620,7 +622,7 @@ export default {
   },
   methods: {
     async payOrder() {
-      // $("#modal-loading").appendTo("body").modal("show");
+      this.$store.dispatch("setGlobalModal", true);
       if (this.selectedPayment.data.pg_code === "") {
         this.$toast.warning("harap memilih metode pembayaran");
         return;
@@ -656,7 +658,7 @@ export default {
             this.$toast.warning(err.response.data.message);
           }
         });
-      $("#modal-loading").modal("hide");
+      this.$store.dispatch("setGlobalModal", false);
     },
     setAddress(address) {
       this.cart.address = address;

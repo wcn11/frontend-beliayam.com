@@ -32,7 +32,13 @@
           </h5>
           <div>
             <div>
-              <div v-if="order.payment.pg_type === 'emoney'" class="p-2">
+
+              <div
+                v-if="order.payment.pg_type !== 'cash'"
+                class="p-2 va-container"
+              >
+                <span>Kode {{ order.payment.pg_name }} Anda</span>
+                <h4 class="mt-4 mb-4 font-weight-bolder">{{ order.response.trx_id }}</h4>
                 <a
                   :href="order.response.redirect_url"
                   class="btn btn-danger"
@@ -41,7 +47,16 @@
                   {{ order.payment.pg_name }}</a
                 >
               </div>
-              <div v-if="order.payment.pg_type === 'ibanking'" class="p-2">
+              <!-- <div v-if="order.payment.pg_type !== 'cash'" class="p-2">
+                <a
+                  :href="order.response.redirect_url"
+                  class="btn btn-danger"
+                  target="_blank"
+                  ><i class="fad fa-file-invoice"></i> Bayar Dengan
+                  {{ order.payment.pg_name }}</a
+                >
+              </div> -->
+              <!-- <div v-if="order.payment.pg_type === 'ibanking'" class="p-2">
                 <a
                   :href="order.response.redirect_url"
                   class="btn btn-danger"
@@ -90,12 +105,22 @@
                   ><i class="fad fa-file-invoice"></i> Bayar Dengan
                   {{ order.payment.pg_name }}</a
                 >
-              </div>
+              </div> -->
             </div>
           </div>
           <p class="small text-mutedm mt-2">
             Pesanan anda akan disiapkan dan akan segera datang
           </p>
+
+          <hr class="w-50 mt-5">
+
+          <div class="mt-4">
+            <h6><span class="text-muted">Kode pesanan: #</span>{{ order.order_id }}</h6>
+
+            <p class="text-danger font-italic">
+              <i class="fad fa-info-circle"></i> Kode pesanan bukan kode Virtual Akun!
+            </p>
+          </div>
 
           <div>
             <h6>Total Pembayaran</h6>
