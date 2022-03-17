@@ -64,6 +64,7 @@ const SideBarNewCharge = ({ open, toggleSidebar }) => {
                   innerRef={register({ required: true })}
                   className={classnames({ 'is-invalid': errors['chargeBy'] })}
                />
+               <FormText>*Isi berdasarkan Price/Percent</FormText>
             </FormGroup>
             <FormGroup>
                <Label>
@@ -72,10 +73,11 @@ const SideBarNewCharge = ({ open, toggleSidebar }) => {
                <Input
                   name='chargeValue'
                   id='chargeValue'
-                  placeholder='Charge Value ...'
+                  placeholder='example: 10000'
                   innerRef={register({ required: true })}
                   className={classnames({ 'is-invalid': errors['chargeValue'] })}
                />
+               <FormText>*Harga Potongan</FormText>
             </FormGroup>
             <FormGroup>
                <Label>
@@ -88,6 +90,7 @@ const SideBarNewCharge = ({ open, toggleSidebar }) => {
                   innerRef={register({ required: true })}
                   className={classnames({ 'is-invalid': errors['shortDescription'] })}
                />
+               <FormText>*Beri deskripsi singkat saja</FormText>
             </FormGroup>
             <FormGroup>
                <Label>
@@ -100,6 +103,7 @@ const SideBarNewCharge = ({ open, toggleSidebar }) => {
                   innerRef={register({ required: true })}
                   className={classnames({ 'is-invalid': errors['description'] })}
                />
+               <FormText>*Tulis detail deskripsi sejelas-jelasnya(minimal 10 karakter)</FormText>
             </FormGroup>
             <FormGroup>
                <Label>
@@ -109,10 +113,10 @@ const SideBarNewCharge = ({ open, toggleSidebar }) => {
                   name='termsAndConditions'
                   id='termsAndConditions'
                   placeholder='Trems And Condition ...'
-                  // value={name}
                   innerRef={register({ required: true })}
                   className={classnames({ 'is-invalid': errors['termsAndConditions'] })}
                />
+               <FormText>*beri syarat dan ketentuan</FormText>
             </FormGroup>
             <Button type='submit' className='mr-1' color='primary'>
                Submit

@@ -33,14 +33,13 @@ export const columns = [
          <div className='d-flex justify-content-left align-items-center'>
             {renderClient(row)}
             <div className='d-flex flex-column'>
-               <Link
+               {/* <Link
                   to={`/order/charge/view/${row._id}`}
                   className='user-name text-truncate mb-0'
-               // onClick={() => store.dispatch(getCategoryById(row._id))}
-               // onClick={}
-               >
+               onClick={() => store.dispatch(getCategoryById(row._id))}
+               > */}
                   <span className='font-weight-bold'>{row.chargeName}</span>
-               </Link>
+               {/* </Link> */}
                <small className='text-truncate text-muted mb-0'>{row.chargeBy}</small>
             </div>
          </div>
@@ -94,7 +93,7 @@ export const columns = [
                <MoreVertical size={14} className='cursor-pointer' />
             </DropdownToggle>
             <DropdownMenu right>
-               <DropdownItem
+               {/* <DropdownItem
                   tag={Link}
                   to={`/order/charge/view/${row._id}`}
                   className='w-100'
@@ -102,7 +101,7 @@ export const columns = [
                >
                   <FileText size={14} className='mr-50' />
                   <span className='align-middle'>Details</span>
-               </DropdownItem>
+               </DropdownItem> */}
                <DropdownItem
                   tag={Link}
                   to={`/order/charge/edit/${row._id}`}

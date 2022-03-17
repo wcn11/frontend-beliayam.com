@@ -69,13 +69,13 @@ export const columns = [
          <div className='d-flex justify-content-left align-items-center'>
             {renderClient(row)}
             <div className='d-flex flex-column'>
-               <Link
+               {/* <Link
                   to={`/apps/product/view/${row._id}`}
                   className='user-name text-truncate mb-0'
                   onClick={() => store.dispatch(getProductById(row._id))}
-               >
+               > */}
                   <span className='font-weight-bold'>{row.name}</span>
-               </Link>
+               {/* </Link> */}
                <small className='text-truncate text-muted mb-0'>{row.sku}</small>
             </div>
          </div>
@@ -86,7 +86,7 @@ export const columns = [
       minWidth: '320px',
       selector: 'image',
       sortable: true,
-      cell: row => <img src={row.image} alt="" />
+      cell: row => <img style={{ height: '3em'}} src={`https://be-dev.beliayam.com/${row.image}`} alt="" />
    },
    {
       name: 'Pos',

@@ -5,13 +5,11 @@ import { useDispatch } from 'react-redux'
 
 import { isObjEmpty } from '@utils'
 
-import ToastUpdate from '../../../components/toasts/ToastUpdate'
 import Avatar from '@components/avatar'
 
 import { updateProduct, getProductById } from '../store/action'
-import { toast, Slide } from 'react-toastify'
-import { Check } from 'react-feather'
 import { Media, Row, Col, Button, Form, Input, Label, FormGroup, FormText } from 'reactstrap'
+import { Upload } from '../../../../utility/Upload'
 
 
 const ProductAccountTab = ({ selectedProduct }) => {
@@ -20,36 +18,22 @@ const ProductAccountTab = ({ selectedProduct }) => {
 
     const { register, errors, handleSubmit } = useForm()
     // ** States
-    const [img, setImg] = useState(null)
+
     const [productData, setProductData] = useState(null)
     const [disc, setDisc] = useState(false)
-
-    // ** Function to change user image
-    const onChange = e => {
-        const reader = new FileReader(),
-            files = e.target.files
-        reader.onload = function () {
-            setImg(reader.result)
-        }
-        reader.readAsDataURL(files[0])
-    }
+    const [image, setImage] = useState('')
+    const [imagePreview, setImagePreview] = useState(null)
+    const [discountValue, setDiscountValue] = useState(0)
+    const [discountType, setDiscountType] = useState('percent')
 
     // ** Update user image on mount or change
     useEffect(() => {
         dispatch(getProductById(id))
-        // if (selectedCategory !== null || (selectedCategory !== null && categoryData !== null && selectedCategory?._id !== categoryData?._id)) {
-        //    // setCategoryData(selectedCategory)
-
-        //    if (selectedPromo?.image) {
-        //       return setImg(selectedCategory?.image)
-        //    } else {
-        //       return setImg(null)
-        //    }
-        // }
     }, [id])
 
     useEffect(() => {
         setProductData(selectedProduct)
+        setDisc(productData?.hasDiscount?.isDiscount)
     }, [selectedProduct])
 
     const onSubmit = (values) => {
@@ -65,7 +49,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                     price: values.price,
                     stock: values.stock,
                     weight: values.weight,
-                    image: values.image,
+                    image,
                     status: values.status,
                     additional: values.additional,
                     description: values.description,
@@ -77,22 +61,28 @@ const ProductAccountTab = ({ selectedProduct }) => {
                 })
             )
         }
-
-        // toast.success(
-        //     <ToastUpdate
-        //         icon={<Check size={12} />}
-        //         content='Product'
-        //     />,
-        //     { transition: Slide, hideProgressBar: true, autoClose: 4000 }
-        // )
     }
 
-    const discount = (hargaAwal) => {
-        hargaAwal = productData.price
-        const discount = productData.hasDiscount.discount
-        const hargaDiscount = hargaAwal - discount
+    const discount = ({hargaAwal, discountType, discount}) => {
+        let hargaAkhir = 0
+        if (!discount) {
+            discount = 0
+        }
+        
+        if (discountType === 'percent') {
+            hargaAkhir = hargaAwal - (Number(discount) / 100 * hargaAwal)
+        } else {
+            hargaAkhir = hargaAwal - Number(discount)
+        }
+        console.log(hargaAkhir)
+        return hargaAkhir
+    }
 
-        return hargaDiscount
+    const onImageUpload = (e) => {
+        const file = e.target.files[0]
+        setImage(file)
+        setImagePreview(URL.createObjectURL(file))
+        console.log(image)
     }
 
     // ** Renders User
@@ -212,7 +202,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                         defaultValue={productData.status}
                                         innerRef={register({ required: true })}
                                     >
-                                        <option value='pending'>Pending</option>
+                                        <option value='disabled'>Disabled</option>
                                         <option value='active'>Active</option>
                                         <option value='nonactive'>Nonactive</option>
                                     </Input>
@@ -275,17 +265,15 @@ const ProductAccountTab = ({ selectedProduct }) => {
                             <Col md='6' sm='12'>
                                 <FormGroup>
                                     <Label for='image'>Image Product</Label>
-                                    <Input
-                                        type='file'
+                                    <Upload
                                         id='image'
                                         name='image'
-                                        img={img}
-                                        onChange={onChange}
-                                        // defaultValue={productData.image}
-                                        placeholder='Weight...'
-                                        innerRef={register({ required: false })}
+                                        onChange={(e) => onImageUpload(e)}
+                                        img={imagePreview}
+                                        placeholder='image'
                                     />
                                 </FormGroup>
+                                <img height={80} src={`https://be-dev.beliayam.com/${productData.image}`} alt="" />
                             </Col>
                             <Col md='6' sm='12'>
                                 <FormGroup>
@@ -338,13 +326,14 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                         id='isDiscount'
                                         defaultValue={productData.hasDiscount.isDiscount}
                                         innerRef={register({ required: true })}
-                                        onChange={e => setDisc(e.target.value)}
+                                        onChange={e => setDisc(JSON.parse(e.target.value))}
                                     >
                                         <option value={true}>Active</option>
                                         <option value={false}>Nonactive</option>
                                     </Input>
                                 </FormGroup>
                             </Col>
+                            {console.log(disc)}
                             {disc ? (<>
                                 <Col sm='12'>
                                     <Media className='mb-2'>
@@ -370,16 +359,28 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                     </Media>
                                 </Col>
                                 <Col md='4' sm='12'>
+                                    <FormGroup check inline>
+                                        <Label check>
+                                            <Input type='radio' defaultChecked onChange={e => e.target.checked && setDiscountType('percent')} name='ex1' className='form-check-primary' /> Percent
+                                        </Label>
+                                    </FormGroup>
+                                    <FormGroup check inline>
+                                        <Label check>
+                                            <Input type='radio' onChange={e => e.target.checked && setDiscountType('price')} name='ex1' /> Price
+                                        </Label>
+                                    </FormGroup>
                                     <FormGroup>
                                         <Label for='discount'>Discount</Label>
                                         <Input
                                             type='number'
+                                            maxLength='3'
                                             id='discount'
                                             name='discount'
                                             onWheel={(e) => e.target.blur()}
                                             defaultValue={productData.hasDiscount.discount}
+                                            onChange={e => setDiscountValue(e.target.value)}
                                             placeholder='description...'
-                                            innerRef={register({ required: false })}
+                                            innerRef={register({ required: true })}
                                         />
                                     </FormGroup>
                                 </Col>
@@ -393,7 +394,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                             onWheel={(e) => e.target.blur()}
                                             defaultValue={productData.hasDiscount.discountStart}
                                             placeholder='discount start ...'
-                                            innerRef={register({ required: false })}
+                                            innerRef={register({ required: true })}
                                         />
                                     </FormGroup>
                                 </Col>
@@ -407,7 +408,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                             onWheel={(e) => e.target.blur()}
                                             defaultValue={productData.hasDiscount.discountEnd}
                                             placeholder='discount end ...'
-                                            innerRef={register({ required: false })}
+                                            innerRef={register({ required: true })}
                                         />
                                     </FormGroup>
                                 </Col>
@@ -419,13 +420,19 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                             id='priceAfterDiscount'
                                             name='priceAfterDiscount'
                                             onWheel={(e) => e.target.blur()}
-                                            defaultValue={discount(productData.price)}
+                                            value={discount({
+                                                hargaAwal: productData.price,
+                                                discount: discountValue,
+                                                discountType
+                                            })}
+                                            // defaultValue={productData.price}
                                             placeholder='price after discount ...'
                                             disabled
-                                            innerRef={register({ required: false })}
+                                            innerRef={register({ required: true })}
                                         />
                                     </FormGroup>
-                                </Col></>) : (<div></div>)}
+                                </Col>
+                                </>) : (<div></div>)}
 
                             <Col className='d-flex flex-sm-row flex-column mt-2' sm='12'>
                                 <Button.Ripple className='mb-1 mb-sm-0 mr-0 mr-sm-1' type='submit' color='primary'>

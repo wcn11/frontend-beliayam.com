@@ -1,7 +1,7 @@
 import { fetcher } from '@src/utility/axiosHooks'
 import { GET_PRODUCT, GET_PRODUCT_BYID } from '@src/utility/Url'
-import { Toast } from '../../../../../utility/Toast'
-import ToastUpdate from '../../../../components/toasts/ToastUpdate'
+import { Check, X } from 'react-feather'
+import { Toast, ToastWarning } from '../../../../../utility/Toast'
 
 // get all data product
 export const getAllDataProduct = (params) => {
@@ -65,7 +65,6 @@ export const addProduct = product => {
             sku,
             category_id,
             slug,
-            isDiscount,
             name,
             position,
             image,
@@ -84,13 +83,13 @@ export const addProduct = product => {
          formData.set('slug', slug)
          formData.set('name', name)
          formData.set('position', position)
-         formData.set('status', status)
+         formData.set('status', 'nonactive')
          formData.set('price', price)
          formData.set('stock', stock)
          formData.set('weight', weight)
          formData.set('additional', additional)
          formData.set('description', description)
-         formData.set('isDiscount', true)
+         formData.set('isDiscount', false)
          // formData.set('discount', discount)
          // formData.set('discountStart', discountStart)
          // formData.set('discountEnd', discountEnd)
@@ -103,43 +102,47 @@ export const addProduct = product => {
             }
          }
 
-         await fetcher(GET_PRODUCT, req)
-            .then(res => {
-               if (res) {
-                  dispatch({
-                     type: 'ADD_PRODUCT',
-                     product
-                  })
-               }
-            })
-            .then(() => {
+         const res = await fetcher(GET_PRODUCT, req)
+            if (res) {
+               dispatch({
+                  type: 'ADD_PRODUCT',
+                  product
+               })
                dispatch(getProduct(getState().products?.params))
-               dispatch(getALLDataProduct())
-            })
+               // dispatch(getAllDataProduct())
+               console.log(res)
+               Toast({ icon: <Check size={12} />, title: 'Berhasil Horeee', content: res.data.message })
+            }
       } catch (error) {
-         console.log(error)
+         ToastWarning({
+            icon: <X size={12} />,
+            title: 'Ada error nih',
+            content: error.data.message
+         })
       }
 
    }
 }
 
 export const deleteProduct = id => {
-   return (dispatch, getState) => {
+   return async (dispatch, getState) => {
       try {
-         fetcher(GET_PRODUCT_BYID(id), {
-            method: 'DELETE'
-         })
-            .then(res => {
+         const res = await fetcher(GET_PRODUCT_BYID(id), {method: 'DELETE'})
+         if (res) {
                dispatch({
                   type: 'DELETE_CATEGORY'
                })
-            })
-            .then(() => {
                dispatch(getProduct(getState().products.params))
-               dispatch(getAllDataProduct())
-            })
+               // dispatch(getAllDataProduct())
+            Toast({ icon: <Check size={12} />, title: 'Update Berhasil', content: res.data.message })
+         }
+
       } catch (error) {
-         console.log(error)
+         ToastWarning({
+            icon: <X size={12} />,
+            title: 'Ada error nih',
+            content: error.data.message
+         })
       }
 
    }
@@ -164,7 +167,7 @@ export const updateProduct = (id, product) => {
             description } = product
 
          const formData = new FormData()
-         formData.append('image', image)
+         formData.append('image_product', image)
          formData.append('category_id', category_id)
          formData.set('sku', sku)
          formData.set('slug', slug)
@@ -189,22 +192,22 @@ export const updateProduct = (id, product) => {
                "Content-Type": "multipart/form-data",
             }
          }
-         console.log(id)
-         await fetcher(GET_PRODUCT_BYID(id), req).then(res => {
+
+         const res = await fetcher(GET_PRODUCT_BYID(id), req)
             if (res) {
                dispatch({
                   type: 'UPDATE_PRODUCT',
                   data: res?.data?.data,
                })
+               dispatch(getProduct(getState().products?.params))
+               Toast({icon: <Check size={12}/>, title: 'Update Berhasil', content: res.data.message })
             }
-         }).then(() => {
-            dispatch(getProduct(getState().products?.params))
-            Toast({title: 'coba', content: 'ini isi content' })
-         })
 
       } catch (error) {
-         Toast({ title: 'error', content: 'ini isi content kalo error' })
-         console.log(error)
+         ToastWarning({
+         icon: <X size={12}/>,
+         title: 'Ada error nih', 
+         content: error.data.message })
       }
    }
 }

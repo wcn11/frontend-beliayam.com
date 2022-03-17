@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 
 import ToastUpdate from '../../../components/toasts/ToastUpdate'
-import { isObjEmpty } from '@utils'
+import { isObjEmpty, formatDateTime } from '@utils'
 import { updateVoucher, getVoucherById } from '../store/action'
 import { toast, Slide } from 'react-toastify'
 import { Edit, Trash2, Check } from 'react-feather'
@@ -22,7 +22,6 @@ import {
   ModalFooter,
   Modal,
   FormText } from 'reactstrap'
-import moment from 'moment'
 
 const VoucherAccountTab = ({ selectedVoucher }) => {
    const dispatch = useDispatch(),
@@ -219,7 +218,7 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
                       id='discountEnd'
                       name='discountEnd'
                       placeholder='Discount End....'
-                      defaultValue={voucherData.discountEnd}
+                      defaultValue={formatDateTime(voucherData.discountEnd)}
                       innerRef={register({ required: true })}
                     />
                   </FormGroup>

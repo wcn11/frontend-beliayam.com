@@ -10,22 +10,15 @@ import { addProduct } from '../store/action'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { getAllDataCategory } from '../../category/store/action'
+import { Upload } from '../../../../utility/Upload'
 
 const SidebarNewProduct = ({ open, toggleSidebar }) => {
     const dispatch = useDispatch(),
         store = useSelector(state => state.categories)
 
     const { register, errors, handleSubmit } = useForm()
-    const [img, setImg] = useState('')
-
-    const onChange = e => {
-        const reader = new FileReader(),
-            files = e.target.files
-        reader.onload = function () {
-            setImg(reader.result)
-        }
-        reader.readAsDataURL(files[0])
-    }
+    const [image, setImage] = useState('')
+    const [imagePreview, setImagePreview] = useState(null)
 
     useEffect(() => {
         dispatch(getAllDataCategory())
@@ -42,7 +35,7 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
                     slug: values.slug,
                     name: values.name,
                     position: values.position,
-                    image: values.image,
+                    image,
                     price: values.price,
                     stock: values.stock,
                     weight: values.weight,
@@ -51,6 +44,14 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
                 })
             )
         }
+    }
+
+
+    const onImageUpload = (e) => {
+        const file = e.target.files[0]
+        setImage(file)
+        setImagePreview(URL.createObjectURL(file))
+        console.log(image)
     }
 
     return (
@@ -64,7 +65,7 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
 
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <FormGroup>
-                    <Label for='status'>Choose Category</Label>
+                    <Label for='category_id'>Choose Category</Label>
                     <Input
                         type='select'
                         name='category_id'
@@ -135,11 +136,11 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
                     <Label>
                         Choose Image <span className='text-danger'>*</span>
                     </Label>
-                    <Input
-                        type='file'
+                    <Upload
                         name='image'
                         id='image'
-                        // onChange={onChange}
+                        onChange={(e) => onImageUpload(e)}
+                        img={imagePreview}
                         innerRef={register({ required: true })}
                         className={classnames({ 'is-invalid': errors['image'] })}
                     />

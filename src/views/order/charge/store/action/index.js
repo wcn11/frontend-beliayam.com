@@ -1,5 +1,7 @@
 import { fetcher } from '@src/utility/axiosHooks'
 import { GET_CHARGE, GET_CHARGE_BYID } from "@src/utility/Url"
+import { Check, X } from 'react-feather'
+import { Toast, ToastWarning } from '../../../../../utility/Toast'
 
 export const getCharge = params => {
    return async dispatch => {
@@ -13,7 +15,7 @@ export const getCharge = params => {
             })
          })
       } catch (error) {
-         console.log(error)
+         console.log('tidak dapat mengambil kategori', error)
       }
    }
 }
@@ -27,24 +29,37 @@ export const getChargeById = (id) => {
                   type: 'GET_CHARGE_BYID',
                   selectedCharge: res?.data?.data
                })
+               console.log(res.data.code)
             })
       } catch (error) {
-         console.log(error)
+         console.log('tidak dapat mengambil kategori', error)
       }
    }
 }
 
 export const addCharge = charge => {
    return async (dispatch, getState) => {
-      const req = { method: 'POST', data: charge }
-      await fetcher(GET_CHARGE, req).then(() => {
-         dispatch({
-            type: 'ADD_CHARGE',
-            charge
+      try {
+         const req = { method: 'POST', data: charge }
+         await fetcher(GET_CHARGE, req).then(() => {
+            dispatch({
+               type: 'ADD_CHARGE',
+               charge
+            })
+         }).then((res) => {
+            dispatch(getCharge(getState().charges?.params))
+            if (res.data.code !== 200) {
+               Toast({ icon: <Check size={12} />, title: 'Berhasil Horeee', content: res.message })
+            }
          })
-      }).then(() => {
-         dispatch(getCharge(getState().charges?.params))
-      })
+      } catch (error) {
+         ToastWarning({
+            icon: <X size={12} />,
+            title: 'Ada error nih',
+            content: error.message
+         })
+      }
+
    }
 }
 
@@ -57,11 +72,18 @@ export const deleteCharge = id => {
             dispatch({
                type: 'DELETE_CATEGORY'
             })
-         }).then(() => {
+         }).then((res) => {
             dispatch(getCharge(getState().charges?.params))
+            if (res.data.code === 200) {
+               Toast({ icon: <Check size={12} />, title: 'Berhasil Horeee', content: res.message })
+            }
          })
       } catch (error) {
-         console.log(error)
+         ToastWarning({
+            icon: <X size={12} />,
+            title: 'Ada error nih',
+            content: error.message
+         })
       }
    }
 }
@@ -82,11 +104,19 @@ export const updateCharge = (id, charge) => {
                      data: res?.data?.data
                   })
                }
-            }).then(() => {
+            }).then((res) => {
                dispatch(getCharge(getState().charges?.params))
+               if (res.data.code === 200) {
+                  Toast({ icon: <Check size={12} />, title: 'Berhasil Horeee', content: res.message })
+               }
+               console.log(res.data.code)
             })
       } catch (error) {
-         console.log(error)
+         ToastWarning({
+            icon: <X size={12} />,
+            title: 'Ada error nih',
+            content: error.message
+         })
       }
    }
 }

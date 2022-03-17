@@ -6,9 +6,7 @@ import { useDispatch } from 'react-redux'
 import { isObjEmpty } from '@utils'
 
 import { updateCharge, getChargeById } from '../store/action'
-import { toast, Slide } from 'react-toastify'
-import ToastUpdate from '../../../components/toasts/ToastUpdate'
-import { Check, Edit, Trash2 } from 'react-feather'
+import { Edit, Trash2 } from 'react-feather'
 import {
    Media, Row, Col, Button, Form, Input, Label, FormGroup, ModalHeader,
    ModalBody,
@@ -68,13 +66,6 @@ const ChargeAccountTab = ({ selectedCharge }) => {
 
       setCenteredModal(!centeredModal)
 
-      toast.success(
-         <ToastUpdate
-            icon={<Check size={12} />}
-            content='Charge'
-         />,
-         { transition: Slide, hideProgressBar: true, autoClose: 3000 }
-      )
    }
 
    const centerModal = () => {
@@ -126,7 +117,7 @@ const ChargeAccountTab = ({ selectedCharge }) => {
             <Col sm='12'>
                <Form onClick={e => e.preventDefault(centerModal)}>
                   <Row>
-                     <Col md='4' sm='12'>
+                     <Col md='6' sm='12'>
                         <FormGroup>
                            <Label for='chargeName'>Charge Name</Label>
                            <Input
@@ -139,7 +130,7 @@ const ChargeAccountTab = ({ selectedCharge }) => {
                            />
                         </FormGroup>
                      </Col>
-                     <Col md='4' sm='12'>
+                     <Col md='6' sm='12'>
                         <FormGroup>
                            <Label for='chargeBy'>Charge By</Label>
                            <Input
@@ -152,7 +143,7 @@ const ChargeAccountTab = ({ selectedCharge }) => {
                            />
                         </FormGroup>
                      </Col>
-                     <Col md='4' sm='12'>
+                     <Col md='6' sm='12'>
                         <FormGroup>
                            <Label for='chargeValue'>Charge Value</Label>
                            <Input
@@ -165,7 +156,7 @@ const ChargeAccountTab = ({ selectedCharge }) => {
                            />
                         </FormGroup>
                      </Col>
-                     <Col md='4' sm='12'>
+                     <Col md='6' sm='12'>
                         <FormGroup>
                            <Label for='shortDescription'>Short Description</Label>
                            <Input
@@ -178,8 +169,22 @@ const ChargeAccountTab = ({ selectedCharge }) => {
                            />
                         </FormGroup>
                      </Col>
-
-                     <Col md='4' sm='12'>
+                     <Col md='6' sm='12'>
+                        <FormGroup>
+                           <Label for='status'>Status</Label>
+                           <Input
+                              type='select'
+                              id='status'
+                              name='status'
+                              placeholder='Status Charge'
+                              defaultValue={chargeData.status}
+                              innerRef={register({ required: true })}
+                           />
+                           <option value={true}>Active</option>
+                           <option value={false}>Nonactive</option>
+                        </FormGroup>
+                     </Col>
+                     <Col md='6' sm='12'>
                         <FormGroup>
                            <Label for='termsAndConditions'>Terms And Condition</Label>
                            <Input

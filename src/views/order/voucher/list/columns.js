@@ -56,13 +56,13 @@ export const columns = [
          <div className='d-flex justify-content-left align-items-center'>
             {renderClient(row)}
             <div className='d-flex flex-column'>
-               <Link
+               {/* <Link
                   to={`/order/voucher/view/${row._id}`}
                   className='user-name text-truncate mb-0'
-               // onClick={() => store.dispatch(getCategoryById(row._id))}
-               >
+               onClick={() => store.dispatch(getCategoryById(row._id))}
+               > */}
                   <span className='font-weight-bold'>{row.voucherName}</span>
-               </Link>
+               {/* </Link> */}
                <small className='text-truncate text-muted mb-0'>{row.chargeBy}</small>
             </div>
          </div>
@@ -116,7 +116,7 @@ export const columns = [
                <MoreVertical size={14} className='cursor-pointer' />
             </DropdownToggle>
             <DropdownMenu right>
-               <DropdownItem
+               {/* <DropdownItem
                   tag={Link}
                   to={`/order/voucher/view/${row._id}`}
                   className='w-100'
@@ -124,7 +124,7 @@ export const columns = [
                >
                   <FileText size={14} className='mr-50' />
                   <span className='align-middle'>Details</span>
-               </DropdownItem>
+               </DropdownItem> */}
                <DropdownItem
                   tag={Link}
                   to={`/order/voucher/edit/${row._id}`}
@@ -134,7 +134,7 @@ export const columns = [
                   <Archive size={14} className='mr-50' />
                   <span className='align-middle'>Edit</span>
                </DropdownItem>
-               <DropdownItem className='w-100' onClick={(e) => e.preventDefault(centerModal)}>
+               <DropdownItem className='w-100' onClick={() => store.dispatch(deleteVoucher(row._id))}>
                   <Trash2 size={14} className='mr-50' />
                   <span className='align-middle'>Delete</span>
                </DropdownItem>

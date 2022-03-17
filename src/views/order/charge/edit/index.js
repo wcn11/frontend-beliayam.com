@@ -21,7 +21,7 @@ const ChargeEdit = () => {
 
    useEffect(() => {
       dispatch(getChargeById(id))
-      return () => dispatch(getChargeById(id))
+      // return () => dispatch(getChargeById(id))
    }, [dispatch, id])
 
    return store.selectedCharge !== null && store.selectedCharge !== undefined ? (
