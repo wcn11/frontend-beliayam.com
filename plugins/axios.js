@@ -1,5 +1,7 @@
+import { result } from "lodash";
+
 // export default function ({ $axios, redirect }) {
-export default function ({
+export default async function ({
     store,
     $axios,
     redirect
@@ -15,23 +17,30 @@ export default function ({
     });
 
     $axios.onError(async (error) => {
-        const statusCode = error.response ? error.response.status : -1;
 
-        if (statusCode === 401) {
+        if (error.response.data.code == 401) {
+
             const refreshToken = store.state.auth.refreshToken;
-            if (error.response.data.code === 401 && refreshToken) {
-                if (Object.prototype.hasOwnProperty.call(error.config, 'retryAttempts')) {
+
+            if (refreshToken) {
+
+                const res = await $axios.$post(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/refresh-token`, {
+                    refreshToken: store.state.auth.refreshToken
+                }, {
+                    "Authorization": `Bearer ${store.state.auth.accessToken}`
+                }).then(result => {
+
+                    if (result.error) {
+                        store.commit('auth/logout');
+                        return redirect('/');
+                    }
+
+                    return store.commit('auth/setCookieLogin', res.data.token);
+                }).catch(err => {
+
                     store.commit('auth/logout');
                     return redirect('/');
-                }
-                const config = { retryAttempts: 1, ...error.config };
-                try {
-                    await store.dispatch('auth/refresh');
-                    return Promise.resolve($axios(config));
-                } catch (e) {
-                    store.commit('auth/logout');
-                    return redirect('/');
-                }
+                })
             }
 
             store.commit('auth/logout');

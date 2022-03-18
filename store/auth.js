@@ -140,11 +140,22 @@ export const actions = {
     async getUser({ commit, getters }) {
         if (getters.isAuthenticated) {
 
-            const res = await this.$axios.$get(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/users/me`);
+            const res = await this.$axios.$get(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/users/me`)
+                .then(result => {
 
-            commit('setUser', res.data);
+                    if (result.error) {
+                        commit('logout');
+                        return redirect('/');
+                    }
 
-            return res.data
+                    return store.commit('auth/setCookieLogin', res.data.token);
+                }).catch(err => {
+
+                    commit('logout');
+                    return redirect('/');
+                })
+
+            return res
         }
     },
     async refresh({ state, commit }) {
