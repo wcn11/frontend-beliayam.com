@@ -76,14 +76,6 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
       }
 
      setCenteredModal(!centeredModal)
-
-      toast.success(
-        <ToastUpdate 
-        icon={<Check size={12}/>} 
-        content='Voucher'
-        />,  
-        { transition: Slide, hideProgressBar: true, autoClose: 5000 }
-      )
    }
 
   const centerModal = () => {
@@ -145,7 +137,7 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
           <Col sm='12'>
             <Form onSubmit={e => e.preventDefault(centerModal)}>
               <Row>
-                <Col md='4' sm='12'>
+                <Col md='6' sm='12'>
                   <FormGroup>
                     <Label for='voucherName'>Voucher Name</Label>
                     <Input
@@ -158,7 +150,7 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
                     />
                   </FormGroup>
                 </Col>
-                <Col md='4' sm='12'>
+                <Col md='6' sm='12'>
                   <FormGroup>
                     <Label for='voucherCode'>Voucher Code</Label>
                     <Input
@@ -171,7 +163,7 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
                     />
                   </FormGroup>
                 </Col>
-                <Col md='4' sm='12'>
+                <Col md='6' sm='12'>
                   <FormGroup>
                     <Label for='discountBy'>Discount By</Label>
                     <Input
@@ -184,7 +176,7 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
                     />
                   </FormGroup>
                 </Col>
-                <Col md='4' sm='12'>
+                <Col md='6' sm='12'>
                   <FormGroup>
                     <Label for='discountValue'>Discount Value</Label>
                     <Input
@@ -197,7 +189,7 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
                     />
                   </FormGroup>
                 </Col>
-                <Col md='4' sm='12'>
+                <Col md='6' sm='12'>
                   <FormGroup>
                     <Label for='discountStart'>Discount Start </Label>
                     <Input
@@ -210,7 +202,7 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
                     />
                   </FormGroup>
                 </Col>
-                <Col md='4' sm='12'>
+                <Col md='6' sm='12'>
                   <FormGroup>
                     <Label for='discountEnd'>Discount End</Label>
                     <Input
@@ -223,7 +215,7 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
                     />
                   </FormGroup>
                 </Col>
-                <Col md='4' sm='12'>
+                <Col md='6' sm='12'>
                   <FormGroup>
                     <Label for='minimumOrderValue'>Minimum Order Value</Label>
                     <Input
@@ -236,7 +228,7 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
                     />
                   </FormGroup>
                 </Col>
-                <Col md='4' sm='12'>
+                <Col md='6' sm='12'>
                   <FormGroup>
                     <Label for='termsAndConditions'>Terms And Condition</Label>
                     <Input

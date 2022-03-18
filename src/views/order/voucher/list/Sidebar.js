@@ -26,6 +26,7 @@ const SidebarNewVoucher = ({ open, toggleSidebar }) => {
                discountValue: values.discountValue,
                discountStart: values.discountStart,
                discountEnd: values.discountEnd,
+               isActive: values.isActive,
                minimumOrderValue: values.minimumOrderValue,
                termsAndConditions: values.termsAndConditions,
             })
@@ -124,12 +125,28 @@ const SidebarNewVoucher = ({ open, toggleSidebar }) => {
                   name='termsAndConditions'
                   id='termsAndConditions'
                   placeholder='Trems And Condition ...'
-                  // value={name}
                   innerRef={register({ required: true })}
                   className={classnames({
                      'is-invalid': errors['termsAndConditions'],
                   })}
                />
+            </FormGroup>
+            <FormGroup>
+               <Label>
+                  Status <span className='text-danger'>*</span>
+               </Label>
+               <Input
+                  name='isActive'
+                  id='isActive'
+                  placeholder='Trems And Condition ...'
+                  innerRef={register({ required: true })}
+                  className={classnames({
+                     'is-invalid': errors['isActive'],
+                  })}
+               >
+                  <option value={true}>active</option>
+                  <option value={false}>nonactive</option>
+               </Input>
             </FormGroup>
             <Button type='submit' className='mr-1' color='primary'>
                Submit
