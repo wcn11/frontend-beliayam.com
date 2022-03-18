@@ -18,7 +18,7 @@
           <div
             class="bg-white shadow-sm rounded text-center my-2 px-2 py-3 c-it"
           >
-            <NuxtLink :to="`/${category.slug}`">
+            <NuxtLink :to="`/kategori/${category.slug}`">
               <img
                 :src="`${baseApi}/${category.icon}`"
                 class="img-fluid px-2 mx-auto"

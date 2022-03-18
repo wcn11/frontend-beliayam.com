@@ -566,10 +566,13 @@ export default {
       .get(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/checkout/cart`)
       .then((res) => {
         this.cart = res.data.data;
+        this.$store.dispatch("setGlobalModal", false);
       })
       .catch((err) => {
         if (err.response.data.error) {
+          false;
           this.$toast.warning(err.response.data.message);
+          this.$store.dispatch("setGlobalModal");
           this.$router.push("/");
         }
       });
@@ -580,7 +583,7 @@ export default {
 
     this.$store.dispatch("auth/getUser");
 
-    this.$store.dispatch("setGlobalModal");
+    this.$store.dispatch("setGlobalModal", false);
   },
   components: { LocationPicker }, // if installComponents is false
   data() {
@@ -624,6 +627,7 @@ export default {
     async payOrder() {
       this.$store.dispatch("setGlobalModal", true);
       if (this.selectedPayment.data.pg_code === "") {
+        this.$store.dispatch("setGlobalModal", false);
         this.$toast.warning("harap memilih metode pembayaran");
         return;
       }
@@ -641,10 +645,12 @@ export default {
         .then((res) => {
           if (res.data.error) {
             this.$toast.warning(res.data.message);
+            this.$store.dispatch("setGlobalModal");
             return;
           }
           if (res.data.data.bill.bill_no) {
             this.$toast.success("Pesanan berhasil diproses");
+            this.$store.dispatch("setGlobalModal");
             this.$router.push({
               path: "/checkout/sukses",
               query: {
@@ -652,10 +658,12 @@ export default {
               },
             });
           }
+          this.$store.dispatch("setGlobalModal");
         })
         .catch((err) => {
           if (err && err.response && err.response.data.error) {
             this.$toast.warning(err.response.data.message);
+            this.$store.dispatch("setGlobalModal");
           }
         });
       this.$store.dispatch("setGlobalModal", false);

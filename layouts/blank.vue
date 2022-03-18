@@ -1,7 +1,7 @@
 <template>
   <div>
     <Nuxt />
-    <GlobalModal />
+    <GlobalModal v-if="this.$store.state.globalModal" />
   </div>
 </template>
 <script> 

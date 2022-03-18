@@ -377,7 +377,7 @@
                   >
                     <NuxtLink :to="`/${cart.slug}`">
                       <div class="position-absolute ml-n1 py-2 text-danger">
-                        {{ cart.price | formatMoney }}
+                        {{ setPriceWithDiscount(cart) | formatMoney }}
                       </div>
                       <div class="text-decoration-none text-dark">
                         <div class="notifiction small">
@@ -432,6 +432,9 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
+import moment from "moment";
+
+moment.locale("id-ID");
 export default {
   name: "LayoutHeader",
   props: ["user"],
@@ -449,6 +452,66 @@ export default {
       this.$store.dispatch("auth/logout");
       window.location.reload();
     },
+    setPriceWithDiscount(item) {
+
+      if (this.getCartsNav && this.getCartsNav.length > 0) {
+        let price = 0;
+
+        this.getCartsNav.filter((product) => {
+          if (product._id === item._id) {
+            let currentTime = moment().format();
+
+            if (
+              product.productOnLive.hasPromo &&
+              product.productOnLive.hasPromo.isActive &&
+              product.productOnLive.hasPromo.promoStart < currentTime &&
+              product.productOnLive.hasPromo.promoEnd > currentTime
+            ) {
+              if (product.productOnLive.hasPromo.promoBy === "percent") {
+                let discountPrice =
+                  (product.productOnLive.hasPromo.promoValue / 100) *
+                  product.productOnLive.price;
+                price += product.productOnLive.price - discountPrice;
+              } else if (product.productOnLive.hasPromo.promoBy === "price") {
+                price +=
+                  product.productOnLive.price - product.productOnLive.hasPromo.promoValue;
+              } else {
+                price += product.productOnLive.price;
+              }
+            } else if (
+              !product.productOnLive.hasPromo &&
+              product.productOnLive.hasDiscount &&
+              product.productOnLive.hasDiscount.isDiscount &&
+              product.productOnLive.hasDiscount.discountStart < currentTime &&
+              product.productOnLive.hasDiscount.discountEnd > currentTime
+            ) {
+              if (product.productOnLive.hasDiscount.discountBy === "percent") {
+                let discountPrice =
+                  (product.productOnLive.hasDiscount.discount / 100) *
+                  product.productOnLive.price;
+                price += product.productOnLive.price - discountPrice;
+              } else if (
+                product.productOnLive.hasDiscount.discountBy === "price"
+              ) {
+                price +=
+                  product.productOnLive.price -
+                  product.productOnLive.hasDiscount.discount;
+              } else {
+                price += product.productOnLive.price;
+              }
+            } else {
+              price += product.productOnLive.price;
+            }
+            return price;
+
+            // return (price = product.productOnLive.price);
+            // return price += product.productOnLive.price;
+            // }
+          }
+        });
+        return price;
+      }
+    },
   },
   computed: {
     ...mapGetters("cart", ["getCartsNav"]),
@@ -465,7 +528,6 @@ export default {
     //     style: "currency",
     //     currency: "IDR",
     //   });
-
     //   return formatter.format(val);
     // },
   },

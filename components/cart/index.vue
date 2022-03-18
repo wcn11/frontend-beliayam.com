@@ -76,7 +76,10 @@
                         v-for="product in carts.products"
                         :key="product._id"
                       >
-                        <div class="d-flex align-items-center p-3" v-if="product.productOnLive">
+                        <div
+                          class="d-flex align-items-center p-3"
+                          v-if="product.productOnLive"
+                        >
                           <NuxtLink :to="`/${product.slug}`"
                             ><img
                               :src="`${baseApi}/${product.image}`"
@@ -775,6 +778,8 @@ export default {
       this.$toast.warning("Voucher Dihapus");
     },
     async applyVoucher(voucher) {
+      this.$store.dispatch("setGlobalModal", true);
+
       await this.$axios
         .$post(
           `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/cart/voucher/apply`,
@@ -790,23 +795,35 @@ export default {
             this.selectedVoucher = results.data;
             this.$toast.success("Voucher Diterapkan");
             $("#modal-vouchers").modal("hide");
+            this.$store.dispatch("setGlobalModal");
+
             return;
           }
+
           this.$toast.warning(results.message);
+          this.$store.dispatch("setGlobalModal");
         })
         .catch((err) => {
           if (err && err.response && err.response.error) {
             this.$toast.warning(err.response.message);
+            this.$store.dispatch("setGlobalModal");
           }
+          this.$store.dispatch("setGlobalModal");
         });
+      this.$store.dispatch("setGlobalModal");
     },
     async setVoucherByInput() {
+      this.$store.dispatch("setGlobalModal", true);
+
       let voucherExist = this.getCartsVouchers.filter(
         (obj) =>
           obj.voucherCode.toLowerCase() === this.appliedVoucher.toLowerCase()
       );
       if (voucherExist.length <= 0) {
         this.$toast.warning("Kode Voucher Salah");
+
+        this.$store.dispatch("setGlobalModal", false);
+
         return;
       }
 
@@ -827,17 +844,23 @@ export default {
             $("#modal-vouchers").modal("hide");
             this.selectedVoucher = voucherExist[0];
             this.appliedVoucher = "";
+            this.$store.dispatch("setGlobalModal", false);
+
             return;
           }
           this.appliedVoucher = "";
           this.$toast.warning(results.message);
+          this.$store.dispatch("setGlobalModal", false);
         })
         .catch((err) => {
           if (err && err.response && err.response.error) {
             this.appliedVoucher = "";
             this.$toast.warning(err.response.message);
+            this.$store.dispatch("setGlobalModal", false);
           }
         });
+
+      this.$store.dispatch("setGlobalModal", false);
     },
     closeNote() {
       $(`.input-note`).css("display", "none");
@@ -858,6 +881,8 @@ export default {
       $(`.note-${id}`).css("display", "none");
     },
     async removeProduct(id) {
+      this.$store.dispatch("setGlobalModal", true);
+
       this.$axios
         .$delete(
           `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/cart/${this.$store.state.auth.user._id}/product/${id}`
@@ -865,20 +890,29 @@ export default {
         .then(async (results) => {
           if (results.data.error) {
             this.$toast.warning(results.data.message);
+            this.$store.dispatch("setGlobalModal", false);
+
             return;
           }
           this.$toast.success(results.message);
           await this.fetchCart();
+          this.$store.dispatch("setGlobalModal", false);
         })
         .catch((err) => {
           if (err && err.response && err.response.data.error) {
             this.$toast.warning(err.response.data.message);
+            this.$store.dispatch("setGlobalModal", false);
           } else {
             this.$toast.warning("Server Sibuk");
+            this.$store.dispatch("setGlobalModal", false);
           }
         });
+
+      this.$store.dispatch("setGlobalModal", false);
     },
     async updateNote(event, id) {
+      this.$store.dispatch("setGlobalModal", true);
+
       const note = event.target.value;
       this.$axios
         .$put(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/cart/update/note`, {
@@ -889,17 +923,23 @@ export default {
         .then(async (results) => {
           if (results.data.error) {
             this.$toast.warning(results.data.message);
+            this.$store.dispatch("setGlobalModal", false);
           }
           this.$toast.success(results.message);
+          this.$store.dispatch("setGlobalModal", false);
+
           // this.closeNote();
         })
         .catch((err) => {
           if (err && err.response && err.response.data.error) {
             this.$toast.warning(err.response.data.message);
+            this.$store.dispatch("setGlobalModal", false);
           } else {
             this.$toast.warning("Server Sibuk");
+            this.$store.dispatch("setGlobalModal", false);
           }
         });
+      this.$store.dispatch("setGlobalModal", false);
     },
     setQuantity(evt, id) {
       this.carts.products.filter((product) => {
@@ -926,6 +966,8 @@ export default {
       });
     },
     checkout() {
+      this.$store.dispatch("setGlobalModal", true);
+
       const products = this.carts.products.map((product, index) => {
         return product._id;
       });
@@ -950,26 +992,39 @@ export default {
         .then((results) => {
           if (results.error) {
             this.$toast.warning(results.message);
+            this.$store.dispatch("setGlobalModal", false);
+
             return;
           }
           this.$toast.success("Berhasil checkout!. Pilih Metode Pembayaran");
+          this.$store.dispatch("setGlobalModal", false);
+
           this.$router.push("/checkout");
         })
         .catch((err) => {
           if (err && err.response && err.response.error) {
             this.$toast.warning(err.response.message);
+            this.$store.dispatch("setGlobalModal", false);
           }
+          this.$store.dispatch("setGlobalModal", false);
+
           // else {
           //   this.$toast.warning("Server Sibuk");
           // }
         });
+      this.$store.dispatch("setGlobalModal", false);
     },
     setVoucher(voucher, index) {
       this.selectedVoucher.push(voucher);
 
+      this.$store.dispatch("setGlobalModal", true);
+
       this.$store.dispatch("cart/setVoucher", voucher);
+      this.$store.dispatch("setGlobalModal");
     },
     setIncrement(event, productId) {
+      this.$store.dispatch("setGlobalModal", true);
+
       this.carts.products.filter((product) => {
         if (product._id == productId) {
           if (product.quantity < product.productOnLive.stock) {
@@ -986,24 +1041,31 @@ export default {
               .then((results) => {
                 if (results.data.error) {
                   this.$toast.warning(results.data.message);
+                  this.$store.dispatch("setGlobalModal");
                 }
                 product.quantity++;
                 this.fetchCart();
+                this.$store.dispatch("setGlobalModal");
               })
               .catch((err) => {
                 if (err && err.response && err.response.data.error) {
                   this.$toast.warning(err.response.data.message);
+                  this.$store.dispatch("setGlobalModal", false);
                 } else {
                   this.$toast.warning("Server Sibuk");
+                  this.$store.dispatch("setGlobalModal", false);
                 }
               });
           }
+          this.$store.dispatch("setGlobalModal", false);
 
           event.preventDefault();
         }
       });
     },
     setDecrement(productId) {
+      this.$store.dispatch("setGlobalModal", true);
+
       this.carts.products.filter((product) => {
         if (product._id == productId) {
           if (product.quantity <= 1) {
@@ -1021,20 +1083,26 @@ export default {
             )
             .then((results) => {
               if (results.data.error) {
+                this.$store.dispatch("setGlobalModal");
+
                 this.$toast.warning(results.data.message);
               }
               product.quantity--;
               this.fetchCart();
+              this.$store.dispatch("setGlobalModal");
             })
             .catch((err) => {
               if (err && err.response && err.response.data.error) {
                 this.$toast.warning(err.response.data.message);
+                this.$store.dispatch("setGlobalModal");
               } else {
                 this.$toast.warning("Server Sibuk");
+                this.$store.dispatch("setGlobalModal");
               }
             });
         }
       });
+      this.$store.dispatch("setGlobalModal");
     },
     openModalVouchers() {
       $("#modal-vouchers").appendTo("body").modal("show");
@@ -1043,6 +1111,8 @@ export default {
       $("#modal-vouchers").css("display", "none");
     },
     removeProduct(productId) {
+      this.$store.dispatch("setGlobalModal", true);
+
       this.$axios
         .$delete(
           `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/cart/${this.$store.state.auth.user._id}/product/${productId}`
@@ -1050,17 +1120,22 @@ export default {
         .then((results) => {
           if (results.data.error) {
             this.$toast.warning(results.data.message);
+            this.$store.dispatch("setGlobalModal");
           } else {
             this.fetchCart();
+            this.$store.dispatch("setGlobalModal");
           }
         })
         .catch((err) => {
           if (err && err.response && err.response.data.error) {
             this.$toast.warning(err.response.data.message);
+            this.$store.dispatch("setGlobalModal");
           } else {
             this.$toast.warning("Server Sibuk");
+            this.$store.dispatch("setGlobalModal");
           }
         });
+      this.$store.dispatch("setGlobalModal");
     },
     async resetAllCarts() {
       await this.$store.dispatch("cart/setCartsAndCartsNav");

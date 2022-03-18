@@ -6,7 +6,7 @@
 
     <div v-if="$nuxt.isOffline">You are offline</div>
     
-    <GlobalModal/>
+    <GlobalModal v-if="this.$store.state.globalModal"/>
 
   </div>
 </template>
