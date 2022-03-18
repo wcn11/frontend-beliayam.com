@@ -1,7 +1,7 @@
 import { fetcher } from '@src/utility/axiosHooks'
 import { GET_CHARGE, GET_CHARGE_BYID } from "@src/utility/Url"
 import { Check, X } from 'react-feather'
-import { Toast, ToastWarning } from '../../../../../utility/Toast'
+import { Toast, ToastWarning } from '@src/utility/Toast'
 
 export const getCharge = params => {
    return async dispatch => {
@@ -41,22 +41,21 @@ export const addCharge = charge => {
    return async (dispatch, getState) => {
       try {
          const req = { method: 'POST', data: charge }
-         await fetcher(GET_CHARGE, req).then(() => {
+         const res = await fetcher(GET_CHARGE, req)
+         if (res) {
             dispatch({
                type: 'ADD_CHARGE',
                charge
             })
-         }).then((res) => {
             dispatch(getCharge(getState().charges?.params))
-            if (res.data.code !== 200) {
-               Toast({ icon: <Check size={12} />, title: 'Berhasil Horeee', content: res.message })
-            }
-         })
+            Toast({ icon: <Check size={12} />, title: 'Berhasil Horeee', content: res?.data?.message })
+         }
+
       } catch (error) {
          ToastWarning({
             icon: <X size={12} />,
             title: 'Ada error nih',
-            content: error.message
+            content: error?.data?.message
          })
       }
 
@@ -66,18 +65,16 @@ export const addCharge = charge => {
 export const deleteCharge = id => {
    return async (dispatch, getState) => {
       try {
-         await fetcher(GET_CHARGE_BYID(id), {
+         const res = await fetcher(GET_CHARGE_BYID(id), {
             method: 'DELETE'
-         }).then(() => {
+         })
+         if (res) {
             dispatch({
                type: 'DELETE_CATEGORY'
             })
-         }).then((res) => {
             dispatch(getCharge(getState().charges?.params))
-            if (res.data.code === 200) {
-               Toast({ icon: <Check size={12} />, title: 'Berhasil Horeee', content: res.message })
-            }
-         })
+            Toast({ icon: <Check size={12} />, title: 'Berhasil Horeee', content: res.message })
+         }
       } catch (error) {
          ToastWarning({
             icon: <X size={12} />,
@@ -96,21 +93,15 @@ export const updateCharge = (id, charge) => {
             data: charge,
          }
 
-         await fetcher(GET_CHARGE_BYID(id), req)
-            .then(res => {
+         const res = await fetcher(GET_CHARGE_BYID(id), req)
                if (res) {
                   dispatch({
                      type: 'UPDATE_CHARGE',
                      data: res?.data?.data
                   })
-               }
-            }).then((res) => {
-               dispatch(getCharge(getState().charges?.params))
-               if (res.data.code === 200) {
+                  dispatch(getCharge(getState().charges?.params))
                   Toast({ icon: <Check size={12} />, title: 'Berhasil Horeee', content: res.message })
                }
-               console.log(res.data.code)
-            })
       } catch (error) {
          ToastWarning({
             icon: <X size={12} />,

@@ -87,9 +87,7 @@ export const columns = [
       minWidth: '320px',
       selector: 'image',
       sortable: true,
-      cell: row => (
-         <img src={row.image} alt="" />
-      )
+      cell: row => <img style={{ height: '3em' }} src={`https://be-dev.beliayam.com/${row.image}`} alt="" />
    },
    {
       name: 'Position',
@@ -111,7 +109,7 @@ export const columns = [
       selector: 'status',
       sortable: true,
       cell: row => (
-         <Badge className='text-capitalize light-success' color={statusObj['active']} pill>
+         <Badge className='text-capitalize light-success' color={statusObj[row.status]} pill>
             {row.status}
          </Badge>
       )
@@ -125,7 +123,7 @@ export const columns = [
                <MoreVertical size={14} className='cursor-pointer' />
             </DropdownToggle>
             <DropdownMenu right>
-               <DropdownItem
+               {/* <DropdownItem
                   tag={Link}
                   to={`/apps/category/view/${row._id}`}
                   className='w-100'
@@ -133,12 +131,12 @@ export const columns = [
                >
                   <FileText size={14} className='mr-50' />
                   <span className='align-middle'>Details</span>
-               </DropdownItem>
+               </DropdownItem> */}
                <DropdownItem
                   tag={Link}
                   to={`/apps/category/edit/${row._id}`}
                   className='w-100'
-                  onClick={() => store.dispatch(getCategoryById(row._id))}
+                  // onClick={() => store.dispatch(getCategoryById(row._id))}
                >
                   <Archive size={14} className='mr-50' />
                   <span className='align-middle'>Edit</span>

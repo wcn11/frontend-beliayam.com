@@ -1,19 +1,20 @@
 import { fetcher } from '@src/utility/axiosHooks'
 import { GET_PRODUCT, GET_PRODUCT_BYID } from '@src/utility/Url'
 import { Check, X } from 'react-feather'
-import { Toast, ToastWarning } from '../../../../../utility/Toast'
+import { Toast, ToastWarning } from '@src/utility/Toast'
 
 // get all data product
 export const getAllDataProduct = (params) => {
    return async dispatch => {
       try {
-         await fetcher(GET_PRODUCT, {params}).then(response => {
+         const res = await fetcher(GET_PRODUCT, {params})
+         if (res) {            
             dispatch({
                type: 'GET_ALL_DATA_PRODUCT',
-               data: response?.data?.data,
+               data: res?.data?.data,
                params
             })
-         })
+         }
       } catch (error) {
          console.log(error)
       }
@@ -25,14 +26,15 @@ export const getAllDataProduct = (params) => {
 export const getProduct = (params) => {
    return async dispatch => {
       try {
-         await fetcher(GET_PRODUCT, { params }).then(response => {
+         const res = await fetcher(GET_PRODUCT, { params })
+         if (res) {
             dispatch({
                type: 'GET_DATA_PRODUCT',
-               data: response?.data?.data,
-               totalPages: response?.data?.total,
+               data: res?.data?.data,
+               totalPages: res?.data?.total,
                params
             })
-         })
+         }
       } catch (error) {
          console.log(error)
       }
@@ -44,13 +46,13 @@ export const getProduct = (params) => {
 export const getProductById = (id) => {
    return async dispatch => {
       try {
-         await fetcher(GET_PRODUCT_BYID(id))
-            .then(response => {
-               dispatch({
-                  type: 'GET_PRODUCT_BYID',
-                  selectedProduct: response?.data?.data
-               })
+         const res = await fetcher(GET_PRODUCT_BYID(id))
+         if (res) {
+            dispatch({
+               type: 'GET_PRODUCT_BYID',
+               selectedProduct: res?.data?.data
             })
+         }
       } catch (error) {
          console.log(error)
       }
@@ -90,9 +92,6 @@ export const addProduct = product => {
          formData.set('additional', additional)
          formData.set('description', description)
          formData.set('isDiscount', false)
-         // formData.set('discount', discount)
-         // formData.set('discountStart', discountStart)
-         // formData.set('discountEnd', discountEnd)
 
          const req = {
             method: 'POST',
@@ -111,7 +110,7 @@ export const addProduct = product => {
                dispatch(getProduct(getState().products?.params))
                // dispatch(getAllDataProduct())
                console.log(res)
-               Toast({ icon: <Check size={12} />, title: 'Berhasil Horeee', content: res.data.message })
+               Toast({ icon: <Check size={12} />, title: 'Berhasil Horeee', content: res?.data?.message })
             }
       } catch (error) {
          ToastWarning({
@@ -134,7 +133,7 @@ export const deleteProduct = id => {
                })
                dispatch(getProduct(getState().products.params))
                // dispatch(getAllDataProduct())
-            Toast({ icon: <Check size={12} />, title: 'Update Berhasil', content: res.data.message })
+            Toast({ icon: <Check size={12} />, title: 'Update Berhasil', content: res?.data?.message })
          }
 
       } catch (error) {
@@ -164,7 +163,11 @@ export const updateProduct = (id, product) => {
             weight, 
             status, 
             additional, 
-            description } = product
+            description,
+            discount,
+         discountStart,
+      discountEnd,
+            priceAfterDiscount } = product
 
          const formData = new FormData()
          formData.append('image_product', image)
@@ -183,6 +186,7 @@ export const updateProduct = (id, product) => {
          // formData.set('discount', discount)
          // formData.set('discountStart', discountStart)
          // formData.set('discountEnd', discountEnd)
+         // formData.set('priceAfterDiscount', priceAfterDiscount)
 
 
          const req = {
@@ -200,7 +204,7 @@ export const updateProduct = (id, product) => {
                   data: res?.data?.data,
                })
                dispatch(getProduct(getState().products?.params))
-               Toast({icon: <Check size={12}/>, title: 'Update Berhasil', content: res.data.message })
+               Toast({icon: <Check size={12}/>, title: 'Update Berhasil', content: res?.data?.message })
             }
 
       } catch (error) {

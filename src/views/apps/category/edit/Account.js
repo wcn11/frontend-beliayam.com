@@ -6,15 +6,13 @@ import { useDispatch } from 'react-redux'
 
 import { isObjEmpty } from '@utils'
 
-import FileUploaderBasic from '../../../forms/form-elements/file-uploader/FileUploaderBasic'
 // ** Custom Components
 import Avatar from '@components/avatar'
-import ToastUpdate from '../../../components/toasts/ToastUpdate'
 import { getCategoryById, updateCategory } from '../store/action'
+import { Upload } from '@src/utility/Upload'
 
 // ** Third Party Components
-import { toast, Slide } from 'react-toastify'
-import { Check, Edit, Trash2 } from 'react-feather'
+import { Edit, Trash2 } from 'react-feather'
 import { Media, Row, Col, Button, Form, Input, Label, FormGroup, Table, CustomInput } from 'reactstrap'
 
 
@@ -25,7 +23,10 @@ const CategoryAccountTab = ({ selectedCategory }) => {
 
    const { register, errors, handleSubmit } = useForm()
    // ** States
-   const [img, setImg] = useState(null)
+   const [image, setImage] = useState('')
+   const [icon, setIcon] = useState('')
+   const [imagePreview, setImagePreview] = useState(null)
+   const [iconPreview, setIconPreview] = useState(null)
    const [categoryData, setCategoryData] = useState(null)
 
    // ** Function to change user image
@@ -58,28 +59,32 @@ const CategoryAccountTab = ({ selectedCategory }) => {
 
    const onSubmit = (values) => {
       if (isObjEmpty(errors)) {
-         console.log(values)
          dispatch(
             updateCategory(id, {
                sku: values.sku,
                slug: values.slug,
                name: values.name,
                position: values.position,
-               image_category: values.image_category,
+               image,
+               icon,
                status: values.status,
                additional: values.additional,
                description: values.description
             })
          )
       }
+   }
 
-      toast.success(
-         <ToastUpdate
-            icon={<Check size={12} />}
-            content='Category'
-         />,
-         { transition: Slide, hideProgressBar: true, autoClose: 8000 }
-      )
+   const onImageUpload = (e) => {
+      const file = e.target.files[0]
+      setImage(file)
+      setImagePreview(URL.createObjectURL(file))
+   }
+
+   const onIconUpload = (e) => {
+      const file = e.target.files[0]
+      setIcon(file)
+      setIconPreview(URL.createObjectURL(file))
    }
 
    // ** Renders User
@@ -150,7 +155,7 @@ const CategoryAccountTab = ({ selectedCategory }) => {
             <Col sm='12'>
                <Form onSubmit={handleSubmit(onSubmit)}>
                   <Row>
-                     <Col md='4' sm='12'>
+                     <Col md='6' sm='12'>
                         <FormGroup>
                            <Label for='sku'>Sku</Label>
                            <Input
@@ -163,7 +168,7 @@ const CategoryAccountTab = ({ selectedCategory }) => {
                            />
                         </FormGroup>
                      </Col>
-                     <Col md='4' sm='12'>
+                     <Col md='6' sm='12'>
                         <FormGroup>
                            <Label for='name'>Name</Label>
                            <Input
@@ -176,7 +181,7 @@ const CategoryAccountTab = ({ selectedCategory }) => {
                            />
                         </FormGroup>
                      </Col>
-                     <Col md='4' sm='12'>
+                     <Col md='6' sm='12'>
                         <FormGroup>
                            <Label for='slug'>Slug</Label>
                            <Input
@@ -189,7 +194,7 @@ const CategoryAccountTab = ({ selectedCategory }) => {
                            />
                         </FormGroup>
                      </Col>
-                     <Col md='4' sm='12'>
+                     <Col md='6' sm='12'>
                         <FormGroup>
                            <Label for='slug'>Position</Label>
                            <Input
@@ -202,7 +207,7 @@ const CategoryAccountTab = ({ selectedCategory }) => {
                            />
                         </FormGroup>
                      </Col>
-                     <Col md='4' sm='12'>
+                     <Col md='6' sm='12'>
                         <FormGroup>
                            <Label for='additional'>Additional</Label>
                            <Input
@@ -215,7 +220,7 @@ const CategoryAccountTab = ({ selectedCategory }) => {
                            />
                         </FormGroup>
                      </Col>
-                     <Col md='4' sm='12'>
+                     <Col md='6' sm='12'>
                         <FormGroup>
                            <Label for='description'>Description</Label>
                            <Input
@@ -228,20 +233,33 @@ const CategoryAccountTab = ({ selectedCategory }) => {
                            />
                         </FormGroup>
                      </Col>
-                     <Col md='4' sm='12'>
+                     <Col md='6' sm='12'>
                         <FormGroup>
                            <Label for='description'>Image Category</Label>
-                           <Input
-                              type='file'
-                              id='image_category'
-                              name='image_category'
+                           <Upload
+                              id='image'
+                              name='image'
                               defaultValue={categoryData?.image_category}
-                              placeholder='Add Image Category'
-                           // innerRef={register({ required: true })}
+                              onChange={(e) => onImageUpload(e)}
+                              img={imagePreview}
                            />
+                           <img height={80} src={`https://be-dev.beliayam.com/${categoryData.image}`} alt="" />
                         </FormGroup>
                      </Col>
-                     <Col md='4' sm='12'>
+                     <Col md='6' sm='12'>
+                        <FormGroup>
+                           <Label for='icon'>Icon Category</Label>
+                           <Upload
+                              id='icon'
+                              name='icon'
+                              defaultValue={categoryData?.icon}
+                              onChange={(e) => onIconUpload(e)}
+                              img={iconPreview}
+                           />
+                           <img height={80} src={`https://be-dev.beliayam.com/${categoryData.icon}`} alt="" />
+                        </FormGroup>
+                     </Col>
+                     <Col md='6' sm='12'>
                         <FormGroup>
                            <Label for='status'>Status</Label>
                            <Input
@@ -251,7 +269,7 @@ const CategoryAccountTab = ({ selectedCategory }) => {
                               defaultValue={categoryData?.status}
                               innerRef={register({ required: true })}
                            >
-                              <option value='pending'>Pending</option>
+                              <option value='disabled'>Disabled</option>
                               <option value='active'>Active</option>
                               <option value='nonactive'>Nonactive</option>
                            </Input>

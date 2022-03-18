@@ -117,7 +117,7 @@ const CategoryList = () => {
     // ]
 
     const statusOptions = [
-        { value: 'pending', label: 'Select Status', number: 0 },
+        { value: 'disabled', label: 'Disabled', number: 0 },
         { value: 'active', label: 'Pending', number: 1 },
         { value: 'inactive', label: 'Active', number: 2 }
     ]

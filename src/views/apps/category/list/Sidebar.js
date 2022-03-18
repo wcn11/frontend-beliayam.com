@@ -9,12 +9,15 @@ import { Button, FormGroup, Label, FormText, Form, Input } from 'reactstrap'
 
 import { addCategory } from '../store/action'
 import { useDispatch } from 'react-redux'
-
+import { useEffect, useState } from 'react'
+import { Upload } from '@src/utility/Upload'
 
 const SidebarNewCategory = ({ open, toggleSidebar }) => {
     const dispatch = useDispatch()
 
     const { register, errors, handleSubmit } = useForm()
+    const [image, setImage] = useState('')
+    const [imagePreview, setImagePreview] = useState(null)
 
     const onSubmit = values => {
         if (isObjEmpty(errors)) {
@@ -26,13 +29,19 @@ const SidebarNewCategory = ({ open, toggleSidebar }) => {
                     slug: values.slug,
                     name: values.name,
                     position: values.position,
-                    image_category: values.image_category,
+                    image,
                     status: values.status,
                     additional: values.additional,
                     description: values.description
                 })
             )
         }
+    }
+
+    const onImageUpload = (e) => {
+        const file = e.target.files[0]
+        setImage(file)
+        setImagePreview(URL.createObjectURL(file))
     }
 
     return (
@@ -96,16 +105,34 @@ const SidebarNewCategory = ({ open, toggleSidebar }) => {
                 </FormGroup>
                 <FormGroup>
                     <Label>
-                        Choose Image <span className='text-danger'>*</span>
+                        Status <span className='text-danger'>*</span>
                     </Label>
                     <Input
-                        type='file'
-                        name='image_category'
-                        id='image_category'
+                        type='select'
+                        name='status'
+                        id='status'
+                        placeholder='status'
                         innerRef={register({ required: true })}
-                        className={classnames({ 'is-invalid': errors['image_category'] })}
+                        className={classnames({ 'is-invalid': errors['status'] })}
+                    >
+                    <option value="disabled">Disabled</option>
+                    <option value="active">Active</option>
+                    <option value="nonactive">Nonactive</option>
+                    </Input>
+                </FormGroup>
+                <FormGroup>
+                    <Label>
+                        Choose Image <span className='text-danger'>*</span>
+                    </Label>
+                    <Upload
+                        name='image'
+                        id='image'
+                        onChange={(e) => onImageUpload(e)}
+                        img={imagePreview}
+                        innerRef={register({ required: true })}
+                        className={classnames({ 'is-invalid': errors['image'] })}
                     />
-                    <FormText color='muted'>receive format JPG, JPEG, PNG, SVG</FormText>
+                    <FormText color='muted'>menerima format JPG, JPEG, PNG</FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label>

@@ -4,7 +4,7 @@ import { deletePromo, getPromoById } from '../store/action'
 import { store } from '@store/storeConfig/store'
 
 import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
-import { Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2, Archive } from 'react-feather'
+import { MoreVertical, Trash2, Archive } from 'react-feather'
 
 const renderClient = row => {
    const stateNum = Math.floor(Math.random() * 6),
@@ -33,15 +33,14 @@ export const columns = [
          <div className='d-flex justify-content-left align-items-center'>
             {renderClient(row)}
             <div className='d-flex flex-column'>
-               <Link
+               {/* <Link
                   to={`/order/promo/view/${row._id}`}
                   className='user-name text-truncate mb-0'
-               // onClick={() => store.dispatch(getCategoryById(row._id))}
-               // onClick={}
-               >
+               onClick={() => store.dispatch(getCategoryById(row._id))}
+               > */}
                   <span className='font-weight-bold'>{row.name}</span>
-               </Link>
-               <small className='text-truncate text-muted mb-0'>{row.chargeBy}</small>
+               {/* </Link> */}
+               <small className='text-truncate text-muted mb-0'>{row.promoBy}</small>
             </div>
          </div>
       )
@@ -94,7 +93,7 @@ export const columns = [
                <MoreVertical size={14} className='cursor-pointer' />
             </DropdownToggle>
             <DropdownMenu right>
-               <DropdownItem
+               {/* <DropdownItem
                   tag={Link}
                   to={`/order/promo/view/${row._id}`}
                   className='w-100'
@@ -102,7 +101,7 @@ export const columns = [
                >
                   <FileText size={14} className='mr-50' />
                   <span className='align-middle'>Details</span>
-               </DropdownItem>
+               </DropdownItem> */}
                <DropdownItem
                   tag={Link}
                   to={`/order/promo/edit/${row._id}`}

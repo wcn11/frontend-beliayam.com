@@ -10,7 +10,7 @@ import { addProduct } from '../store/action'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { getAllDataCategory } from '../../category/store/action'
-import { Upload } from '../../../../utility/Upload'
+import { Upload } from '@src/utility/Upload'
 
 const SidebarNewProduct = ({ open, toggleSidebar }) => {
     const dispatch = useDispatch(),
@@ -51,7 +51,6 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
         const file = e.target.files[0]
         setImage(file)
         setImagePreview(URL.createObjectURL(file))
-        console.log(image)
     }
 
     return (
@@ -144,7 +143,7 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
                         innerRef={register({ required: true })}
                         className={classnames({ 'is-invalid': errors['image'] })}
                     />
-                    <FormText color='muted'>menerima format JPG, JPEG, PNG, SVG</FormText>
+                    <FormText color='muted'>menerima format JPG, JPEG, PNG</FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label>

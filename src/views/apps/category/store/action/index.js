@@ -1,88 +1,132 @@
 import { fetcher } from '@src/utility/axiosHooks'
 import { GET_CATEGORY, GET_CATEGORY_BYID } from '@src/utility/Url'
+import { Check, X } from 'react-feather'
+import { Toast, ToastWarning } from '@src/utility/Toast'
 
 // Get All data category
 export const getAllDataCategory = () => {
     return async dispatch => {
-        await fetcher(GET_CATEGORY).then(response => {
-            console.log('ini all data', response)
-            dispatch({
-                type: 'GET_ALL_DATA_CATEGORY',
-                data: response?.data?.data
-            })
-        })
+        try {
+        const res = await fetcher(GET_CATEGORY)
+            if (res) {
+                dispatch({
+                    type: 'GET_ALL_DATA_CATEGORY',
+                    data: res?.data?.data
+                })
+            }
+        } catch (error) {
+            console.log(error)
+        }
+
     }
 }
 
 // get data category per page
 export const getCategory = params => {
     return async dispatch => {
-        await fetcher(GET_CATEGORY, params).then(response => {
-            console.log('ini all data', response)
-            dispatch({
-                type: 'GET_DATA_CATEGORY',
-                data: response?.data?.data,
-                totalPages: response.data.total,
-                params
-            })
-        })
+        try {
+            const res = await fetcher(GET_CATEGORY, params)
+            if (res) {
+                dispatch({
+                    type: 'GET_DATA_CATEGORY',
+                    data: res?.data?.data,
+                    totalPages: res.data.total,
+                    params
+                })
+    
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
 }
 
 // get product by id
 export const getCategoryById = id => {
-    return dispatch => {
-        fetcher(GET_CATEGORY_BYID(id))
-            .then(response => {
+    return async dispatch => {
+        try {
+            const res = await fetcher(GET_CATEGORY_BYID(id))
+            if (res) {
                 dispatch({
                     type: 'GET_CATEGORY_BYID',
-                    selectedCategory: response?.data?.data
+                    selectedCategory: res?.data?.data
                 })
-            })
-            .catch(err => console.log(err))
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
 }
 
 export const addCategory = category => {
     return async (dispatch, getState) => {
-        const req = { method: 'POST', data: category }
-        await fetcher(GET_CATEGORY, req)
-            .then(response => {
+        try {
+            const { sku, slug, name, position, disabled, image, status, additional, description } = category
+            const formData = new FormData()
+            formData.append("image_category", image)
+            formData.set('sku', sku)
+            formData.set('slug', slug)
+            formData.set('name', name)
+            formData.set('position', position)
+            formData.set('status', status)
+            formData.set('additional', additional)
+            formData.set('description', description)
+            formData.set('status', disabled)
+            const req = { method: 'POST', data: formData }
+            const res  = await fetcher(GET_CATEGORY, req)
+            if (res) {
                 dispatch({
                     type: 'ADD_CATEGORY',
                     category
                 })
-            })
-            .then(() => {
+    
                 dispatch(getCategory(getState().categorys?.params))
                 dispatch(getAllDataCategory())
+                Toast({ icon: <Check size={12} />, title: 'Berhasil Horeee', content: res?.data?.message })
+            }       
+        } catch (error) {
+            ToastWarning({
+                icon: <X size={12} />,
+                title: 'Ada error nih',
+                content: error?.data?.message
             })
+        }
+
     }
 }
 
 export const deleteCategory = id => {
     return async (dispatch, getState) => {
-        await fetcher(GET_CATEGORY_BYID(id), {
-            method: 'DELETE'
-        })
-            .then(response => {
+        try {
+            const res = await fetcher(GET_CATEGORY_BYID(id), {
+                method: 'DELETE'
+            })
+            if (res) {
                 dispatch({
                     type: 'DELETE_CATEGORY'
                 })
-            })
-            .then(() => {
                 dispatch(getCategory(getState().category?.params))
                 dispatch(getAllDataCategory())
+                Toast({ icon: <Check size={12} />, title: 'Berhasil Horeee', content: res?.data?.message })
+            }
+        } catch (error) {
+            ToastWarning({
+                icon: <X size={12} />,
+                title: 'Ada error nih',
+                content: error.data.message
             })
+        }
+
     }
 }
 
 export const updateCategory = (id, category) => {
     return async (dispatch, getState) => {
         try {
-            const { sku, slug, name, position, image_category, status, additional, description } = category
+            const { sku, slug, name, position, image, icon, status, additional, description } = category
             const formData = new FormData()
-            // formData.append("image_category", image_category[0])
+            formData.append("image_category", image)
+            formData.append('icon', icon)
             formData.set('sku', sku)
             formData.set('slug', slug)
             formData.set('name', name)
@@ -98,20 +142,23 @@ export const updateCategory = (id, category) => {
                     "Content-Type": "multipart/form-data",
                 }
             }
-            await fetcher(GET_CATEGORY_BYID(id), req).then(res => {
+            const res = await fetcher(GET_CATEGORY_BYID(id), req)
                 if (res) {
                     dispatch({
                         type: 'UPDATE_CATEGORY',
                         data: res?.data.data
                     })
-                }
-            }).then(() => {
-                dispatch(getCategory(getState().categorys?.params))
-                dispatch(getAllDataCategory())
-            })
 
+                    dispatch(getCategory(getState().categorys?.params))
+                    dispatch(getAllDataCategory())
+                    Toast({ icon: <Check size={12} />, title: 'Berhasil Horeee', content: res?.data?.message })
+                }
         } catch (error) {
-            console.log(error)
+            ToastWarning({
+                icon: <X size={12} />,
+                title: 'Ada error nih',
+                content: error.data.message
+            })
         }
     }
 }

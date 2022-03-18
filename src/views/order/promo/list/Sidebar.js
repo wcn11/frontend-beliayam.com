@@ -18,9 +18,9 @@ const SidebarNewVoucher = ({ open, toggleSidebar }) => {
    
    const { register, errors, handleSubmit } = useForm()
    
-   useEffect(() => {
-      dispatch(getAllDataProduct())
-   }, [dispatch])
+   // useEffect(() => {
+   //    dispatch(getAllDataProduct())
+   // }, [dispatch])
 
    const onSubmit = values => {
       if (isObjEmpty(errors)) {

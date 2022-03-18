@@ -1,78 +1,110 @@
 import { fetcher } from '@src/utility/axiosHooks'
 import { GET_PROMO, GET_PROMO_BYID } from '@src/utility/Url'
+import { Check, X } from 'react-feather'
+import { Toast, ToastWarning } from '@src/utility/Toast'
 
 // get ALL promo list
 export const getAllDataPromo = () => {
     return async dispatch => {
-        await fetcher(GET_ALL_DATA_PROMO).then(response => {
-            console.log('ini all data', response)
-            dispatch({
-                type: 'GET_ALL_DATA_PROMO',
-                data: response?.data?.data
-            })
-        })
+        try {
+            const res = await fetcher(GET_ALL_DATA_PROMO)
+            if (res) {
+                dispatch({
+                    type: 'GET_ALL_DATA_PROMO',
+                    data: res?.data?.data
+                })
+            }
+        } catch (error) {
+            console.log(error)
+        }
+
     }
 }
 
 // get promo - pagination
 export const getPromo = (params) => {
     return async dispatch => {
-        await fetcher(GET_PROMO, {params}).then(response => {
-            dispatch({
-                type: 'GET_DATA_PROMO',
-                data: response?.data?.data,
-                totalPages: response.data.total,
-                params
-            })
-        })
+        try {
+            const res = await fetcher(GET_PROMO, {params})
+            if (res) {
+                dispatch({
+                    type: 'GET_DATA_PROMO',
+                    data: res?.data?.data,
+                    totalPages: res?.data?.total,
+                    params
+                })
+            }
+        } catch (error) {
+            console.log('ini error get promo', error)
+        }
     }
 }
 
 // get product by id
 export const getPromoById = id => {
-    return dispatch => {
-        fetcher(GET_PROMO_BYID(id))
-            .then(response => {
-                dispatch({
-                    type: 'GET_PROMO_BYID',
-                    selectedPromo: response?.data?.data
-                })
-            })
-            .catch(err => console.log(err))
+    return async dispatch => {
+        try {
+            const res = await fetcher(GET_PROMO_BYID(id))
+            if (res) {
+               dispatch({
+                  type: 'GET_PROMO_BYID',
+                  selectedPromo: res?.data?.data
+               })
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
 }
 
 export const addPromo = promo => {
     return async (dispatch, getState) => {
-        const req = { method: 'POST', data: promo }
-        await fetcher(GET_PROMO, req)
-            .then(response => {
-                dispatch({
-                    type: 'ADD_PROMO',
-                    promo
-                })
-            })
-            .then(() => {
-                dispatch(getPromo(getState().promos?.params))
-                dispatch(getAllDataPromo())
-            })
-    }
+      try {
+          const req = { method: 'POST', data: promo }
+          const res = await fetcher(GET_PROMO, req)
+          if (res) {
+             dispatch({
+                type: 'ADD_PROMO',
+                promo
+             })
+             dispatch(getPromo(getState().promos?.params))
+             dispatch(getAllDataPromo())
+              Toast({ icon: <Check size={12} />, title: 'Berhasil Horeee', content: res?.data?.message })
+          }
+      } catch (error) {
+          ToastWarning({
+              icon: <X size={12} />,
+              title: 'Ada error nih',
+              content: error?.data?.message
+          })
+      }
+
+
+   }
 }
 
 export const deletePromo = id => {
     return async (dispatch, getState) => {
-        await fetcher(GET_PROMO_BYID(id), {
+       try {
+        const res = await fetcher(GET_PROMO_BYID(id), {
             method: 'DELETE'
         })
-            .then(response => {
+            if (res) {
                 dispatch({
                     type: 'DELETE_PROMO'
                 })
-            })
-            .then(() => {
                 dispatch(getPromo(getState().promo?.params))
                 dispatch(getAllDataPromo())
-            })
+                Toast({ icon: <Check size={12} />, title: 'Berhasil Horeee', content: res?.data?.message })
+            }
+        } catch (error) {
+           ToastWarning({
+               icon: <X size={12} />,
+               title: 'Ada error nih',
+               content: error?.data?.message
+           })
+        }
+ 
     }
 }
 
@@ -92,10 +124,10 @@ export const updatePromo = (id, promo) => {
                 isActive,
                 description,
                 platform,
-                image_promo
+                image
             } = promo
             const formData = new FormData()
-            formData.append("image_promo", image_promo[0])
+            formData.append("image_promo", image)
             formData.set('name', name) 
             formData.set('slug', slug) 
             formData.set('tags', tags) 
@@ -116,20 +148,22 @@ export const updatePromo = (id, promo) => {
                     "Content-Type": "multipart/form-data",
                 }
             }
-            await fetcher(GET_PROMO_BYID(id), req).then(res => {
+            const res = await fetcher(GET_PROMO_BYID(id), req)
                 if (res) {
                     dispatch({
                         type: 'UPDATE_PROMO',
                         data: res?.data.data
                     })
+                    dispatch(getPromo(getState().promos?.params))
+                    dispatch(getAllDataPromo())
+                    Toast({ icon: <Check size={12} />, title: 'Berhasil Horeee', content: res?.data?.message })
                 }
-            }).then(() => {
-                dispatch(getPromo(getState().promos?.params))
-                dispatch(getAllDataPromo())
-            })
-
         } catch (error) {
-            console.log(error)
+            ToastWarning({
+                icon: <X size={12} />,
+                title: 'Ada error nih',
+                content: error.data.message
+            })
         }
     }
 }

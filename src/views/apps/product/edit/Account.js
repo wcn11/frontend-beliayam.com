@@ -9,7 +9,7 @@ import Avatar from '@components/avatar'
 
 import { updateProduct, getProductById } from '../store/action'
 import { Media, Row, Col, Button, Form, Input, Label, FormGroup, FormText } from 'reactstrap'
-import { Upload } from '../../../../utility/Upload'
+import { Upload } from '@src/utility/Upload'
 
 
 const ProductAccountTab = ({ selectedProduct }) => {
@@ -34,6 +34,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
     useEffect(() => {
         setProductData(selectedProduct)
         setDisc(productData?.hasDiscount?.isDiscount)
+        setImage(productData?.image)
     }, [selectedProduct])
 
     const onSubmit = (values) => {
@@ -53,11 +54,11 @@ const ProductAccountTab = ({ selectedProduct }) => {
                     status: values.status,
                     additional: values.additional,
                     description: values.description,
-                    isDiscount: values.isDiscount
-                    // discount: values.discount,
-                    // discountStart: values.discountStart,
-                    // discountEnd: values.discountEnd,
-                    // priceAfterDiscount: values.priceAfterDiscount
+                    isDiscount: values.isDiscount,
+                    discount: values.discount,
+                    discountStart: values.discountStart,
+                    discountEnd: values.discountEnd,
+                    priceAfterDiscount: values.priceAfterDiscount
                 })
             )
         }
@@ -270,7 +271,6 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                         name='image'
                                         onChange={(e) => onImageUpload(e)}
                                         img={imagePreview}
-                                        placeholder='image'
                                     />
                                 </FormGroup>
                                 <img height={80} src={`https://be-dev.beliayam.com/${productData.image}`} alt="" />
@@ -333,7 +333,6 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                     </Input>
                                 </FormGroup>
                             </Col>
-                            {console.log(disc)}
                             {disc ? (<>
                                 <Col sm='12'>
                                     <Media className='mb-2'>
@@ -380,7 +379,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                             defaultValue={productData.hasDiscount.discount}
                                             onChange={e => setDiscountValue(e.target.value)}
                                             placeholder='description...'
-                                            innerRef={register({ required: true })}
+                                            innerRef={register({ required: false })}
                                         />
                                     </FormGroup>
                                 </Col>
@@ -394,7 +393,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                             onWheel={(e) => e.target.blur()}
                                             defaultValue={productData.hasDiscount.discountStart}
                                             placeholder='discount start ...'
-                                            innerRef={register({ required: true })}
+                                            innerRef={register({ required: false })}
                                         />
                                     </FormGroup>
                                 </Col>
@@ -408,7 +407,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                             onWheel={(e) => e.target.blur()}
                                             defaultValue={productData.hasDiscount.discountEnd}
                                             placeholder='discount end ...'
-                                            innerRef={register({ required: true })}
+                                            innerRef={register({ required: false })}
                                         />
                                     </FormGroup>
                                 </Col>
@@ -428,7 +427,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                             // defaultValue={productData.price}
                                             placeholder='price after discount ...'
                                             disabled
-                                            innerRef={register({ required: true })}
+                                            innerRef={register({ required: false })}
                                         />
                                     </FormGroup>
                                 </Col>

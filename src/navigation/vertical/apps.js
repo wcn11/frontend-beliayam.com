@@ -47,12 +47,12 @@ export default [
   //   icon: <CheckSquare size={20} />,
   //   navLink: '/apps/todo'
   // },
-  {
-    id: 'calendar',
-    title: 'Calendar',
-    icon: <Calendar size={20} />,
-    navLink: '/apps/calendar'
-  },
+  // {
+  //   id: 'calendar',
+  //   title: 'Calendar',
+  //   icon: <Calendar size={20} />,
+  //   navLink: '/apps/calendar'
+  // },
   // {
   //   id: 'eCommerce',
   //   title: 'eCommerce',

@@ -62,7 +62,7 @@ const statusObj = {
 export const columns = [
    {
       name: 'Product',
-      minWidth: '297px',
+      minWidth: '200px',
       selector: 'fullName',
       sortable: true,
       cell: row => (
@@ -83,7 +83,7 @@ export const columns = [
    },
    {
       name: 'Image',
-      minWidth: '320px',
+      minWidth: '172px',
       selector: 'image',
       sortable: true,
       cell: row => <img style={{ height: '3em'}} src={`https://be-dev.beliayam.com/${row.image}`} alt="" />
@@ -136,7 +136,7 @@ export const columns = [
                <MoreVertical size={14} className='cursor-pointer' />
             </DropdownToggle>
             <DropdownMenu right>
-               <DropdownItem
+               {/* <DropdownItem
                   tag={Link}
                   to={`/apps/product/view/${row._id}`}
                   className='w-100'
@@ -144,7 +144,7 @@ export const columns = [
                >
                   <FileText size={14} className='mr-50' />
                   <span className='align-middle'>Details</span>
-               </DropdownItem>
+               </DropdownItem> */}
                <DropdownItem
                   tag={Link}
                   to={`/apps/product/edit/${row._id}`}

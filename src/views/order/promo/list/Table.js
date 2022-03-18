@@ -68,7 +68,7 @@ const CustomHeader = ({ toggleSidebar, handlePerPage, rowsPerPage, handleFilter,
    )
 }
 
-const ChargeList = () => {
+const PromoList = () => {
    const dispatch = useDispatch()
    const store = useSelector(state => state.promos)
 
@@ -297,4 +297,4 @@ const ChargeList = () => {
    )
 }
 
-export default ChargeList
+export default PromoList
