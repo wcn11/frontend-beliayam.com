@@ -139,9 +139,9 @@ const Login = props => {
                   <Label className='form-label' for='login-password'>
                     Password
                   </Label>
-                  <Link to='/forgot-password'>
+                  {/* <Link to='/forgot-password'>
                     <small>Lupa Password?</small>
-                  </Link>
+                  </Link> */}
                 </div>
                 <InputPasswordToggle
                   value={password}
@@ -160,12 +160,12 @@ const Login = props => {
                 Sign in
               </Button.Ripple>
             </Form>
-            <p className='text-center mt-2'>
+            {/* <p className='text-center mt-2'>
               <span className='mr-25'>Belum punya akun?</span>
               <Link to='/misc/not-authorized'>
                 <span>Buat baru</span>
               </Link>
-            </p>
+            </p> */}
           </Col>
         </Col>
       </Row>

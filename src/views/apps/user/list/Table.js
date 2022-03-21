@@ -67,9 +67,9 @@ const CustomHeader = ({ toggleSidebar, handlePerPage, rowsPerPage, handleFilter,
               onChange={e => handleFilter(e.target.value)}
             />
           </div>
-          <Button.Ripple color='primary' onClick={toggleSidebar}>
+          {/* <Button.Ripple color='primary' onClick={toggleSidebar}>
             Add New User
-          </Button.Ripple>
+          </Button.Ripple> */}
         </Col>
       </Row>
     </div>
@@ -171,8 +171,8 @@ const UsersList = () => {
       getData({
         page: currentPage,
         perPage: rowsPerPage,
-        role: currentRole.value,
-        currentPlan: currentPlan.value,
+        // role: currentRole.value,
+        // currentPlan: currentPlan.value,
         status: currentStatus.value,
         q: val
       })
@@ -226,7 +226,7 @@ const UsersList = () => {
 
   return (
     <Fragment>
-      <Card>
+      {/* <Card>
         <CardHeader>
           <CardTitle tag='h4'>Search Filter</CardTitle>
         </CardHeader>
@@ -303,7 +303,7 @@ const UsersList = () => {
             </Col>
           </Row>
         </CardBody>
-      </Card>
+      </Card> */}
 
       <Card>
         <DataTable

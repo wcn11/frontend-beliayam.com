@@ -78,14 +78,14 @@ export const deleteUser = id => {
   }
 }
 
-export const updateUserActive = (active, user) => {
+export const updateUserActive = (status) => {
   return async (dispatch, getState) => {
     try {
 
       const req = {
         method: 'PUT',
       }
-      await fetcher(GET_USER_BYACTIVE(active), req).then(res => {
+      await fetcher(GET_USER_BYACTIVE(status), req).then(res => {
         dispatch({
           type: 'GET_USER_BYACTIVE',
           selectedUser: res.data?.data

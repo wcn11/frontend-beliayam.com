@@ -3,13 +3,14 @@ import { useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 
-import { isObjEmpty } from '@utils'
+import { isObjEmpty, formatDateTime } from '@utils'
 
 import Avatar from '@components/avatar'
 
 import { updateProduct, getProductById } from '../store/action'
 import { Media, Row, Col, Button, Form, Input, Label, FormGroup, FormText } from 'reactstrap'
 import { Upload } from '@src/utility/Upload'
+import moment from 'moment'
 
 
 const ProductAccountTab = ({ selectedProduct }) => {
@@ -21,10 +22,11 @@ const ProductAccountTab = ({ selectedProduct }) => {
 
     const [productData, setProductData] = useState(null)
     const [disc, setDisc] = useState(false)
-    const [image, setImage] = useState('')
+    const [image, setImage] = useState()
     const [imagePreview, setImagePreview] = useState(null)
     const [discountValue, setDiscountValue] = useState(0)
     const [discountType, setDiscountType] = useState('percent')
+    const [afterDiscount, setAfterDiscount] = useState(0)
 
     // ** Update user image on mount or change
     useEffect(() => {
@@ -34,12 +36,22 @@ const ProductAccountTab = ({ selectedProduct }) => {
     useEffect(() => {
         setProductData(selectedProduct)
         setDisc(productData?.hasDiscount?.isDiscount)
-        setImage(productData?.image)
+        setAfterDiscount(productData?.hasDiscount?.priceAfterDiscount ? productData?.hasDiscount?.priceAfterDiscount : productData?.price)
+        // setImage(productData?.image)
     }, [selectedProduct])
+
+    const onImageUpload = (e) => {
+        const file = e.target.files[0]
+        setImage(file)
+        setImagePreview(URL.createObjectURL(file))
+    }
+
 
     const onSubmit = (values) => {
         if (isObjEmpty(errors)) {
-            console.log('berhasil diupdate')
+            // console.log('ini image', image)
+            // console.log('ini image preview', imagePreview)
+
             dispatch(
                 updateProduct(id, {
                     category_id: values.category_id,
@@ -50,21 +62,24 @@ const ProductAccountTab = ({ selectedProduct }) => {
                     price: values.price,
                     stock: values.stock,
                     weight: values.weight,
-                    image,
+                    image: image ? image : productData.image,
                     status: values.status,
                     additional: values.additional,
                     description: values.description,
-                    isDiscount: values.isDiscount,
+                    isDiscount: JSON.parse(values.isDiscount),
                     discount: values.discount,
                     discountStart: values.discountStart,
                     discountEnd: values.discountEnd,
-                    priceAfterDiscount: values.priceAfterDiscount
+                    discountBy: discountType
+                    // priceAfterDiscount: afterDiscount
                 })
             )
         }
     }
 
     const discount = ({hargaAwal, discountType, discount}) => {
+        discount = Number(discount)
+        console.log(discount)
         let hargaAkhir = 0
         if (!discount) {
             discount = 0
@@ -75,16 +90,12 @@ const ProductAccountTab = ({ selectedProduct }) => {
         } else {
             hargaAkhir = hargaAwal - Number(discount)
         }
-        console.log(hargaAkhir)
-        return hargaAkhir
+        
+        setDiscountValue(Number(discount))
+        console.log(hargaAwal)
+        setAfterDiscount(hargaAkhir)
     }
 
-    const onImageUpload = (e) => {
-        const file = e.target.files[0]
-        setImage(file)
-        setImagePreview(URL.createObjectURL(file))
-        console.log(image)
-    }
 
     // ** Renders User
     const renderUserAvatar = () => {
@@ -372,14 +383,13 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                         <Label for='discount'>Discount</Label>
                                         <Input
                                             type='number'
-                                            maxLength='3'
                                             id='discount'
                                             name='discount'
                                             onWheel={(e) => e.target.blur()}
                                             defaultValue={productData.hasDiscount.discount}
-                                            onChange={e => setDiscountValue(e.target.value)}
+                                            onChange={e => discount({hargaAwal: productData.price, discountType, discount: e.target.value})}
                                             placeholder='description...'
-                                            innerRef={register({ required: false })}
+                                            innerRef={register({ required: false, pattern: /[0-9]{2}/ })}
                                         />
                                     </FormGroup>
                                 </Col>
@@ -391,7 +401,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                             id='discountStart'
                                             name='discountStart'
                                             onWheel={(e) => e.target.blur()}
-                                            defaultValue={productData.hasDiscount.discountStart}
+                                            defaultValue={moment(productData.hasDiscount.discountStart).format('YYYY-MM-DDTHH:mm')}
                                             placeholder='discount start ...'
                                             innerRef={register({ required: false })}
                                         />
@@ -405,7 +415,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                             id='discountEnd'
                                             name='discountEnd'
                                             onWheel={(e) => e.target.blur()}
-                                            defaultValue={productData.hasDiscount.discountEnd}
+                                            defaultValue={moment(productData.hasDiscount.discountEnd).format('YYYY-MM-DDTHH:mm')}
                                             placeholder='discount end ...'
                                             innerRef={register({ required: false })}
                                         />
@@ -419,11 +429,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                             id='priceAfterDiscount'
                                             name='priceAfterDiscount'
                                             onWheel={(e) => e.target.blur()}
-                                            value={discount({
-                                                hargaAwal: productData.price,
-                                                discount: discountValue,
-                                                discountType
-                                            })}
+                                            value={afterDiscount}
                                             // defaultValue={productData.price}
                                             placeholder='price after discount ...'
                                             disabled

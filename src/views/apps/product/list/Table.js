@@ -193,13 +193,13 @@ const ProductList = () => {
 
     return (
         <Fragment>
-            <Card>
+            {/* <Card>
                 <CardHeader>
                     <CardTitle tag='h4'>Search Filter</CardTitle>
                 </CardHeader>
                 <CardBody>
                     <Row>
-                        {/* <Col md='4'>
+                         <Col md='4'>
                             <Select
                                 isClearable={false}
                                 theme={selectThemeColors}
@@ -221,8 +221,8 @@ const ProductList = () => {
                                     )
                                 }}
                             />
-                        </Col> */}
-                        {/* <Col className='my-md-0 my-1' md='4'>
+                        </Col> 
+                         <Col className='my-md-0 my-1' md='4'>
                             <Select
                                 theme={selectThemeColors}
                                 isClearable={false}
@@ -244,7 +244,7 @@ const ProductList = () => {
                                     )
                                 }}
                             />
-                        </Col> */}
+                        </Col> 
                         <Col md='4'>
                             <Select
                                 theme={selectThemeColors}
@@ -270,7 +270,7 @@ const ProductList = () => {
                         </Col>
                     </Row>
                 </CardBody>
-            </Card>
+            </Card> */}
 
             <Card>
                 <DataTable

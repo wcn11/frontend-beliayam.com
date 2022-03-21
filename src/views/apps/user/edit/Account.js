@@ -21,9 +21,7 @@ const UserAccountTab = ({ selectedUser }) => {
   const { register, errors, handleSubmit } = useForm()
 
   const dispatch = useDispatch()
-  const { id, active } = useParams()
-
-  console.log(active)
+  const { id } = useParams()
 
   // ** Function to change user image
   const onChange = e => {
@@ -53,7 +51,7 @@ const UserAccountTab = ({ selectedUser }) => {
   const onSubmit = (values) => {
     if (isObjEmpty(errors)) {
       dispatch(
-        updateUserActive(active, {
+        updateUserActive(status, {
           isActive: values.isActive
         })
       )

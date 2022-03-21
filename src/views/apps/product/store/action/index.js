@@ -165,12 +165,39 @@ export const updateProduct = (id, product) => {
             additional, 
             description,
             discount,
-         discountStart,
-      discountEnd,
+            discountStart,
+            discountEnd,
+            discountBy,
             priceAfterDiscount } = product
 
+            console.log(product)
+
          const formData = new FormData()
-         formData.append('image_product', image)
+
+         if (typeof image === "string") {
+            const req = {
+               method: 'GET',
+               responseType: "blob"
+            }
+            const res = await fetcher(`https://be-dev.beliayam.com/${image}`, req)
+            console.log(res)
+            // image = res
+            const reader = new FileReader()
+            reader.readAsDataURL(res.data)
+            reader.onload = function (e) {
+               console.log('DataURL:', e.target)
+               formData.append('image_product', e.target.result)
+            }
+
+            // const newFile = new File(res.data, 'image product')
+            // console.log(URL.createObjectURL(`https://be-dev.beliayam.com/${image}`))
+            // console.log(new File(`https://be-dev.beliayam.com/${image}`))
+         } else {
+            formData.append('image_product', image)
+         }
+         // console.log(typeof image === "string")
+         console.log(image)
+
          formData.append('category_id', category_id)
          formData.set('sku', sku)
          formData.set('slug', slug)
@@ -183,11 +210,14 @@ export const updateProduct = (id, product) => {
          formData.set('additional', additional)
          formData.set('description', description)
          formData.set('isDiscount', isDiscount)
-         // formData.set('discount', discount)
-         // formData.set('discountStart', discountStart)
-         // formData.set('discountEnd', discountEnd)
-         // formData.set('priceAfterDiscount', priceAfterDiscount)
-
+         if (isDiscount) {
+            console.log(isDiscount)
+            formData.set('discount', discount)
+            formData.set('discountStart', discountStart)
+            formData.set('discountEnd', discountEnd)
+            formData.set('discountBy', discountBy)
+            // formData.set('priceAfterDiscount', priceAfterDiscount)
+         }
 
          const req = {
             method: 'PUT',
@@ -208,6 +238,7 @@ export const updateProduct = (id, product) => {
             }
 
       } catch (error) {
+         console.log(error)
          ToastWarning({
          icon: <X size={12}/>,
          title: 'Ada error nih', 

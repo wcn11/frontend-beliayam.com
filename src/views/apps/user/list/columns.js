@@ -149,10 +149,10 @@ export const columns = [
             <Archive size={14} className='mr-50' />
             <span className='align-middle'>Edit</span>
           </DropdownItem>
-          <DropdownItem className='w-100' onClick={() => store.dispatch(deleteUser(row._id))}>
+          {/* <DropdownItem className='w-100' onClick={() => store.dispatch(deleteUser(row._id))}>
             <Trash2 size={14} className='mr-50' />
             <span className='align-middle'>Delete</span>
-          </DropdownItem>
+          </DropdownItem> */}
         </DropdownMenu>
       </UncontrolledDropdown>
     )

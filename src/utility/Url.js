@@ -5,7 +5,7 @@ export const LOGIN_URL = 'https://be-dev.beliayam.com/api/v1/admin/auth/login'
 // user url
 export const GET_ALL_DATA_USER = 'https://be-dev.beliayam.com/api/v1/admin/users'
 export const GET_USER_BYID = (id) => `https://be-dev.beliayam.com/api/v1/admin/users/${id}`
-export const GET_USER_BYACTIVE = (active) => `https://be-dev.beliayam.com/api/v1/admin/users/${active}`
+export const GET_USER_BYACTIVE = (status) => `https://be-dev.beliayam.com/api/v1/admin/users/${status}`
 
 // category url
 export const GET_CATEGORY = 'https://be-dev.beliayam.com/api/v1/admin/category'
