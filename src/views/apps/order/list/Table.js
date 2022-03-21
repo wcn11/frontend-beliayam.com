@@ -230,10 +230,10 @@ const OrderList = () => {
     const isFiltered = Object.keys(filters).some(function (k) {
       return filters[k].length > 0
     })
-    
-    if (store?.data?.length > 0) {
+
+    if (store?.data?.length > 0) {    
       return store?.data
-    } else if (store?.data?.length === 0 && isFiltered) {
+    } else if (store?.data?.length === 0 && isFiltered) { 
       return []
     } else {
       return store?.allData?.slice(0, rowsPerPage)
@@ -277,18 +277,18 @@ const OrderList = () => {
 
       <Card>
       <DataTable
-            noHeader
-            pagination
-            paginationServer
-            subHeader={true}
-            columns={columns}
-            responsive={true}
-            sortIcon={<ChevronDown />}
-            className='react-dataTable'
-            defaultSortField='orderId'
-            paginationDefaultPage={currentPage}
-            paginationComponent={CustomPagination}
-            data={dataToRender()}
+          noHeader
+          pagination
+          paginationServer
+          subHeader={true}
+          columns={columns}
+          responsive={true}
+          sortIcon={<ChevronDown />}
+          className='react-dataTable'
+          defaultSortField='orderId'
+          paginationDefaultPage={currentPage}
+          paginationComponent={CustomPagination}
+          data={dataToRender()}
           subHeaderComponent={
             <CustomHeader
               toggleSidebar={toggleSidebar}

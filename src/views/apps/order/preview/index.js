@@ -6,7 +6,7 @@ import { Row, Col, Alert } from 'reactstrap'
 
 // ** Order Preview Components
 import PreviewCard from './PreviewCard'
-// import PreviewActions from './PreviewActions'
+import PreviewActions from './PreviewActions'
 // import SendOrderSidebar from '../shared-sidebar/SidebarSendOrder'
 // import AddPaymentSidebar from '../shared-sidebar/SidebarAddPayment'
 
