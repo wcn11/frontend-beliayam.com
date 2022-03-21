@@ -46,9 +46,9 @@
                             100
                           }}%</span
                         >
-                        <span class="badge badge-danger" v-else>{{
-                          product.hasDiscount.discount
-                        }}</span>
+                        <span class="badge badge-danger" v-else
+                          >{{ product.hasDiscount.discount }}%</span
+                        >
                       </div>
                       <NuxtLink
                         :to="product.slug"
@@ -57,10 +57,24 @@
                         <img :src="`${baseApi}/${product.image}`" class="img" />
                         <h5 class="text-dark">{{ product.name }}</h5>
                         <h6 class="mb-1 font-weight-bold">
-                          {{
-                            (product.price - product.hasDiscount.discount)
-                              | formatMoney
-                          }}
+                          <span
+                            v-if="product.hasDiscount.discountBy === 'price'"
+                          >
+                            {{
+                              (product.price - product.hasDiscount.discount)
+                                | formatMoney
+                            }}
+                          </span>
+                          <span
+                            v-if="product.hasDiscount.discountBy === 'percent'"
+                          >
+                            {{
+                              (product.price -
+                                (product.hasDiscount.discount / 100) *
+                                  product.price)
+                                | formatMoney
+                            }}
+                          </span>
                           <del class="text-danger">{{
                             product.price | formatMoney
                           }}</del>
