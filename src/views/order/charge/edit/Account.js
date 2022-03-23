@@ -97,7 +97,7 @@ const ChargeAccountTab = ({ selectedCharge }) => {
                   {/* {renderUserAvatar()} */}
                   <Media className='mt-50' body>
                      <h4>{selectedCharge.chargeName} </h4>
-                     <div className='d-flex flex-wrap mt-1 px-0'>
+                     {/* <div className='d-flex flex-wrap mt-1 px-0'>
                         <Button.Ripple id='change-img' tag={Label} className='mr-75 mb-0' color='primary'>
                            <span className='d-none d-sm-block'>Change</span>
                            <span className='d-block d-sm-none'>
@@ -111,7 +111,7 @@ const ChargeAccountTab = ({ selectedCharge }) => {
                               <Trash2 size={14} />
                            </span>
                         </Button.Ripple>
-                     </div>
+                     </div> */}
                   </Media>
                </Media>
             </Col>
