@@ -567,13 +567,14 @@ export default {
           this.$router.push("/");
         }
       });
+      
+    this.$store.dispatch("setGlobalModal", false);
 
     this.getPaymentChannel();
 
     this.$store.dispatch("cart/setVouchers");
 
     this.$store.dispatch("auth/getUser");
-    this.$store.dispatch("setGlobalModal", false);
   },
   components: { LocationPicker }, // if installComponents is false
   data() {

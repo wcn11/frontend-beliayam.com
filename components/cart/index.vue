@@ -298,7 +298,7 @@
                 >
                   <img
                     alt="beliayam"
-                    src="img/starter1.jpg"
+                    :src="`${this.$config.baseURL}/img/starter1.jpg`"
                     class="mr-3 rounded-circle img-fluid"
                   />
                   <div class="d-flex flex-column">
