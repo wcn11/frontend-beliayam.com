@@ -964,7 +964,9 @@ export default {
           this.$toast.success("Berhasil checkout!. Pilih Metode Pembayaran");
           this.$store.dispatch("setGlobalModal", false);
 
-          this.$router.push("/checkout");
+          window.location.href = "/checkout"
+
+          // this.$router.push("/checkout");
         })
         .catch((err) => {
           if (err && err.response && err.response.error) {
