@@ -688,9 +688,12 @@ export default {
     };
   },
   async fetch() {
+    this.$store.dispatch("setGlobalModal", true);
     await this.fetchCart();
     await this.fetchCharges();
     this.$store.dispatch("cart/setVouchers");
+
+    this.$store.dispatch("setGlobalModal");
   },
   methods: {
     async fetchCart() {
@@ -733,44 +736,6 @@ export default {
       }
       return price;
     },
-    // formatDateToCountDown(date, code) {
-    //   if (this.getCartsVouchers.length > 0) {
-    //     var countDownDate = new Date(date).getTime();
-
-    //     var x = setInterval(function () {
-    //       // Get today's date and time
-    //       var now = new Date().getTime();
-
-    //       // Find the distance between now and the count down date
-    //       var distance = countDownDate - now;
-
-    //       // Time calculations for days, hours, minutes and seconds
-    //       var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    //       var hours = Math.floor(
-    //         (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    //       );
-    //       var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    //       var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    //       // Output the result in an element with id="demo"
-    //       document.getElementById(`countDown-${code}`).innerHTML =
-    //         days +
-    //         "hari " +
-    //         hours +
-    //         "jam " +
-    //         minutes +
-    //         "menit " +
-    //         seconds +
-    //         "detik ";
-
-    //       // If the count down is over, write some text
-    //       if (distance < 0) {
-    //         clearInterval(x);
-    //         document.getElementById("demo").innerHTML = "EXPIRED";
-    //       }
-    //     }, 1000);
-    //   }
-    // },
     resetVoucher() {
       this.selectedVoucher = {};
       this.appliedVoucher = "";
@@ -795,22 +760,22 @@ export default {
             this.selectedVoucher = results.data;
             this.$toast.success("Voucher Diterapkan");
             $("#modal-vouchers").modal("hide");
-            this.$store.dispatch("setGlobalModal");
+            this.$store.dispatch("setGlobalModal", false);
 
             return;
           }
 
           this.$toast.warning(results.message);
-          this.$store.dispatch("setGlobalModal");
+          this.$store.dispatch("setGlobalModal", false);
         })
         .catch((err) => {
           if (err && err.response && err.response.error) {
             this.$toast.warning(err.response.message);
-            this.$store.dispatch("setGlobalModal");
+            this.$store.dispatch("setGlobalModal", false);
           }
-          this.$store.dispatch("setGlobalModal");
+          this.$store.dispatch("setGlobalModal", false);
         });
-      this.$store.dispatch("setGlobalModal");
+      this.$store.dispatch("setGlobalModal", false);
     },
     async setVoucherByInput() {
       this.$store.dispatch("setGlobalModal", true);
@@ -911,7 +876,7 @@ export default {
       this.$store.dispatch("setGlobalModal", false);
     },
     async updateNote(event, id) {
-      this.$store.dispatch("setGlobalModal", true);
+      this.$store.dispatch("setGlobalModal", false);
 
       const note = event.target.value;
       this.$axios
@@ -922,7 +887,7 @@ export default {
         })
         .then(async (results) => {
           if (results.data.error) {
-            this.$toast.warning(results.data.message);
+            // this.$toast.warning(results.data.message);
             this.$store.dispatch("setGlobalModal", false);
           }
           this.$toast.success(results.message);

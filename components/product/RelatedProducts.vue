@@ -28,6 +28,10 @@
                   :src="`${baseApi}/${product.image}`"
                   class="img-fluid item-img w-100 mb-3"
                 />
+                <img
+                  :src="`${this.$config.baseURL}/default/product.jpg`"
+                  class="img-fluid item-img w-100 mb-3"
+                />
                 <h6
                   style="
                     white-space: nowrap;

@@ -22,6 +22,12 @@
               <img
                 :src="`${baseApi}/${category.icon}`"
                 class="img-fluid px-2 mx-auto"
+                v-if="category.icon"
+              />
+              <img
+                :src="`${this.$config.baseURL}/default/icon.png`"
+                class="img-fluid px-2 mx-auto"
+                v-else
               />
               <p class="m-0 pt-2 text-muted text-center">{{ category.name }}</p>
             </NuxtLink>

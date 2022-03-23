@@ -25,6 +25,12 @@
             :src="`${baseApi}/${promos.image_promo}`"
             class="img-fluid img-responsive promo-image"
             :alt="promos.name"
+            v-if="promos.image_promo"
+          />
+          <img
+            :src="`${this.$config.baseURL}/default/promo.jpg`"
+            class="img-fluid img-responsive promo-image"
+            :alt="promos.name"
           />
 
           <div

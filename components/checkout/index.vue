@@ -525,24 +525,15 @@
     </div>
     <div
       class="modal fade"
-      id="modal-loading"
+      id="modalGlobalLoading"
       data-backdrop="static"
       data-keyboard="false"
       tabindex="-1"
-      aria-labelledby="modal-loadingLabel"
+      aria-labelledby="modalGlobalLoadingLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <div class="modal-body">
-              <div class="spinner-border text-danger" role="status">
-                <span class="sr-only">Loading...</span>
-              </div>
-              <span>Sedang memproses pesanan...</span>
-            </div>
-          </div>
-        </div>
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <img :src="require('static/img/loading.gif')" alt="Memuat data..." />
       </div>
     </div>
   </div>
@@ -572,7 +563,7 @@ export default {
         if (err.response.data.error) {
           false;
           this.$toast.warning(err.response.data.message);
-          this.$store.dispatch("setGlobalModal");
+          this.$store.dispatch("setGlobalModal", false);
           this.$router.push("/");
         }
       });
@@ -582,7 +573,6 @@ export default {
     this.$store.dispatch("cart/setVouchers");
 
     this.$store.dispatch("auth/getUser");
-
     this.$store.dispatch("setGlobalModal", false);
   },
   components: { LocationPicker }, // if installComponents is false
@@ -625,9 +615,9 @@ export default {
   },
   methods: {
     async payOrder() {
-      this.$store.dispatch("setGlobalModal", true);
+      $("#modalGlobalLoading").appendTo("body").modal("show");
       if (this.selectedPayment.data.pg_code === "") {
-        this.$store.dispatch("setGlobalModal", false);
+        $("#modalGlobalLoading").modal("hide");
         this.$toast.warning("harap memilih metode pembayaran");
         return;
       }
@@ -645,12 +635,12 @@ export default {
         .then((res) => {
           if (res.data.error) {
             this.$toast.warning(res.data.message);
-            this.$store.dispatch("setGlobalModal");
+            $("#modalGlobalLoading").modal("hide");
             return;
           }
           if (res.data.data.bill.bill_no) {
             this.$toast.success("Pesanan berhasil diproses");
-            this.$store.dispatch("setGlobalModal");
+            $("#modalGlobalLoading").modal("hide");
             this.$router.push({
               path: "/checkout/sukses",
               query: {
@@ -658,15 +648,15 @@ export default {
               },
             });
           }
-          this.$store.dispatch("setGlobalModal");
+          $("#modalGlobalLoading").modal("hide");
         })
         .catch((err) => {
           if (err && err.response && err.response.data.error) {
             this.$toast.warning(err.response.data.message);
-            this.$store.dispatch("setGlobalModal");
+            $("#modalGlobalLoading").modal("hide");
           }
         });
-      this.$store.dispatch("setGlobalModal", false);
+      $("#modalGlobalLoading").modal("hide");
     },
     setAddress(address) {
       this.cart.address = address;
@@ -964,6 +954,18 @@ label span:before {
   border: 1px solid red;
   border-radius: 5px;
   padding: 5px;
+}
+
+#modal-loading {
+  background-color: rgb(135 19 19 / 65%);
+  height: 100%;
+  min-height: 100%;
+}
+
+.loading-container {
+  position: relative;
+  top: 40%;
+  bottom: 60%;
 }
 @media only screen and (max-device-width: 480px) {
   .input {

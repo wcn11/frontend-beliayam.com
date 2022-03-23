@@ -1,11 +1,12 @@
 <template>
   <div>
     <Nuxt />
-    <GlobalModal v-if="this.$store.state.globalModal" />
+    
+    <GlobalModal v-if="this.$store.state.globalModal"/>
   </div>
 </template>
 <script> 
-import GlobalModal from "../components/_partials/GlobalLoading.vue";
+import GlobalModal from "../components/_partials/GlobalLoading.vue"
 
 export default {
   async fetch() {

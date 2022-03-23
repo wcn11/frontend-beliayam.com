@@ -51,7 +51,14 @@
                 <img
                   :src="`${this.$config.baseApi}/${product.image}`"
                   class="img-fluid shadow-sm rounded w-100"
-                  alt="Responsive image"
+                  :alt="`${product.name}`"
+                  v-if="product.image"
+                />
+                <img
+                  :src="`${this.$config.baseURL}/default/product.jpg`"
+                  class="img-fluid shadow-sm rounded w-100"
+                  :alt="`${product.name}`"
+                  v-else
                 />
               </div>
 

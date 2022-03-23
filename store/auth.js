@@ -144,15 +144,14 @@ export const actions = {
                 .then(result => {
 
                     if (result.error) {
-                        commit('logout');
-                        return redirect('/');
+                        return {};
                     }
 
                     return store.commit('auth/setCookieLogin', res.data.token);
                 }).catch(err => {
-
-                    commit('logout');
-                    return redirect('/');
+                    if (err && err.response && err.response.error) {
+                        return {};
+                    }
                 })
 
             return res
