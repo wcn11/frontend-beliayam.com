@@ -21,8 +21,8 @@ export const getOrder = (params) => {
     await axios.get(GET_ORDER, { params }).then((response) => {
       dispatch({
         type: "GET_DATA_ORDER",
-        data: response?.data?.data,
-        totalPages: response.data.total,
+        data: response?.data?.data?.order,
+        // totalPages: response.data.total,
         params,
       })
     })

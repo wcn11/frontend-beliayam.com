@@ -25,8 +25,6 @@ import {
 } from "react-feather"
 
 const renderClient = (row) => {
-  console.log("renderClient")
-  console.log(row)
   const stateNum = Math.floor(Math.random() * 6),
     states = [
       "light-success",
@@ -100,7 +98,7 @@ export const columns = [
   {
     name: "Order ID",
     minWidth: "150px",
-    selector: "order_id",
+    // selector: "order_id",
     sortable: true,
     cell: (row) => (
       <div className="d-flex justify-content-left align-items-center">        
@@ -118,7 +116,7 @@ export const columns = [
   {
     name: "Customer",
     minWidth: "250px",
-    selector: "user",
+    // selector: "user",
     sortable: true,
     // cell: (row) => row.user.email
     cell: row => {
@@ -139,7 +137,7 @@ export const columns = [
     name: "Platform",
     minWidth: "130px",
     sortable: true,
-    selector: "platform",
+    // selector: "platform",
     cell: (row) => row.platform
   },
   {
@@ -147,27 +145,27 @@ export const columns = [
     minWidth: "130px",
     sortable: true,
     selector: "createdAt",
-    cell: (row) => formatDateTime(row.createdAt)
+    cell: (row) => formatDateTime(row.order_status.payment_date)
   },
   {
     name: "Grand Total",
     minWidth: "130px",
     sortable: true,
-    selector: "grand_total",
+    // selector: "grand_total",
     cell: (row) => numberFormat(row.grand_total)
   },
   {
     name: "Order Status",
     minWidth: "130px",
     sortable: true,
-    selector: "order_status",
+    // selector: "order_status",
     cell: (row) => renderPaymentStatus(row.order_status.status.replace("_", " "))
   },
   {
     name: "Payment Type",
     minWidth: "130px",
     sortable: true,
-    selector: "payment",
+    // selector: "payment",
     cell: (row) => row.payment.pg_type
   }
 ]
