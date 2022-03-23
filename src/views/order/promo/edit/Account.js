@@ -5,8 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { updatePromo, getPromoById } from '../store/action'
 import { isObjEmpty } from '@utils'
 import { Upload } from '@src/utility/Upload'
-
-import Select from 'react-select'
+import { MultipleSelect } from '../../../components/multiSelect/multiSelect'
 import { 
    Media, 
    Row, 
@@ -56,8 +55,9 @@ const PromoAccountTab = ({selectedPromo}) => {
          // status: currentStatus.value,
          orderBy
       }))
-   }, [selectedPromo])
+   }, [selectedPromo, dispatch])
 
+   console.log(store.allData)
 
    const onSubmit = (values) => {
       if (isObjEmpty(errors)) {
@@ -81,10 +81,26 @@ const PromoAccountTab = ({selectedPromo}) => {
       }
    }
 
-   const options = [
-      {vale: 'broiler', label: 'broiler'},
-      { vale: 'pejantan', label: 'pejantan' },
-   ]
+   const options = (product) => {
+      product = store.allData.map((item) => {
+            return [ 
+            {
+               value: item._id,
+               label: item.name
+            }
+         ]
+         })
+      
+      return product
+   }
+
+   console.log(options())
+
+   // const option = [
+   //    { value: 'chocolate', label: 'Chocolate' },
+   //    { value: 'strawberry', label: 'Strawberry' },
+   //    { value: 'vanilla', label: 'Vanilla' }
+   // ]
    
    // const centerModal = () => {
    //    return (
@@ -206,18 +222,13 @@ const PromoAccountTab = ({selectedPromo}) => {
                      <Col md='6' sm='12'>
                         <FormGroup>
                            <Label for='products'>Add Products</Label>
-                           <Input
-                              type='select'
+                           <MultipleSelect
                               id='products'
-                              isMulti
                               name='products'
                               placeholder='Add product....'
-                              innerRef={register({ required: true })}
-                           >
-                              {store.allData.map((item) => {
-                                 return <option key={item._id} value={item._id}>{item.name}</option>
-                              })}
-                           </Input>
+                              defaultValue={promoData.products}
+                              options={options}
+                           />
                            <FormText>Add product in promo</FormText>
                         </FormGroup>
                      </Col>
@@ -261,11 +272,11 @@ const PromoAccountTab = ({selectedPromo}) => {
                      </Col>
                      <Col md='6' sm='12'>
                         <FormGroup>
-                           <Label for='status'>Status</Label>
+                           <Label for='isActive'>Status</Label>
                            <Input
                               type='select'
-                              id='status'
-                              name='status'
+                              id='isActive'
+                              name='isActive'
                               placeholder='Promo End....'
                               defaultValue={promoData.isActive}
                               innerRef={register({ required: true })}

@@ -9,8 +9,6 @@ import { Button, FormGroup, Label, FormText, Form, Input } from 'reactstrap'
 import Select from 'react-select'
 import { addPromo } from '../store/action'
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useState } from 'react'
-import { getAllDataProduct } from '../../../apps/product/store/action'
 
 const SidebarNewVoucher = ({ open, toggleSidebar }) => {
    const dispatch = useDispatch(),
@@ -18,10 +16,6 @@ const SidebarNewVoucher = ({ open, toggleSidebar }) => {
    
    const { register, errors, handleSubmit } = useForm()
    
-   // useEffect(() => {
-   //    dispatch(getAllDataProduct())
-   // }, [dispatch])
-
    const onSubmit = values => {
       if (isObjEmpty(errors)) {
          toggleSidebar()

@@ -72,12 +72,12 @@ const GoalOverview = props => {
         }
       }
     },
-    series = [83]
+    series = [100]
 
   return data !== null ? (
     <Card>
       <CardHeader>
-        <CardTitle tag='h4'>Goal Overview</CardTitle>
+        <CardTitle tag='h4'>Order Overview</CardTitle>
         <HelpCircle size={18} className='text-muted cursor-pointer' />
       </CardHeader>
       <CardBody className='p-0'>

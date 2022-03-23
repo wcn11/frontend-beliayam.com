@@ -5,6 +5,7 @@ import { combineReducers } from 'redux'
 import auth from './auth'
 import navbar from './navbar'
 import layout from './layout'
+import doughnatChart from './charts/doughnatChart.js'
 import chat from '@src/views/apps/chat/store/reducer'
 import todo from '@src/views/apps/todo/store/reducer'
 import users from '@src/views/apps/user/store/reducer'
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   auth,
   todo,
   chat,
+  doughnatChart,
   email,
   users,
   categories,

@@ -83,14 +83,14 @@ export const columns = [
       cell: row => row.minimumOrderValue
    },
    {
-      name: 'Discount Start',
+      name: 'Vocuher Start',
       minWidth: '172px',
       selector: 'role',
       sortable: true,
       cell: row => formatDateTime(row.discountStart)
    },
    {
-      name: 'Discount End',
+      name: 'Vocuher End',
       minWidth: '172px',
       selector: 'role',
       sortable: true,

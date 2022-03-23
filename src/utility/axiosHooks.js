@@ -2,7 +2,7 @@ import axios from 'axios'
 import { REFRESH_TOKEN } from './Url'
 
 const axiosApiInstance = axios.create({
-    baseURL: 'https://be-dev.beliayam.com/',
+    baseURL: 'https://be.beliayam.com/',
     headers: {
         Authorization: 'Bearer token'
     }

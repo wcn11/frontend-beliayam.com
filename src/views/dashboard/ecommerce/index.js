@@ -12,6 +12,7 @@ import OrdersBarChart from '@src/views/ui-elements/cards/statistics/OrdersBarCha
 import ProfitLineChart from '@src/views/ui-elements/cards/statistics/ProfitLineChart'
 import CardTransactions from '@src/views/ui-elements/cards/advance/CardTransactions'
 import CardBrowserStates from '@src/views/ui-elements/cards/advance/CardBrowserState'
+import ChartjsRadarChart from '../../charts/chart-js/ChartjsDoughnutChart'
 
 import '@styles/react/libs/charts/apex-charts.scss'
 import '@styles/base/pages/dashboard-ecommerce.scss'
@@ -44,26 +45,29 @@ const EcommerceDashboard = () => {
             </Col>
           </Row>
         </Col>
-        <Col lg='8' md='12'>
-          <RevenueReport primary={colors.primary.main} warning={colors.warning.main} />
-        </Col>
-      </Row>
-      <Row className='match-height'>
-        <Col lg='8' xs='12'>
-          <CompanyTable />
-        </Col>
-        <Col lg='4' md='6' xs='12'>
-          <CardMeetup />
-        </Col>
-        <Col lg='4' md='6' xs='12'>
-          <CardBrowserStates colors={colors} trackBgColor={trackBgColor} />
-        </Col>
-        <Col lg='4' md='6' xs='12'>
-          <GoalOverview success={colors.success.main} />
-        </Col>
         <Col lg='4' md='6' xs='12'>
           <CardTransactions />
         </Col>
+        <Col lg='4' md='6' xs='12'>
+          <ChartjsRadarChart/>
+        </Col>
+        {/* <Col lg='8' md='12'>
+          <RevenueReport primary={colors.primary.main} warning={colors.warning.main} />
+        </Col> */}
+      </Row>
+      <Row className='match-height'>
+        {/* <Col lg='8' xs='12'>
+          <CompanyTable />
+        </Col> */}
+        {/* <Col lg='4' md='6' xs='12'>
+          <CardMeetup />
+        </Col> */}
+        {/* <Col lg='4' md='6' xs='12'>
+          <CardBrowserStates colors={colors} trackBgColor={trackBgColor} />
+        </Col> */}
+        {/* <Col lg='4' md='6' xs='12'>
+          <GoalOverview success={colors.success.main} />
+        </Col> */}
       </Row>
     </div>
   )
