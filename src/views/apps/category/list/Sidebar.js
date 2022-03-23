@@ -21,7 +21,7 @@ const SidebarNewCategory = ({ open, toggleSidebar }) => {
 
     const onSubmit = values => {
         if (isObjEmpty(errors)) {
-            console.log('data masuk')
+            console.log('data masuk', values)
             toggleSidebar()
             dispatch(
                 addCategory({
@@ -115,9 +115,9 @@ const SidebarNewCategory = ({ open, toggleSidebar }) => {
                         innerRef={register({ required: true })}
                         className={classnames({ 'is-invalid': errors['status'] })}
                     >
-                    <option value="disabled">Disabled</option>
-                    <option value="active">Active</option>
-                    <option value="nonactive">Nonactive</option>
+                    <option value='disabled'>Disabled</option>
+                    <option value='active'>Active</option>
+                    <option value='nonactive'>Nonactive</option>
                     </Input>
                 </FormGroup>
                 <FormGroup>
@@ -129,7 +129,6 @@ const SidebarNewCategory = ({ open, toggleSidebar }) => {
                         id='image'
                         onChange={(e) => onImageUpload(e)}
                         img={imagePreview}
-                        innerRef={register({ required: true })}
                         className={classnames({ 'is-invalid': errors['image'] })}
                     />
                     <FormText color='muted'>menerima format JPG, JPEG, PNG</FormText>

@@ -61,13 +61,13 @@ const axiosInterceptorResponse = async () => {
     )
 }
 
-async function axiosWithTokenRefresh(config) {
-    try {
-        return await axios(config)
-    } catch (error) {
-        return await (error.hasRefreshedToken ? axios(config) : Promise.reject(error))
-    }
-}
+// async function axiosWithTokenRefresh(config) {
+//     try {
+//         return await axios(config)
+//     } catch (error) {
+//         return await (error.hasRefreshedToken ? axios(config) : Promise.reject(error))
+//     }
+// }
 
 
 export const fetcher = async (url, config) => {
@@ -86,7 +86,7 @@ export const fetcher = async (url, config) => {
     try {
         axiosInterceptor()
         // axiosWithTokenRefresh()
-        // axiosInterceptorResponse()
+        axiosInterceptorResponse()
         const res = await axios.request(header)
 
         if (res) {

@@ -8,11 +8,10 @@ import ProductAccountTab from './Account'
 import { getProductById } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { Box, Info, Share2 } from 'react-feather'
+import { Box } from 'react-feather'
 import { Card, CardBody, Row, Col, Nav, NavItem, NavLink, TabContent, TabPane, Alert } from 'reactstrap'
 
 import '@styles/react/apps/app-users.scss'
-
 
 const ProductEdit = () => {
     // ** States & Vars

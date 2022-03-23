@@ -44,19 +44,20 @@ export const getUserById = id => {
 
 // ** Add new user
 export const addUser = user => {
-  return (dispatch, getState) => {
-    fetcher('/apps/users/add-user', user)
-      .then(response => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await fetcher('/apps/users/add-user', user)
+      if (res) {
         dispatch({
           type: 'ADD_USER',
           user
         })
-      })
-      .then(() => {
         dispatch(getData(getState().users.params))
         dispatch(getAllData())
-      })
-      .catch(err => console.log(err))
+      }
+    } catch (error) {
+     console.log(error) 
+    }
   }
 }
 
@@ -78,21 +79,25 @@ export const deleteUser = id => {
   }
 }
 
-export const updateUserActive = (status) => {
+export const updateUserActive = (id, active) => {
   return async (dispatch, getState) => {
     try {
-
       const req = {
         method: 'PUT',
+        // data: {
+        //   active,
+        //   notify
+        // }
       }
-      await fetcher(GET_USER_BYACTIVE(status), req).then(res => {
-        dispatch({
+      const res = await fetcher(GET_USER_BYACTIVE(id, active), req)
+      if (res) {
+          dispatch({
           type: 'GET_USER_BYACTIVE',
-          selectedUser: res.data?.data
+          selectedUser: res.data?.data,
         })
-      }).then(() => {
         dispatch(getUser(getState().users?.params))
-      })
+      }
+
     } catch (error) {
       console.log(error)
     }

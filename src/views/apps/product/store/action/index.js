@@ -73,14 +73,13 @@ export const addProduct = product => {
             price,
             stock,
             weight,
-            status,
             additional,
             description } = product
 
          const formData = new FormData()
 
          formData.append('image_product', image)
-         formData.append('category_id', category_id)
+         formData.set('category_id', category_id)
          formData.set('sku', sku)
          formData.set('slug', slug)
          formData.set('name', name)
@@ -167,10 +166,7 @@ export const updateProduct = (id, product) => {
             discount,
             discountStart,
             discountEnd,
-            discountBy,
-            priceAfterDiscount } = product
-
-            console.log(product)
+            discountBy } = product
 
          const formData = new FormData()
 
@@ -195,8 +191,6 @@ export const updateProduct = (id, product) => {
          } else {
             formData.append('image_product', image)
          }
-         // console.log(typeof image === "string")
-         console.log(image)
 
          formData.append('category_id', category_id)
          formData.set('sku', sku)
@@ -211,12 +205,10 @@ export const updateProduct = (id, product) => {
          formData.set('description', description)
          formData.set('isDiscount', isDiscount)
          if (isDiscount) {
-            console.log(isDiscount)
             formData.set('discount', discount)
             formData.set('discountStart', discountStart)
             formData.set('discountEnd', discountEnd)
             formData.set('discountBy', discountBy)
-            // formData.set('priceAfterDiscount', priceAfterDiscount)
          }
 
          const req = {
@@ -242,7 +234,7 @@ export const updateProduct = (id, product) => {
          ToastWarning({
          icon: <X size={12}/>,
          title: 'Ada error nih', 
-         content: error.data.message })
+         content: error?.data?.message })
       }
    }
 }

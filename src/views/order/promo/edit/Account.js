@@ -23,6 +23,7 @@ import {
    ModalFooter, 
    Modal,
    FormText } from 'reactstrap'
+import moment from 'moment'
 
 const PromoAccountTab = ({selectedPromo}) => {
    const dispatch = useDispatch(),
@@ -238,7 +239,7 @@ const PromoAccountTab = ({selectedPromo}) => {
                            <FormText>Add product in promo</FormText>
                         </FormGroup>
                      </Col>
-                     {/* <Col md='4' sm='12'>
+                     <Col md='4' sm='12'>
                         <FormGroup>
                            <Label for='promoStart'>Promo Start</Label>
                            <Input
@@ -246,7 +247,7 @@ const PromoAccountTab = ({selectedPromo}) => {
                               id='promoStart'
                               name='promoStart'
                               placeholder='Promo By....'
-                              defaultValue={promoData.promoStart}
+                              defaultValue={moment(productData.promoStart).format('YYYY-MM-DDTHH:mm')}
                               innerRef={register({ required: true })}
                            />
                         </FormGroup>
@@ -259,11 +260,11 @@ const PromoAccountTab = ({selectedPromo}) => {
                               id='promoEnd'
                               name='promoEnd'
                               placeholder='Promo End....'
-                              defaultValue={promoData.promoEnd}
+                              defaultValue={moment(productData.promoEnd).format('YYYY-MM-DDTHH:mm')}
                               innerRef={register({ required: true })}
                            />
                         </FormGroup>
-                     </Col> */}
+                     </Col>
                      <Col md='12' sm='12'>
                         <FormGroup>
                            <Label for='termsAndConditions'>Terms And Condition</Label>

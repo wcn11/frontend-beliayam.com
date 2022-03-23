@@ -19,15 +19,17 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
     const { register, errors, handleSubmit } = useForm()
     const [image, setImage] = useState('')
     const [imagePreview, setImagePreview] = useState(null)
+    
 
     useEffect(() => {
         dispatch(getAllDataCategory())
     }, [dispatch])
 
-    const onSubmit = values => {
 
+    const onSubmit = values => {
         if (isObjEmpty(errors)) {
             toggleSidebar()
+            console.log(values)
             dispatch(
                 addProduct({
                     category_id: values.category_id,
@@ -70,6 +72,7 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
                         name='category_id'
                         id='category_id'
                         innerRef={register({ required: true })}
+                        className={classnames({ 'is-invalid': errors['category_id'] })}
                     >
                         {store.allData.map((item) => {
                             return <option key={item._id} value={item._id}>{item.name}</option>
@@ -140,7 +143,6 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
                         id='image'
                         onChange={(e) => onImageUpload(e)}
                         img={imagePreview}
-                        innerRef={register({ required: true })}
                         className={classnames({ 'is-invalid': errors['image'] })}
                     />
                     <FormText color='muted'>menerima format JPG, JPEG, PNG</FormText>
@@ -180,7 +182,7 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
                         Weight <span className='text-danger'>*</span>
                     </Label>
                     <Input
-                        type='number'
+                        type='text'
                         name='weight'
                         onWheel={(e => e.target.blur())}
                         id='weight'

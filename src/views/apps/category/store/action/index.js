@@ -61,7 +61,7 @@ export const getCategoryById = id => {
 export const addCategory = category => {
     return async (dispatch, getState) => {
         try {
-            const { sku, slug, name, position, disabled, image, status, additional, description } = category
+            const { sku, slug, name, position, image, status, additional, description } = category
             const formData = new FormData()
             formData.append("image_category", image)
             formData.set('sku', sku)
@@ -71,7 +71,7 @@ export const addCategory = category => {
             formData.set('status', status)
             formData.set('additional', additional)
             formData.set('description', description)
-            formData.set('status', disabled)
+
             const req = { method: 'POST', data: formData }
             const res  = await fetcher(GET_CATEGORY, req)
             if (res) {
@@ -146,14 +146,15 @@ export const updateCategory = (id, category) => {
                 if (res) {
                     dispatch({
                         type: 'UPDATE_CATEGORY',
-                        data: res?.data.data
+                        data: res?.data?.data
                     })
 
-                    dispatch(getCategory(getState().categorys?.params))
-                    dispatch(getAllDataCategory())
+                    await dispatch(getCategory(getState().categorys?.params))
+                    // dispatch(getAllDataCategory())
                     Toast({ icon: <Check size={12} />, title: 'Berhasil Horeee', content: res?.data?.message })
                 }
         } catch (error) {
+            console.log(error)
             ToastWarning({
                 icon: <X size={12} />,
                 title: 'Ada error nih',

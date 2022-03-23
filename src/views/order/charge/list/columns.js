@@ -79,8 +79,8 @@ export const columns = [
       selector: 'status',
       sortable: true,
       cell: row => (
-         <Badge className='text-capitalize light-success' color={statusObj['active']} pill>
-            {row.isActive === true && <>active</>}
+         <Badge className='text-capitalize light-success' color={statusObj[row.isActive ? 'active' : 'nonactive']} pill>
+            {row.isActive ? 'active' : 'nonactive'}
          </Badge>
       )
    },

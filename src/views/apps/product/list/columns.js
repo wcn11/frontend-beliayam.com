@@ -149,7 +149,7 @@ export const columns = [
                   tag={Link}
                   to={`/apps/product/edit/${row._id}`}
                   className='w-100'
-                  // onClick={() => store.dispatch(updateProduct(row._id))}
+                  onClick={() => store.getState(updateProduct(row._id))}
                >
                   <Archive size={14} className='mr-50' />
                   <span className='align-middle'>Edit</span>

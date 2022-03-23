@@ -25,7 +25,7 @@ const users = (state = initialState, action) => {
     case 'DELETE_USER':
       return { ...state }
     case 'GET_USER_BYACTIVE':
-      return {...state }
+      return { ...state }
     default:
       return { ...state }
   }

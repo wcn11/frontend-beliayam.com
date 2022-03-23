@@ -60,6 +60,7 @@ const ChargeAccountTab = ({ selectedCharge }) => {
                shortDescription: values.shortDescription,
                description: values.description,
                termsAndConditions: values.termsAndConditions,
+               isActive: values.isActive
             })
          )
       }
@@ -171,17 +172,18 @@ const ChargeAccountTab = ({ selectedCharge }) => {
                      </Col>
                      <Col md='6' sm='12'>
                         <FormGroup>
-                           <Label for='status'>Status</Label>
+                           <Label for='isActive'>Status</Label>
                            <Input
                               type='select'
-                              id='status'
-                              name='status'
+                              id='isActive'
+                              name='isActive'
                               placeholder='Status Charge'
-                              defaultValue={chargeData.status}
+                              defaultValue={chargeData.isActive}
                               innerRef={register({ required: true })}
-                           />
+                           >
                            <option value={true}>Active</option>
                            <option value={false}>Nonactive</option>
+                           </Input>
                         </FormGroup>
                      </Col>
                      <Col md='6' sm='12'>
