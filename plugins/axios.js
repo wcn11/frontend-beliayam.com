@@ -24,22 +24,27 @@ export default async function ({
 
             if (refreshToken) {
 
-                const res = await $axios.$post(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/refresh-token`, {
+                return await $axios.$post(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/refresh-token`, {
                     refreshToken: store.state.auth.refreshToken
                 }, {
                     "Authorization": `Bearer ${store.state.auth.accessToken}`
-                }).then(result => {
+                }).then(async result => {
 
                     if (result.error) {
                         store.commit('auth/logout');
                         return redirect('/');
                     }
 
-                    return store.commit('auth/setCookieLogin', res.data.token);
-                }).catch(err => {
+                    await store.dispatch("auth/setCookieLogin", result.data.token)
 
-                    store.commit('auth/logout');
-                    return redirect('/');
+                    // store.commit('auth/setTokens', result.data.token);
+                })
+                    .catch(err => {
+
+                        if (err) {
+                        store.commit('auth/logout');
+                        return redirect('/');
+                    }
                 })
             }
 

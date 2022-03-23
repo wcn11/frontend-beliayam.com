@@ -52,6 +52,10 @@ export default {
       mountains: [],
     };
   },
+  mounted() {
+
+    this.$store.dispatch("setGlobalModal", false);
+  },
 
   head: {
     title: "Beranda Beliayam.com",

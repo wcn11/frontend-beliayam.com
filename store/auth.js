@@ -134,7 +134,6 @@ export const actions = {
     async setCookieLogin({ commit, dispatch }, token) {
 
         commit('setTokens', token);
-
         await dispatch('getUser');
     },
     async getUser({ commit, getters }) {
@@ -144,7 +143,7 @@ export const actions = {
                 .then(result => {
 
                     if (result.error) {
-                        return {};
+                        return 
                     }
 
                     commit('setUser', result.data);
@@ -158,14 +157,14 @@ export const actions = {
             return res
         }
     },
-    async refresh({ state, commit }) {
+    async refresh({ state, commit, dispatch }) {
         const res = await this.$axios.$post(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/refresh-token`, {
             refreshToken: state.refreshToken
         }, {
             "Authorization": `Bearer ${state.accessToken}`
         });
 
-        commit('setTokens', res.data.token);
+        dispatch('setCookieLogin', res.data.token);
     },
     async logout({ commit }) {
         // const res = await this.$axios.$post(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/refresh-token`, {

@@ -596,20 +596,25 @@ export default {
 
     this.$store.dispatch("setGlobalModal");
   },
+  mounted() {
+    this.$store.dispatch("setGlobalModal", false);
+  },
   methods: {
     async fetchCart() {
-      if (this.$store.state.cart.carts.length <= 0) {
-        await this.$axios
-          .$get(
-            `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/cart?page=1&show=6&sortBy=ASC&orderBy=name`
-          )
-          .then((results) => {
-            if (results.data) {
-              this.carts = results.data;
-            }
-          });
-        await this.$store.dispatch("cart/setVouchers", this.voucherSetting);
-        this.vouchers = await this.$store.state.cart.vouchers;
+      if (this.isAuthenticated) {
+        if (this.$store.state.cart.carts.length <= 0) {
+          await this.$axios
+            .$get(
+              `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/cart?page=1&show=6&sortBy=ASC&orderBy=name`
+            )
+            .then((results) => {
+              if (results.data) {
+                this.carts = results.data;
+              }
+            });
+          await this.$store.dispatch("cart/setVouchers", this.voucherSetting);
+          this.vouchers = await this.$store.state.cart.vouchers;
+        }
       }
     },
     async fetchCharges() {
@@ -865,7 +870,7 @@ export default {
           this.$toast.success("Berhasil checkout!. Pilih Metode Pembayaran");
           this.$store.dispatch("setGlobalModal", false);
 
-          window.location.href = "/checkout"
+          window.location.href = "/checkout";
 
           // this.$router.push("/checkout");
         })
@@ -1219,6 +1224,7 @@ export default {
       "getCartsVouchers",
       "getSelectedVouchers",
     ]),
+    ...mapGetters("auth", ["isAuthenticated"]),
     countTotalToPay() {
       let price = 0;
       if (this.carts && this.carts.products) {
