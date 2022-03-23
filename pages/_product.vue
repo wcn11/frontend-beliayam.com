@@ -29,12 +29,15 @@
                   <span
                     class="badge badge-success badge-discount"
                     v-if="product.hasPromo.promoBy === 'percent'"
-                    >
-                      #{{product.hasPromo.tags}}
-                    </span
                   >
+                    #{{ product.hasPromo.tags }}
+                  </span>
                 </div>
-                <div v-else-if="product.hasDiscount && product.hasDiscount.isDiscount">
+                <div
+                  v-else-if="
+                    product.hasDiscount && product.hasDiscount.isDiscount
+                  "
+                >
                   <span
                     class="badge badge-danger badge-discount"
                     v-if="product.hasDiscount.discountBy === 'price'"
@@ -91,6 +94,7 @@
                     btn-lg
                     m-0
                   "
+                  @click="buy()"
                 >
                   <i class="fad fa-shopping-cart m-0 mr-2"></i> Beli
                 </button>
@@ -486,6 +490,11 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+
+    async buy() {
+      await this.addProductToCart();
+      this.$router.push("/keranjang");
     },
     async resetCarts() {
       await this.$store.dispatch("cart/setCartsNav");

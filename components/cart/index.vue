@@ -435,7 +435,7 @@
 
     <div
       class="order-body cart-not-found"
-      v-if="!carts && carts.products.length <= 0"
+      v-if="Object.keys(carts).length <= 0"
     >
       <div class="pb-3 text-center text-danger">
         <h4><i class="fad fa-cart-plus"></i> Keranjang Kamu Kosong</h4>
