@@ -1,6 +1,7 @@
 import axios from "axios"
 import { fetcher } from "@src/utility/axiosHooks"
-import { GET_ORDER, GET_ORDER_BYID } from "@src/utility/Url"
+import { GET_ORDER, GET_ORDER_BYID, POST, POST_FORCE_COMPLETE_ORDER, POST_CANCEL_ORDER  } from "@src/utility/Url"
+import { Toast, ToastWarning } from '@src/utility/Toast'
 
 // get ALL order list
 export const getAllDataOrder = () => {
@@ -148,5 +149,51 @@ export const updateOrder = (id, order) => {
     } catch (error) {
       console.log(error)
     }
+  }  
+}
+
+// post complete order
+export const forceCompleteOrder = (id) => {
+  return async (dispatch, getState) => {
+    await fetcher(POST_FORCE_COMPLETE_ORDER(id), {
+      method: "POST",
+    })
+      .then((response) => {
+        dispatch({
+          type: "UPDATE_ORDER",
+        })
+        Toast({ icon: <Check size={12} />, title: 'Berhasil', content: res?.data?.message })
+      })
+      .then(() => {
+        dispatch(getOrderById(id))
+        ToastWarning({
+          icon: <X size={12} />,
+          title: 'Gagal!',
+          content: error.data.message
+      })
+      })
+  }
+}
+
+// post CANCEL order
+export const cancelOrderPayment = (id) => {
+  return async (dispatch, getState) => {
+    await fetcher(POST_CANCEL_ORDER(id), {
+      method: "POST",
+    })
+      .then((response) => {
+        dispatch({
+          type: "UPDATE_ORDER",
+        })
+        Toast({ icon: <Check size={12} />, title: 'Berhasil', content: res?.data?.message })
+      })
+      .then(() => {
+        dispatch(getOrderById(id))
+        ToastWarning({
+            icon: <X size={12} />,
+            title: 'Gagal!',
+            content: error.data.message
+        })
+      })
   }
 }

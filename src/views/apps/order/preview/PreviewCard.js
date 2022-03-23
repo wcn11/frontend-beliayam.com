@@ -32,7 +32,6 @@ const renderOrderItems = (items) => {
 
   return (
     <tbody>
-      {console.log(columns)}
       {columns}
     </tbody>
   )

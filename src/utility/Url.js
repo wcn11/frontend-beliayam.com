@@ -34,3 +34,9 @@ export const GET_VOUCHER_SLUG = (slug) => `https://be-dev.beliayam.com/api/v1/ad
 // order url
 export const GET_ORDER = 'https://be-dev.beliayam.com/api/v1/admin/order'
 export const GET_ORDER_BYID = (id) => `https://be-dev.beliayam.com/api/v1/admin/order/${id}`
+export const POST_FORCE_COMPLETE_ORDER = (id) => `https://be-dev.beliayam.com/api/v1/admin/order/${id}/complete-order`
+export const POST_CANCEL_ORDER = (id) => `https://be-dev.beliayam.com/api/v1/admin/order/${id}/cancel-order`
+
+// dashboard
+export const GET_USER_FOR_DSB = 'https://be-dev.beliayam.com/api/v1/admin/users/time-range/client'
+export const GET_ORDER_FOR_DSB = 'https://be-dev.beliayam.com/api/v1/admin/users/time-range/client'

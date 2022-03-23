@@ -7,8 +7,10 @@ import { Row, Col, Alert } from 'reactstrap'
 // ** Order Preview Components
 import PreviewCard from './PreviewCard'
 import PreviewActions from './PreviewActions'
-// import SendOrderSidebar from '../shared-sidebar/SidebarSendOrder'
-// import AddPaymentSidebar from '../shared-sidebar/SidebarAddPayment'
+import SendOrderSidebar from '../shared-sidebar/SidebarSendInvoice'
+import AddPaymentSidebar from '../shared-sidebar/SidebarAddPayment'
+import CancelPaymentSidebar from '../shared-sidebar/SidebarCancelPayment'
+import CompletePaymentSidebar from '../shared-sidebar/SidebarCompletePayment'
 
 // ** Store & Actions
 import { getOrderById } from "../store/action"
@@ -20,13 +22,17 @@ import '@styles/base/pages/app-order.scss'
 const OrderPreview = () => { 
 
   // ** States
-  // const [data, setData] = useState(null)
-  // const [sendSidebarOpen, setSendSidebarOpen] = useState(false)
-  // const [addPaymentOpen, setAddPaymentOpen] = useState(false)
+  const [data, setData] = useState(null)
+  const [sendSidebarOpen, setSendSidebarOpen] = useState(false)
+  const [addPaymentOpen, setAddPaymentOpen] = useState(false)
+  const [completePaymentOpen, setCompletePaymentOpen] = useState(false)
+  const [cancelPaymentOpen, setCancelPaymentOpen] = useState(false)
 
   // ** Functions to toggle add & send sidebar
   const toggleSendSidebar = () => setSendSidebarOpen(!sendSidebarOpen)
   const toggleAddSidebar = () => setAddPaymentOpen(!addPaymentOpen)
+  const toggleCompleteSidebar = () => setCompletePaymentOpen(!completePaymentOpen)
+  const toggleCancelSidebar = () => setCancelPaymentOpen(!cancelPaymentOpen)
 
   // ** Vars
   const store = useSelector((state) => state.orders),
@@ -45,11 +51,13 @@ const OrderPreview = () => {
           <PreviewCard data={store.selectedOrder} />
         </Col>
         <Col xl={3} md={4} sm={12}>
-          {/* <PreviewActions id={id} setSendSidebarOpen={setSendSidebarOpen} setAddPaymentOpen={setAddPaymentOpen} /> */}
+          <PreviewActions id={id} order={store.selectedOrder} setSendSidebarOpen={setSendSidebarOpen} setAddPaymentOpen={setAddPaymentOpen} setCompletePaymentOpen={setCompletePaymentOpen} setCancelPaymentOpen={setCancelPaymentOpen} />
         </Col>
       </Row>
-      {/* <SendOrderSidebar toggleSidebar={toggleSendSidebar} open={sendSidebarOpen} />
-      <AddPaymentSidebar toggleSidebar={toggleAddSidebar} open={addPaymentOpen} /> */}
+      <SendOrderSidebar toggleSidebar={toggleSendSidebar} open={sendSidebarOpen} />
+      <AddPaymentSidebar toggleSidebar={toggleAddSidebar} open={addPaymentOpen} />
+      { store.selectedOrder.order_status.status !== "PAYMENT_SUCCESS" ? <CompletePaymentSidebar toggleSidebar={toggleCompleteSidebar} open={completePaymentOpen} selectedOrder={store.selectedOrder} /> : "" }      
+      { store.selectedOrder.order_status.status !== "PAYMENT_SUCCESS" ? <CancelPaymentSidebar toggleSidebar={toggleCancelSidebar} open={cancelPaymentOpen} selectedOrder={store.selectedOrder} /> : "" }      
     </div>
   ) : (
     <Alert color='danger'>
