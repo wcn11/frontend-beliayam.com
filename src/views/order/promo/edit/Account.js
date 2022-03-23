@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { updatePromo, getPromoById } from '../store/action'
 import { isObjEmpty } from '@utils'
+import { Upload } from '@src/utility/Upload'
 
 import Select from 'react-select'
-import { toast, Slide } from 'react-toastify'
-import ToastUpdate from '../../../components/toasts/ToastUpdate'
-import { Check, Edit, Trash2 } from 'react-feather'
 import { 
    Media, 
    Row, 
@@ -18,48 +16,46 @@ import {
    Input, 
    Label, 
    FormGroup, 
-   ModalHeader, 
-   ModalBody,
-   ModalFooter, 
-   Modal,
    FormText } from 'reactstrap'
 import moment from 'moment'
+import { getAllDataProduct } from '../../../apps/product/store/action'
 
 const PromoAccountTab = ({selectedPromo}) => {
    const dispatch = useDispatch(),
       { id } = useParams()
    
+   const store = useSelector(state => state.products)
+   
    const { register, errors, handleSubmit } = useForm()
    const [centeredModal, setCenteredModal] = useState(false)
 
-   const [img, setImg] = useState(null)
    const [promoData, setPromoData] = useState(null)
+   const [image, setImage] = useState()
+   const [imagePreview, setImagePreview] = useState(null)
+   const [currentPage, setCurrentPage] = useState(1)
+   const [rowsPerPage, setRowsPerPage] = useState(10)
+   const [sortPerPage, setSortPerPage] = useState('ASC')
+   const [orderBy, setOrderBy] = useState('name')
 
-
-   const onChange = e => {
-      const reader = new FileReader(),
-         files = e.target.files
-      reader.onload = function () {
-         setImg(reader.result)
-      }
-      reader.readAsDataURL(files[0])
+   const onImageUpload = (e) => {
+      const file = e.target.files[0]
+      setImage(file)
+      setImagePreview(URL.createObjectURL(file))
    }
 
    useEffect(() => {
       dispatch(getPromoById(id))
-      // if (selectedCategory !== null || (selectedCategory !== null && categoryData !== null && selectedCategory?._id !== categoryData?._id)) {
-      //    // setCategoryData(selectedCategory)
-
-      //    // if (selectedCategory?.avatar?.length) {
-      //    //    return setImg(selectedCategory?.avatar)
-      //    // } else {
-      //    //    return setImg(null)
-      //    // }
-      // }
    }, [id])
 
    useEffect(() => {
       setPromoData(selectedPromo)
+      dispatch(getAllDataProduct({
+         page: currentPage,
+         show: rowsPerPage,
+         sortBy: sortPerPage,
+         // status: currentStatus.value,
+         orderBy
+      }))
    }, [selectedPromo])
 
 
@@ -70,23 +66,19 @@ const PromoAccountTab = ({selectedPromo}) => {
                name: values.name,
                slug: values.slug,
                tags: values.tags,
-               image_promo: values.image_promo,
+               image,
+               promoStart: values.promoStart,
+               promoEnd: values.promoEnd,
+               products: values.products,
+               promoValue: values.promoValue,
+               promoBy: values.promoBy,
+               isActive: values.isActive,
                description: values.description,
                termsAndConditions: values.termsAndConditions,
                products: values.products
             })
          )
       }
-
-      setCenteredModal(!centeredModal)
-
-      toast.success(
-         <ToastUpdate
-            icon={<Check size={12} />}
-            content='Promo'
-         />,
-         { transition: Slide, hideProgressBar: true, autoClose: 3000 }
-      )
    }
 
    const options = [
@@ -94,24 +86,23 @@ const PromoAccountTab = ({selectedPromo}) => {
       { vale: 'pejantan', label: 'pejantan' },
    ]
    
-
-   const centerModal = () => {
-      return (
-         <Modal isOpen={centeredModal} toggle={() => setCenteredModal(!centeredModal)} className='modal-dialog-centered'>
-            <ModalHeader toggle={() => setCenteredModal(!centeredModal)}>Vertically Centered</ModalHeader>
-            <ModalBody>
-               Oat cake ice cream candy chocolate cake chocolate cake cotton candy dragée apple pie. Brownie carrot cake
-               candy canes bonbon fruitcake topping halvah. Cake sweet roll cake cheesecake cookie chocolate cake
-               liquorice.
-            </ModalBody>
-            <ModalFooter>
-               <Button color='primary' onClick={() => setCenteredModal(!centeredModal)}>
-                  Accept
-               </Button>{' '}
-            </ModalFooter>
-         </Modal>
-      )
-   }
+   // const centerModal = () => {
+   //    return (
+   //       <Modal isOpen={centeredModal} toggle={() => setCenteredModal(!centeredModal)} className='modal-dialog-centered'>
+   //          <ModalHeader toggle={() => setCenteredModal(!centeredModal)}>Vertically Centered</ModalHeader>
+   //          <ModalBody>
+   //             Oat cake ice cream candy chocolate cake chocolate cake cotton candy dragée apple pie. Brownie carrot cake
+   //             candy canes bonbon fruitcake topping halvah. Cake sweet roll cake cheesecake cookie chocolate cake
+   //             liquorice.
+   //          </ModalBody>
+   //          <ModalFooter>
+   //             <Button color='primary' onClick={() => setCenteredModal(!centeredModal)}>
+   //                Accept
+   //             </Button>{' '}
+   //          </ModalFooter>
+   //       </Modal>
+   //    )
+   // }
 
    if (!promoData) {
       return null
@@ -123,7 +114,7 @@ const PromoAccountTab = ({selectedPromo}) => {
                   {/* {renderUserAvatar()} */}
                   <Media className='mt-50' body>
                      <h4>{selectedPromo.name} </h4>
-                     <div className='d-flex flex-wrap mt-1 px-0'>
+                     {/* <div className='d-flex flex-wrap mt-1 px-0'>
                         <Button.Ripple id='change-img' tag={Label} className='mr-75 mb-0' color='primary'>
                            <span className='d-none d-sm-block'>Change</span>
                            <span className='d-block d-sm-none'>
@@ -137,14 +128,14 @@ const PromoAccountTab = ({selectedPromo}) => {
                               <Trash2 size={14} />
                            </span>
                         </Button.Ripple>
-                     </div>
+                     </div> */}
                   </Media>
                </Media>
             </Col>
             <Col sm='12'>
-               <Form onClick={e => e.preventDefault(centerModal)}>
+               <Form onSubmit={handleSubmit(onSubmit)} key={promoData._id}>
                   <Row>
-                     <Col md='4' sm='12'>
+                     <Col md='6' sm='12'>
                         <FormGroup>
                            <Label for='name'>Promo Name</Label>
                            <Input
@@ -157,7 +148,7 @@ const PromoAccountTab = ({selectedPromo}) => {
                            />
                         </FormGroup>
                      </Col>
-                     <Col md='4' sm='12'>
+                     <Col md='6' sm='12'>
                         <FormGroup>
                            <Label for='slug'>Slug</Label>
                            <Input
@@ -170,7 +161,7 @@ const PromoAccountTab = ({selectedPromo}) => {
                            />
                         </FormGroup>
                      </Col>
-                     <Col md='4' sm='12'>
+                     <Col md='6' sm='12'>
                         <FormGroup>
                            <Label for='tags'>Tags</Label>
                            <Input
@@ -181,22 +172,10 @@ const PromoAccountTab = ({selectedPromo}) => {
                               defaultValue={promoData.tags}
                               innerRef={register({ required: true })}
                            />
+                           <FormText>*Tags promonya diisi yang bener</FormText>
                         </FormGroup>
                      </Col>
-                     {/* <Col md='4' sm='12'>
-                        <FormGroup>
-                           <Label for='image_promo'>Image Promo</Label>
-                           <Input
-                              type='file'
-                              id='image_promo'
-                              name='image_promo'
-                              placeholder='Short Description....'
-                              // defaultValue={promoData.image_promo}
-                              innerRef={register({ required: true })}
-                           />
-                        </FormGroup>
-                     </Col> */}
-                     <Col md='4' sm='12'>
+                     <Col md='6' sm='12'>
                         <FormGroup>
                            <Label for='promoValue'>Promo Value</Label>
                            <Input
@@ -210,7 +189,7 @@ const PromoAccountTab = ({selectedPromo}) => {
                            <FormText>Hanya masukan nomor (jangan jail)</FormText>
                         </FormGroup>
                      </Col>
-                     <Col md='4' sm='12'>
+                     <Col md='6' sm='12'>
                         <FormGroup>
                            <Label for='promoBy'>Promo By</Label>
                            <Input
@@ -224,22 +203,25 @@ const PromoAccountTab = ({selectedPromo}) => {
                            <FormText>Price/Percent</FormText>
                         </FormGroup>
                      </Col>
-                     <Col md='4' sm='12'>
+                     <Col md='6' sm='12'>
                         <FormGroup>
                            <Label for='products'>Add Products</Label>
-                           <Select
+                           <Input
+                              type='select'
                               id='products'
-                              name='products'
                               isMulti
-                              options={options}
+                              name='products'
                               placeholder='Add product....'
-                              defaultValue={promoData.products}
                               innerRef={register({ required: true })}
-                           />
+                           >
+                              {store.allData.map((item) => {
+                                 return <option key={item._id} value={item._id}>{item.name}</option>
+                              })}
+                           </Input>
                            <FormText>Add product in promo</FormText>
                         </FormGroup>
                      </Col>
-                     <Col md='4' sm='12'>
+                     <Col md='6' sm='12'>
                         <FormGroup>
                            <Label for='promoStart'>Promo Start</Label>
                            <Input
@@ -247,12 +229,12 @@ const PromoAccountTab = ({selectedPromo}) => {
                               id='promoStart'
                               name='promoStart'
                               placeholder='Promo By....'
-                              defaultValue={moment(productData.promoStart).format('YYYY-MM-DDTHH:mm')}
+                              defaultValue={moment(promoData.promoStart).format('YYYY-MM-DDTHH:mm')}
                               innerRef={register({ required: true })}
                            />
                         </FormGroup>
                      </Col>
-                     <Col md='4' sm='12'>
+                     <Col md='6' sm='12'>
                         <FormGroup>
                            <Label for='promoEnd'>Promo End</Label>
                            <Input
@@ -260,9 +242,37 @@ const PromoAccountTab = ({selectedPromo}) => {
                               id='promoEnd'
                               name='promoEnd'
                               placeholder='Promo End....'
-                              defaultValue={moment(productData.promoEnd).format('YYYY-MM-DDTHH:mm')}
+                              defaultValue={moment(promoData.promoEnd).format('YYYY-MM-DDTHH:mm')}
                               innerRef={register({ required: true })}
                            />
+                        </FormGroup>
+                     </Col>
+                     <Col md='6' sm='12'>
+                        <FormGroup>
+                           <Label for='image'>Choose Image Promo</Label>
+                           <Upload
+                           name='image'
+                           id='image'
+                           onChange={onImageUpload}
+                           img={imagePreview}
+                           />
+                        </FormGroup>
+                        <img height={80} src={`https://be-dev.beliayam.com/${promoData.image_promo}`} alt="" />
+                     </Col>
+                     <Col md='6' sm='12'>
+                        <FormGroup>
+                           <Label for='status'>Status</Label>
+                           <Input
+                              type='select'
+                              id='status'
+                              name='status'
+                              placeholder='Promo End....'
+                              defaultValue={promoData.isActive}
+                              innerRef={register({ required: true })}
+                           >
+                              <option value={true}>Active</option>
+                              <option value={false}>Nonactive</option>
+                           </Input>
                         </FormGroup>
                      </Col>
                      <Col md='12' sm='12'>
@@ -296,7 +306,7 @@ const PromoAccountTab = ({selectedPromo}) => {
                         </FormGroup>
                      </Col>
                      <Col className='d-flex flex-sm-row flex-column mt-2' sm='12'>
-                        <Button.Ripple onClick={() => setCenteredModal(!centeredModal)} className='mb-1 mb-sm-0 mr-0 mr-sm-1' type='submit' color='primary'>
+                        <Button.Ripple className='mb-1 mb-sm-0 mr-0 mr-sm-1' type='submit' color='primary'>
                            Save Changes
                         </Button.Ripple>
                         <Button.Ripple color='secondary' outline>
@@ -304,7 +314,7 @@ const PromoAccountTab = ({selectedPromo}) => {
                         </Button.Ripple>
                      </Col>
 
-                        <Modal isOpen={centeredModal} toggle={() => setCenteredModal(!centeredModal)} className='modal-dialog-centered'>
+                        {/* <Modal isOpen={centeredModal} toggle={() => setCenteredModal(!centeredModal)} className='modal-dialog-centered'>
                            <ModalHeader toggle={() => setCenteredModal(!centeredModal)}>Update Promo</ModalHeader>
                            <ModalBody>
                            Apakah anda yakin untuk mengedit data tersebut?, pastikan sudah benar, cek lagi apa sudah yakin?
@@ -317,7 +327,7 @@ const PromoAccountTab = ({selectedPromo}) => {
                                  Cancel
                               </Button>{' '}
                            </ModalFooter>
-                        </Modal>
+                        </Modal> */}
 
                   </Row>
                </Form>

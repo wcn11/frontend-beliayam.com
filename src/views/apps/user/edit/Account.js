@@ -128,7 +128,7 @@ const UserAccountTab = ({ selectedUser }) => {
           </Media>
         </Col>
         <Col sm='12'>
-          <Form onSubmit={handleSubmit(onSubmit)}>
+          <Form onSubmit={handleSubmit(onSubmit)} key={userData[0]._id}>
             <Row>
               <Col md='4' sm='12'>
                 <FormGroup>

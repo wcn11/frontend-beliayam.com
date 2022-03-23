@@ -22,6 +22,7 @@ import {
   ModalFooter,
   Modal,
   FormText } from 'reactstrap'
+import moment from 'moment'
 
 const VoucherAccountTab = ({ selectedVoucher }) => {
    const dispatch = useDispatch(),
@@ -30,34 +31,11 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
    const { register, errors, handleSubmit } = useForm()
    const [centeredModal, setCenteredModal] = useState(false)
 
-   const [img, setImg] = useState(null)
    const [voucherData, setVoucherData] = useState(null)
-
-   const onChange = e => {
-      const reader = new FileReader(),
-         files = e.target.files
-      reader.onload = function () {
-         setImg(reader.result)
-      }
-      reader.readAsDataURL(files[0])
-   }
 
    useEffect(() => {
       dispatch(getVoucherById(id))
-      // if (selectedCategory !== null || (selectedCategory !== null && categoryData !== null && selectedCategory?._id !== categoryData?._id)) {
-      //    // setCategoryData(selectedCategory)
-
-      //    // if (selectedCategory?.avatar?.length) {
-      //    //    return setImg(selectedCategory?.avatar)
-      //    // } else {
-      //    //    return setImg(null)
-      //    // }
-      // }
    }, [id])
-
-   useEffect(() => {
-      setVoucherData(selectedVoucher)
-   }, [selectedVoucher])
 
    const onSubmit = (values) => {
       if (isObjEmpty(errors)) {
@@ -77,6 +55,14 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
 
      setCenteredModal(!centeredModal)
    }
+
+   const getVoucherData = async () => {
+     await setVoucherData(selectedVoucher)
+   }
+
+  useEffect(() => {
+    getVoucherData()
+  }, [selectedVoucher])
 
   const centerModal = () => {
     return (
@@ -106,7 +92,7 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
               {/* {renderUserAvatar()} */}
               <Media className='mt-50' body>
                 <h4>{selectedVoucher.voucherName} </h4>
-                <div className='d-flex flex-wrap mt-1 px-0'>
+                {/* <div className='d-flex flex-wrap mt-1 px-0'>
                   <Button.Ripple
                     id='change-img'
                     tag={Label}
@@ -130,12 +116,12 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
                       <Trash2 size={14} />
                     </span>
                   </Button.Ripple>
-                </div>
+                </div> */}
               </Media>
             </Media>
           </Col>
           <Col sm='12'>
-            <Form onSubmit={e => e.preventDefault(centerModal)}>
+            <Form onSubmit={e => e.preventDefault(centerModal)} key={voucherData._id}>
               <Row>
                 <Col md='6' sm='12'>
                   <FormGroup>
@@ -197,7 +183,7 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
                       id='discountStart'
                       name='discountStart'
                       placeholder='Discount Start....'
-                      defaultValue={formatDateTime(voucherData.discountStart)}
+                      defaultValue={moment(voucherData.discountStart).format('YYYY-MM-DDTHH:mm')}
                       innerRef={register({ required: true })}
                     />
                   </FormGroup>
@@ -210,7 +196,7 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
                       id='discountEnd'
                       name='discountEnd'
                       placeholder='Discount End....'
-                      defaultValue={formatDateTime(voucherData.discountEnd)}
+                      defaultValue={moment(voucherData.discountEnd).format('YYYY-MM-DDTHH:mm')}
                       innerRef={register({ required: true })}
                     />
                   </FormGroup>

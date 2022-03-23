@@ -116,7 +116,7 @@ const ChargeAccountTab = ({ selectedCharge }) => {
                </Media>
             </Col>
             <Col sm='12'>
-               <Form onClick={e => e.preventDefault(centerModal)}>
+               <Form onClick={e => e.preventDefault(centerModal)} key={chargeData._id}>
                   <Row>
                      <Col md='6' sm='12'>
                         <FormGroup>

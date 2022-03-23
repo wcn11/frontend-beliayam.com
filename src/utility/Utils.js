@@ -56,7 +56,7 @@ export const formatDateTime = (value) => {
     month: 'long',
     day: 'numeric',
     hour: 'numeric',
-    // minute: 'numeric',
+    minute: 'numeric',
     // second: 'numeric'
   }
 

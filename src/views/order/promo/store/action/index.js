@@ -126,7 +126,9 @@ export const updatePromo = (id, promo) => {
                 platform,
                 image
             } = promo
+
             const formData = new FormData()
+
             formData.append("image_promo", image)
             formData.set('name', name) 
             formData.set('slug', slug) 
@@ -155,7 +157,7 @@ export const updatePromo = (id, promo) => {
                         data: res?.data.data
                     })
                     dispatch(getPromo(getState().promos?.params))
-                    dispatch(getAllDataPromo())
+                    // dispatch(getAllDataPromo())
                     Toast({ icon: <Check size={12} />, title: 'Berhasil Horeee', content: res?.data?.message })
                 }
         } catch (error) {

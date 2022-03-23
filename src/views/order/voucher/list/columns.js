@@ -7,7 +7,7 @@ import { store } from '@store/storeConfig/store'
 import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap'
 import {  MoreVertical, FileText, Trash2, Archive } from 'react-feather'
 
-import { formatDateTime, numberFormat, toCamelCase } from "@utils"
+import { formatDateTime } from "@utils"
 
 
 const renderClient = row => {
