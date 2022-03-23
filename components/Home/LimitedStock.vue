@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="products && products.length > 0">
     <div class="title d-flex align-items-center py-3">
       <h5 class="m-0">Sebentar Lagi Habis Nih!</h5>
       <NuxtLink to="/produk-terbatas" class="ml-auto text-dark"

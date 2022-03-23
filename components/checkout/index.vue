@@ -35,57 +35,62 @@
     <section class="py-4 beliayam-main-body">
       <div class="container">
         <div class="row">
-          <div class="col-lg-8">
+          <div class="col-lg-8 mb-4">
             <div class="bg-white rounded shadow-sm overflow-hidden">
-              <div class="address p-3 bg-light">
-                <h6 class="m-0 text-dark d-flex align-items-center">
-                  Alamat Pengiriman
-                  <span class="small ml-auto"
-                    ><NuxtLink
-                      to="/akun/alamat"
-                      class="font-weight-bold text-decoration-none text-danger"
-                      @onclick="openModalAddress()"
-                      ><i class="fad fa-location-arrow"></i> ubah
-                      alamat</NuxtLink
-                    ></span
-                  >
-                </h6>
-              </div>
               <div>
-                <div class="d-flex align-items-center">
-                  <div class="card-body p-0 border-top">
-                    <div class="beliayam-order_address">
-                      <div class="p-3" v-if="cart.address">
-                        <div class="font-weight-bold">
-                          {{ cart.address.receiver_name
-                          }}<span class="font-weight-light">
-                            ({{ cart.address.label }})</span
-                          >
-                        </div>
-                        <br />
-                        <div>{{ cart.address.phone }}</div>
-                        <div>
-                          {{ cart.address.address1 }},
-                          {{ cart.address.sub_district.name }},
-                          {{ cart.address.district.name }}, ({{
-                            cart.address.details
-                          }})
-                        </div>
-                        <div>
-                          {{ cart.address.city.name }},
-                          {{ cart.address.state.name }}
-                          {{ cart.address.postcode }}
+                <div class="address p-3 bg-light">
+                  <h6 class="m-0 text-dark d-flex align-items-center">
+                    Alamat Pengiriman
+                    <span class="small ml-auto"
+                      ><NuxtLink
+                        to="/akun/alamat"
+                        class="
+                          font-weight-bold
+                          text-decoration-none text-danger
+                        "
+                        @onclick="openModalAddress()"
+                        ><i class="fad fa-location-arrow"></i> ubah
+                        alamat</NuxtLink
+                      ></span
+                    >
+                  </h6>
+                </div>
+                <div>
+                  <div class="d-flex align-items-center">
+                    <div class="card-body p-0 border-top">
+                      <div class="beliayam-order_address">
+                        <div class="p-3" v-if="cart.address">
+                          <div class="font-weight-bold">
+                            {{ cart.address.receiver_name
+                            }}<span class="font-weight-light">
+                              ({{ cart.address.label }})</span
+                            >
+                          </div>
+                          <br />
+                          <div>{{ cart.address.phone }}</div>
+                          <div>
+                            {{ cart.address.address1 }},
+                            {{ cart.address.sub_district.name }},
+                            {{ cart.address.district.name }}, ({{
+                              cart.address.details
+                            }})
+                          </div>
+                          <div>
+                            {{ cart.address.city.name }},
+                            {{ cart.address.state.name }}
+                            {{ cart.address.postcode }}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="pl-3 pb-3">
-                      <hr />
-                      <button
-                        class="btn btn-light"
-                        @click="getAddresses('show')"
-                      >
-                        Pilih Alamat Lain
-                      </button>
+                      <div class="pl-3 pb-3">
+                        <hr />
+                        <button
+                          class="btn btn-light"
+                          @click="getAddresses('show')"
+                        >
+                          Pilih Alamat Lain
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -372,7 +377,7 @@
                 >
                   <img
                     alt="beliayam"
-                    src="img/starter1.jpg"
+                    :src="require('static/img/starter1.jpg')"
                     class="mr-3 rounded-circle img-fluid"
                   />
                   <div class="d-flex flex-column">
@@ -555,7 +560,7 @@ export default {
 
     await this.$axios
       .get(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/checkout/cart`)
-      .then((res) => { 
+      .then((res) => {
         this.cart = res.data.data;
         this.$store.dispatch("setGlobalModal", false);
       })
@@ -567,7 +572,7 @@ export default {
           this.$router.push("/");
         }
       });
-      
+
     this.$store.dispatch("setGlobalModal", false);
 
     this.getPaymentChannel();
@@ -616,12 +621,13 @@ export default {
   },
   methods: {
     async payOrder() {
-      $("#modalGlobalLoading").appendTo("body").modal("show");
+      this.$store.dispatch("setGlobalModal", true);
       if (this.selectedPayment.data.pg_code === "") {
-        $("#modalGlobalLoading").modal("hide");
+        this.$store.dispatch("setGlobalModal", false);
         this.$toast.warning("harap memilih metode pembayaran");
         return;
       }
+
       await this.$axios
         .post(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/order`, {
           shipping_address: this.cart.address._id,
@@ -636,12 +642,12 @@ export default {
         .then((res) => {
           if (res.data.error) {
             this.$toast.warning(res.data.message);
-            $("#modalGlobalLoading").modal("hide");
+            this.$store.dispatch("setGlobalModal", false);
             return;
           }
           if (res.data.data.bill.bill_no) {
             this.$toast.success("Pesanan berhasil diproses");
-            $("#modalGlobalLoading").modal("hide");
+            this.$store.dispatch("setGlobalModal", false);
             this.$router.push({
               path: "/checkout/sukses",
               query: {
@@ -649,15 +655,15 @@ export default {
               },
             });
           }
-          $("#modalGlobalLoading").modal("hide");
+          this.$store.dispatch("setGlobalModal", false);
         })
         .catch((err) => {
           if (err && err.response && err.response.data.error) {
             this.$toast.warning(err.response.data.message);
-            $("#modalGlobalLoading").modal("hide");
+            this.$store.dispatch("setGlobalModal", false);
           }
         });
-      $("#modalGlobalLoading").modal("hide");
+      this.$store.dispatch("setGlobalModal", false);
     },
     setAddress(address) {
       this.cart.address = address;
@@ -696,44 +702,6 @@ export default {
       $("#modal-vouchers").modal("hide");
       this.selectedVoucher = voucherExist[0];
     },
-    // formatDateToCountDown(date, code) {
-    //   if (this.getCartsVouchers.length > 0) {
-    //     var countDownDate = new Date(date).getTime();
-
-    //     var x = setInterval(function () {
-    //       // Get today's date and time
-    //       var now = new Date().getTime();
-
-    //       // Find the distance between now and the count down date
-    //       var distance = countDownDate - now;
-
-    //       // Time calculations for days, hours, minutes and seconds
-    //       var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    //       var hours = Math.floor(
-    //         (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    //       );
-    //       var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    //       var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    //       // Output the result in an element with id="demo"
-    //       document.getElementById(`countDown-${code}`).innerHTML =
-    //         days +
-    //         "hari " +
-    //         hours +
-    //         "jam " +
-    //         minutes +
-    //         "menit " +
-    //         seconds +
-    //         "detik ";
-
-    //       // If the count down is over, write some text
-    //       if (distance < 0) {
-    //         clearInterval(x);
-    //         document.getElementById("demo").innerHTML = "EXPIRED";
-    //       }
-    //     }, 1000);
-    //   }
-    // },
     setVoucher(voucher, index) {
       this.selectedVoucher.push(voucher);
 

@@ -19,7 +19,7 @@
           class="row"
           v-if="carts && carts.products && carts.products.length > 0"
         >
-          <div class="col-lg-8">
+          <div class="col-lg-8 mb-4">
             <div class="accordion" id="accordionExample">
               <div
                 class="
@@ -298,7 +298,7 @@
                 >
                   <img
                     alt="beliayam"
-                    :src="`${this.$config.baseURL}/img/starter1.jpg`"
+                    :src="`${baseURL}/img/starter1.jpg`"
                     class="mr-3 rounded-circle img-fluid"
                   />
                   <div class="d-flex flex-column">
@@ -550,106 +550,6 @@
         </div>
       </div>
     </div>
-    <!-- <div
-      class="modal fade"
-      id="modal-vouchers"
-      data-backdrop="static"
-      data-keyboard="false"
-      tabindex="-1"
-      aria-labelledby="modal-vouchersLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modal-vouchersLabel">Pakai Voucher</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="input-group mb-3 input-wrapper mt-2">
-              <input
-                type="text"
-                class="input"
-                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                aria-label="Masukkan kode voucher"
-                aria-describedby="button-addon2"
-                v-model="appliedVoucher"
-              />
-              <span class="placeholder">Masukkan kode voucher</span>
-              <div class="input-group-append">
-                <button
-                  class="btn btn-outline-danger"
-                  type="button"
-                  id="button-addon2"
-                  @click="setVoucherByInput()"
-                >
-                  Terapkan
-                </button>
-              </div>
-            </div>
-            <span role="button" class="text-danger pl-3" @click="resetVoucher()"
-              >reset voucher</span
-            >
-            <div>
-              <div class="paragraphs p-3">
-                <div class="justify-content-center">
-                  <div
-                    class="voucher-list row"
-                    v-for="(voucher, index) in getCartsVouchers"
-                    :key="voucher._id"
-                  >
-                    <div class="col-md-12 content-heading pl-2 pr-2 mt-2">
-                      <div>
-                        <div>
-                          <div class="mb-1 label-voucher">
-                            <h5 class="font-weight-bold">
-                              {{ voucher.voucherName }}
-                            </h5>
-                            <h6>kode: {{ voucher.voucherCode }}</h6>
-                            <button
-                              class="
-                                btn btn-outline-danger
-                                font-weight-light
-                                float-right
-                              "
-                              @click="applyVoucher(voucher, index)"
-                              :disabled="selectedVoucher._id && !voucher._id"
-                            >
-                              gunakan
-                            </button>
-                          </div>
-                        </div>
-                        <div>
-                          <span>Berakhir dalam:</span> <br />
-                          <span :id="`countDown-${voucher.voucherCode}`"
-                            >{{
-                              formatDateToCountDown(
-                                voucher.discountEnd,
-                                voucher.voucherCode
-                              )
-                            }}
-                            lagi!</span
-                          ><br />
-
-                          <span class="text-danger">Lihat Detail</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -663,6 +563,7 @@ export default {
   data() {
     return {
       baseApi: process.env.NUXT_ENV_BASE_URL_API,
+      baseURL: process.env.NUXT_ENV_BASE_URL,
       vouchers: [],
       selectedVoucher: {},
       appliedVoucher: "",

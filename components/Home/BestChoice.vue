@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="products && products.length > 0">
     <div class="title d-flex align-items-center py-3">
       <h5 class="m-0">Pilihan terbaik</h5>
       <NuxtLink to="/best-choices" class="ml-auto text-dark"
@@ -62,7 +62,7 @@
 
 <script>
 export default {
-  name: "HomeProductLowStock",
+  name: "HomeBestChoice",
 
   async fetch() {
     await this.$axios

@@ -147,7 +147,8 @@ export const actions = {
                         return {};
                     }
 
-                    return store.commit('auth/setCookieLogin', res.data.token);
+                    commit('setUser', result.data);
+
                 }).catch(err => {
                     if (err && err.response && err.response.error) {
                         return {};

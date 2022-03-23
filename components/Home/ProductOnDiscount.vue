@@ -1,5 +1,5 @@
 <template>
-  <section class="py-4 beliayam-main-body">
+  <section class="py-4 beliayam-main-body" v-if="products && products.length > 0">
     <div class="container">
       <div class="row">
         <div class="col-lg-12 p-0">

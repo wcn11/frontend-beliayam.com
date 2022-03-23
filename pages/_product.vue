@@ -268,7 +268,7 @@
             </div>
           </div>
 
-          <ProductRelatedProducts :products="relatedProducts" />
+          <ProductRelatedProducts :products="relatedProducts" :currentProduct="product" />
         </div>
       </section>
 
@@ -530,10 +530,8 @@ export default {
     refresh() {
       this.$nuxt.refresh();
     },
-    async setRelatedProductsFilter() {
-      return (this.relatedProducts = await this.products.products.filter(
-        (product) => product.slug !== this.$route.params.product
-      ));
+    async setRelatedProductsFilter(products) {
+      return this.relatedProducts = products 
     },
     async getRelatedProducts() {
       await this.$axios
@@ -541,8 +539,7 @@ export default {
           `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/category/_s?key=${this.product.category[0].slug}&page=${this.categorySetting.page}&show=${this.categorySetting.show}&sortBy=${this.categorySetting.sortBy}&orderBy=$${this.categorySetting.orderBy}&status=${this.categorySetting.status}`
         )
         .then((res) => {
-          this.products = res.data.data;
-          this.setRelatedProductsFilter();
+          this.setRelatedProductsFilter(res.data.data);
         });
     },
     closeModal() {

@@ -189,6 +189,12 @@
                   placeholder="No. Telp"
                   v-model="verifyPhone.data.phone"
                 />
+                <span
+                  class="text-danger font-italic"
+                  role="button"
+                  @click="resendOtpChangePhone()"
+                  >kirim kode OTP</span
+                >
               </div>
               <div class="form-group">
                 <label for="inputChangePhoneOtp">Kode OTP</label>
@@ -199,12 +205,6 @@
                   placeholder="****"
                   v-model="verifyPhone.data.code"
                 />
-                <span
-                  class="text-danger font-italic"
-                  role="button"
-                  @click="resendOtpChangePhone()"
-                  >kirim ulang kode OTP</span
-                >
               </div>
             </div>
             <div class="justify-content-around mx-auto text-center mt-5">

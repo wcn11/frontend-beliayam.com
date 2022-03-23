@@ -1,10 +1,10 @@
 <template>
-  <div class="pick_today" v-if="products && products.length > 0">
+  <div class="pick_today">
     <h5 class="mt-3 mb-3">Produk Terkait</h5>
-    <div class="row" v-if="products && products > 0">
+    <div class="row" v-if="products && products.products">
       <div
         class="col-6 col-md-3 mb-3"
-        v-for="product in products"
+        v-for="product in filterProduct"
         :key="product._id"
       >
         <div
@@ -27,10 +27,12 @@
                 <img
                   :src="`${baseApi}/${product.image}`"
                   class="img-fluid item-img w-100 mb-3"
+                  v-if="product.image"
                 />
                 <img
-                  :src="`${this.$config.baseURL}/default/product.jpg`"
+                  :src="`${baseURL}/default/product.jpg`"
                   class="img-fluid item-img w-100 mb-3"
+                  v-else
                 />
                 <h6
                   style="
@@ -74,12 +76,33 @@
 <script>
 export default {
   name: "Index",
-  props: ["products"],
+  props: ["products", "currentProduct"],
   data() {
     return {
       baseApi: process.env.NUXT_ENV_BASE_URL_API,
       baseURL: process.env.NUXT_ENV_BASE_URL,
     };
+  },
+  computed: {
+    filterProduct() {
+      let products = [];
+
+      if (
+        this.products &&
+        this.products.products &&
+        this.products.products.length > 0 &&
+        this.currentProduct
+      ) {
+        return (products = this.products.products.filter((product) => {
+          if (product._id === this.currentProduct._id) {
+            return false;
+          }
+          return product;
+        }));
+      }
+
+      return products;
+    },
   },
 };
 </script>
