@@ -3,7 +3,8 @@ const initialState = {
     data: [],
     total: 1,
     params: {},
-    selectedCategory: null
+    selectedCategory: null,
+    isLoading: false
 }
 
 const products = (state = initialState, action) => {
@@ -23,7 +24,7 @@ const products = (state = initialState, action) => {
                 params: action.params
             }
         case 'GET_PRODUCT_BYID':
-            return { ...state, selectedProduct: action.selectedProduct }
+            return { ...state, selectedProduct: action.selectedProduct, loading: true }
         case 'ADD_PRODUCT':
             return { ...state }
         case 'UPDATE_PRODUCT':

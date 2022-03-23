@@ -110,15 +110,15 @@ const AnalyticsDashboard = () => {
   return (
     <div id='dashboard-analytics'>
       <Row className='match-height'>
-        <Col lg='6' sm='12'>
+        {/* <Col lg='6' sm='12'>
           <CardCongratulations />
-        </Col>
-        <Col lg='3' sm='6'>
+        </Col> */}
+        {/* <Col lg='3' sm='6'>
           <SubscribersGained kFormatter={kFormatter} />
         </Col>
         <Col lg='3' sm='6'>
           <OrdersReceived kFormatter={kFormatter} warning={colors.warning.main} />
-        </Col>
+        </Col> */}
       </Row>
       <Row className='match-height'>
         <Col lg='6' xs='12'>
@@ -149,11 +149,11 @@ const AnalyticsDashboard = () => {
           <CardAppDesign />
         </Col>
       </Row>
-      <Row className='match-height'>
+      {/* <Row className='match-height'>
         <Col xs='12'>
           <InvoiceList />
         </Col>
-      </Row>
+      </Row> */}
     </div>
   )
 }

@@ -5,40 +5,40 @@ import { Card, CardHeader, CardTitle, CardBody, Media } from 'reactstrap'
 const CardTransactions = () => {
   const transactionsArr = [
     {
-      title: 'Wallet',
+      title: 'E-Wallet',
       color: 'light-primary',
-      subtitle: 'Starbucks',
-      amount: '- $74',
+      subtitle: 'Dana, Ovo, etc',
+      amount: '0',
       Icon: Icon['Pocket'],
       down: true
     },
     {
-      title: 'Bank Transfer',
+      title: 'Internet Bangking',
       color: 'light-success',
-      subtitle: 'Add Money',
-      amount: '+ $480',
+      subtitle: 'Danamon M-Bangking',
+      amount: '0',
       Icon: Icon['Check']
     },
     {
-      title: 'Paypal',
+      title: 'Qris',
       color: 'light-danger',
-      subtitle: 'Add Money',
-      amount: '+ $590',
+      subtitle: 'Shoope Pay Qris',
+      amount: '0',
       Icon: Icon['DollarSign']
     },
     {
-      title: 'Mastercard',
+      title: 'Retail',
       color: 'light-warning',
-      subtitle: 'Ordered Food',
-      amount: '- $12',
+      subtitle: 'Alfamart',
+      amount: '0',
       Icon: Icon['CreditCard'],
       down: true
     },
     {
-      title: 'Transfer',
+      title: 'Virtual Account',
       color: 'light-info',
-      subtitle: 'Refund',
-      amount: '+ $98',
+      subtitle: 'Virtual Account BCA, BRI, etc',
+      amount: '1',
       Icon: Icon['TrendingUp']
     }
   ]
@@ -63,8 +63,7 @@ const CardTransactions = () => {
   return (
     <Card className='card-transaction'>
       <CardHeader>
-        <CardTitle tag='h4'>Transactions</CardTitle>
-        <Icon.MoreVertical size={18} className='cursor-pointer' />
+        <CardTitle tag='h4'>Transactions Gateway</CardTitle>
       </CardHeader>
       <CardBody>{renderTransactions()}</CardBody>
     </Card>

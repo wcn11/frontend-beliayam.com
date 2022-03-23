@@ -100,13 +100,13 @@ export const updateCharge = (id, charge) => {
                      data: res?.data?.data
                   })
                   dispatch(getCharge(getState().charges?.params))
-                  Toast({ icon: <Check size={12} />, title: 'Berhasil Horeee', content: res.message })
+                  Toast({ icon: <Check size={12} />, title: 'Berhasil Horeee', content: res.data.message })
                }
       } catch (error) {
          ToastWarning({
             icon: <X size={12} />,
             title: 'Ada error nih',
-            content: error.message
+            content: error.data.message
          })
       }
    }

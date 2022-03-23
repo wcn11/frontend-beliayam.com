@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { isObjEmpty, formatDateTime } from '@utils'
 
@@ -11,11 +11,14 @@ import { updateProduct, getProductById } from '../store/action'
 import { Media, Row, Col, Button, Form, Input, Label, FormGroup, FormText } from 'reactstrap'
 import { Upload } from '@src/utility/Upload'
 import moment from 'moment'
+import { getAllDataCategory } from '../../category/store/action'
 
 
 const ProductAccountTab = ({ selectedProduct }) => {
     const dispatch = useDispatch(),
         { id } = useParams()
+
+    const store = useSelector(state => state.categories)
 
     const { register, errors, handleSubmit } = useForm()
     // ** States
@@ -31,14 +34,9 @@ const ProductAccountTab = ({ selectedProduct }) => {
     // ** Update user image on mount or change
     useEffect(() => {
         dispatch(getProductById(id))
-    }, [id])
+        return () => dispatch(getProductById(id))
+    }, [dispatch, id])
 
-    useEffect(() => {
-        setProductData(selectedProduct)
-        setDisc(productData?.hasDiscount?.isDiscount)
-        setAfterDiscount(productData?.hasDiscount?.priceAfterDiscount ? productData?.hasDiscount?.priceAfterDiscount : productData?.price)
-        // setImage(productData?.image)
-    }, [selectedProduct])
 
     const onImageUpload = (e) => {
         const file = e.target.files[0]
@@ -49,9 +47,6 @@ const ProductAccountTab = ({ selectedProduct }) => {
 
     const onSubmit = (values) => {
         if (isObjEmpty(errors)) {
-            // console.log('ini image', image)
-            // console.log('ini image preview', imagePreview)
-
             dispatch(
                 updateProduct(id, {
                     category_id: values.category_id,
@@ -71,7 +66,6 @@ const ProductAccountTab = ({ selectedProduct }) => {
                     discountStart: values.discountStart,
                     discountEnd: values.discountEnd,
                     discountBy: discountType
-                    // priceAfterDiscount: afterDiscount
                 })
             )
         }
@@ -79,7 +73,6 @@ const ProductAccountTab = ({ selectedProduct }) => {
 
     const discount = ({hargaAwal, discountType, discount}) => {
         discount = Number(discount)
-        console.log(discount)
         let hargaAkhir = 0
         if (!discount) {
             discount = 0
@@ -92,10 +85,20 @@ const ProductAccountTab = ({ selectedProduct }) => {
         }
         
         setDiscountValue(Number(discount))
-        console.log(hargaAwal)
         setAfterDiscount(hargaAkhir)
     }
 
+    const getProduct = async () => {
+        await setProductData(selectedProduct)
+
+        return productData
+    }
+
+    useEffect(() => {
+        getProduct()
+        setDisc(productData?.hasDiscount?.isDiscount)
+        setAfterDiscount(productData?.hasDiscount?.priceAfterDiscount ? productData?.hasDiscount?.priceAfterDiscount : productData?.price)
+    }, [selectedProduct])
 
     // ** Renders User
     const renderUserAvatar = () => {
@@ -135,7 +138,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
     }
 
     if (!productData) {
-        return null
+        return <div>ini kosong</div>
     } else {
         return (
             <Row>
@@ -163,7 +166,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                     </Media>
                 </Col>
                 <Col sm='12'>
-                    <Form onSubmit={handleSubmit(onSubmit)}>
+                    <Form onSubmit={handleSubmit(onSubmit)} key={productData._id}>
                         <Row>
                             <Col md='6' sm='12'>
                                 <FormGroup>
@@ -173,7 +176,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                         id='name'
                                         name='name'
                                         placeholder='Product name'
-                                        defaultValue={productData.name}
+                                        defaultValue={productData?.name}
                                         innerRef={register({ required: true })}
                                     />
                                 </FormGroup>
@@ -186,7 +189,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                         id='sku'
                                         name='sku'
                                         placeholder='Sku'
-                                        defaultValue={productData.sku}
+                                        defaultValue={productData?.sku}
                                         innerRef={register({ required: true })}
                                     />
                                 </FormGroup>
@@ -222,15 +225,15 @@ const ProductAccountTab = ({ selectedProduct }) => {
                             </Col>
                             <Col md='6' sm='12'>
                                 <FormGroup>
-                                    <Label for='category_id'>Categori</Label>
+                                    <Label for='category_id'>Category</Label>
                                     <Input
                                         type='select'
                                         name='category_id'
                                         id='category_id'
-                                        defaultValue={productData.category[0].name}
+                                        defaultValue={productData.category[0]?.name}
                                         innerRef={register({ required: true })}
                                     >
-                                        <option value={productData.category[0]._id}>{productData.category[0].name}</option>
+                                        <option value={productData.category[0]?._id}>{productData.category[0]?.name}</option>
                                     </Input>
                                 </FormGroup>
                             </Col>
@@ -347,24 +350,8 @@ const ProductAccountTab = ({ selectedProduct }) => {
                             {disc ? (<>
                                 <Col sm='12'>
                                     <Media className='mb-2'>
-                                        {/* {renderUserAvatar()} */}
                                         <Media className='mt-50' body>
                                             <h4>Discount (optional)</h4>
-                                            {/* <div className='d-flex flex-wrap mt-1 px-0'>
-                                <Button.Ripple id='change-img' tag={Label} className='mr-75 mb-0' color='primary'>
-                                    <span className='d-none d-sm-block'>Change</span>
-                                    <span className='d-block d-sm-none'>
-                                        <Edit size={14} />
-                                    </span>
-                                    <input type='file' hidden id='change-img' onChange={onChange} accept='image/*' />
-                                </Button.Ripple>
-                                <Button.Ripple color='secondary' outline>
-                                    <span className='d-none d-sm-block'>Remove</span>
-                                    <span className='d-block d-sm-none'>
-                                        <Trash2 size={14} />
-                                    </span>
-                                </Button.Ripple>
-                            </div> */}
                                         </Media>
                                     </Media>
                                 </Col>
@@ -430,7 +417,6 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                             name='priceAfterDiscount'
                                             onWheel={(e) => e.target.blur()}
                                             value={afterDiscount}
-                                            // defaultValue={productData.price}
                                             placeholder='price after discount ...'
                                             disabled
                                             innerRef={register({ required: false })}

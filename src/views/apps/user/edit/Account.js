@@ -49,14 +49,18 @@ const UserAccountTab = ({ selectedUser }) => {
   }, [selectedUser])
 
   const onSubmit = (values) => {
-    if (isObjEmpty(errors)) {
-      dispatch(
-        updateUserActive(status, {
-          isActive: values.isActive
-        })
-      )
-    }
+      const active = 'active'
+      if (isObjEmpty(errors)) {
+        dispatch(
+          updateUserActive(id, active, {
+            active: values.active,
+            notify: values.notify
+          })
+        )
+      }
   }
+
+  console.log(selectedUser[0].active)
 
   // ** Renders User
   const renderUserAvatar = () => {
@@ -124,7 +128,7 @@ const UserAccountTab = ({ selectedUser }) => {
           </Media>
         </Col>
         <Col sm='12'>
-          <Form onSubmit={handleSubmit(onSubmit)}>
+          <Form onSubmit={handleSubmit(onSubmit)} key={userData[0]._id}>
             <Row>
               <Col md='4' sm='12'>
                 <FormGroup>
@@ -164,12 +168,25 @@ const UserAccountTab = ({ selectedUser }) => {
               </Col> */}
               <Col md='4' sm='12'>
                 <FormGroup>
-                  <Label for='status'>Status</Label>
+                  <Label for='active'>active</Label>
                   <Input 
                   type='select' 
-                  name='status' 
-                  id='status' 
-                  defaultValue={userData[0].isActive}>
+                  name='active' 
+                  id='active' 
+                  defaultValue={userData[0].active}>
+                    <option value={true}>Active</option>
+                    <option value={false}>Nonactive</option>
+                  </Input>
+                </FormGroup>
+              </Col>
+              <Col md='4' sm='12'>
+                <FormGroup>
+                  <Label for='notify'>notify</Label>
+                  <Input
+                    type='select'
+                    name='notify'
+                    id='notify'
+                    defaultValue={userData[0].notify}>
                     <option value={true}>Active</option>
                     <option value={false}>Nonactive</option>
                   </Input>

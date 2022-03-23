@@ -1,11 +1,13 @@
+const PRODUCTION_URL = 'https://be-beliayam.com/'
+const DEVELOP_URL = 'https://be-dev-beliayam.com/'
 // auth url
-export const REFRESH_TOKEN = 'https://be-dev.beliayam.com/api/v1/admin/auth/refresh-token'
+export const REFRESH_TOKEN = `https://be-dev.beliayam.com/api/v1/admin/auth/refresh-token`
 export const LOGIN_URL = 'https://be-dev.beliayam.com/api/v1/admin/auth/login'
 
 // user url
 export const GET_ALL_DATA_USER = 'https://be-dev.beliayam.com/api/v1/admin/users'
 export const GET_USER_BYID = (id) => `https://be-dev.beliayam.com/api/v1/admin/users/${id}`
-export const GET_USER_BYACTIVE = (status) => `https://be-dev.beliayam.com/api/v1/admin/users/${status}`
+export const GET_USER_BYACTIVE = (id, active) => `https://be-dev.beliayam.com/api/v1/admin/users/${id}/${active}`
 
 // category url
 export const GET_CATEGORY = 'https://be-dev.beliayam.com/api/v1/admin/category'
@@ -34,9 +36,21 @@ export const GET_VOUCHER_SLUG = (slug) => `https://be-dev.beliayam.com/api/v1/ad
 // order url
 export const GET_ORDER = 'https://be-dev.beliayam.com/api/v1/admin/order'
 export const GET_ORDER_BYID = (id) => `https://be-dev.beliayam.com/api/v1/admin/order/${id}`
+<<<<<<< HEAD
 export const POST_FORCE_COMPLETE_ORDER = (id) => `https://be-dev.beliayam.com/api/v1/admin/order/${id}/complete-order`
 export const POST_CANCEL_ORDER = (id) => `https://be-dev.beliayam.com/api/v1/admin/order/${id}/cancel-order`
 
 // dashboard
 export const GET_USER_FOR_DSB = 'https://be-dev.beliayam.com/api/v1/admin/users/time-range/client'
 export const GET_ORDER_FOR_DSB = 'https://be-dev.beliayam.com/api/v1/admin/users/time-range/client'
+=======
+
+// charts
+export const ORDER_BY_PAYMENT_METHOD = `https://be-dev.beliayam.com/api/v1/admin/order/by-payment-method`
+
+// Statistic
+export const TOTAL_REVENUE = `https://be-dev.beliayam.com/api/v1/admin/sales/revenue`
+export const TOTAL_ORDERS = `https://be-dev.beliayam.com/api/v1/admin/sales/total`
+export const TOTAL_PRODUCTS = `https://be-dev.beliayam.com/api/v1/admin/product/total`
+export const TOTAL_USERS = `https://be-dev.beliayam.com/api/v1/admin/users/total`
+>>>>>>> e85cfd484149dbe9cd65c4cb8e810d00cf949bf4

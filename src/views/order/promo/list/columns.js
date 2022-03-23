@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { formatDateTime } from "@utils"
 
 import { deletePromo, getPromoById } from '../store/action'
 import { store } from '@store/storeConfig/store'
@@ -18,15 +19,14 @@ const renderClient = row => {
 }
 
 const statusObj = {
-   pending: 'light-warning',
    active: 'light-success',
-   inactive: 'light-secondary'
+   nonnactive: 'light-secondary'
 }
 
 export const columns = [
    {
       name: 'Promo',
-      minWidth: '320px',
+      minWidth: '200px',
       selector: 'name',
       sortable: true,
       cell: row => (
@@ -47,10 +47,10 @@ export const columns = [
    },
    {
       name: 'Image',
-      minWidth: '200px',
+      minWidth: '320px',
       selector: 'role',
       sortable: true,
-      cell: row => <img src={row.image_promo} alt="" />
+      cell: row => <img src={`https://be-dev.beliayam.com/${row.image_promo}`} width='200' alt="" />
    },
    {
       name: 'Slug',
@@ -61,17 +61,24 @@ export const columns = [
    },
    {
       name: 'Tags',
-      minWidth: '172px',
+      minWidth: '150px',
       selector: 'role',
       sortable: true,
       cell: row => row.tags
    },
    {
-      name: 'Default',
-      minWidth: '172px',
+      name: 'Promo Start',
+      minWidth: '186px',
       selector: 'role',
       sortable: true,
-      cell: row => row.default
+      cell: row => formatDateTime(row.promoStart)
+   },
+   {
+      name: 'Promo End',
+      minWidth: '186px',
+      selector: 'role',
+      sortable: true,
+      cell: row => formatDateTime(row.promoEnd)
    },
    {
       name: 'Status',
@@ -79,8 +86,8 @@ export const columns = [
       selector: 'status',
       sortable: true,
       cell: row => (
-         <Badge className='text-capitalize light-success' color={statusObj['active']} pill>
-            {row.isActive === true && <>active</>}
+         <Badge className='text-capitalize light-success' color={statusObj[row.isActive ? 'active' : 'nonactive']} pill>
+            {row.isActive ? 'active' : 'nonactive'}
          </Badge>
       )
    },

@@ -12,15 +12,14 @@ import { getCategoryById, updateCategory } from '../store/action'
 import { Upload } from '@src/utility/Upload'
 
 // ** Third Party Components
-import { Edit, Trash2 } from 'react-feather'
-import { Media, Row, Col, Button, Form, Input, Label, FormGroup, Table, CustomInput } from 'reactstrap'
+import { Media, Row, Col, Button, Form, Input, Label, FormGroup } from 'reactstrap'
 
 
 const CategoryAccountTab = ({ selectedCategory }) => {
 
    const dispatch = useDispatch()
    const { id } = useParams()
-
+   
    const { register, errors, handleSubmit } = useForm()
    // ** States
    const [image, setImage] = useState('')
@@ -30,20 +29,20 @@ const CategoryAccountTab = ({ selectedCategory }) => {
    const [categoryData, setCategoryData] = useState(null)
 
    // ** Function to change user image
-   const onChange = e => {
-      const reader = new FileReader(),
-         files = e.target.files
-      reader.onload = function () {
-         setImg(reader.result)
-      }
-      reader.readAsDataURL(files[0])
-   }
+   // const onChange = e => {
+   //    const reader = new FileReader(),
+   //       files = e.target.files
+   //    reader.onload = function () {
+   //       setImg(reader.result)
+   //    }
+   //    reader.readAsDataURL(files[0])
+   // }
 
    // ** Update user image on mount or change
    useEffect(() => {
       dispatch(getCategoryById(id))
       // if (selectedCategory !== null || (selectedCategory !== null && categoryData !== null && selectedCategory?._id !== categoryData?._id)) {
-      //    // setCategoryData(selectedCategory)
+      //    setCategoryData(selectedCategory)
 
       //    // if (selectedCategory?.avatar?.length) {
       //    //    return setImg(selectedCategory?.avatar)
@@ -51,13 +50,14 @@ const CategoryAccountTab = ({ selectedCategory }) => {
       //    //    return setImg(null)
       //    // }
       // }
-   }, [])
+   }, [id])
 
    useEffect(() => {
       setCategoryData(selectedCategory)
    }, [selectedCategory])
 
    const onSubmit = (values) => {
+      console.log(values)
       if (isObjEmpty(errors)) {
          dispatch(
             updateCategory(id, {
@@ -134,7 +134,7 @@ const CategoryAccountTab = ({ selectedCategory }) => {
                   {/* {renderUserAvatar()} */}
                   <Media className='mt-50' body>
                      <h4>{categoryData?.name} </h4>
-                     <div className='d-flex flex-wrap mt-1 px-0'>
+                     {/* <div className='d-flex flex-wrap mt-1 px-0'>
                         <Button.Ripple id='change-img' tag={Label} className='mr-75 mb-0' color='primary'>
                            <span className='d-none d-sm-block'>Change Image</span>
                            <span className='d-block d-sm-none'>
@@ -148,12 +148,12 @@ const CategoryAccountTab = ({ selectedCategory }) => {
                               <Trash2 size={14} />
                            </span>
                         </Button.Ripple>
-                     </div>
+                     </div> */}
                   </Media>
                </Media>
             </Col>
             <Col sm='12'>
-               <Form onSubmit={handleSubmit(onSubmit)}>
+               <Form onSubmit={handleSubmit(onSubmit)} key={categoryData?._id}>
                   <Row>
                      <Col md='6' sm='12'>
                         <FormGroup>
@@ -163,7 +163,7 @@ const CategoryAccountTab = ({ selectedCategory }) => {
                               name='sku'
                               id='sku'
                               placeholder='Sku'
-                              defaultValue={selectedCategory?.sku}
+                              defaultValue={categoryData?.sku}
                               innerRef={register({ required: true })}
                            />
                         </FormGroup>
@@ -176,7 +176,7 @@ const CategoryAccountTab = ({ selectedCategory }) => {
                               name='name'
                               id='name'
                               placeholder='Name'
-                              defaultValue={selectedCategory?.name}
+                              defaultValue={categoryData?.name}
                               innerRef={register({ required: true })}
                            />
                         </FormGroup>
@@ -239,7 +239,6 @@ const CategoryAccountTab = ({ selectedCategory }) => {
                            <Upload
                               id='image'
                               name='image'
-                              defaultValue={categoryData?.image_category}
                               onChange={(e) => onImageUpload(e)}
                               img={imagePreview}
                            />
@@ -252,7 +251,6 @@ const CategoryAccountTab = ({ selectedCategory }) => {
                            <Upload
                               id='icon'
                               name='icon'
-                              defaultValue={categoryData?.icon}
                               onChange={(e) => onIconUpload(e)}
                               img={iconPreview}
                            />
@@ -269,7 +267,7 @@ const CategoryAccountTab = ({ selectedCategory }) => {
                               defaultValue={categoryData?.status}
                               innerRef={register({ required: true })}
                            >
-                              <option value='disabled'>Disabled</option>
+                              {/* <option value='disabled'>Disabled</option> */}
                               <option value='active'>Active</option>
                               <option value='nonactive'>Nonactive</option>
                            </Input>

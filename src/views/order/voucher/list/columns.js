@@ -7,7 +7,7 @@ import { store } from '@store/storeConfig/store'
 import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap'
 import {  MoreVertical, FileText, Trash2, Archive } from 'react-feather'
 
-import { formatDateTime, numberFormat, toCamelCase } from "@utils"
+import { formatDateTime } from "@utils"
 
 
 const renderClient = row => {
@@ -83,14 +83,14 @@ export const columns = [
       cell: row => row.minimumOrderValue
    },
    {
-      name: 'Discount Start',
+      name: 'Vocuher Start',
       minWidth: '172px',
       selector: 'role',
       sortable: true,
       cell: row => formatDateTime(row.discountStart)
    },
    {
-      name: 'Discount End',
+      name: 'Vocuher End',
       minWidth: '172px',
       selector: 'role',
       sortable: true,

@@ -72,6 +72,7 @@ const CategoryList = () => {
     // ** Store Vars
     const dispatch = useDispatch()
     const store = useSelector(state => state.categories)
+
     // ** States
     const [searchTerm, setSearchTerm] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
@@ -96,7 +97,7 @@ const CategoryList = () => {
                 q: searchTerm
             })
         )
-    }, [dispatch, store?.data?.length])
+    }, [dispatch])
 
     // ** User filter options
     // const roleOptions = [

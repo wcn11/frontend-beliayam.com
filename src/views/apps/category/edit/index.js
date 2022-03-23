@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
 // import SocialTab from './Social'
-import AccountTab from './Account'
+import CategoryAccountTab from './Account'
 import InfoTab from './Information'
 
 import { getCategoryById } from '../store/action'
@@ -50,7 +50,7 @@ const CategoryEdit = () => {
                         </Nav>
                         <TabContent activeTab={activeTab}>
                             <TabPane tabId='1'>
-                                <AccountTab selectedCategory={store.selectedCategory} />
+                                <CategoryAccountTab selectedCategory={store.selectedCategory} />
                             </TabPane>
                             <TabPane tabId='2'>
                                 <InfoTab />
