@@ -555,7 +555,7 @@ export default {
 
     await this.$axios
       .get(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/checkout/cart`)
-      .then((res) => {
+      .then((res) => { 
         this.cart = res.data.data;
         this.$store.dispatch("setGlobalModal", false);
       })
