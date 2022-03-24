@@ -12,7 +12,7 @@ import { AbilityContext } from '@src/utility/context/Can'
 import { Link, useHistory } from 'react-router-dom'
 import InputPasswordToggle from '@components/input-password-toggle'
 import { getHomeRouteForLoggedInUser, isObjEmpty } from '@utils'
-import logo from '@src/assets/images/logo/logo.png'
+import logo from '@src/assets/images/logo/Logo.png'
 import { Coffee } from 'react-feather'
 import {
   Alert,

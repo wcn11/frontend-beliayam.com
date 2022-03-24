@@ -49,14 +49,20 @@ const EcommerceDashboard = () => {
         {/* <Col lg='4' md='6' xs='12'>
           <CardMeetup />
         </Col> */}
-        <Col lg='4' md='6' xs='12'>
+        {/* <Col lg='4' md='6' xs='12'>
           <CardBrowserStates colors={colors} trackBgColor={trackBgColor} />
-        </Col>
-        <Col lg='4' md='6' xs='12'>
+        </Col> */}
+        {/* <Col lg='4' md='6' xs='12'>
           <GoalOverview success={colors.success.main} />
+        </Col> */}
+        <Col lg='4' md='6' xs='12'>
+          <CardTransactions />
         </Col>
         <Col lg='4' md='6' xs='12'>
           <CardTransactions />
+        </Col>
+        <Col lg='4' md='6' xs='12'>
+          <ChartjsRadarChart />
         </Col>
       </Row>
       <Row className='match-height'>
@@ -75,12 +81,6 @@ const EcommerceDashboard = () => {
         </Col>
         <Col lg='8' md='12'>
           <RevenueReport primary={colors.primary.main} warning={colors.warning.main} />
-        </Col>
-        <Col lg='4' md='6' xs='12'>
-          <CardTransactions />
-        </Col>
-        <Col lg='4' md='6' xs='12'>
-          <ChartjsRadarChart/>
         </Col>
         {/* <Col lg='8' md='12'>
           <RevenueReport primary={colors.primary.main} warning={colors.warning.main} />
