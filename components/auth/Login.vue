@@ -124,8 +124,8 @@ export default {
     return {
       googleClientId: process.env.NUXT_ENV_GOOGLE_CLIENT_ID,
       facebookClientId: process.env.NUXT_ENV_FACEBOOK_APP_ID,
-      email: "ayusandra@gmail.com",
-      password: "qweqwe",
+      email: "",
+      password: "",
       user: {},
     };
   },

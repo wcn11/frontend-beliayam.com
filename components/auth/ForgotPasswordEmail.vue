@@ -112,7 +112,7 @@ export default {
   data() {
     return {
       googleClientId: process.env.NUXT_ENV_GOOGLE_CLIENT_ID,
-      email: "ayusandra@gmail.com",
+      email: "",
     };
   },
   methods: {

@@ -146,10 +146,10 @@ export default {
   data: () => {
     return {
       googleClientId: process.env.NUXT_ENV_GOOGLE_CLIENT_ID,
-      name: "budi man",
-      email: "budiman@gmail.com",
+      name: "",
+      email: "",
       // phone: "",
-      password: "qweqwe",
+      password: "",
       registerBy: "email",
       registerAt: "website",
     };

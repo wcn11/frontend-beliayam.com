@@ -113,8 +113,8 @@ export default {
   data() {
     return {
       googleClientId: process.env.NUXT_ENV_GOOGLE_CLIENT_ID,
-      phone: "0895402275040",
-      password: "qwe123",
+      phone: "",
+      password: "",
     };
   },
   methods: {

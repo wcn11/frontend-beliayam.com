@@ -244,8 +244,8 @@ export default {
         },
       },
       googleClientId: process.env.NUXT_ENV_GOOGLE_CLIENT_ID,
-      phone: "0895402275040",
-      password: "qweqwe",
+      phone: "",
+      password: "",
       registerBy: "phone",
       registerAt: "website",
     };
