@@ -5,14 +5,7 @@ import TableProgress from './listProgress/TableProgress'
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
-// import SocialTab from './Social'
-// import InfoTab from './Information'
-// import ProductAccountTab from './Account'
-
-import { getProductById } from '../store/action'
-import { useSelector, useDispatch } from 'react-redux'
-
-import { XCircle, Info, CheckCircle, Loader } from 'react-feather'
+import { XCircle, Info, CheckCircle, Loader, Truck } from 'react-feather'
 import { Card, CardBody, Row, Col, Nav, NavItem, NavLink, TabContent, TabPane, Alert } from 'reactstrap'
 
 // ** Styles
@@ -54,6 +47,12 @@ const OrderList = () => {
                                     <span className='align-middle d-none d-sm-block'>Payment Success</span>
                                 </NavLink>
                             </NavItem>
+                            <NavItem>
+                                <NavLink active={activeTab === '5'} onClick={() => toggle('5')}>
+                                    <Truck size={14} />
+                                    <span className='align-middle d-none d-sm-block'>Order Done</span>
+                                </NavLink>
+                            </NavItem>
                         </Nav>
                         <TabContent activeTab={activeTab}>
                             <TabPane tabId='1'>
@@ -67,6 +66,9 @@ const OrderList = () => {
                             </TabPane>
                             <TabPane tabId='4'>
                                 <Table />
+                            </TabPane>
+                            <TabPane tabId='5'>
+                                
                             </TabPane>
                         </TabContent>
                     </CardBody>

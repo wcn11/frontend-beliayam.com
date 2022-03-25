@@ -31,6 +31,8 @@ const orders = (state = initialState, action) => {
       return { ...state }
     case "UPDATE_ORDER":
       return { ...state }
+    case "SET_STATUS_DELIVERY":
+      return { ...state }
     case "DELETE_ORDER":
       return { ...state }
     default:

@@ -158,7 +158,7 @@ const ProductList = () => {
                 previousLabel={''}
                 nextLabel={''}
                 breakLabel={'...'}
-                pageCount={count || 3}
+                pageCount={count || 4}
                 activeClassName='active'
                 forcePage={currentPage !== 0 ? currentPage - 1 : 0}
                 onPageChange={page => handlePagination(page)}

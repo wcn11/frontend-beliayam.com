@@ -1,6 +1,6 @@
 import axios from "axios"
 import { fetcher } from "@src/utility/axiosHooks"
-import { GET_ORDER, GET_ORDER_BYID, POST_FORCE_COMPLETE_ORDER, POST_CANCEL_ORDER, GET_ORDER_BYSTATUS  } from "@src/utility/Url"
+import { GET_ORDER, GET_ORDER_BYID, POST_FORCE_COMPLETE_ORDER, POST_CANCEL_ORDER, GET_ORDER_BYSTATUS, SET_STATUS_DELIVERY } from "@src/utility/Url"
 import { Toast, ToastWarning } from '@src/utility/Toast'
 import { Check, X } from "react-feather"
 
@@ -206,6 +206,29 @@ export const cancelOrderPayment = (id) => {
       try {
         dispatch({
           type: "UPDATE_ORDER",
+        })
+        Toast({ icon: <Check size={12} />, title: 'Berhasil', content: res?.data?.message })
+        dispatch(getOrderById(id))
+      } catch (error) {
+        ToastWarning({
+          icon: <X size={12} />,
+          title: 'Gagal!',
+          content: error?.data?.message
+        })
+      }
+    }
+  }
+}
+
+export const setStatusDelivery = (id) => {
+  return async (dispatch) => {
+    const res = await fetcher(SET_STATUS_DELIVERY, {
+      method: "PUT",
+    })
+    if (res) {
+      try {
+        dispatch({
+          type: "SET_STATUS_DELIVERY",
         })
         Toast({ icon: <Check size={12} />, title: 'Berhasil', content: res?.data?.message })
         dispatch(getOrderById(id))

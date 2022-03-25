@@ -2,7 +2,7 @@ import axios from 'axios'
 import { REFRESH_TOKEN } from './Url'
 
 const axiosApiInstance = axios.create({
-    baseURL: 'https://be.beliayam.com/',
+    baseURL: 'https://be-dev.beliayam.com/',
     headers: {
         Authorization: 'Bearer token'
     }
@@ -31,33 +31,30 @@ const axiosInterceptorResponse = async () => {
             return response
         },
         async error => {
-            if (error.response !== 401) {
-                return Promise.reject(error)
-            }
-            const tokens = {
-                accessToken: localStorage.getItem('accessToken'),
-                refreshToken: localStorage.getItem('refreshToken')
-            }
+            if (error.response.status === 401) {
+                const tokens = {
+                    accessToken: localStorage.getItem('accessToken'),
+                    refreshToken: localStorage.getItem('refreshToken')
+                }
 
-            try {
-                const response = await axios.post(REFRESH_TOKEN, {
-                    'Content-Type': 'application/json'
-                }, tokens)
-                localStorage.setItem('accessToken', response.data.token.accessToken)
-                localStorage.setItem('refreshToken', response.data.token.refreshToken)
+                try {
+                    const response = await axios.post(REFRESH_TOKEN, {
+                        'Content-Type': 'application/json'
+                    }, tokens)
+                    localStorage.setItem('accessToken', response.data.token.accessToken)
+                    localStorage.setItem('refreshToken', response.data.token.refreshToken)
 
-                axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token.accessToken}`
+                    axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token.accessToken}`
 
-                error.hasRefreshedToken = true
-                return await Promise.reject(tokenError)
-            } catch {
-                const tokenError = new Error("Cannot refresh token")
-                tokenError.originalError = error
-                return await Promise.reject(tokenError)
+                    error.hasRefreshedToken = true
+                    return await Promise.reject(tokenError)
+                } catch {
+                    const tokenError = new Error("Cannot refresh token")
+                    tokenError.originalError = error
+                    return await Promise.reject(tokenError)
+                }
             }
         }
-
-
     )
 }
 

@@ -11,6 +11,7 @@ import SendOrderSidebar from '../shared-sidebar/SidebarSendInvoice'
 import AddPaymentSidebar from '../shared-sidebar/SidebarAddPayment'
 import CancelPaymentSidebar from '../shared-sidebar/SidebarCancelPayment'
 import CompletePaymentSidebar from '../shared-sidebar/SidebarCompletePayment'
+import StatusDelivery from "../shared-sidebar/sidebarDelivery"
 
 // ** Store & Actions
 import { getOrderById } from "../store/action"
@@ -27,12 +28,14 @@ const OrderPreview = () => {
   const [addPaymentOpen, setAddPaymentOpen] = useState(false)
   const [completePaymentOpen, setCompletePaymentOpen] = useState(false)
   const [cancelPaymentOpen, setCancelPaymentOpen] = useState(false)
+  const [deliverOpen, setDeliverOpen] = useState(false)
 
   // ** Functions to toggle add & send sidebar
   const toggleSendSidebar = () => setSendSidebarOpen(!sendSidebarOpen)
   const toggleAddSidebar = () => setAddPaymentOpen(!addPaymentOpen)
   const toggleCompleteSidebar = () => setCompletePaymentOpen(!completePaymentOpen)
   const toggleCancelSidebar = () => setCancelPaymentOpen(!cancelPaymentOpen)
+  const toggleDeliverSidebar = () => setDeliverOpen(!deliverOpen)
 
   // ** Vars
   const store = useSelector((state) => state.orders),
@@ -56,8 +59,9 @@ const OrderPreview = () => {
       </Row>
       <SendOrderSidebar toggleSidebar={toggleSendSidebar} open={sendSidebarOpen} />
       <AddPaymentSidebar toggleSidebar={toggleAddSidebar} open={addPaymentOpen} />
-      { store.selectedOrder.order_status.status !== "PAYMENT_SUCCESS" ? <CompletePaymentSidebar toggleSidebar={toggleCompleteSidebar} open={completePaymentOpen} selectedOrder={store.selectedOrder} /> : "" }      
-      { store.selectedOrder.order_status.status !== "PAYMENT_SUCCESS" ? <CancelPaymentSidebar toggleSidebar={toggleCancelSidebar} open={cancelPaymentOpen} selectedOrder={store.selectedOrder} /> : "" }      
+      <StatusDelivery toggleSidebar={toggleDeliverSidebar} open={deliverOpen}/>
+      {store.selectedOrder.order_status.status === "PAYMENT_SUCCESS" && store.selectedOrder.order_status.status === "PAYMENT_CANCELLED"  ? <CompletePaymentSidebar toggleSidebar={toggleCompleteSidebar} open={completePaymentOpen} selectedOrder={store.selectedOrder} /> : "" }      
+      {store.selectedOrder.order_status.status === "PAYMENT_SUCCESS" && store.selectedOrder.order_status.status === "PAYMENT_CANCELLED" ? <CancelPaymentSidebar toggleSidebar={toggleCancelSidebar} open={cancelPaymentOpen} selectedOrder={store.selectedOrder} /> : "" }      
     </div>
   ) : (
     <Alert color='danger'>
