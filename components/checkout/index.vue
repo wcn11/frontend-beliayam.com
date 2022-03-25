@@ -556,24 +556,19 @@ moment.locale("id-ID");
 export default {
   name: "Checkout",
   async fetch() {
-    this.$store.dispatch("setGlobalModal", true);
 
     await this.$axios
       .get(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/checkout/cart`)
       .then((res) => {
         this.cart = res.data.data;
-        this.$store.dispatch("setGlobalModal", false);
       })
       .catch((err) => {
         if (err.response.data.error) {
           false;
           this.$toast.warning(err.response.data.message);
-          this.$store.dispatch("setGlobalModal", false);
           this.$router.push("/");
         }
       });
-
-    this.$store.dispatch("setGlobalModal", false);
 
     this.getPaymentChannel();
 

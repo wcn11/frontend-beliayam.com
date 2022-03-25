@@ -17,6 +17,16 @@ export const getters = {
         }, 0)
 
     },
+
+    getCountTotalProductPrice(state) {
+
+        return state.carts.reduce((accumulator, product) => {
+
+            return accumulator + (product.price * product.quantity)
+
+        }, 0)
+
+    },
     getCarts(state) {
 
         return state.carts

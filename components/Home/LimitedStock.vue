@@ -117,7 +117,7 @@ export default {
       products: [],
       fetchProductSetting: {
         page: 1,
-        show: 20,
+        show: 3,
         sortBy: "ASC",
         orderBy: "name",
         min_stock: 0,

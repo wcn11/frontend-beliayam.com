@@ -97,11 +97,12 @@
                             }}</span>
                           </h5>
 
-                          <div>
+                          <div class="mt-4">
+                            <p class="font-weight-bold muted">Pembayaran</p>
                             <p class="m-0">
-                              {{ order.payment.payment_channel }}
+                              {{ order.payment.pg_name }}
                             </p>
-                            <h5 class="mt-2">#{{ order.response.trx_id }}</h5>
+                            <h5 class="mt-2" v-if="order.payment.pg_type !== 'cash' ">#{{ order.response.trx_id }}</h5>
                           </div>
                           <!-- <p>{{ order.order_status.status }}</p> -->
                         </div>

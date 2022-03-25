@@ -67,7 +67,7 @@ export default {
       promos: [],
       promo: {
         page: 1,
-        show: 10,
+        show: 5,
         sortBy: "ASC",
         orderBy: "name",
         platform: ["all"],

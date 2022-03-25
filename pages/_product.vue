@@ -40,7 +40,7 @@
                 >
                   <span
                     class="badge badge-danger badge-discount"
-                    v-if="product.hasDiscount.discountBy === 'price'"
+                    v-if="product.hasDiscount.discountBy === 'percent'"
                     >Diskon
                     {{
                       (product.hasDiscount.discount / product.price) * 100
@@ -48,7 +48,7 @@
                   >
                   <span class="badge badge-danger badge-discount" v-else
                     >Diskon
-                    {{ product.hasDiscount.discount | formatMoney }}</span
+                    {{ ((product.hasDiscount.discount / product.price) * 100) | setSquareDecimal }}%</span
                   >
                 </div>
                 <img
@@ -114,7 +114,9 @@
             <div class="col-lg-6">
               <div class="p-4 bg-white rounded shadow-sm">
                 <div class="pt-0">
-                  <h2 class="font-weight-bold">{{ product.name }}</h2>
+                  <h2 class="font-weight-bold title-product">
+                    {{ product.name }}
+                  </h2>
                   <p
                     class="
                       font-weight-light
@@ -221,42 +223,16 @@
                     >
                       <p>Min. Pembelian 1 Item</p>
                     </div>
-                    <div
-                      class="
-                        input-group
-                        mb-3
-                        border
-                        rounded
-                        shadow-sm
-                        overflow-hidden
-                        bg-white
-                      "
-                    >
-                      <div class="input-group-prepend">
-                        <button
-                          class="
-                            border-0
-                            btn btn-outline-secondary
-                            text-success
-                            bg-white
-                          "
-                        >
-                          <i class="fad fa-sticky-note"></i>
-                        </button>
-                      </div>
-                      <input
+
+                    <div :class="`input-wrapper mt-2 mb-3`">
+                      <textarea
+                        class="input"
                         type="text"
-                        class="
-                          shadow-none
-                          border-0
-                          form-control form-control-lg
-                          pl-0
-                        "
-                        placeholder="Tambah Catatan disini..."
-                        aria-label=""
-                        aria-describedby="basic-addon1"
                         v-model="cart.note"
-                      />
+                      ></textarea>
+                      <span class="placeholder"
+                        >Tulis catatan untuk item ini</span
+                      >
                     </div>
                     <p class="font-weight-bold mb-2">Deskripsi Produk</p>
                     <p class="text-muted small mb-0">
@@ -268,7 +244,10 @@
             </div>
           </div>
 
-          <ProductRelatedProducts :products="relatedProducts" :currentProduct="product" />
+          <ProductRelatedProducts
+            :products="relatedProducts"
+            :currentProduct="product"
+          />
         </div>
       </section>
 
@@ -361,7 +340,7 @@ export default {
       products: [],
       categorySetting: {
         page: 1,
-        show: 10,
+        show: 5,
         sortBy: "ASC",
         orderBy: "name",
         status: "active",
@@ -451,7 +430,7 @@ export default {
         if (product.hasDiscount.discountBy === "percent") {
           price = product.hasDiscount.discount;
         } else if (product.hasDiscount.discountBy === "price") {
-          price = (product.hasDiscount.discount / product.price) * 100;
+          price = ((product.hasDiscount.discount / product.price) * 100).toFixed(2);
         } else {
           price = product.price;
         }
@@ -531,7 +510,7 @@ export default {
       this.$nuxt.refresh();
     },
     async setRelatedProductsFilter(products) {
-      return this.relatedProducts = products 
+      return (this.relatedProducts = products);
     },
     async getRelatedProducts() {
       await this.$axios
@@ -617,6 +596,9 @@ export default {
 
       return formatter.format(val);
     },
+    setSquareDecimal(val) {
+      return val.toFixed(2);
+    },
   },
 
   mounted() {
@@ -634,6 +616,79 @@ export default {
 </script>
 
 <style scoped>
+.title-product {
+  font-size: calc(45% + 20px);
+}
+.notes {
+  max-width: calc(65% - 4ch);
+  padding-right: 5px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.input-none {
+  display: none;
+}
+.input-wrapper {
+  width: 100%;
+  margin-left: 8px;
+  position: relative;
+}
+.input {
+  height: 35px;
+  border-radius: 4px;
+  border: 1px solid #f52c5c;
+  width: 95%;
+  outline: none;
+  box-sizing: border-box;
+  height: 60px;
+  max-height: 100px;
+}
+.placeholder {
+  pointer-events: none;
+  position: absolute;
+  font-weight: 400;
+  top: 18px;
+  left: 8px;
+  padding: 0 8px;
+  background-color: #b4390c;
+  border-radius: 5px;
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  color: grey;
+}
+
+.input:not(:placeholder-shown).input:not(:focus) + .placeholder {
+  transform: scale(0.75) translateY(-36px) translateX(-15%);
+  color: white;
+  transition: 0.2s ease;
+}
+
+.input:focus {
+  border-color: #b4390c;
+}
+
+.input:focus + .placeholder {
+  transform: scale(0.75) translateY(-36px) translateX(-15%);
+  color: white;
+  transition: 0.2s ease;
+}
+
+.input:invalid:not(:placeholder-shown) {
+  transition: 0.2s ease;
+  border-color: #f52c5c;
+}
+
+.input:invalid:not(:placeholder-shown) + .placeholder {
+  transition: 0.2s ease;
+  color: white;
+}
+.input:invalid:not(:placeholder-shown).input:not(:focus) + .placeholder {
+  transform: scale(0.75) translateY(-36px) translateX(-15%);
+  color: white;
+  transition: 0.2s ease;
+}
+
 .badge-discount {
   position: absolute;
   margin: 2%;

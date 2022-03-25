@@ -1,5 +1,8 @@
 <template>
-  <section class="py-4 beliayam-main-body" v-if="products && products.length > 0">
+  <section
+    class="py-4 beliayam-main-body"
+    v-if="products && products.length > 0"
+  >
     <div class="container">
       <div class="row">
         <div class="col-lg-12 p-0">
@@ -39,15 +42,16 @@
                     <div class="list-card-beliayam-2 p-3">
                       <div class="member-plan position-absolute">
                         <span
-                          class="badge badge-danger"
+                          class="badge badge-danger badge-discount"
                           v-if="product.hasDiscount.discountBy === 'price'"
-                          >{{
-                            (product.hasDiscount.discount / product.price) *
-                            100
+                          >Diskon {{
+                            ((product.hasDiscount.discount / product.price) *
+                              100)
+                              | setSquareDecimal
                           }}%</span
                         >
-                        <span class="badge badge-danger" v-else
-                          >{{ product.hasDiscount.discount }}%</span
+                        <span class="badge badge-danger badge-discount" v-else
+                          >Diskon {{ product.hasDiscount.discount }}%</span
                         >
                       </div>
                       <NuxtLink
@@ -118,7 +122,7 @@ export default {
       products: [],
       fetchProductSetting: {
         page: 1,
-        show: 10,
+        show: 8,
         sortBy: "ASC",
         orderBy: "name",
       },
@@ -180,13 +184,24 @@ export default {
 
       return formatter.format(val);
     },
+    setSquareDecimal(val) {
+      return val.toFixed(2);
+    },
   },
 };
 </script>
 
-<style>
+<style scoped>
+.member-plan {
+  padding: 0px;
+}
+.badge-discount{
+  position: absolute;
+  margin: -10px;
+}
 .badge-danger {
-  color: #ffe5e5;
-  background-color: rgb(255 96 0 / 62%);
+  color: #f1e5dd;
+  background-color: rgb(191 77 9);
+  box-shadow: 0px 0px 2px 0px black;
 }
 </style>

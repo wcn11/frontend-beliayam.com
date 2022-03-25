@@ -191,7 +191,7 @@
               </ul>
             </aside>
 
-            <aside class="column col-md">
+            <!-- <aside class="column col-md">
               <h6 class="title">Hubungi Kami</h6>
               <div class="list-unstyled list-adding">
                 <p>
@@ -203,82 +203,8 @@
                   <span> Email support@beliayam.com </span>
                 </div>
               </div>
-            </aside>
-            <!-- <aside class="column col-md">
-              <h6 class="title">My Order</h6>
-              <ul class="list-unstyled list-padding">
-                <li><a href="my_order.html" class="text-dark">My order</a></li>
-                <li>
-                  <a href="status_complete.html" class="text-dark"
-                    >Status Complete</a
-                  >
-                </li>
-                <li>
-                  <a href="status_onprocess.html" class="text-dark"
-                    >Status on Process</a
-                  >
-                </li>
-                <li>
-                  <a href="status_canceled.html" class="text-dark"
-                    >Status Canceled</a
-                  >
-                </li>
-                <li><a href="review.html" class="text-dark">Review</a></li>
-              </ul>
             </aside> -->
-            <!-- <aside class="column col-md">
-              <h6 class="title">My Account</h6>
-              <ul class="list-unstyled list-padding">
-                <li>
-                  <a class="text-dark" href="my_account.html"> My account</a>
-                </li>
-                <li><a class="text-dark" href="promos.html"> Promos</a></li>
-                <li>
-                  <a class="text-dark" href="my_address.html"> My address</a>
-                </li>
-                <li>
-                  <a class="text-dark" href="terms_conditions.html">
-                    Terms &amp; conditions</a
-                  >
-                </li>
-                <li>
-                  <a class="text-dark" href="help_support.html">
-                    Help &amp; support</a
-                  >
-                </li>
-                <li>
-                  <a class="text-dark" href="help_ticket.html"> Help ticket</a>
-                </li>
-                <li><a class="text-dark" href="signin.html"> Logout</a></li>
-              </ul>
-            </aside> -->
-            <!-- <aside class="column col-md">
-              <h6 class="title">Extra Pages</h6>
-              <ul class="list-unstyled list-padding">
-                <li>
-                  <a href="promo_details.html" class="text-dark">
-                    Promo Details
-                  </a>
-                </li>
-                <li>
-                  <a href="terms_conditions.html" class="text-dark">
-                    Conditions
-                  </a>
-                </li>
-                <li>
-                  <a href="help_support.html" class="text-dark">
-                    Help Support
-                  </a>
-                </li>
-                <li>
-                  <a href="refund_payment.html" class="text-dark">
-                    Refund Payment
-                  </a>
-                </li>
-                <li><a href="faq.html" class="text-dark"> FAQ </a></li>
-                <li><a href="signin.html" class="text-dark"> Sign In </a></li>
-              </ul>
-            </aside> -->
+
             <aside class="column col-md">
               <h6 class="title">Unduh Aplikasi</h6>
               <div style="margin: 20px"></div>

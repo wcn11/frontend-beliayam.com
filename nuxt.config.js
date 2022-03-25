@@ -65,7 +65,8 @@ export default {
     '@/static/vendor/sidebar/demo.css',
     '@/static/fonts/css/all.min.css',
     '@/static/css/style.css',
-    'animate.css/animate.min.css'
+    '@/static/css/modaal.min.css',
+    'animate.css/animate.min.css',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
