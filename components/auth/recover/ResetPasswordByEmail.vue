@@ -109,8 +109,8 @@ export default {
     return {
       signature: "",
       badLink: false,
-      password: "qweqwe",
-      password_confirmation: "qweqwe",
+      password: "",
+      password_confirmation: "",
       user: {},
     };
   },
