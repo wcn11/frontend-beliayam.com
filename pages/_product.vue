@@ -48,7 +48,10 @@
                   >
                   <span class="badge badge-danger badge-discount" v-else
                     >Diskon
-                    {{ ((product.hasDiscount.discount / product.price) * 100) | setSquareDecimal }}%</span
+                    {{
+                      ((product.hasDiscount.discount / product.price) * 100)
+                        | setSquareDecimal
+                    }}%</span
                   >
                 </div>
                 <img
@@ -430,7 +433,10 @@ export default {
         if (product.hasDiscount.discountBy === "percent") {
           price = product.hasDiscount.discount;
         } else if (product.hasDiscount.discountBy === "price") {
-          price = ((product.hasDiscount.discount / product.price) * 100).toFixed(2);
+          price = (
+            (product.hasDiscount.discount / product.price) *
+            100
+          ).toFixed(2);
         } else {
           price = product.price;
         }
@@ -472,6 +478,11 @@ export default {
     },
 
     async buy() {
+      if (!this.$store.getters["auth/isAuthenticated"]) {
+        this.$toast.success("Masuk Untuk Melanjutkan Belanja");
+        this.$router.push("/login");
+        return;
+      }
       await this.addProductToCart();
       this.$router.push("/keranjang");
     },
