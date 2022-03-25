@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { isObjEmpty, formatDateTime } from '@utils'
+import { isObjEmpty } from '@utils'
 
 import Avatar from '@components/avatar'
 
@@ -30,6 +30,8 @@ const ProductAccountTab = ({ selectedProduct }) => {
     const [discountValue, setDiscountValue] = useState(0)
     const [discountType, setDiscountType] = useState('percent')
     const [afterDiscount, setAfterDiscount] = useState(0)
+
+    const history = useHistory();
 
     // ** Update user image on mount or change
     useEffect(() => {
@@ -68,6 +70,8 @@ const ProductAccountTab = ({ selectedProduct }) => {
                     discountBy: discountType
                 })
             )
+
+            history.push('/apps/product/list')
         }
     }
 

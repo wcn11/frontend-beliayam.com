@@ -4,12 +4,12 @@ import Sidebar from "./Sidebar"
 
 import { columns } from "./columns"
 
-import { getAllDataOrder, getOrder } from "../store/action"
+import { getOrderByStatus, getOrder } from "../store/action"
 import { useDispatch, useSelector } from "react-redux"
 
 import Select from "react-select"
 import ReactPaginate from "react-paginate"
-import { ChevronDown } from "react-feather"
+import { ChevronDown, Box, Info, Share2 } from "react-feather"
 import DataTable from "react-data-table-component"
 import { selectThemeColors } from "@utils"
 import {
@@ -22,7 +22,7 @@ import {
   Col,
   Label,
   CustomInput,
-  Button,
+  Nav, NavItem, NavLink, TabContent, TabPane,
 } from "reactstrap"
 
 import "@styles/react/libs/react-select/_react-select.scss"
@@ -97,7 +97,9 @@ const OrderList = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [sortPerPage, setSortPerPage] = useState("ASC")
   const [orderBy, setOrderBy] = useState("name")
+  const [status, setStatus] = useState('PAYMENT_SUCCESS')
   const [platforms, setPlatform] = useState("all")
+  const [activeTab, setActiveTab] = useState('1')
   // const [currentRole, setCurrentRole] = useState({ value: '', label: 'Select Role' })
   // const [currentPlan, setCurrentPlan] = useState({ value: '', label: 'Select Plan' })
   const [currentStatus, setCurrentStatus] = useState({
@@ -113,11 +115,12 @@ const OrderList = () => {
   useEffect(() => {
     // dispatch(getAllDataOrder())
     dispatch(
-      getOrder({
+      getOrderByStatus({
         page: currentPage,
         show: rowsPerPage,
         sortBy: sortPerPage,
         orderBy,
+        status,
         platform: [platforms],
       })
     )
@@ -150,13 +153,13 @@ const OrderList = () => {
   // ** Function in get data on page change
   const handlePagination = (page) => {
     dispatch(
-      getOrder({
-        page: page.selected + 1,
-        perPage: rowsPerPage,
-        // role: currentRole.value,
-        // currentPlan: currentPlan.value,
-        status: currentStatus.value,
-        q: searchTerm,
+      getOrderByStatus({
+        page: currentPage,
+        show: rowsPerPage,
+        sortBy: sortPerPage,
+        orderBy,
+        status,
+        platform: [platforms],
       })
     )
     setCurrentPage(page.selected + 1)
@@ -166,13 +169,13 @@ const OrderList = () => {
   const handlePerPage = (e) => {
     const value = parseInt(e.currentTarget.value)
     dispatch(
-      getOrder({
+      getOrderByStatus({
         page: currentPage,
-        perPage: value,
-        // role: currentRole.value,
-        // currentPlan: currentPlan.value,
-        status: currentStatus.value,
-        q: searchTerm,
+        show: rowsPerPage,
+        sortBy: sortPerPage,
+        orderBy,
+        status,
+        platform: [platforms],
       })
     )
     setRowsPerPage(value)
@@ -182,13 +185,13 @@ const OrderList = () => {
   const handleFilter = (val) => {
     setSearchTerm(val)
     dispatch(
-      getOrder({
+      getOrderByStatus({
         page: currentPage,
-        perPage: rowsPerPage,
-        // role: currentRole.value,
-        // currentPlan: currentPlan.value,
-        status: currentStatus.value,
-        q: val,
+        show: rowsPerPage,
+        sortBy: sortPerPage,
+        orderBy,
+        status,
+        platform: [platforms],
       })
     )
   }
@@ -242,7 +245,8 @@ const OrderList = () => {
 
   return (
     <Fragment>
-      <Card>
+
+      {/* <Card>
         <CardHeader>
           <CardTitle tag="h4">Search Filter</CardTitle>
         </CardHeader>
@@ -273,7 +277,7 @@ const OrderList = () => {
             </Col>
           </Row>
         </CardBody>
-      </Card>
+      </Card> */}
 
       <Card>
       <DataTable

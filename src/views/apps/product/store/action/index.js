@@ -230,7 +230,6 @@ export const updateProduct = (id, product) => {
             }
 
       } catch (error) {
-         console.log(error)
          ToastWarning({
          icon: <X size={12}/>,
          title: 'Ada error nih', 

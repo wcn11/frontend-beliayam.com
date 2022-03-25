@@ -1,7 +1,8 @@
 import axios from "axios"
 import { fetcher } from "@src/utility/axiosHooks"
-import { GET_ORDER, GET_ORDER_BYID, POST, POST_FORCE_COMPLETE_ORDER, POST_CANCEL_ORDER  } from "@src/utility/Url"
+import { GET_ORDER, GET_ORDER_BYID, POST_FORCE_COMPLETE_ORDER, POST_CANCEL_ORDER, GET_ORDER_BYSTATUS  } from "@src/utility/Url"
 import { Toast, ToastWarning } from '@src/utility/Toast'
+import { Check, X } from "react-feather"
 
 // get ALL order list
 export const getAllDataOrder = () => {
@@ -19,14 +20,32 @@ export const getAllDataOrder = () => {
 // get order - pagination
 export const getOrder = (params) => {
   return async (dispatch) => {
-    await axios.get(GET_ORDER, { params }).then((response) => {
+    await axios.get(GET_ORDER, { params }).then((res) => {
       dispatch({
         type: "GET_DATA_ORDER",
-        data: response?.data?.data?.order,
+        data: res?.data?.data?.order,
         // totalPages: response.data.total,
         params,
       })
     })
+  }
+}
+
+export const getOrderByStatus = (params) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.get(GET_ORDER_BYSTATUS, { params })
+      if (res) {
+        dispatch({
+          type: "GET_DATA_ORDER_BYSTATUS_SUCCESS",
+          data: res?.data?.data?.order,
+          // totalPages: res.data.total,
+          params,
+        })
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 
@@ -155,45 +174,48 @@ export const updateOrder = (id, order) => {
 // post complete order
 export const forceCompleteOrder = (id) => {
   return async (dispatch, getState) => {
-    await fetcher(POST_FORCE_COMPLETE_ORDER(id), {
+    const res = await fetcher(POST_FORCE_COMPLETE_ORDER(id), {
       method: "POST",
     })
-      .then((response) => {
+    if (res) {
+      try {
         dispatch({
           type: "UPDATE_ORDER",
         })
         Toast({ icon: <Check size={12} />, title: 'Berhasil', content: res?.data?.message })
-      })
-      .then(() => {
         dispatch(getOrderById(id))
+      } catch (error) {
         ToastWarning({
           icon: <X size={12} />,
           title: 'Gagal!',
           content: error.data.message
-      })
-      })
+        })
+      }
+    }
   }
 }
 
 // post CANCEL order
 export const cancelOrderPayment = (id) => {
   return async (dispatch, getState) => {
-    await fetcher(POST_CANCEL_ORDER(id), {
+
+    const res = await fetcher(POST_CANCEL_ORDER(id), {
       method: "POST",
     })
-      .then((response) => {
+    if (res) {
+      try {
         dispatch({
           type: "UPDATE_ORDER",
         })
         Toast({ icon: <Check size={12} />, title: 'Berhasil', content: res?.data?.message })
-      })
-      .then(() => {
         dispatch(getOrderById(id))
+      } catch (error) {
         ToastWarning({
-            icon: <X size={12} />,
-            title: 'Gagal!',
-            content: error.data.message
+          icon: <X size={12} />,
+          title: 'Gagal!',
+          content: error?.data?.message
         })
-      })
+      }
+    }
   }
 }

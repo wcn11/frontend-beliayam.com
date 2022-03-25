@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom"
-
-import { deleteOrder, getOrderById } from "../store/action"
-import { store } from "@store/storeConfig/store"
+// import { deleteOrder, getOrderById } from "../store/action"
+// import { store } from "@store/storeConfig/store"
 import { formatDateTime, numberFormat, toCamelCase } from "@utils"
 
 import {
@@ -120,7 +119,7 @@ export const columns = [
     sortable: true,
     // cell: (row) => row.user.email
     cell: row => {
-      const name = row.user && row.user.name ? row.user.name : 'Frank Exanple',
+      const name = row.user && row.user.name ? row.user.name : 'Customer Ayam',
         email = row.user ? row.user.email : 'example@mail.com'
       return (
         <div className='d-flex justify-content-left align-items-center'>
@@ -154,13 +153,13 @@ export const columns = [
     // selector: "grand_total",
     cell: (row) => numberFormat(row.grand_total)
   },
-  {
-    name: "Order Status",
-    minWidth: "130px",
-    sortable: true,
-    // selector: "order_status",
-    cell: (row) => renderPaymentStatus(row.order_status.status.replace("_", " "))
-  },
+  // {
+  //   name: "Order Status",
+  //   minWidth: "130px",
+  //   sortable: true,
+  //   // selector: "order_status",
+  //   cell: (row) => renderPaymentStatus(row.order_status.status.replace("_", " "))
+  // },
   {
     name: "Payment Type",
     minWidth: "130px",

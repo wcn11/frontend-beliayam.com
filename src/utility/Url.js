@@ -38,6 +38,7 @@ export const GET_ORDER = 'https://be-dev.beliayam.com/api/v1/admin/order'
 export const GET_ORDER_BYID = (id) => `https://be-dev.beliayam.com/api/v1/admin/order/${id}`
 export const POST_FORCE_COMPLETE_ORDER = (id) => `https://be-dev.beliayam.com/api/v1/admin/order/${id}/complete-order`
 export const POST_CANCEL_ORDER = (id) => `https://be-dev.beliayam.com/api/v1/admin/order/${id}/cancel-order`
+export const GET_ORDER_BYSTATUS = `https://be-dev.beliayam.com/api/v1/admin/order/status`
 
 // dashboard
 export const GET_USER_FOR_DSB = 'https://be-dev.beliayam.com/api/v1/admin/users/time-range/client'

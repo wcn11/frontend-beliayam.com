@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { fetcher } from '@src/utility/axiosHooks'
 import { GET_ALL_DATA_USER, GET_USER_BYID, GET_USER_BYACTIVE } from '@src/utility/Url'
+import { Check, X } from 'react-feather'
+import { Toast, ToastWarning } from '@src/utility/Toast'
 
 // ** Get all Data users
 export const getAllData = () => {
@@ -84,10 +86,10 @@ export const updateUserActive = (id, active) => {
     try {
       const req = {
         method: 'PUT',
-        // data: {
-        //   active,
-        //   notify
-        // }
+        data: {
+          active,
+          notify
+        }
       }
       const res = await fetcher(GET_USER_BYACTIVE(id, active), req)
       if (res) {
@@ -96,10 +98,15 @@ export const updateUserActive = (id, active) => {
           selectedUser: res.data?.data,
         })
         dispatch(getUser(getState().users?.params))
+        Toast({ icon: <Check size={12} />, title: 'Update Berhasil', content: res?.data?.message })
       }
-
     } catch (error) {
       console.log(error)
+      ToastWarning({
+        icon: <X size={12} />,
+        title: 'Ada error nih',
+        content: error?.data?.message
+      })
     }
 
   }

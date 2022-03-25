@@ -56,7 +56,7 @@ const EcommerceDashboard = () => {
           <GoalOverview success={colors.success.main} />
         </Col> */}
         <Col lg='4' md='6' xs='12'>
-          <CardTransactions />
+          <GoalOverview />
         </Col>
         <Col lg='4' md='6' xs='12'>
           <CardTransactions />

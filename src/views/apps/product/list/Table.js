@@ -72,6 +72,8 @@ const ProductList = () => {
     const dispatch = useDispatch()
     const store = useSelector(state => state.products)
 
+    console.log(store)
+
     const [searchTerm, setSearchTerm] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -149,13 +151,14 @@ const ProductList = () => {
     }
 
     const CustomPagination = () => {
-        const count = Number(Math.ceil(store.total / rowsPerPage))
-
+        const count = Number(Math.ceil(store / rowsPerPage))
+        console.log(count)
         return (
             <ReactPaginate
                 previousLabel={''}
                 nextLabel={''}
-                pageCount={count || 1}
+                breakLabel={'...'}
+                pageCount={count || 3}
                 activeClassName='active'
                 forcePage={currentPage !== 0 ? currentPage - 1 : 0}
                 onPageChange={page => handlePagination(page)}
@@ -172,6 +175,8 @@ const ProductList = () => {
 
     const dataToRender = () => {
         const filters = {
+            page: currentPage,
+            perPage: rowsPerPage,
             // role: currentRole.value,
             // currentPlan: currentPlan.value,
             status: currentStatus.value,

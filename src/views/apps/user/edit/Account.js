@@ -49,7 +49,8 @@ const UserAccountTab = ({ selectedUser }) => {
   }, [selectedUser])
 
   const onSubmit = (values) => {
-      const active = 'active'
+    console.log(values)
+
       if (isObjEmpty(errors)) {
         dispatch(
           updateUserActive(id, active, {
@@ -60,7 +61,7 @@ const UserAccountTab = ({ selectedUser }) => {
       }
   }
 
-  console.log(selectedUser[0].active)
+  console.log(selectedUser[0].notify)
 
   // ** Renders User
   const renderUserAvatar = () => {
@@ -173,7 +174,9 @@ const UserAccountTab = ({ selectedUser }) => {
                   type='select' 
                   name='active' 
                   id='active' 
-                  defaultValue={userData[0].active}>
+                  defaultValue={userData[0].active}
+                  innerRef={register({ required: true })}
+                  >
                     <option value={true}>Active</option>
                     <option value={false}>Nonactive</option>
                   </Input>
@@ -186,7 +189,9 @@ const UserAccountTab = ({ selectedUser }) => {
                     type='select'
                     name='notify'
                     id='notify'
-                    defaultValue={userData[0].notify}>
+                    defaultValue={userData[0].notify}
+                    innerRef={register({ required: true })}
+                    >
                     <option value={true}>Active</option>
                     <option value={false}>Nonactive</option>
                   </Input>
