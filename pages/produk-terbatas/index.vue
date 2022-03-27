@@ -95,7 +95,7 @@
                             class="price m-0 text-dark"
                             style="font-size: large; text-align: right"
                           >
-                            {{ product.price | formatMoney }}
+                            Rp {{ product.price | formatMoney }}
                           </h6>
                           <div style="text-align: center; padding-top: 5%">
                             <NuxtLink :to="`/${product.slug}`">
@@ -181,13 +181,9 @@ export default {
     formatDate(date) {
       return moment(date).format("DD-MM-yyyy, HH:mm");
     },
-    formatMoney(val) {
-      let formatter = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-      });
 
-      return formatter.format(val);
+    formatMoney(val) {
+      return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
     },
   },
 };

@@ -10,9 +10,12 @@
             <div class="fresh-vegan pb-2">
               <div class="d-flex align-items-center mt-4 mb-2">
                 <h5 class="m-0">Lagi Diskon Nih!</h5>
-                <NuxtLink to="/produk/diskon" class="ml-auto text-dark"
-                  >lihat lainnya</NuxtLink
-                >
+                <NuxtLink
+                  to="/produk/diskon"
+                  class="ml-auto text-white text-see-more"
+                  >Produk Diskon Lainnya
+                  <i class="text-white fad fa-chevron-circle-right"></i
+                ></NuxtLink>
               </div>
 
               <VueSlickCarousel
@@ -44,7 +47,8 @@
                         <span
                           class="badge badge-danger badge-discount"
                           v-if="product.hasDiscount.discountBy === 'price'"
-                          >Diskon {{
+                          >Diskon
+                          {{
                             ((product.hasDiscount.discount / product.price) *
                               100)
                               | setSquareDecimal
@@ -59,11 +63,14 @@
                         class="text-decoration-none text-dark"
                       >
                         <img :src="`${baseApi}/${product.image}`" class="img" />
-                        <h5 class="text-dark">{{ product.name }}</h5>
+                        <h5 class="text-dark label-product">
+                          {{ product.name }}
+                        </h5>
                         <h6 class="mb-1 font-weight-bold">
                           <span
                             v-if="product.hasDiscount.discountBy === 'price'"
                           >
+                            Rp
                             {{
                               (product.price - product.hasDiscount.discount)
                                 | formatMoney
@@ -72,6 +79,7 @@
                           <span
                             v-if="product.hasDiscount.discountBy === 'percent'"
                           >
+                            Rp
                             {{
                               (product.price -
                                 (product.hasDiscount.discount / 100) *
@@ -79,13 +87,13 @@
                                 | formatMoney
                             }}
                           </span>
-                          <del class="text-danger">{{
-                            product.price | formatMoney
-                          }}</del>
+                          <del class="text-danger"
+                            >Rp {{ product.price | formatMoney }}</del
+                          >
                         </h6>
                         <p class="text-gray mb-0 small">Fresh Premium item.</p>
                         <p class="small text-muted m-0 text-dark">
-                          {{ product.weight || 1 }} Kilogram.
+                          <i class="fas fa-weight"></i> {{ product.weight || 1 }} Kilogram.
                         </p>
                       </NuxtLink>
                     </div>
@@ -131,6 +139,7 @@ export default {
         slidesToShow: 4,
         arrows: true,
         autoplay: true,
+        infinite: true,
         responsive: [
           {
             breakpoint: 900,
@@ -177,25 +186,31 @@ export default {
       return moment(date).format("DD-MM-yyyy, HH:mm");
     },
     formatMoney(val) {
-      let formatter = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-      });
-
-      return formatter.format(val);
+      return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
     },
     setSquareDecimal(val) {
-      return val.toFixed(2);
+      return val
     },
   },
 };
 </script>
 
 <style scoped>
+.label-product {
+  font-size: 19px;
+}
+
+.text-see-more {
+  background-color: #cf430f;
+  color: white;
+  font-size: 14px;
+  padding: 7px;
+  border-radius: 9px;
+}
 .member-plan {
   padding: 0px;
 }
-.badge-discount{
+.badge-discount {
   position: absolute;
   margin: -10px;
 }
@@ -203,5 +218,16 @@ export default {
   color: #f1e5dd;
   background-color: rgb(191 77 9);
   box-shadow: 0px 0px 2px 0px black;
+}
+
+@media (max-width: 480px) {
+  .text-see-more {
+    font-size: 10px;
+  }
+}
+@media (max-width: 768px) {
+  .text-see-more {
+    font-size: 10px;
+  }
 }
 </style>

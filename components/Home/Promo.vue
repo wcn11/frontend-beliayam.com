@@ -3,7 +3,10 @@
     <div class="py-3">
       <div class="d-flex align-items-center mb-3">
         <h5 class="m-0">Promo untukmu</h5>
-        <NuxtLink to="/promo" class="ml-auto text-dark">lihat lainnya</NuxtLink>
+        <NuxtLink to="/promo" class="ml-auto text-white text-see-more"
+          >Promo Menarik Lainnya
+          <i class="text-white fad fa-chevron-circle-right"></i>
+        </NuxtLink>
       </div>
 
       <!-- <div
@@ -26,13 +29,22 @@
 
         <NuxtLink
           class="col-lg-12"
+          to="/promo"
+          ><img
+            :src="`${baseURL}/img/banner-global-res.jpg`"
+            class="w-100 img-carousel rounded"
+            alt="Promo"
+        /></NuxtLink>
+
+        <NuxtLink
+          class="col-lg-12"
           v-for="promo in promos"
           :key="promo._id"
           :to="`/promo/${promo.slug}`"
           ><img
             :src="`${baseApi}/${promo.image_promo}`"
             class="w-100 img-carousel rounded"
-            alt="Responsive image"
+            alt="Promo"
         /></NuxtLink>
         <!-- <NuxtLink class="col-lg-12" to="`/promo/${promo.slug}`"
           ><img
@@ -64,6 +76,7 @@ export default {
   data() {
     return {
       baseApi: process.env.NUXT_ENV_BASE_URL_API,
+      baseURL: process.env.NUXT_ENV_BASE_URL,
       promos: [],
       promo: {
         page: 1,
@@ -74,7 +87,7 @@ export default {
         isActive: true,
       },
       settings: {
-        centerMode: true,
+        centerMode: false,
         arrows: true,
         dots: false,
         infinite: true,
@@ -126,14 +139,28 @@ export default {
   display: none;
 }
 
+.text-see-more {
+  background-color: #cf430f;
+  color: white;
+  font-size: 14px;
+  padding: 7px;
+  border-radius: 9px;
+}
+
 @media (max-width: 480px) {
   .img-carousel {
     height: 125px;
+  }
+  .text-see-more {
+    font-size: 10px;
   }
 }
 @media (max-width: 768px) {
   .img-carousel {
     height: 125px;
+  }
+  .text-see-more {
+    font-size: 10px;
   }
 }
 </style>

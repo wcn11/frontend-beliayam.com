@@ -64,38 +64,41 @@
                       <NuxtLink :to="`/${product.slug}`" class="text-dark">
                         <div class="member-plan position-absolute">
                           <span
-                            class="badge badge-danger m-3"
+                            class="badge badge-danger m-2"
                             v-if="product.hasDiscount.discountBy === 'price'"
-                            >{{
+                            >Diskon
+                            {{
                               (product.hasDiscount.discount / product.price) *
                               100
                             }}%</span
                           >
-                          <span class="badge badge-danger m-3" v-else>{{
-                            product.hasDiscount.discount
-                          }}</span>
+                          <span class="badge badge-danger m-2" v-else
+                            >Diskon{{ product.hasDiscount.discount }}</span
+                          >
                         </div>
                         <img
                           :src="`${baseApi}/${product.image}`"
                           class="img-fluid item-img w-100 mb-3"
                         />
-                        <div class="p-3">
+                        <div class="pt-1 px-3 pb-3">
                           <h6 class="mb-1 font-weight-bold">
+                            Rp
                             {{
                               (product.price - product.hasDiscount.discount)
                                 | formatMoney
                             }}
-                            <del class="text-danger">{{
-                              product.price | formatMoney
-                            }}</del>
+                            <del class="text-danger font-del"
+                              >Rp {{ product.price | formatMoney }}</del
+                            >
                           </h6>
-                          <p class="small text-muted m-0 text-dark">
-                            {{ product.weight || 1 }} Kilogram.
+                          <p class="small text-muted mb-4 text-dark">
+                            <i class="fas fa-weight"></i> {{ product.weight || 1 }} Kilogram.
                           </p>
                           <h6
                             class="price m-0 text-dark mt-2"
                             style="font-size: large; text-align: right"
                           >
+                            Rp
                             {{
                               (product.price - product.hasDiscount.discount)
                                 | formatMoney
@@ -183,19 +186,23 @@ export default {
     formatDate(date) {
       return moment(date).format("DD-MM-yyyy, HH:mm");
     },
-    formatMoney(val) {
-      let formatter = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-      });
 
-      return formatter.format(val);
+    formatMoney(val) {
+      return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
     },
   },
 };
 </script>
 
 <style scoped>
+.font-del{
+  font-size:15px;
+}
+.badge-danger {
+  background-color: rgb(191 77 9);
+  box-shadow: 0px 0px 2px 0px black;
+  color: white;
+}
 .item-img {
   max-height: 215px;
   height: 215px;

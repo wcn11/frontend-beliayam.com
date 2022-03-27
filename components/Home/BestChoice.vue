@@ -2,9 +2,10 @@
   <div v-if="products && products.length > 0">
     <div class="title d-flex align-items-center py-3">
       <h5 class="m-0">Pilihan terbaik</h5>
-      <NuxtLink to="/best-choices" class="ml-auto text-dark"
-        >lihat lainnya</NuxtLink
-      >
+      <NuxtLink to="/best-choices" class="ml-auto text-white text-see-more"
+        >Produk Pilihan Lainnya
+        <i class="text-white fad fa-chevron-circle-right"></i
+      ></NuxtLink>
     </div>
 
     <div class="pick_today">
@@ -33,7 +34,7 @@
                     class="img-fluid item-img w-100 mb-3 rounded"
                   />
 
-                  <p class="text-label">
+                  <p class="text-label mb-0">
                     {{ product.name }}
                   </p>
                   <p class="">
@@ -43,7 +44,7 @@
                     class="price m-0 text-dark mt-2"
                     style="font-size: large; text-align: right"
                   >
-                    {{ product.price | formatMoney }}
+                    Rp {{ product.price | formatMoney }}
                   </h6>
                   <div style="text-align: center; padding-top: 5%">
                     <h6 class="btn btn-success w-100">
@@ -91,19 +92,22 @@ export default {
     formatDate(date) {
       return moment(date).format("DD-MM-yyyy, HH:mm");
     },
-    formatMoney(val) {
-      let formatter = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-      });
 
-      return formatter.format(val);
+    formatMoney(val) {
+      return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
     },
   },
 };
 </script>
 
 <style scoped>
+.text-see-more {
+  background-color: #cf430f;
+  color: white;
+  font-size: 14px;
+  padding: 7px;
+  border-radius: 9px;
+}
 .item-img {
   max-height: 150px;
 }
@@ -111,8 +115,26 @@ export default {
   white-space: nowrap;
   width: 100%;
   line-height: 1.5;
-  font-size: 0.86rem;
+  font-weight: bold;
+  font-size: calc(63% + 9px);
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+@media (max-width: 480px) {
+  .text-see-more {
+    font-size: 10px;
+  }
+  .text-label {
+    font-size: calc(27% + 9px);
+  }
+}
+@media (max-width: 768px) {
+  .text-see-more {
+    font-size: 10px;
+  }
+  .text-label {
+    font-size: calc(27% + 9px);
+  }
 }
 </style>

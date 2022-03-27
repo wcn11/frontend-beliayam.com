@@ -86,7 +86,7 @@
                             class="price m-0 text-dark"
                             style="font-size: large; text-align: right"
                           >
-                            {{ ctg.price | formatMoney }}
+                            Rp {{ ctg.price | formatMoney }}
                           </h6>
                           <div style="text-align: center; padding-top: 5%">
                             <NuxtLink :to="`/${ctg.slug}`">

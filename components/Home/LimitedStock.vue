@@ -2,9 +2,9 @@
   <div v-if="products && products.length > 0">
     <div class="title d-flex align-items-center py-3">
       <h5 class="m-0">Sebentar Lagi Habis Nih!</h5>
-      <NuxtLink to="/produk-terbatas" class="ml-auto text-dark"
-        >lihat lainnya</NuxtLink
-      >
+      <NuxtLink to="/produk-terbatas" class="ml-auto text-white text-see-more"
+        >Produk Lainnya <i class="text-white fad fa-chevron-circle-right"></i
+      ></NuxtLink>
     </div>
 
     <div class="beliayam-recommend">
@@ -54,38 +54,13 @@
                 <p class="badge badge-danger" v-else>Habis</p>
                 <div class="d-flex align-items-center">
                   <h6 class="m-0">
-                    {{ product.price | formatMoney }}/{{ product.weight }}
+                    Rp {{ product.price | formatMoney }}/{{ product.weight }}
                     Kilogram
                   </h6>
                   <NuxtLink :to="`/${product.slug}`" class="ml-auto">
                     <div style="text-align: center; padding-top: 5%">
-                      <h6 class="btn btn-success w-100">ambil semua</h6>
+                      <h6 class="btn btn-success w-100"><i class="fad fa-shopping-cart"></i> Beli ini</h6>
                     </div>
-                    <!-- <form
-                      id="myform"
-                      class="cart-items-number d-flex"
-                      method="POST"
-                      action="#"
-                    >
-                      <input
-                        type="button"
-                        value="-"
-                        class="qtyminus btn btn-success btn-sm"
-                        field="quantity"
-                      />
-                      <input
-                        type="text"
-                        name="quantity"
-                        value="1"
-                        class="qty form-control"
-                      />
-                      <input
-                        type="button"
-                        value="+"
-                        class="qtyplus btn btn-success btn-sm"
-                        field="quantity"
-                      />
-                    </form> -->
                   </NuxtLink>
                 </div>
               </div>
@@ -140,24 +115,38 @@ export default {
     formatDate(date) {
       return moment(date).format("DD-MM-yyyy, HH:mm");
     },
-    formatMoney(val) {
-      let formatter = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-      });
 
-      return formatter.format(val);
+    formatMoney(val) {
+      return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
     },
   },
 };
 </script>
 
 <style scoped>
+.text-see-more {
+  background-color: #cf430f;
+  color: white;
+  font-size: 14px;
+  padding: 7px;
+  border-radius: 9px;
+}
 .badge-danger-out-of-stock {
   color: #ffe5e5;
   background-color: rgb(205 77 0);
 }
 .img-rounded {
   border-radius: 12px !important;
+}
+
+@media (max-width: 480px) {
+  .text-see-more {
+    font-size: 10px;
+  }
+}
+@media (max-width: 768px) {
+  .text-see-more {
+    font-size: 10px;
+  }
 }
 </style>

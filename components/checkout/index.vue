@@ -46,7 +46,7 @@
                         to="/akun/alamat"
                         class="
                           font-weight-bold
-                          text-decoration-none text-danger
+                          text-decoration-none text-change-detail
                         "
                         @onclick="openModalAddress()"
                         ><i class="fad fa-location-arrow"></i> ubah
@@ -71,9 +71,10 @@
                           <div>
                             {{ cart.address.address1 }},
                             {{ cart.address.sub_district.name }},
-                            {{ cart.address.district.name }}, ({{
-                              cart.address.details
-                            }})
+                            {{ cart.address.district.name }},
+                            <span v-if="cart.address.details"
+                              >({{ cart.address.details }})</span
+                            >
                           </div>
                           <div>
                             {{ cart.address.city.name }},
@@ -101,7 +102,10 @@
                   <span class="small ml-auto"
                     ><NuxtLink
                       to="/keranjang"
-                      class="font-weight-bold text-decoration-none text-danger"
+                      class="
+                        font-weight-bold
+                        text-decoration-none text-change-detail
+                      "
                       data-toggle="modal"
                       data-target="#exampleDelivery"
                       ><i class="fad fa-bags-shopping"></i> Ubah
@@ -124,7 +128,7 @@
                     <div class="ml-3 text-dark text-decoration-none w-100">
                       <h5 class="mb-1">{{ item.product.name }}</h5>
                       <p class="text-muted mb-2">
-                        {{ item.product.price | formatMoney }} x
+                        Rp {{ item.product.price | formatMoney }} x
                         {{ item.details.quantity }}
                       </p>
                       <div
@@ -135,6 +139,7 @@
                         "
                       >
                         <h6 class="total_price font-weight-bold m-0">
+                          Rp
                           {{
                             (item.product.price * item.details.quantity)
                               | formatMoney
@@ -152,7 +157,7 @@
                 </div>
               </div>
               <div class="address p-3 bg-light">
-                <h6 class="text-dark m-0">Chanel Pembayaran</h6>
+                <h6 class="text-dark m-0">Pilih Metode Pembayaran</h6>
               </div>
               <div>
                 <div class="accordion" id="accordionPaymentChannels">
@@ -398,9 +403,9 @@
                         <span class="small text-muted"
                           >({{ cart.items && cart.items.length }})</span
                         >
-                        <span class="float-right text-dark">{{
-                          cart.subTotalProduct | formatMoney
-                        }}</span>
+                        <span class="float-right text-dark"
+                          >Rp {{ cart.subTotalProduct | formatMoney }}</span
+                        >
                       </p>
                       <div v-if="cart.charges && cart.charges.length">
                         <p
@@ -409,9 +414,9 @@
                           :key="charge._id"
                         >
                           {{ charge.chargeName }}
-                          <span class="float-right text-dark">{{
-                            charge.chargeValue | formatMoney
-                          }}</span>
+                          <span class="float-right text-dark"
+                            >Rp {{ charge.chargeValue | formatMoney }}</span
+                          >
                         </p>
                       </div>
                       <div v-if="cart.vouchers && cart.vouchers.length > 0">
@@ -421,7 +426,7 @@
                             ><i class="fad fa-circle-info"></i
                           ></span>
                           <span class="float-right text-dark"
-                            >-{{ cart.subTotalVoucher | formatMoney }}</span
+                            >- Rp {{ cart.subTotalVoucher | formatMoney }}</span
                           >
                         </p>
                         <!-- <p v-else>
@@ -441,7 +446,7 @@
                   <h5 class="mb-0">
                     Total
                     <span class="float-right text-danger">
-                      {{ cart.baseTotal | formatMoney }}</span
+                      Rp {{ cart.baseTotal | formatMoney }}</span
                     >
                   </h5>
                 </div>
@@ -455,7 +460,7 @@
                   class="text-success text-center"
                   v-if="Object.keys(selectedVoucher).length > 1"
                 >
-                  Kamu hemat {{ cart && cart.subTotalVoucher | formatMoney }}
+                  Kamu hemat Rp {{ cart && cart.subTotalVoucher | formatMoney }}
                 </p>
               </div>
             </div>
@@ -556,7 +561,6 @@ moment.locale("id-ID");
 export default {
   name: "Checkout",
   async fetch() {
-
     await this.$axios
       .get(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/checkout/cart`)
       .then((res) => {
@@ -749,13 +753,11 @@ export default {
     formatDate(date) {
       return moment(date).format("DD-MM-yyyy, HH:mm");
     },
-    formatMoney(val) {
-      let formatter = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-      });
 
-      return formatter.format(val);
+    formatMoney(val) {
+      if (val) {
+        return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
+      }
     },
   },
   computed: {
@@ -783,6 +785,10 @@ export default {
 </script>
 
 <style scoped>
+.text-change-detail {
+  font-size: 16px;
+  color: #353b41;
+}
 #map {
   width: 100%;
   height: 480px;

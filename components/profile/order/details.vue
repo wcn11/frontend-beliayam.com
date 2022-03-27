@@ -1,7 +1,178 @@
 <template>
   <section class="py-4 beliayam-main-body">
-    <div class="container">
-      <div class="row">
+      <div class="container card container-order" ref="document">
+        <div class="row" v-if="order && Object.keys(order).length > 0">
+          <div class="col-lg-12">
+            <div class="invoice-title justify-content-between">
+              <h2>Faktur</h2>
+              <div class="float-right">
+                <h3 class="text-order-id">Pesanan #{{ order.order_id }}</h3>
+                <br />
+                <span
+                  class="text-center badge badge-warning w-100"
+                  v-if="
+                    order.payment.payment_status_code === 1 ||
+                    order.payment.payment_status_code === 0
+                  "
+                  ><i class="fad fa-tasks"></i> Menunggu Pembayaran</span
+                >
+                <div v-if="order.payment.payment_status_code === 2">
+                  <span
+                    class="text-center badge badge-success w-100"
+                    v-if="order.delivery"
+                    ><i class="fas fa-badge-check"></i> Pesanan Selesai</span
+                  >
+                  <span class="text-center badge badge-success w-100" v-else
+                    ><i class="fas fa-truck-loading"></i> Sedang Diproses</span
+                  >
+                </div>
+                <div v-if="order.payment.payment_status_code > 2">
+                  <span class="text-center badge badge-danger w-100"
+                    ><i class="fas fa-ban"></i> Pesanan Dibatalkan</span
+                  >
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div class="row d-flex justify-content-between mt-4">
+              <div class="">
+                <address>
+                  <strong class="text-label">Ditagih Ke:</strong><br />
+                  {{ order.user.name || "Pelanggan Beliayam.com" }}<br />
+                  {{ order.user.email || "" }}<br />
+                  {{ order.user.phone || "" }}<br />
+                </address>
+                <div>
+                  <strong class="text-label">Penerima:</strong><br />
+                  {{ order.shipping_address.receiver_name || "" }}<br />
+                  {{ order.shipping_address.phone || "" }}<br />
+                </div>
+              </div>
+              <div class="text-right">
+                <address>
+                  <strong class="text-label">Dikirim Ke:</strong><br />
+                  <span class="text-label-address">{{
+                    order.shipping_address.label || ""
+                  }}</span
+                  ><br />
+                  {{ order.shipping_address.address1 || "" }}<br />
+                  {{ order.shipping_address.sub_district.name }},
+                  {{ order.shipping_address.district.name }}<br />
+                  {{ order.shipping_address.city.name }},<br />
+                  {{ order.shipping_address.state.name }}<br />
+                  <span v-if="order.shipping_address.postcode"
+                    >{{ order.shipping_address.postcode }} </span
+                  ><br />
+                  <span class="text-muted" v-if="order.shipping_address.details"
+                    >({{ order.shipping_address.details }})</span
+                  >
+                </address>
+              </div>
+            </div>
+            <div class="row justify-content-between mt-5">
+              <div class="">
+                <address>
+                  <strong class="text-label">Metode Pembayaran:</strong><br />
+                  {{ order.payment.pg_name }}<br />
+                  <h6
+                    v-if="order.payment.pg_type !== 'cash'"
+                    class="font-weight-bold"
+                  >
+                    {{ order.response.trx_id }}
+                  </h6>
+                </address>
+              </div>
+              <div class="text-right">
+                <address>
+                  <strong class="text-label">Tanggal Pemesanan:</strong><br />
+                  {{ order.bill.bill_date | formatDate }}<br /><br />
+                </address>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-4">
+          <div class="col-md-12">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title"><strong>Ringkasan Pesanan</strong></h3>
+              </div>
+              <div class="panel-body">
+                <div class="table-responsive">
+                  <table class="table table-condensed">
+                    <thead>
+                      <tr>
+                        <td><strong>Produk</strong></td>
+                        <td class="text-center"><strong>Harga</strong></td>
+                        <td class="text-center"><strong>Kuantitas</strong></td>
+                        <td class="text-right"><strong>Total</strong></td>
+                      </tr>
+                    </thead>
+                    <tbody v-if="order.bill">
+                      <!-- foreach ($order->lineItems as $line) or some such thing here -->
+                      <tr v-for="item in order.bill.bill_items" :key="item._id">
+                        <td>{{ item.product.name }}</td>
+                        <td class="text-center">
+                          Rp {{ item.product.price | formatMoney }}
+                        </td>
+                        <td class="text-center">{{ item.details.quantity }}</td>
+                        <td class="text-right">
+                          Rp
+                          {{
+                            (item.product.price * item.details.quantity)
+                              | formatMoney
+                          }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="thick-line"></td>
+                        <td class="thick-line"></td>
+                        <td class="thick-line text-center">
+                          <strong>Subtotal Produk</strong>
+                        </td>
+                        <td class="thick-line text-right">
+                          Rp {{ order.sub_total_product | formatMoney }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="no-line"></td>
+                        <td class="no-line"></td>
+                        <td class="no-line text-center">
+                          <strong>Biaya Tambahan</strong>
+                        </td>
+                        <td class="no-line text-right">
+                          Rp {{ order.sub_total_charges | formatMoney }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="no-line"></td>
+                        <td class="no-line"></td>
+                        <td class="no-line text-center">
+                          <strong>Voucher</strong>
+                        </td>
+                        <td class="no-line text-right">
+                          -Rp {{ order.sub_total_voucher | formatMoney }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="no-line"></td>
+                        <td class="no-line"></td>
+                        <td class="no-line text-center">
+                          <strong>Total</strong>
+                        </td>
+                        <td class="no-line text-right font-weight-bold">
+                          Rp {{ order.grand_total | formatMoney }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="row">
         <div class="col-md-12" v-if="order && Object.keys(order).length > 0">
           <section
             class="
@@ -62,7 +233,7 @@
                             batalkan pesanan
                           </button>
                           <div
-                            v-if="order.payment.pg_type !== 'cash'"
+                            v-if="order.paymentdiv.pg_type !== 'cash'"
                             class="font-weight-light mt-3 mb-3"
                           >
                             <div>
@@ -104,7 +275,6 @@
                             </p>
                             <h5 class="mt-2" v-if="order.payment.pg_type !== 'cash' ">#{{ order.response.trx_id }}</h5>
                           </div>
-                          <!-- <p>{{ order.order_status.status }}</p> -->
                         </div>
                       </div>
                       <div v-else>
@@ -115,7 +285,6 @@
                               order.order_status.description
                             }}</span>
                           </h5>
-                          <!-- <p>{{ order.order_status.status }}</p> -->
                         </div>
                       </div>
                     </div>
@@ -140,16 +309,6 @@
                         {{ order.shipping_address.postcode }}
                       </div>
                     </div>
-                    <!-- <div class="p-3 border-bottom">
-                      <p class="font-weight-bold small mb-1">Courier</p>
-                      <img
-                        :src="`${this.$config.baseURL}/img/logo.png`"
-                        class="img-fluid sc-beliayam-logo mr-2"
-                      />
-                      <span class="small text-success font-weight-bold"
-                        >Beliayam.com Kurir
-                      </span>
-                    </div> -->
                     <div class="p-3 border-bottom">
                       <h6 class="font-weight-bold">Pesanan</h6>
                       <div
@@ -167,7 +326,7 @@
                             <span class="" v-if="item.details.quantity"
                               >Kuantitas: {{ item.details.quantity }}
                             </span>
-                            <span class="font-weight-bold">{{
+                            <span class="font-weight-bold">Rp {{
                               item.product.price | formatMoney
                             }}</span>
                           </div>
@@ -188,7 +347,7 @@
                       <div class="d-flex align-items-center mb-2">
                         <h6 class="mb-1">Subtotal Produk</h6>
                         <h6 class="ml-auto mb-1">
-                          {{ order.sub_total_product | formatMoney }}
+                          Rp {{ order.sub_total_product | formatMoney }}
                         </h6>
                       </div>
                       <div
@@ -203,26 +362,26 @@
                         >
                           <h6 class="mb-1">{{ charge.chargeName }}</h6>
                           <h6 class="ml-auto mb-1">
-                            {{ charge.chargeValue | formatMoney }}
+                            Rp {{ charge.chargeValue | formatMoney }}
                           </h6>
                         </div>
                       </div>
                       <div class="d-flex align-items-center mb-2" v-else>
                         <h6 class="mb-1">Biaya</h6>
                         <h6 class="ml-auto mb-1">
-                          {{ 0 | formatMoney }}
+                          Rp {{ 0 | formatMoney }}
                         </h6>
                       </div>
                       <div class="d-flex align-items-center mb-2">
                         <h6 class="mb-1">Diskon Voucher</h6>
                         <h6 class="ml-auto mb-1">
-                          -{{ order.sub_total_voucher | formatMoney }}
+                          - Rp {{ order.sub_total_voucher | formatMoney }}
                         </h6>
                       </div>
                       <div class="d-flex align-items-center mb-2">
                         <h5 class="font-weight-bold mb-1">Total Pembayaran</h5>
                         <h5 class="font-weight-bold ml-auto mb-1">
-                          {{ order.grand_total | formatMoney }}
+                          Rp {{ order.grand_total | formatMoney }}
                         </h5>
                       </div>
                       <p class="m-0 small text-muted">
@@ -242,8 +401,33 @@
             <h4>Pesanan yang kamu cari telah diubah atau tidak ditemukan</h4>
           </div>
         </div>
+      </div> -->
       </div>
-    </div>
+
+      <div class="container card container-order">
+        <div class="row" v-if="order && Object.keys(order).length > 0">
+          <div class="col-lg-12">
+            <div class="invoice-title text-center">
+              <NuxtLink to="/akun/pesanan-saya" class="btn btn-secondary">
+                <i class="fas fa-chevron-circle-left"></i> Pesanan Lainnya
+              </NuxtLink>
+              <button
+                class="btn btn-danger"
+                v-if="
+                  order.payment.payment_status_code === 1 ||
+                  order.payment.payment_status_code === 2
+                "
+                @click="openModalCancelOrder()"
+              >
+                <i class="fas fa-ban"></i> Batalkan Pesanan
+              </button>
+              <button class="btn btn-success" @click="exportOrderToPDF()">
+                <i class="fas fa-file-download"></i> Unduh PDF
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
 
     <div
       class="modal fade"
@@ -291,6 +475,7 @@
 </template>
 
 <script>
+import html2pdf from "html2pdf.js";
 import moment from "moment";
 
 moment.locale("id-ID");
@@ -314,6 +499,19 @@ export default {
     };
   },
   methods: {
+    exportOrderToPDF() {
+      html2pdf(this.$refs.document, {
+        margin: 0,
+        filename: "document.pdf",
+        pagebreak: {
+          mode: ['avoid-all']
+        },
+        filename: this.order.bill.bill_desc,
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { dpi: 192, letterRendering: true },
+        jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+      });
+    },
     async cancelOrder() {
       await this.$axios
         .put(
@@ -324,7 +522,7 @@ export default {
           }
         )
         .then((res) => {
-          console.log(res)
+          console.log(res);
           if (res.data.error) {
             this.$toast.warning(res.data.message);
             $("#modalConfirmCancelOrder").modal("hide");
@@ -349,24 +547,59 @@ export default {
     formatDate(date) {
       return moment(date).format("dddd, Do MMMM YYYY HH:mm");
     },
-    formatMoney(val) {
-      let formatter = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-      });
 
-      return formatter.format(val);
+    formatMoney(val) {
+      return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
     },
   },
 };
 </script>
 
 <style scoped>
+.text-label {
+  font-size: calc(40% + 12px);
+}
+.text-label-address {
+  font-weight: bold;
+  font-size: 15px;
+}
+.row {
+  padding-right: 8px;
+  padding-left: 8px;
+}
+.container-order {
+  padding: 20px;
+  border-radius: 10px;
+}
+.text-order-id {
+  font-size: 20px;
+}
+.invoice-title h2,
+.invoice-title h3 {
+  display: inline-block;
+}
+.table > tbody > tr > .no-line {
+  border-top: none;
+}
+
+.table > thead > tr > .no-line {
+  border-bottom: none;
+}
+
+.table > tbody > tr > .thick-line {
+  border-top: 2px solid;
+}
 .not-found-anything {
   margin-top: 20%;
   margin-bottom: 20%;
 }
 .order-container {
   margin-top: 20px;
+}
+.badge-success,
+.btn-success {
+  color: white;
+  background: unset;
+  background-color: #4fa846;
 }
 </style>

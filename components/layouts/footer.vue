@@ -2,7 +2,7 @@
   <div>
     <footer class="section-footer border-top bg-white">
       <section class="footer-top py-4">
-        <div class="container">
+        <div class="container container-footer">
           <div class="row">
             <div class="col-md-12 text-md-right text-center">
               <a
@@ -313,6 +313,14 @@ export default {
 </script>
 
 <style>
+.container-footer {
+  margin-bottom: 30px;
+}
+
+.btn-icon{
+  font-size: 30px;
+  margin-right: 15px;
+}
 .mobile-nav-container {
   border-radius: 12px 12px 0px 0px;
 }

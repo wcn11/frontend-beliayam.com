@@ -94,13 +94,13 @@
                           class="price mt-3 text-dark"
                           style="font-size: large; text-align: right"
                         >
-                          {{
+                          Rp {{
                             (promo.price -
                               (promos.promoValue / 100) * promo.price)
                               | formatMoney
                           }}
                         </h6>
-                        <del class="text-danger text-right">{{
+                        <del class="text-danger text-right">Rp {{
                           promo.price | formatMoney
                         }}</del>
                       </div>
@@ -112,9 +112,9 @@
                           class="price mt-3 text-dark"
                           style="font-size: large; text-align: right"
                         >
-                          {{ (promo.price - promos.promoValue) | formatMoney }}
+                          Rp {{ (promo.price - promos.promoValue) | formatMoney }}
                         </h6>
-                        <del class="text-danger text-right">{{
+                        <del class="text-danger text-right">Rp {{
                           promo.price | formatMoney
                         }}</del>
                       </div>
@@ -206,13 +206,9 @@ export default {
     formatDate(date) {
       return moment(date).format("DD-MM-yyyy, HH:mm");
     },
-    formatMoney(val) {
-      let formatter = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-      });
 
-      return formatter.format(val);
+    formatMoney(val) {
+      return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
     },
   },
 };

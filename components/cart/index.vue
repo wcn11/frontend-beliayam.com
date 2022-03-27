@@ -90,6 +90,7 @@
                           >
                             <h5 class="mb-1">{{ product.name }}</h5>
                             <p class="text-muted mb-2">
+                              Rp
                               {{ setPriceWithDiscount(product) | formatMoney }}
                               x
                               {{ product.quantity }}
@@ -102,6 +103,7 @@
                               "
                             >
                               <h6 class="total_price font-weight-bold m-0">
+                                Rp
                                 {{
                                   setTotalPriceProductWithDiscount(product)
                                     | formatMoney
@@ -116,7 +118,7 @@
                                   role="button"
                                   @click="removeProduct(product._id)"
                                 >
-                                  <i class="far fa-trash-alt"></i>
+                                  <i class="far fa-trash-alt icon-delete"></i>
                                 </div>
                                 <input
                                   type="button"
@@ -153,51 +155,65 @@
                                 />
                               </div>
                             </div>
-                            <div v-if="!product.note">
+
+                            <!-- <div v-if="product.note === ''"> -->
+
+                              <span :class="`notes notes-${product._id}`">{{
+                                product.note
+                              }}</span>
+
                               <span
                                 role="button"
                                 :class="`w-50 text-danger note note-${product._id}`"
                                 @click="setNote(product._id)"
                               >
-                                tulis catatan
+                                {{  product.note === '' ? 'Tulis Catatan' : 'Ubah Catatan' }}
                               </span>
 
                               <div
                                 :class="`input-wrapper mt-2 input-none input-note input-note-${product._id}`"
-                                @focusout="closeNote()"
                               >
-                                <input
-                                  class="input"
-                                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+
+                                <textarea
+                                  :class="`input input-${product._id}`"
                                   type="text"
                                   v-model="product.note"
                                   @change="updateNote($event, product._id)"
                                   @keyup.enter="updateNote($event, product._id)"
-                                />
+                                  @focusout="closeNote()"
+                                ></textarea>
+                                <!-- <input
+                                  class="input"
+                                  type="text"
+                                  v-model="product.note"
+                                  @change="updateNote($event, product._id)"
+                                  @keyup.enter="updateNote($event, product._id)"
+                                  @focusout="closeNote()"
+                                /> -->
                                 <span class="placeholder"
-                                  >Tulis catatan untuk item ini</span
+                                  >Tulis Catatan Untuk Item Ini</span
                                 >
                               </div>
-                            </div>
-                            <div class="d-flex" v-else>
+                            <!-- </div> -->
+
+                            <!-- <div class="d-flex" v-else>
                               <span :class="`notes notes-${product._id}`">{{
                                 product.note
                               }}</span>
 
                               <div
                                 :class="`input-wrapper mt-2 input-none edit-input-note edit-input-note-${product._id}`"
-                                @focusout="closeNote()"
                               >
-                                <input
+                                <textarea
                                   class="input"
-                                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                                   type="text"
                                   v-model="product.note"
                                   @change="updateNote($event, product._id)"
                                   @keyup.enter="updateNote($event, product._id)"
-                                />
+                                  @focusout="closeNote()"
+                                ></textarea>
                                 <span class="placeholder"
-                                  >Tulis catatan untuk item ini</span
+                                  >Tulis Catatan Untuk Item Ini</span
                                 >
                               </div>
 
@@ -206,9 +222,9 @@
                                 :class="`w-25 text-danger edit-note edit-note-${product._id}`"
                                 @click="editNote(product._id)"
                               >
-                                Ubah
+                                Ubah Catatan
                               </span>
-                            </div>
+                            </div> -->
 
                             <div
                               class="text-danger text-right"
@@ -252,8 +268,7 @@
                           >
                             <div class="more text-white">
                               <h6 class="m-0">
-                                Subtotal
-                                {{ countTotalToPay | formatMoney }}
+                                Subtotal Rp {{ countTotalToPay | formatMoney }}
                                 <!-- {{
                                   getSelectedVouchers.grandTotalAfterDiscount
                                     ? getSelectedVouchers.grandTotalAfterDiscount
@@ -310,9 +325,11 @@
                     </p>
                   </div>
                 </div>
-                <div>
+                <div class="mt-3">
                   <div class="bg-white pl-2 pr-2 clearfix">
-                    <p class="font-weight-bold small mb-2">Voucher</p>
+                    <p class="font-weight-bold ml-2 mb-2 text-details">
+                      Voucher
+                    </p>
                     <button
                       class="btn btn-light mb-1 w-100"
                       @click="openModalVouchers()"
@@ -333,17 +350,23 @@
                             ? selectedVoucher.voucherName
                             : selectedVoucher.voucherCode
                         }}
-                        <span class="float-right text-dark">{{
-                          getPriceVoucherLabelPrice(selectedVoucher)
-                            | formatMoney
-                        }}</span>
+                        <span class="float-right text-dark"
+                          >Rp
+                          {{
+                            getPriceVoucherLabelPrice(selectedVoucher)
+                              | formatMoney
+                          }}</span
+                        >
                       </p>
                       <br />
                       <h6 class="mb-0 text-danger">
-                        Total Diskon<span class="float-right text-danger">{{
-                          getPriceVoucherLabelPrice(selectedVoucher)
-                            | formatMoney
-                        }}</span>
+                        Total Diskon<span class="float-right text-danger"
+                          >Rp
+                          {{
+                            getPriceVoucherLabelPrice(selectedVoucher)
+                              | formatMoney
+                          }}</span
+                        >
                       </h6>
                     </div>
                     <!-- <p
@@ -367,14 +390,16 @@
                     </h6> -->
                   </div>
                   <div class="bg-white p-3 clearfix">
-                    <p class="font-weight-bold small mb-2">Rincian Tagihan</p>
+                    <p class="font-weight-bold mb-2 text-details">
+                      Rincian Tagihan
+                    </p>
                     <p class="mb-1">
                       Total produk
                       <span class="small text-muted"
                         >({{ carts.products.length }} item)</span
                       >
                       <span class="float-right text-dark">
-                        {{ countSubtotalProduct() | formatMoney }}</span
+                        Rp {{ countSubtotalProduct() | formatMoney }}</span
                       >
                     </p>
                     <div v-if="charges.length">
@@ -384,9 +409,9 @@
                         :key="charge._id"
                       >
                         {{ charge.chargeName }}
-                        <span class="float-right text-dark">{{
-                          charge.chargeValue | formatMoney
-                        }}</span>
+                        <span class="float-right text-dark"
+                          >Rp {{ charge.chargeValue | formatMoney }}</span
+                        >
                       </p>
                     </div>
                     <p
@@ -398,8 +423,7 @@
                     >
                       Voucher
                       <span class="float-right text-dark"
-                        >-
-                        {{
+                        >- Rp{{
                           getPriceVoucherLabelPrice(selectedVoucher)
                             | formatMoney
                         }}</span
@@ -410,15 +434,28 @@
                     <h5 class="mb-0">
                       Total
                       <span class="float-right text-danger">
-                        {{ countTotalToPay | formatMoney }}</span
+                        Rp {{ countTotalToPay | formatMoney }}</span
                       >
                     </h5>
                   </div>
                 </div>
               </div>
-              <p class="text-success text-center" v-if="selectedVoucher">
-                Anda Hemat
-                {{ getSelectedVouchers.totalVoucherFee | formatMoney }}
+              <p
+                class="text-success text-center"
+                v-if="
+                  selectedVoucher && Object.keys(selectedVoucher).length > 0
+                "
+              >
+                Anda Hemat Rp
+                <span v-if="selectedVoucher.discountBy === 'percent'">
+                  {{
+                    ((selectedVoucher.discountValue / 100) * countTotalProduct)
+                      | formatMoney
+                  }}</span
+                >
+                <span v-if="selectedVoucher.discountBy === 'price'">
+                  {{ selectedVoucher.discountValue | formatMoney }}</span
+                >
               </p>
             </div>
           </div>
@@ -576,7 +613,7 @@
                                   "
                                   v-else
                                 >
-                                  *belum mencapai total min:
+                                  *belum mencapai total min: Rp
                                   {{ voucher.minimumOrderValue | formatMoney }}
                                   belanja
                                 </span>
@@ -818,181 +855,239 @@
                       <h4 class="text-center mb-5">Alamat</h4>
 
                       <form class="">
-                        <div class="form-group">
-                          <label for="label">Label</label>
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="label"
-                            v-model="userData.address.label"
-                          />
+                        <div class="card">
+                          <div class="card-header">
+                            Informasi Penerimaan Produk
+                          </div>
+                          <div class="card-body">
+                            <div class="form-group">
+                              <label for="receiver">Nama Penerima</label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="receiver"
+                                placeholder="Nama Penerima Pesanan"
+                                v-model="userData.address.receiver_name"
+                              />
+                            </div>
+                            <div class="form-group">
+                              <label for="phone">Nomor HP</label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Contoh: 0812"
+                                v-model="userData.address.phone"
+                              />
+                            </div>
+                          </div>
                         </div>
-                        <div class="form-group">
-                          <label for="receiver">Penerima</label>
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="receiver"
-                            v-model="userData.address.receiver_name"
-                          />
-                        </div>
-                        <div class="form-group">
-                          <label for="phone">Nomor Hp</label>
-                          <input
-                            type="text"
-                            class="form-control"
-                            v-model="userData.address.phone"
-                          />
-                        </div>
-                        <div class="form-group">
-                          <label for="inputAddress">Alamat</label>
-                          <textarea
-                            type="text"
-                            class="form-control"
-                            id="inputAddress"
-                            placeholder="Jl. Jenderal Sudirman RT 02/10"
-                            v-model="userData.address.address1"
-                          />
-                        </div>
-                        <div class="form-group">
-                          <label for="inputAddress">Alamat 2</label>
-                          <textarea
-                            type="text"
-                            class="form-control"
-                            id="inputAddress"
-                            placeholder="Jl. Soekarno Hatta RT 02/10"
-                            v-model="userData.address.address2"
-                          />
-                        </div>
-                        <div class="form-group">
-                          <label for="inputAddress2">Detail/Patokan</label>
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="inputAddress2"
-                            v-model="userData.address.details"
-                            placeholder="Apartment, studio, atau lantai"
-                          />
-                        </div>
-                        <div class="form-group">
-                          <label for="inputState">Provinsi</label>
-                          <select
-                            id="inputState"
-                            class="form-control"
-                            v-model="userData.address.state"
-                            @change="
-                              getCities('update', userData.address.state.id)
-                            "
-                          >
-                            <option
-                              disabled
-                              :selected="regions.state.length <= 0"
-                            >
-                              Pilih Provinsi...
-                            </option>
-                            <option
-                              v-for="state in regions.state"
-                              :value="state"
-                              :key="state.id"
-                            >
-                              {{ state.name }}
-                            </option>
-                          </select>
-                        </div>
-                        <div class="form-group">
-                          <label for="inputState">Kota & Kabupaten</label>
-                          <select
-                            id="inputState"
-                            class="form-control"
-                            v-model="userData.address.city"
-                            @change="
-                              getDistricts('update', userData.address.city.id)
-                            "
-                          >
-                            <option disabled selected>
-                              Pilih Kota/kabupaten...
-                            </option>
-                            <option
-                              v-for="city in regions.cities.regencies"
-                              :value="city"
-                              :key="city.id"
-                            >
-                              {{ city.name }}
-                            </option>
-                          </select>
-                        </div>
-                        <div class="form-group">
-                          <label for="inputState">Kecamatan</label>
-                          <select
-                            id="inputState"
-                            class="form-control"
-                            v-model="userData.address.district"
-                            @change="
-                              getSubDistricts(
-                                'update',
-                                userData.address.district.id
-                              )
-                            "
-                          >
-                            <option disabled selected>
-                              Pilih Kecamatan...
-                            </option>
-                            <option
-                              v-for="district in regions.districts.districts"
-                              :value="district"
-                              :key="district.id"
-                            >
-                              {{ district.name }}
-                            </option>
-                          </select>
-                        </div>
-                        <div class="form-row">
-                          <div class="form-group col-md-8">
-                            <label for="inputState">Kelurahan & desa</label>
-                            <select
-                              id="inputState"
-                              class="form-control"
-                              v-model="userData.address.sub_district"
-                            >
-                              <option disabled selected>
-                                Pilih Kelurahan/desa...
-                              </option>
-                              <option
-                                v-for="sub_district in regions.sub_districts
-                                  .villages"
-                                :value="sub_district"
-                                :key="sub_district.id"
+                        <div class="card mt-4">
+                          <div class="card-header">
+                            Alamat Pengiriman Pesanan
+                          </div>
+                          <div class="card-body">
+                            <div class="form-group">
+                              <label for="label">Label Alamat</label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="label"
+                                placeholder="Contoh: Rumah Ibu"
+                                v-model="userData.address.label"
+                              />
+                              <div
+                                class="btn-group btn-group-toggle w-100 mt-3"
+                                data-toggle="buttons"
                               >
-                                {{ sub_district.name }}
-                              </option>
-                            </select>
-                          </div>
-                          <div class="form-group col-md-4">
-                            <label for="inputZip">Kode POS</label>
-                            <input
-                              type="text"
-                              class="form-control"
-                              id="inputZip"
-                              v-model="userData.address.postcode"
-                            />
+                                <label
+                                  class="btn btn-outline-danger active"
+                                  @click="setLabelAddress('Rumah')"
+                                >
+                                  <input
+                                    type="radio"
+                                    name="options"
+                                    id="option1"
+                                    checked
+                                  />
+                                  Rumah
+                                </label>
+                                <label
+                                  class="btn btn-outline-danger"
+                                  @click="setLabelAddress('Kantor')"
+                                >
+                                  <input
+                                    type="radio"
+                                    name="options"
+                                    id="option2"
+                                  />
+                                  Kantor
+                                </label>
+                                <label
+                                  class="btn btn-outline-danger"
+                                  @click="setLabelAddress('Apartment')"
+                                >
+                                  <input
+                                    type="radio"
+                                    name="options"
+                                    id="option3"
+                                  />
+                                  Apartment
+                                </label>
+                                <label
+                                  class="btn btn-outline-danger"
+                                  @click="setLabelAddress('Kos')"
+                                >
+                                  <input
+                                    type="radio"
+                                    name="options"
+                                    id="option3"
+                                  />
+                                  Kos
+                                </label>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputAddress">Alamat</label>
+                              <textarea
+                                type="text"
+                                class="form-control"
+                                id="inputAddress"
+                                placeholder="Jl. Jenderal Sudirman RT 02/10"
+                                v-model="userData.address.address1"
+                              />
+                            </div>
+                            <div class="form-group">
+                              <label for="inputAddress">Alamat 2</label>
+                              <textarea
+                                type="text"
+                                class="form-control"
+                                id="inputAddress"
+                                placeholder="Jl. Soekarno Hatta RT 04/10"
+                                v-model="userData.address.address2"
+                              />
+                            </div>
+                            <div class="form-group">
+                              <label for="inputAddress2">Detail/Patokan</label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="inputAddress2"
+                                v-model="userData.address.details"
+                                placeholder="Apartment, Blok, Pos Satpam"
+                              />
+                            </div>
+                            <div class="form-group">
+                              <label for="inputState">Provinsi</label>
+                              <select
+                                id="inputState"
+                                class="form-control"
+                                v-model="userData.address.state"
+                                @change="getCities()"
+                              >
+                                <option disabled selected>
+                                  Pilih Provinsi...
+                                </option>
+                                <option
+                                  v-for="state in regions.state"
+                                  :value="state"
+                                  :key="state.id"
+                                >
+                                  {{ state.name }}
+                                </option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputState">Kota & Kabupaten</label>
+                              <select
+                                id="inputState"
+                                class="form-control"
+                                v-model="userData.address.city"
+                                @change="getDistricts()"
+                              >
+                                <option disabled selected>
+                                  Pilih Kota/kabupaten...
+                                </option>
+                                <option
+                                  v-for="city in regions.cities.regencies"
+                                  :value="city"
+                                  :key="city.id"
+                                >
+                                  {{ city.name }}
+                                </option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <label for="inputState">Kecamatan</label>
+                              <select
+                                id="inputState"
+                                class="form-control"
+                                v-model="userData.address.district"
+                                @change="getSubDistricts()"
+                              >
+                                <option disabled selected>
+                                  Pilih Kecamatan...
+                                </option>
+                                <option
+                                  v-for="district in regions.districts
+                                    .districts"
+                                  :value="district"
+                                  :key="district.id"
+                                >
+                                  {{ district.name }}
+                                </option>
+                              </select>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-md-8">
+                                <label for="inputState">Kelurahan & desa</label>
+                                <select
+                                  id="inputState"
+                                  class="form-control"
+                                  v-model="userData.address.sub_district"
+                                >
+                                  <option disabled selected>
+                                    Pilih Kelurahan/desa...
+                                  </option>
+                                  <option
+                                    v-for="sub_district in regions.sub_districts
+                                      .villages"
+                                    :value="sub_district"
+                                    :key="sub_district.id"
+                                  >
+                                    {{ sub_district.name }}
+                                  </option>
+                                </select>
+                              </div>
+                              <div class="form-group col-md-4">
+                                <label for="inputZip">Kode POS</label>
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  id="inputZip"
+                                  v-model="userData.address.postcode"
+                                />
+                              </div>
+                            </div>
                           </div>
                         </div>
-                        <div class="form-group">
-                          <div class="form-check">
-                            <input
-                              class="form-check-input"
-                              type="checkbox"
-                              id="gridCheck"
-                              checked
-                              v-model="userData.address.default"
-                            />
-                            <label class="form-check-label" for="gridCheck">
-                              Jadikan Alamat Utama
-                            </label>
+                        <div class="card mt-4">
+                          <div class="card-body">
+                            <div class="form-group mb-0">
+                              <div class="form-check">
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  id="gridCheck"
+                                  v-model="userData.address.default"
+                                />
+                                <label class="form-check-label" for="gridCheck">
+                                  Jadikan Alamat Utama
+                                </label>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </form>
-
                       <div class="mb-4">
                         *anda dapat mengubah alamat
                         <a href="/akun/alamat" class="text-danger"> disini</a>
@@ -1018,7 +1113,7 @@
                           <button
                             type="button"
                             class="default-btn text-white next-step"
-                            :disabled="!nextStepToCheckout"
+                            :disabled="!nextStepToCheckout()"
                           >
                             Lanjutkan
                             <i class="fad fa-chevron-circle-right"></i>
@@ -1163,6 +1258,9 @@ export default {
     },
   },
   methods: {
+    setLabelAddress(label = "Rumah") {
+      this.userData.address.label = label;
+    },
     async saveNewAddress() {
       const user = this.$store.state.auth.user;
 
@@ -1211,7 +1309,7 @@ export default {
         }
         return true;
       }
-      return true;
+      return false;
     },
     nextStepToAddress() {
       if (this.$store.state.auth.user) {
@@ -1462,8 +1560,8 @@ export default {
       $(`.input-note`).css("display", "none");
       $(`.edit-input-note`).css("display", "none");
       $(`.edit-note`).css("display", "block");
-      $(`.notes`).css("display", "block");
-      $(`.note`).css("display", "block");
+      $(`.notes`).css("display", "unset");
+      $(`.note`).css("display", "unset");
     },
     editNote(id) {
       $(`.edit-note-${id}`).css("display", "none");
@@ -1474,7 +1572,9 @@ export default {
     setNote(id) {
       $(`.input-note-${id}`).css("display", "block");
       $(`.input-note-${id} input`).focus();
+      $(`.input-${id}`).focus();
       $(`.note-${id}`).css("display", "none");
+      $(`.notes-${id}`).css("display", "none");
     },
     async removeProduct(id) {
       this.$store.dispatch("setGlobalModal", true);
@@ -1507,7 +1607,6 @@ export default {
       this.$store.dispatch("setGlobalModal", false);
     },
     async updateNote(event, id) {
-      this.$store.dispatch("setGlobalModal", false);
 
       const note = event.target.value;
       this.$axios
@@ -1519,23 +1618,18 @@ export default {
         .then(async (results) => {
           if (results.data.error) {
             // this.$toast.warning(results.data.message);
-            this.$store.dispatch("setGlobalModal", false);
           }
-          this.$toast.success(results.message);
-          this.$store.dispatch("setGlobalModal", false);
+          // this.$toast.success(results.message);
 
           // this.closeNote();
         })
         .catch((err) => {
           if (err && err.response && err.response.data.error) {
             this.$toast.warning(err.response.data.message);
-            this.$store.dispatch("setGlobalModal", false);
           } else {
             this.$toast.warning("Server Sibuk");
-            this.$store.dispatch("setGlobalModal", false);
           }
         });
-      this.$store.dispatch("setGlobalModal", false);
     },
     setQuantity(evt, id) {
       this.carts.products.filter((product) => {
@@ -1583,7 +1677,7 @@ export default {
         ) {
           this.wizardUncompleteInfo();
 
-            this.$toast.warning("Beberapa informasi dibutuhkan untuk pemesanan");
+          this.$toast.warning("Beberapa informasi dibutuhkan untuk pemesanan");
           return;
         }
         if (
@@ -1592,7 +1686,9 @@ export default {
         ) {
           this.wizardUncompleteInfo();
 
-            this.$toast.warning("Alamat pengiriman dibutuhkan untuk pengiriman pesanan");
+          this.$toast.warning(
+            "Alamat pengiriman dibutuhkan untuk pengiriman pesanan"
+          );
           return;
         }
       }
@@ -2070,13 +2166,9 @@ export default {
     formatDate(date) {
       return moment(date).format("DD-MM-yyyy, HH:mm");
     },
-    formatMoney(val) {
-      let formatter = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-      });
 
-      return formatter.format(val);
+    formatMoney(val) {
+      return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
     },
   },
 
@@ -2243,6 +2335,9 @@ export default {
 </style>
 
 <style scoped>
+.text-details {
+  font-size: 17px;
+}
 .notes {
   max-width: calc(65% - 4ch);
   padding-right: 5px;
@@ -2255,16 +2350,17 @@ export default {
 }
 .input-wrapper {
   width: 100%;
-  margin-left: 8px;
+  margin-left: 0px;
   position: relative;
 }
 .input {
-  height: 35px;
+  height: 60px;
   border-radius: 4px;
   border: 1px solid #f52c5c;
-  width: 79%;
+  width: 100%;
   outline: none;
   box-sizing: border-box;
+  line-height: 30px;
 }
 .placeholder {
   pointer-events: none;
@@ -2388,6 +2484,9 @@ export default {
 
 .cart-items-number {
   width: 120px;
+}
+.icon-delete {
+  margin-right: 0px;
 }
 
 /* for wizard */
@@ -2729,7 +2828,7 @@ input[type="checkbox"]:checked::before {
   .input {
     margin-left: 8px;
     height: 35px;
-    width: 70%;
+    width: 90%;
   }
 }
 
@@ -2737,7 +2836,7 @@ input[type="checkbox"]:checked::before {
   .input {
     margin-left: 8px;
     height: 35px;
-    width: 72%;
+    width: 90%;
   }
 }
 </style>

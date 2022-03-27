@@ -1,11 +1,12 @@
 <template>
   <div class="beliayam-body">
     <div class="pt-3 pb-2 beliayam-categories">
-      <div class="d-flex align-items-center mb-2">
+      <div class="d-flex align-items-center mb-4">
         <h5 class="m-0">Cari ayam ?</h5>
-        <NuxtLink to="/kategori" class="ml-auto text-dark"
-          >lihat lainnya</NuxtLink
-        >
+        <NuxtLink to="/kategori" class="ml-auto text-white text-see-more"
+          >Kategori Lainnya
+          <i class="text-white fad fa-chevron-circle-right"></i
+        ></NuxtLink>
       </div>
       <!-- <div class="categories-slider"> -->
 
@@ -150,15 +151,18 @@ export default {
       categories: [],
       fetchCategorySetting: {
         page: 1,
-        show: 8,
+        show: 5,
         sortBy: "ASC",
         orderBy: "name",
-        status: "active"
+        status: "active",
       },
       settings: {
-        slidesToScroll: 3,
-        slidesToShow: 8,
+        slidesToScroll: 1,
+        slidesToShow: 5,
+        infinite: true,
+        autoplay: true,
         arrows: true,
+        adaptiveHeight: true,
         responsive: [
           {
             breakpoint: 768,
@@ -185,9 +189,30 @@ export default {
 };
 </script>
 
-<style>
-.c-it{
-  height: 100px;
-  min-height: 100px;
+<style scoped>
+.text-see-more {
+  background-color: #cf430f;
+  color: white;
+  font-size: 14px;
+  padding: 7px;
+  border-radius: 9px;
+}
+.c-it {
+  height: 130px;
+  min-height: 130px;
+}
+.c-it img{
+  height: 70px;
+}
+
+@media (max-width: 480px) {
+  .text-see-more {
+    font-size: 10px;
+  }
+}
+@media (max-width: 768px) {
+  .text-see-more {
+    font-size: 10px;
+  }
 }
 </style>

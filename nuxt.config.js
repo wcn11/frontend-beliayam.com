@@ -87,6 +87,7 @@ export default {
       src: './plugins/vuex-persistedstate',
       mode: 'client'
     },
+    { src: '@/plugins/html2pdf', mode: 'client' },
     './plugins/vuex-persistedstate',
     './plugins/axios',
     './plugins/filters',

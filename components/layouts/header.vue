@@ -198,6 +198,81 @@
           </div>
 
           <div class="dropdown mr-3" v-if="isAuthenticated">
+            <NuxtLink
+              to="/keranjang"
+              class="text-dark dropdown-toggle not-drop"
+              id="dropdownCart"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <i
+                class="
+                  fad
+                  fa-shopping-cart
+                  d-flex
+                  align-items-center
+                  bg-light
+                  rounded-pill
+                  p-2
+                  shadow-sm
+                "
+              >
+              </i>
+              <span class="ml-1 cart-label-count">
+                {{ getCartsNav.length > 99 ? `99+` : getCartsNav.length }}
+              </span>
+            </NuxtLink>
+            <div
+              class="
+                dropdown-menu dropdown-menu-right
+                p-0
+                beliayam-notifications-main
+              "
+              aria-labelledby="dropdownCart"
+            >
+              <div>
+                <div>
+                  <div class="p-2">
+                    <span>Keranjang ({{ getCartsNav.length }}) </span>
+                    <div class="float-right">
+                      <NuxtLink to="/keranjang"> Lihat Keranjang </NuxtLink>
+                    </div>
+                  </div>
+
+                  <div
+                    class="beliayam-notifications bg-white border-bottom p-2"
+                    v-for="cart in getCartsNav"
+                    :key="cart._id"
+                  >
+                    <NuxtLink :to="`/${cart.slug}`">
+                      <div class="position-absolute ml-n1 py-2 text-danger">
+                        Rp {{ setPriceWithDiscount(cart) | formatMoney }}
+                      </div>
+                      <div class="text-decoration-none text-dark">
+                        <div class="notifiction small">
+                          <div class="ml-3">
+                            <p class="font-weight-bold mb-1">
+                              {{ cart.name }}
+                            </p>
+                            <p class="small m-0">
+                              <i class="fad fa-calendar-alt"></i>
+                              {{ cart.quantity }} Produk ({{
+                                (cart.quantity * cart.weight).toFixed(1)
+                              }}
+                              kg)
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </NuxtLink>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dropdown mr-3" v-if="isAuthenticated">
             <a
               href="#"
               class="dropdown-toggle text-dark"
@@ -326,81 +401,6 @@
               </div>
             </div>
           </div> -->
-
-          <div class="dropdown" v-if="isAuthenticated">
-            <NuxtLink
-              to="/keranjang"
-              class="text-dark dropdown-toggle not-drop"
-              id="dropdownCart"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <i
-                class="
-                  fad
-                  fa-shopping-cart
-                  d-flex
-                  align-items-center
-                  bg-light
-                  rounded-pill
-                  p-2
-                  shadow-sm
-                "
-              >
-              </i>
-              <span class="ml-1 cart-label-count">
-                {{ getCartsNav.length > 99 ? `99+` : getCartsNav.length }}
-              </span>
-            </NuxtLink>
-            <div
-              class="
-                dropdown-menu dropdown-menu-right
-                p-0
-                beliayam-notifications-main
-              "
-              aria-labelledby="dropdownCart"
-            >
-              <div>
-                <div>
-                  <div class="p-2">
-                    <span>Keranjang ({{ getCartsNav.length }}) </span>
-                    <div class="float-right">
-                      <NuxtLink to="/keranjang"> Lihat Keranjang </NuxtLink>
-                    </div>
-                  </div>
-
-                  <div
-                    class="beliayam-notifications bg-white border-bottom p-2"
-                    v-for="cart in getCartsNav"
-                    :key="cart._id"
-                  >
-                    <NuxtLink :to="`/${cart.slug}`">
-                      <div class="position-absolute ml-n1 py-2 text-danger">
-                        {{ setPriceWithDiscount(cart) | formatMoney }}
-                      </div>
-                      <div class="text-decoration-none text-dark">
-                        <div class="notifiction small">
-                          <div class="ml-3">
-                            <p class="font-weight-bold mb-1">
-                              {{ cart.name }}
-                            </p>
-                            <p class="small m-0">
-                              <i class="fad fa-calendar-alt"></i>
-                              {{ cart.quantity }} Produk ({{
-                                (cart.quantity * cart.weight).toFixed(1)
-                              }}
-                              kg)
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </NuxtLink>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </nav>
 
@@ -453,7 +453,6 @@ export default {
       window.location.reload();
     },
     setPriceWithDiscount(item) {
-
       if (this.getCartsNav && this.getCartsNav.length > 0) {
         let price = 0;
 
@@ -474,7 +473,8 @@ export default {
                 price += product.productOnLive.price - discountPrice;
               } else if (product.productOnLive.hasPromo.promoBy === "price") {
                 price +=
-                  product.productOnLive.price - product.productOnLive.hasPromo.promoValue;
+                  product.productOnLive.price -
+                  product.productOnLive.hasPromo.promoValue;
               } else {
                 price += product.productOnLive.price;
               }

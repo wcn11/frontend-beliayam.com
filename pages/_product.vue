@@ -129,13 +129,13 @@
                       align-items-center
                     "
                   >
-                    <b class="h6 text-dark m-0">{{
-                      getPriceLabel() | formatMoney
-                    }}</b>
+                    <b class="h6 text-dark m-0"
+                      >Rp {{ getPriceLabel() | formatMoney }}</b
+                    >
 
-                    <del class="ml-2 text-danger" v-if="getPriceBadge() > 0">{{
-                      product.price | formatMoney
-                    }}</del>
+                    <del class="ml-2 text-danger" v-if="getPriceBadge() > 0"
+                      >Rp {{ product.price | formatMoney }}</del
+                    >
                     <span
                       class="badge badge-danger ml-2"
                       v-if="getPriceBadge() > 0"
@@ -160,6 +160,7 @@
                 <div class="details">
                   <div class="pt-3 bg-white">
                     <div class="d-flex align-items-center">
+                      <span class="mr-2"> Berat: </span>
                       <div
                         class="btn-group beliayam-radio btn-group-toggle"
                         data-toggle="buttons"
@@ -238,7 +239,7 @@
                       >
                     </div>
                     <p class="font-weight-bold mb-2">Deskripsi Produk</p>
-                    <p class="text-muted small mb-0">
+                    <p class="text-muted mb-0 text-description">
                       {{ product.description }}
                     </p>
                   </div>
@@ -436,7 +437,7 @@ export default {
           price = (
             (product.hasDiscount.discount / product.price) *
             100
-          ).toFixed(2);
+          );
         } else {
           price = product.price;
         }
@@ -599,16 +600,12 @@ export default {
     formatDate(date) {
       return moment(date).format("DD-MM-yyyy, HH:mm");
     },
-    formatMoney(val) {
-      let formatter = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-      });
 
-      return formatter.format(val);
+    formatMoney(val) {
+      return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
     },
     setSquareDecimal(val) {
-      return val.toFixed(2);
+      return val
     },
   },
 
@@ -629,6 +626,9 @@ export default {
 <style scoped>
 .title-product {
   font-size: calc(45% + 20px);
+}
+.text-description {
+  font-size: 15px;
 }
 .notes {
   max-width: calc(65% - 4ch);

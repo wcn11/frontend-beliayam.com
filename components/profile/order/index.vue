@@ -183,7 +183,7 @@
                       </p>
                       <p class="text-muted m-0 ml-auto">
                         Total Pembayaran<br />
-                        <span class="text-dark font-weight-bold">{{
+                        <span class="text-dark font-weight-bold">Rp {{
                           order.grand_total | formatMoney
                         }}</span>
                       </p>
@@ -256,13 +256,9 @@ export default {
     formatDate(date) {
       return moment(date).format("dddd, Do MMMM YYYY HH:mm");
     },
-    formatMoney(val) {
-      let formatter = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-      });
 
-      return formatter.format(val);
+    formatMoney(val) {
+      return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
     },
   },
 };

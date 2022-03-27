@@ -99,6 +99,254 @@
 
     <div
       class="modal fade"
+      id="modal-new-address"
+      tabindex="-1"
+      aria-labelledby="modal-new-addressLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="container modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Alamat Pengiriman Baru</h5>
+          </div>
+          <div class="modal-body">
+            <form class="">
+              <div class="card">
+                <div class="card-header">Informasi Penerimaan Produk</div>
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="receiver">Nama Penerima</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="receiver"
+                      placeholder="Nama Penerima Pesanan"
+                      v-model="newAddress.receiver_name"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="phone">Nomor HP</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Contoh: 0812"
+                      v-model="newAddress.phone"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="card mt-4">
+                <div class="card-header">Alamat Pengiriman Pesanan</div>
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="label">Label Alamat</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="label"
+                      placeholder="Contoh: Rumah Ibu"
+                      v-model="newAddress.label"
+                    />
+                    <div
+                      class="btn-group btn-group-toggle w-100 mt-3"
+                      data-toggle="buttons"
+                    >
+                      <label
+                        class="btn btn-outline-danger active"
+                        @click="setLabelAddress('Rumah')"
+                      >
+                        <input
+                          type="radio"
+                          name="options"
+                          id="option1"
+                          checked
+                        />
+                        Rumah
+                      </label>
+                      <label
+                        class="btn btn-outline-danger"
+                        @click="setLabelAddress('Kantor')"
+                      >
+                        <input type="radio" name="options" id="option2" />
+                        Kantor
+                      </label>
+                      <label
+                        class="btn btn-outline-danger"
+                        @click="setLabelAddress('Apartment')"
+                      >
+                        <input type="radio" name="options" id="option3" />
+                        Apartment
+                      </label>
+                      <label
+                        class="btn btn-outline-danger"
+                        @click="setLabelAddress('Kos')"
+                      >
+                        <input type="radio" name="options" id="option3" />
+                        Kos
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputAddress">Alamat</label>
+                    <textarea
+                      type="text"
+                      class="form-control"
+                      id="inputAddress"
+                      placeholder="Jl. Jenderal Sudirman RT 02/10"
+                      v-model="newAddress.address1"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="inputAddress">Alamat 2</label>
+                    <textarea
+                      type="text"
+                      class="form-control"
+                      id="inputAddress"
+                      placeholder="Jl. Soekarno Hatta RT 04/10"
+                      v-model="newAddress.address2"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="inputAddress2">Detail/Patokan</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputAddress2"
+                      v-model="newAddress.details"
+                      placeholder="Apartment, Blok, Pos Satpam"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="inputState">Provinsi</label>
+                    <select
+                      id="inputState"
+                      class="form-control"
+                      v-model="newAddress.state"
+                      @change="getCities()"
+                    >
+                      <option disabled selected>Pilih Provinsi...</option>
+                      <option
+                        v-for="state in regions.state"
+                        :value="state"
+                        :key="state.id"
+                      >
+                        {{ state.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputState">Kota & Kabupaten</label>
+                    <select
+                      id="inputState"
+                      class="form-control"
+                      v-model="newAddress.city"
+                      @change="getDistricts()"
+                    >
+                      <option disabled selected>Pilih Kota/kabupaten...</option>
+                      <option
+                        v-for="city in regions.cities.regencies"
+                        :value="city"
+                        :key="city.id"
+                      >
+                        {{ city.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputState">Kecamatan</label>
+                    <select
+                      id="inputState"
+                      class="form-control"
+                      v-model="newAddress.district"
+                      @change="getSubDistricts()"
+                    >
+                      <option disabled selected>Pilih Kecamatan...</option>
+                      <option
+                        v-for="district in regions.districts.districts"
+                        :value="district"
+                        :key="district.id"
+                      >
+                        {{ district.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-8">
+                      <label for="inputState">Kelurahan & desa</label>
+                      <select
+                        id="inputState"
+                        class="form-control"
+                        v-model="newAddress.sub_district"
+                      >
+                        <option disabled selected>
+                          Pilih Kelurahan/desa...
+                        </option>
+                        <option
+                          v-for="sub_district in regions.sub_districts.villages"
+                          :value="sub_district"
+                          :key="sub_district.id"
+                        >
+                          {{ sub_district.name }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="inputZip">Kode POS</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="inputZip"
+                        v-model="newAddress.postcode"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card mt-4">
+                <div class="card-body">
+                  <div class="form-group mb-0">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="gridCheck"
+                        v-model="newAddress.default"
+                      />
+                      <label class="form-check-label" for="gridCheck">
+                        Jadikan Alamat Utama
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer p-0 border-0">
+            <div class="col-6 m-0 p-0">
+              <button
+                type="button"
+                class="btn border-top btn-lg btn-block"
+                data-dismiss="modal"
+              >
+                Batal
+              </button>
+            </div>
+            <div class="col-6 m-0 p-0">
+              <button
+                type="button"
+                class="btn btn-success btn-lg btn-block"
+                @click="saveNewAddress()"
+              >
+                Simpan Alamat
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
       id="modal-edit-address"
       tabindex="-1"
       aria-labelledby="modal-new-addressLabel"
@@ -111,159 +359,223 @@
           </div>
           <div class="modal-body">
             <form class="">
-              <div class="form-group">
-                <label for="label">Label</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="label"
-                  v-model="updateAddress.data.label"
-                />
+              <div class="card">
+                <div class="card-header">Informasi Penerimaan Produk</div>
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="receiver">Nama Penerima</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="receiver"
+                      placeholder="Nama Penerima Pesanan"
+                      v-model="updateAddress.data.receiver_name"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="phone">Nomor HP</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Contoh: 0812"
+                      v-model="updateAddress.data.phone"
+                    />
+                  </div>
+                </div>
               </div>
-              <div class="form-group">
-                <label for="receiver">Penerima</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="receiver"
-                  v-model="updateAddress.data.receiver_name"
-                />
-              </div>
-              <div class="form-group">
-                <label for="phone">Nomor Hp</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="updateAddress.data.phone"
-                />
-              </div>
-              <div class="form-group">
-                <label for="inputAddress">Alamat</label>
-                <textarea
-                  type="text"
-                  class="form-control"
-                  id="inputAddress"
-                  placeholder="Jl. Jenderal Sudirman RT 02/10"
-                  v-model="updateAddress.data.address1"
-                />
-              </div>
-              <div class="form-group">
-                <label for="inputAddress">Alamat 2</label>
-                <textarea
-                  type="text"
-                  class="form-control"
-                  id="inputAddress"
-                  placeholder="Jl. Soekarno Hatta RT 02/10"
-                  v-model="updateAddress.data.address2"
-                />
-              </div>
-              <div class="form-group">
-                <label for="inputAddress2">Detail/Patokan</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="inputAddress2"
-                  v-model="updateAddress.data.details"
-                  placeholder="Apartment, studio, atau lantai"
-                />
-              </div>
-              <div class="form-group">
-                <label for="inputState">Provinsi</label>
-                <select
-                  id="inputState"
-                  class="form-control"
-                  v-model="updateAddress.data.state"
-                  @change="getCities('update', updateAddress.data.state.id)"
-                >
-                  <option disabled :selected="regions.state.length <= 0">
-                    Pilih Provinsi...
-                  </option>
-                  <option
-                    v-for="state in regions.state"
-                    :value="state"
-                    :key="state.id"
-                  >
-                    {{ state.name }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="inputState">Kota & Kabupaten</label>
-                <select
-                  id="inputState"
-                  class="form-control"
-                  v-model="updateAddress.data.city"
-                  @change="getDistricts('update', updateAddress.data.city.id)"
-                >
-                  <option disabled selected>Pilih Kota/kabupaten...</option>
-                  <option
-                    v-for="city in regions.cities.regencies"
-                    :value="city"
-                    :key="city.id"
-                  >
-                    {{ city.name }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="inputState">Kecamatan</label>
-                <select
-                  id="inputState"
-                  class="form-control"
-                  v-model="updateAddress.data.district"
-                  @change="
-                    getSubDistricts('update', updateAddress.data.district.id)
-                  "
-                >
-                  <option disabled selected>Pilih Kecamatan...</option>
-                  <option
-                    v-for="district in regions.districts.districts"
-                    :value="district"
-                    :key="district.id"
-                  >
-                    {{ district.name }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-8">
-                  <label for="inputState">Kelurahan & desa</label>
-                  <select
-                    id="inputState"
-                    class="form-control"
-                    v-model="updateAddress.data.sub_district"
-                  >
-                    <option disabled selected>Pilih Kelurahan/desa...</option>
-                    <option
-                      v-for="sub_district in regions.sub_districts.villages"
-                      :value="sub_district"
-                      :key="sub_district.id"
+
+              <div class="card mt-4">
+                <div class="card-header">Alamat Pengiriman Pesanan</div>
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="label">Label Alamat</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="label"
+                      placeholder="Contoh: Rumah Ibu"
+                      v-model="updateAddress.data.label"
+                    />
+                    <div
+                      class="btn-group btn-group-toggle w-100 mt-3"
+                      data-toggle="buttons"
                     >
-                      {{ sub_district.name }}
-                    </option>
-                  </select>
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="inputZip">Kode POS</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="inputZip"
-                    v-model="updateAddress.data.postcode"
-                  />
+                      <label
+                        class="btn btn-outline-danger active"
+                        @click="setLabelAddress('Rumah', 'update')"
+                      >
+                        <input
+                          type="radio"
+                          name="options"
+                          id="option1"
+                          checked
+                        />
+                        Rumah
+                      </label>
+                      <label
+                        class="btn btn-outline-danger"
+                        @click="setLabelAddress('Kantor', 'update')"
+                      >
+                        <input type="radio" name="options" id="option2" />
+                        Kantor
+                      </label>
+                      <label
+                        class="btn btn-outline-danger"
+                        @click="setLabelAddress('Apartment', 'update')"
+                      >
+                        <input type="radio" name="options" id="option3" />
+                        Apartment
+                      </label>
+                      <label
+                        class="btn btn-outline-danger"
+                        @click="setLabelAddress('Kos', 'update')"
+                      >
+                        <input type="radio" name="options" id="option3" />
+                        Kos
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputAddress">Alamat</label>
+                    <textarea
+                      type="text"
+                      class="form-control"
+                      id="inputAddress"
+                      placeholder="Jl. Jenderal Sudirman RT 02/10"
+                      v-model="updateAddress.data.address1"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="inputAddress">Alamat 2</label>
+                    <textarea
+                      type="text"
+                      class="form-control"
+                      id="inputAddress"
+                      placeholder="Jl. Soekarno Hatta RT 04/10"
+                      v-model="updateAddress.data.address2"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="inputAddress2">Detail/Patokan</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputAddress2"
+                      v-model="updateAddress.data.details"
+                      placeholder="Apartment, Blok, Pos Satpam"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="inputState">Provinsi</label>
+                    <select
+                      id="inputState"
+                      class="form-control"
+                      v-model="updateAddress.data.state"
+                      @change="getCities('update', updateAddress.data.state.id)"
+                    >
+                      <option disabled :selected="regions.state.length <= 0">
+                        Pilih Provinsi...
+                      </option>
+                      <option
+                        v-for="state in regions.state"
+                        :value="state"
+                        :key="state.id"
+                      >
+                        {{ state.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputState">Kota & Kabupaten</label>
+                    <select
+                      id="inputState"
+                      class="form-control"
+                      v-model="updateAddress.data.city"
+                      @change="
+                        getDistricts('update', updateAddress.data.city.id)
+                      "
+                    >
+                      <option disabled selected>Pilih Kota/kabupaten...</option>
+                      <option
+                        v-for="city in regions.cities.regencies"
+                        :value="city"
+                        :key="city.id"
+                      >
+                        {{ city.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputState">Kecamatan</label>
+                    <select
+                      id="inputState"
+                      class="form-control"
+                      v-model="updateAddress.data.district"
+                      @change="
+                        getSubDistricts(
+                          'update',
+                          updateAddress.data.district.id
+                        )
+                      "
+                    >
+                      <option disabled selected>Pilih Kecamatan...</option>
+                      <option
+                        v-for="district in regions.districts.districts"
+                        :value="district"
+                        :key="district.id"
+                      >
+                        {{ district.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-8">
+                      <label for="inputState">Kelurahan & desa</label>
+                      <select
+                        id="inputState"
+                        class="form-control"
+                        v-model="updateAddress.data.sub_district"
+                      >
+                        <option disabled selected>
+                          Pilih Kelurahan/desa...
+                        </option>
+                        <option
+                          v-for="sub_district in regions.sub_districts.villages"
+                          :value="sub_district"
+                          :key="sub_district.id"
+                        >
+                          {{ sub_district.name }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="inputZip">Kode POS</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="inputZip"
+                        v-model="updateAddress.data.postcode"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="form-group">
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    id="gridCheck"
-                    v-model="updateAddress.data.default"
-                  />
-                  <label class="form-check-label" for="gridCheck">
-                    Jadikan Alamat Utama
-                  </label>
+
+              <div class="card mt-4">
+                <div class="card-body">
+                  <div class="form-group mb-0">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="gridCheck"
+                        v-model="updateAddress.data.default"
+                      />
+                      <label class="form-check-label" for="gridCheck">
+                        Jadikan Alamat Utama
+                      </label>
+                    </div>
+                  </div>
                 </div>
               </div>
             </form>
@@ -301,7 +613,7 @@
     >
       <div class="modal-dialog modal-dialog-centered">
         <div class="container modal-content">
-          <div class="modal-header">
+          <div class="modal-header justify-content-center">
             <h5 class="modal-title" id="exampleModalLabel">Hapus alamat</h5>
           </div>
           <div class="modal-body">
@@ -318,197 +630,6 @@
               </button>
               <button class="btn btn-danger" @click="deleteNewAddress()">
                 hapus
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div
-      class="modal fade"
-      id="modal-new-address"
-      tabindex="-1"
-      aria-labelledby="modal-new-addressLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="container modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Alamat Pengiriman Baru</h5>
-          </div>
-          <div class="modal-body">
-            <form class="">
-              <div class="form-group">
-                <label for="label">Label</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="label"
-                  v-model="newAddress.label"
-                />
-              </div>
-              <div class="form-group">
-                <label for="receiver">Penerima</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="receiver"
-                  v-model="newAddress.receiver_name"
-                />
-              </div>
-              <div class="form-group">
-                <label for="phone">Nomor Hp</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="newAddress.phone"
-                />
-              </div>
-              <div class="form-group">
-                <label for="inputAddress">Alamat</label>
-                <textarea
-                  type="text"
-                  class="form-control"
-                  id="inputAddress"
-                  placeholder="Jl. Jenderal Sudirman RT 02/10"
-                  v-model="newAddress.address1"
-                />
-              </div>
-              <div class="form-group">
-                <label for="inputAddress">Alamat 2</label>
-                <textarea
-                  type="text"
-                  class="form-control"
-                  id="inputAddress"
-                  placeholder="Jl. Soekarno Hatta RT 04/10"
-                  v-model="newAddress.address2"
-                />
-              </div>
-              <div class="form-group">
-                <label for="inputAddress2">Detail/Patokan</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="inputAddress2"
-                  v-model="newAddress.details"
-                  placeholder="Apartment, studio, atau lantai"
-                />
-              </div>
-              <div class="form-group">
-                <label for="inputState">Provinsi</label>
-                <select
-                  id="inputState"
-                  class="form-control"
-                  v-model="newAddress.state"
-                  @change="getCities()"
-                >
-                  <option disabled selected>Pilih Provinsi...</option>
-                  <option
-                    v-for="state in regions.state"
-                    :value="state"
-                    :key="state.id"
-                  >
-                    {{ state.name }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="inputState">Kota & Kabupaten</label>
-                <select
-                  id="inputState"
-                  class="form-control"
-                  v-model="newAddress.city"
-                  @change="getDistricts()"
-                >
-                  <option disabled selected>Pilih Kota/kabupaten...</option>
-                  <option
-                    v-for="city in regions.cities.regencies"
-                    :value="city"
-                    :key="city.id"
-                  >
-                    {{ city.name }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="inputState">Kecamatan</label>
-                <select
-                  id="inputState"
-                  class="form-control"
-                  v-model="newAddress.district"
-                  @change="getSubDistricts()"
-                >
-                  <option disabled selected>Pilih Kecamatan...</option>
-                  <option
-                    v-for="district in regions.districts.districts"
-                    :value="district"
-                    :key="district.id"
-                  >
-                    {{ district.name }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-8">
-                  <label for="inputState">Kelurahan & desa</label>
-                  <select
-                    id="inputState"
-                    class="form-control"
-                    v-model="newAddress.sub_district"
-                  >
-                    <option disabled selected>Pilih Kelurahan/desa...</option>
-                    <option
-                      v-for="sub_district in regions.sub_districts.villages"
-                      :value="sub_district"
-                      :key="sub_district.id"
-                    >
-                      {{ sub_district.name }}
-                    </option>
-                  </select>
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="inputZip">Kode POS</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="inputZip"
-                    v-model="newAddress.postcode"
-                  />
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    id="gridCheck"
-                    v-model="newAddress.default"
-                  />
-                  <label class="form-check-label" for="gridCheck">
-                    Jadikan Alamat Utama
-                  </label>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer p-0 border-0">
-            <div class="col-6 m-0 p-0">
-              <button
-                type="button"
-                class="btn border-top btn-lg btn-block"
-                data-dismiss="modal"
-              >
-                Batal
-              </button>
-            </div>
-            <div class="col-6 m-0 p-0">
-              <button
-                type="button"
-                class="btn btn-success btn-lg btn-block"
-                @click="saveNewAddress()"
-              >
-                Simpan Alamat
               </button>
             </div>
           </div>
@@ -567,6 +688,13 @@ export default {
       $(document).ready(function () {
         $("#exampleModal").modal("show");
       });
+    },
+    setLabelAddress(label = "Rumah", type = "add") {
+      if (type == "add") {
+        this.newAddress.label = label;
+        return;
+      }
+      this.updateAddress.data.label = label;
     },
     async getAddresses() {
       const client_id = this.$cookies.get("client_id");
@@ -642,7 +770,6 @@ export default {
             this.$toast.error(results.message);
             return;
           } else {
-
             await this.getAddresses();
             this.$toast.success(results.message);
             $("#modal-new-address").appendTo("body").modal("hide");
@@ -699,7 +826,6 @@ export default {
           if (results.error) {
             this.$toast.error(results.message);
           } else {
-
             await this.getAddresses();
             this.$toast.success(results.message);
           }

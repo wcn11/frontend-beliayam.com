@@ -81,13 +81,13 @@
                   <del
                     class="ml-2 text-danger"
                     v-if="getPriceBadge(product) > 0"
-                    >{{ product.price | formatMoney }}</del
+                    >Rp {{ product.price | formatMoney }}</del
                   >
                   <span
                     class="price m-0 text-dark"
                     style="font-size: large; text-align: right"
                   >
-                    {{ getPriceLabel(product) | formatMoney }}
+                    Rp {{ getPriceLabel(product) | formatMoney }}
                   </span>
                 </div>
                 <div style="text-align: center; padding-top: 5%">
@@ -234,13 +234,9 @@ export default {
     formatDate(date) {
       return moment(date).format("DD-MM-yyyy, HH:mm");
     },
-    formatMoney(val) {
-      let formatter = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-      });
 
-      return formatter.format(val);
+    formatMoney(val) {
+      return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
     },
     setSquareDecimal(val) {
       return val.toFixed(2);
