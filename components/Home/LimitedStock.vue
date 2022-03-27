@@ -96,7 +96,7 @@ export default {
         sortBy: "ASC",
         orderBy: "name",
         min_stock: 0,
-        max_stock: 20,
+        max_stock: 10,
       },
       settings: {
         infinite: true,

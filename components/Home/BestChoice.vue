@@ -83,7 +83,7 @@ export default {
         show: 8,
         sortBy: "ASC",
         orderBy: "name",
-        min_stock: 40,
+        min_stock: 21,
       },
     };
   },
