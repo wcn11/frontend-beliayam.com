@@ -201,8 +201,8 @@ export default {
 
 <style scoped>
 .item-img {
-  max-height: 230px;
-  height: 230px;
+  max-height: 205px;
+  height: 205px;
 }
 .label-product {
   width: 235px;

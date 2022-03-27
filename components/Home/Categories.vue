@@ -167,19 +167,31 @@ export default {
           {
             breakpoint: 768,
             settings: {
-              arrows: false,
+              arrows: true,
               centerMode: true,
               centerPadding: "40px",
+              slidesToScroll: 1,
+              slidesToShow: 4,
+            },
+          },
+          {
+            breakpoint: 576,
+            settings: {
+              arrows: true,
+              centerMode: true,
+              centerPadding: "40px",
+              slidesToScroll: 1,
               slidesToShow: 3,
             },
           },
           {
             breakpoint: 480,
             settings: {
-              arrows: false,
+              arrows: true,
               centerMode: true,
               centerPadding: "40px",
-              slidesToShow: 3,
+              slidesToScroll: 1,
+              slidesToShow: 2,
             },
           },
         ],
@@ -201,7 +213,7 @@ export default {
   height: 130px;
   min-height: 130px;
 }
-.c-it img{
+.c-it img {
   height: 70px;
 }
 

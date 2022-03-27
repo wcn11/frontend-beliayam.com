@@ -204,7 +204,7 @@ export default {
 }
 
 .item-img {
-  max-height: 200px;
-  height: 200px;
+  max-height: 180px;
+  height: 180px;
 }
 </style>

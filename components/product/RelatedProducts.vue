@@ -239,7 +239,7 @@ export default {
       return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
     },
     setSquareDecimal(val) {
-      return val.toFixed(2);
+      return val.toFixed(0);
     },
   },
 };

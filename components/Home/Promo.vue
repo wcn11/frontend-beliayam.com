@@ -27,9 +27,7 @@
           /></NuxtLink>
         </div> -->
 
-        <NuxtLink
-          class="col-lg-12"
-          to="/promo"
+        <NuxtLink class="col-lg-12" to="/promo"
           ><img
             :src="`${baseURL}/img/banner-global-res.jpg`"
             class="w-100 img-carousel rounded"
@@ -102,19 +100,21 @@ export default {
           {
             breakpoint: 768,
             settings: {
-              arrows: false,
-              centerMode: true,
+              arrows: true,
+              centerMode: false,
               centerPadding: "40px",
               slidesToShow: 1,
+              slidesToScroll: 1,
             },
           },
           {
             breakpoint: 480,
             settings: {
-              arrows: false,
-              centerMode: true,
+              arrows: true,
+              centerMode: false,
               centerPadding: "40px",
               slidesToShow: 1,
+              slidesToScroll: 1,
             },
           },
         ],

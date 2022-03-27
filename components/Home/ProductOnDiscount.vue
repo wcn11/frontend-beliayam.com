@@ -93,7 +93,8 @@
                         </h6>
                         <p class="text-gray mb-0 small">Fresh Premium item.</p>
                         <p class="small text-muted m-0 text-dark">
-                          <i class="fas fa-weight"></i> {{ product.weight || 1 }} Kilogram.
+                          <i class="fas fa-weight"></i>
+                          {{ product.weight || 1 }} Kilogram.
                         </p>
                       </NuxtLink>
                     </div>
@@ -189,7 +190,9 @@ export default {
       return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
     },
     setSquareDecimal(val) {
-      return val
+      if (val) {
+        return val.toFixed(0);
+      }
     },
   },
 };
