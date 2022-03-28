@@ -70,7 +70,7 @@
                             {{
                               (product.hasDiscount.discount / product.price) *
                               100
-                            }}%</span
+                             | setSquareDecimal}}%</span
                           >
                           <span class="badge badge-danger m-2" v-else
                             >Diskon{{ product.hasDiscount.discount }}</span

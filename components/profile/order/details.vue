@@ -56,7 +56,7 @@
                   </div>
                   <div>{{ order.bill.bill_date | formatDate }}</div>
                 </div>
-                <div class="col-sm-4 mb-5 text-md-right text-md-right text-lg-right ">
+                <div class="col-sm-4 mb-5 float-right text-right ">
                   <h6 class="mb-1">Dikirim Ke:</h6>
                   <div>
                     <span v-if="order.shipping_address.label"
