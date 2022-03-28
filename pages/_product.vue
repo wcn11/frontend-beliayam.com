@@ -239,8 +239,10 @@
                       >
                     </div>
                     <p class="font-weight-bold mb-2">Deskripsi Produk</p>
-                    <div class="text-muted mb-0 text-description" v-html="product.description">
-                    </div>
+                    <div
+                      class="text-muted mb-0 text-description"
+                      v-html="product.description"
+                    ></div>
                   </div>
                 </div>
               </div>
@@ -322,6 +324,7 @@ export default {
   components: { VueSlickCarousel },
   // layout: "blog"
   async fetch() {
+    this.$store.dispatch("setGlobalModal", true);
     await this.$axios
       .get(
         `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/product/slug/${this.$route.params.product}`
@@ -330,6 +333,7 @@ export default {
         this.product = res.data.data;
         this.getRelatedProducts();
       });
+    this.$store.dispatch("setGlobalModal", false);
   },
   data() {
     return {
@@ -433,10 +437,7 @@ export default {
         if (product.hasDiscount.discountBy === "percent") {
           price = product.hasDiscount.discount;
         } else if (product.hasDiscount.discountBy === "price") {
-          price = (
-            (product.hasDiscount.discount / product.price) *
-            100
-          );
+          price = (product.hasDiscount.discount / product.price) * 100;
         } else {
           price = product.price;
         }
@@ -594,7 +595,6 @@ export default {
       },
     };
   },
-
 
   mounted() {
     document

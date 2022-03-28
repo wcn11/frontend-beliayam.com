@@ -52,7 +52,11 @@ export default {
       mountains: [],
     };
   },
-  mounted() {
+  created() {
+
+    this.$store.dispatch("setGlobalModal", true);
+  },
+  mounted(){
 
     this.$store.dispatch("setGlobalModal", false);
   },

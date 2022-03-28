@@ -1275,9 +1275,9 @@ export default {
     await this.getAllProvince();
 
     this.$store.dispatch("setGlobalModal");
+    this.$store.dispatch("setGlobalModal", false);
   },
   mounted() {
-    this.$store.dispatch("setGlobalModal", false);
     this.setScript();
   },
   watch: {
@@ -2491,37 +2491,6 @@ export default {
   margin-bottom: 15%;
 }
 
-@media only screen and (max-device-width: 720px) {
-  .label-product {
-    width: 400px;
-  }
-}
-@media only screen and (max-device-width: 540px) {
-  .label-product {
-    width: 350px;
-  }
-}
-@media only screen and (max-device-width: 480px) {
-  .content-heading {
-    margin-top: 10px;
-  }
-  .total_price {
-    font-size: calc(45% + 8px);
-  }
-  .label-product {
-    width: 300px;
-  }
-}
-
-@media only screen and (max-device-width: 380px) {
-  .total_price {
-    font-size: calc(45% + 7px);
-  }
-  .label-product {
-    width: 200px;
-  }
-}
-
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -2874,6 +2843,21 @@ input[type="checkbox"]:checked::before {
   border-color: #18ba60;
 }
 
+
+
+@media (max-width: 1200px) {
+  .label-product {
+    width: 300px;
+  }
+}
+
+
+@media (max-width: 992px) {
+  .label-product {
+    width: 300px;
+  }
+}
+
 @media (max-width: 767px) {
   .sign-content h3 {
     font-size: 40px;
@@ -2892,8 +2876,26 @@ input[type="checkbox"]:checked::before {
     display: block;
   }
 }
-/* end for wizard */
 
+
+
+@media only screen and (max-device-width: 720px) {
+  .label-product {
+    width: 400px;
+  }
+}
+
+@media only screen and (max-device-width: 576px) {
+  .label-product {
+    width: 350px;
+  }
+}
+
+@media only screen and (max-device-width: 540px) {
+  .label-product {
+    width: 300px;
+  }
+}
 @media only screen and (max-device-width: 480px) {
   .input {
     margin-left: 8px;
@@ -2903,6 +2905,15 @@ input[type="checkbox"]:checked::before {
 
   .product-note {
     width: 270px;
+  }
+  .content-heading {
+    margin-top: 10px;
+  }
+  .total_price {
+    font-size: calc(45% + 8px);
+  }
+  .label-product {
+    width: 250px;
   }
 }
 @media only screen and (max-device-width: 446px) {
@@ -2920,6 +2931,9 @@ input[type="checkbox"]:checked::before {
   .product-note {
     width: 225px;
   }
+  .label-product {
+    width: 200px;
+  }
 }
 @media only screen and (max-device-width: 380px) {
   .input {
@@ -2928,6 +2942,12 @@ input[type="checkbox"]:checked::before {
     width: 71%;
   }
   .product-note {
+    width: 200px;
+  }
+  .total_price {
+    font-size: calc(45% + 7px);
+  }
+  .label-product {
     width: 200px;
   }
 }
