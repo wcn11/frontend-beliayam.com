@@ -4,13 +4,14 @@ import moment from "moment";
 
 moment.locale("id-ID");
 
-Vue.filter('formatDate', (date) => moment(date).format("DD-MM-yyyy, HH:mm"));
+Vue.filter('formatDate', (date) => moment(date).format("dddd, Do MMMM yyyy HH:mm"));
 
 Vue.filter('formatMoney', (val) => {
   if (val) {
 
-    return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
+    return "Rp " + val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
   }
+  return "Rp 0"
 });
 
 Vue.filter('setSquareDecimal', (val) => {
