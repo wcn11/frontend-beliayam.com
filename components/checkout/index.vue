@@ -126,7 +126,9 @@
                       class="img-fluid"
                     />
                     <div class="ml-3 text-dark text-decoration-none w-100">
-                      <h5 class="mb-1">{{ item.product.name }}</h5>
+                      <h5 class="mb-1 label-product">
+                        {{ item.product.name }}
+                      </h5>
                       <p class="text-muted mb-2">
                         Rp {{ item.product.price | formatMoney }} x
                         {{ item.details.quantity }}
@@ -774,6 +776,14 @@ export default {
 </script>
 
 <style scoped>
+.label-product {
+  font-size: 15px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
+  width: 550px;
+}
 .text-change-detail {
   font-size: 16px;
   color: #353b41;
@@ -937,4 +947,77 @@ label span:before {
     margin-left: 8px;
   }
 }
+
+.label-product {
+  font-size: 15px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
+  width: 550px;
+}
+
+
+
+@media only screen and (max-device-width: 1200px) {
+  .label-product {
+    width: 450px;
+  }
+}
+
+@media only screen and (max-device-width: 992px) {
+  .label-product {
+    width: 425px;
+  }
+}
+
+@media only screen and (max-device-width: 720px) {
+  .label-product {
+    width: 400px;
+  }
+}
+
+@media only screen and (max-device-width: 576px) {
+  .label-product {
+    width: 350px;
+  }
+}
+
+@media only screen and (max-device-width: 540px) {
+  .label-product {
+    width: 300px;
+  }
+}
+@media only screen and (max-device-width: 480px) {
+  .label-product {
+    width: 250px;
+  }
+}
+@media only screen and (max-device-width: 446px) {
+}
+
+@media only screen and (max-device-width: 400px) {
+  .label-product {
+    width: 200px;
+  }
+}
+@media only screen and (max-device-width: 380px) {
+  .input {
+    margin-left: 8px;
+    height: 35px;
+    width: 71%;
+  }
+  .product-note {
+    width: 200px;
+  }
+  .total_price {
+    font-size: calc(45% + 7px);
+  }
+  .label-product {
+    width: 200px;
+  }
+}
+@media only screen and (max-device-width: 360px) {
+}
+
 </style>

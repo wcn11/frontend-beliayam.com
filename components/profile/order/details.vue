@@ -4,7 +4,7 @@
         <div class="row" v-if="order && Object.keys(order).length > 0">
           <div class="col-lg-12">
             <div class="invoice-title justify-content-between">
-              <h2>Faktur</h2>
+              <h2 class="title-invoice">Faktur</h2>
               <div class="float-right">
                 <h3 class="text-order-id">Pesanan #{{ order.order_id }}</h3>
                 <br />
@@ -33,13 +33,12 @@
                 </div>
               </div>
             </div>
-            <hr />
+            <hr class="mt-4" />
             <div class="row d-flex justify-content-between mt-4">
               <div class="">
                 <address>
-                  <strong class="text-label">Ditagih Ke:</strong><br />
+                  <strong class="text-label">Ditagihkan Kepada:</strong><br />
                   {{ order.user.name || "Pelanggan Beliayam.com" }}<br />
-                  {{ order.user.email || "" }}<br />
                   {{ order.user.phone || "" }}<br />
                 </address>
                 <div>
@@ -56,7 +55,7 @@
                   }}</span
                   ><br />
                   {{ order.shipping_address.address1 || "" }}<br />
-                  {{ order.shipping_address.sub_district.name }},
+                  {{ order.shipping_address.sub_district.name }}<br/>,
                   {{ order.shipping_address.district.name }}<br />
                   {{ order.shipping_address.city.name }},<br />
                   {{ order.shipping_address.state.name }}<br />
@@ -408,11 +407,11 @@
         <div class="row" v-if="order && Object.keys(order).length > 0">
           <div class="col-lg-12">
             <div class="invoice-title text-center">
-              <NuxtLink to="/akun/pesanan-saya" class="btn btn-secondary">
+              <NuxtLink to="/akun/pesanan-saya" class="btn btn-secondary m-1">
                 <i class="fas fa-chevron-circle-left"></i> Pesanan Lainnya
               </NuxtLink>
               <button
-                class="btn btn-danger"
+                class="btn btn-danger m-1"
                 v-if="
                   order.payment.payment_status_code === 1 ||
                   order.payment.payment_status_code === 2
@@ -421,7 +420,7 @@
               >
                 <i class="fas fa-ban"></i> Batalkan Pesanan
               </button>
-              <button class="btn btn-success" @click="exportOrderToPDF()">
+              <button class="btn btn-success m-1" @click="exportOrderToPDF()">
                 <i class="fas fa-file-download"></i> Unduh PDF
               </button>
             </div>
@@ -547,8 +546,11 @@ export default {
 </script>
 
 <style scoped>
+.title-invoice {
+  font-size: calc(75% + 2vh);
+}
 .text-label {
-  font-size: calc(40% + 12px);
+  font-size: calc(75% + 1vh);
 }
 .text-label-address {
   font-weight: bold;
@@ -563,7 +565,7 @@ export default {
   border-radius: 10px;
 }
 .text-order-id {
-  font-size: 20px;
+  font-size: calc(45% + 10px);
 }
 .invoice-title h2,
 .invoice-title h3 {

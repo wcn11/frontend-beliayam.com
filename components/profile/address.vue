@@ -177,13 +177,6 @@
                         <input type="radio" name="options" id="option3" />
                         Apartment
                       </label>
-                      <label
-                        class="btn btn-outline-danger"
-                        @click="setLabelAddress('Kos')"
-                      >
-                        <input type="radio" name="options" id="option3" />
-                        Kos
-                      </label>
                     </div>
                   </div>
                   <div class="form-group">
@@ -425,13 +418,6 @@
                       >
                         <input type="radio" name="options" id="option3" />
                         Apartment
-                      </label>
-                      <label
-                        class="btn btn-outline-danger"
-                        @click="setLabelAddress('Kos', 'update')"
-                      >
-                        <input type="radio" name="options" id="option3" />
-                        Kos
                       </label>
                     </div>
                   </div>
