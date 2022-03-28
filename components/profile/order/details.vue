@@ -1,11 +1,11 @@
 <template>
   <section class="py-4 beliayam-main-body">
-    <div class="container" v-if="order && Object.keys(order).length > 0">
+    <div class="container card container-order" ref="document" v-if="order && Object.keys(order).length > 0">
       <div id="ui-view" data-select2-id="ui-view">
         <div>
           <div class="card">
             <div class="card-header">
-              <h2 class="title-invoice pull-left">Faktur</h2>
+              <h2 class="title-invoice float-left">Faktur</h2>
 
               <div class="float-right">
                 <h3 class="text-order-id">Pesanan #{{ order.order_id }}</h3>
@@ -36,7 +36,7 @@
             </div>
             <div class="card-body">
               <div class="row mb-4">
-                <div class="col-sm-4 mb-3">
+                <div class="col-sm-4 mb-5">
                   <h6 class="mb-1">Penerima:</h6>
                   <div>
                     <strong>{{
@@ -46,23 +46,23 @@
                   <div>{{ order.user.email || "" }}</div>
                   <div>{{ order.user.phone || "" }}</div>
                 </div>
-                <div class="col-sm-4 mb-3">
+                <div class="col-sm-4 mb-5 text-center">
                   <h6 class="mb-1">Pembayaran:</h6>
 
                   <h6 class="font-weight-bold"></h6>
                   <div>{{ order.payment.pg_name }}</div>
-                  <div v-if="order.payment.pg_type !== 'cash'">
-                    <h5>{{ order.response.trx_id }}</h5>
+                  <div v-if="order.payment.pg_type !== 'cash'" class="mt-2">
+                    <h4>{{ order.response.trx_id }}</h4>
                   </div>
                   <div>{{ order.bill.bill_date | formatDate }}</div>
                 </div>
-                <div class="col-sm-4 mb-3">
+                <div class="col-sm-4 mb-5 text-md-right text-md-right text-lg-right ">
                   <h6 class="mb-1">Dikirim Ke:</h6>
                   <div>
-                    {{ order.shipping_address.address1 }}
                     <span v-if="order.shipping_address.label"
                       >({{ order.shipping_address.label }})</span
                     >
+                    {{ order.shipping_address.address1 }}
                   </div>
                   <div>{{ order.shipping_address.sub_district.name }}</div>
                   <div>{{ order.shipping_address.district.name }}</div>
@@ -273,7 +273,7 @@
       </div>
     </div>
 
-    <!-- <div class="container card container-order" ref="document">
+    <!-- <div class="container card container-order d-none" ref="document">
       <div class="row" v-if="order && Object.keys(order).length > 0">
         <div class="col-lg-12">
           <div class="invoice-title justify-content-between">
