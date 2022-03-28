@@ -517,20 +517,6 @@ export default {
     ...mapGetters("cart", ["getCartsNav"]),
     ...mapGetters("auth", ["isAuthenticated"]),
   },
-
-  filters: {
-    // dipindah ke filtes.js - 01-03-2022
-    // formatDate(date) {
-    //   return moment(date).format("DD-MM-yyyy, HH:mm");
-    // },
-    // formatMoney(val) {
-    //   let formatter = new Intl.NumberFormat("id-ID", {
-    //     style: "currency",
-    //     currency: "IDR",
-    //   });
-    //   return formatter.format(val);
-    // },
-  },
 };
 </script>
 

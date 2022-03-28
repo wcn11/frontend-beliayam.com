@@ -182,19 +182,6 @@ export default {
       },
     };
   },
-  filters: {
-    formatDate(date) {
-      return moment(date).format("DD-MM-yyyy, HH:mm");
-    },
-    formatMoney(val) {
-      return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
-    },
-    setSquareDecimal(val) {
-      if (val) {
-        return val.toFixed(0);
-      }
-    },
-  },
 };
 </script>
 

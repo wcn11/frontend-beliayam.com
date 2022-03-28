@@ -163,15 +163,6 @@ export default {
       order: {},
     };
   },
-  filters: {
-    formatDate(date) {
-      return moment(date).format("dddd, Do MMMM YYYY HH:mm");
-    },
-
-    formatMoney(val) {
-      return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
-    },
-  },
 };
 </script>
 

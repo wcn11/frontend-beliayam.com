@@ -110,16 +110,6 @@ export default {
       },
     };
   },
-
-  filters: {
-    formatDate(date) {
-      return moment(date).format("DD-MM-yyyy, HH:mm");
-    },
-
-    formatMoney(val) {
-      return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
-    },
-  },
 };
 </script>
 

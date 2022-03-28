@@ -88,7 +88,9 @@
                           <div
                             class="ml-3 text-dark text-decoration-none w-100"
                           >
-                            <h5 class="mb-1">{{ product.name }}</h5>
+                            <h5 class="mb-1 label-product">
+                              {{ product.name }}
+                            </h5>
                             <p class="text-muted mb-2">
                               Rp
                               {{ setPriceWithDiscount(product) | formatMoney }}
@@ -157,32 +159,36 @@
                             </div>
 
                             <!-- <div v-if="product.note === ''"> -->
-
+                            <div class="product-note">
                               <span :class="`notes notes-${product._id}`">{{
                                 product.note
                               }}</span>
+                            </div>
 
-                              <span
-                                role="button"
-                                :class="`w-50 text-danger note note-${product._id}`"
-                                @click="setNote(product._id)"
-                              >
-                                {{  product.note === '' ? 'Tulis Catatan' : 'Ubah Catatan' }}
-                              </span>
+                            <span
+                              role="button"
+                              :class="`w-50 text-danger note note-${product._id}`"
+                              @click="setNote(product._id)"
+                            >
+                              {{
+                                product.note === ""
+                                  ? "Tulis Catatan"
+                                  : "Ubah Catatan"
+                              }}
+                            </span>
 
-                              <div
-                                :class="`input-wrapper mt-2 input-none input-note input-note-${product._id}`"
-                              >
-
-                                <textarea
-                                  :class="`input input-${product._id}`"
-                                  type="text"
-                                  v-model="product.note"
-                                  @change="updateNote($event, product._id)"
-                                  @keyup.enter="updateNote($event, product._id)"
-                                  @focusout="closeNote()"
-                                ></textarea>
-                                <!-- <input
+                            <div
+                              :class="`input-wrapper mt-2 input-none input-note input-note-${product._id}`"
+                            >
+                              <textarea
+                                :class="`input input-${product._id}`"
+                                type="text"
+                                v-model="product.note"
+                                @change="updateNote($event, product._id)"
+                                @keyup.enter="updateNote($event, product._id)"
+                                @focusout="closeNote()"
+                              ></textarea>
+                              <!-- <input
                                   class="input"
                                   type="text"
                                   v-model="product.note"
@@ -190,10 +196,10 @@
                                   @keyup.enter="updateNote($event, product._id)"
                                   @focusout="closeNote()"
                                 /> -->
-                                <span class="placeholder"
-                                  >Tulis Catatan Untuk Item Ini</span
-                                >
-                              </div>
+                              <span class="placeholder"
+                                >Tulis Catatan Untuk Item Ini</span
+                              >
+                            </div>
                             <!-- </div> -->
 
                             <!-- <div class="d-flex" v-else>
@@ -269,11 +275,6 @@
                             <div class="more text-white">
                               <h6 class="m-0">
                                 Subtotal Rp {{ countTotalToPay | formatMoney }}
-                                <!-- {{
-                                  getSelectedVouchers.grandTotalAfterDiscount
-                                    ? getSelectedVouchers.grandTotalAfterDiscount
-                                    : getCountCart | formatMoney
-                                }} -->
                               </h6>
                               <p class="small m-0">Lanjutkan ke pembayaran</p>
                             </div>
@@ -523,8 +524,8 @@
                   Terapkan
                 </button>
               </div>
-              <span class="text-danger font-italic"
-                >*apply voucher akan mereset promo atau diskon pada produk</span
+              <span class="text-danger font-italic text-reset-discount"
+                >*apply voucher mereset promo dan diskon pada produk</span
               >
             </div>
             <span role="button" class="text-danger pl-3" @click="resetVoucher()"
@@ -579,7 +580,7 @@
                                   "
                                   v-else
                                 >
-                                  *belum mencapai min:
+                                  *Min:
                                   {{ voucher.minimumOrderValue }} kuantitas
                                 </span>
                               </div>
@@ -613,7 +614,7 @@
                                   "
                                   v-else
                                 >
-                                  *belum mencapai total min: Rp
+                                  *Min: Rp
                                   {{ voucher.minimumOrderValue | formatMoney }}
                                   belanja
                                 </span>
@@ -640,7 +641,11 @@
                             {{ voucher.discountEnd | formatDate }} </span
                           ><br />
 
-                          <span class="text-danger">Lihat Detail</span>
+                          <span
+                            class="text-danger"
+                            @click="openModalDetailVoucher(voucher)"
+                            >Lihat Detail</span
+                          >
                         </div>
                       </div>
                     </div>
@@ -1151,6 +1156,50 @@
         </div>
       </section>
     </div>
+
+    <div
+      class="modal fade"
+      id="modalDetailVoucher"
+      tabindex="-1"
+      aria-labelledby="modalDetailVoucherLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content ">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalDetailVoucherLabel">Syarat & Ketentuan</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" v-if="selectedDetailVoucher">
+            <header>
+              <p class="font-weight-bold">
+                {{selectedDetailVoucher.voucherName}}
+              </p>
+              <div v-html="selectedDetailVoucher.termsAndConditions">
+
+              </div>
+            </header>
+
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Tutup
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -1172,9 +1221,9 @@ export default {
       charges: [],
       carts: [],
       selectedVoucher: {},
+      selectedDetailVoucher: {},
       productIdTmp: "",
       displayDeleteConfirmation: true,
-
       regions: {
         state: [],
         cities: {},
@@ -1258,6 +1307,11 @@ export default {
     },
   },
   methods: {
+    openModalDetailVoucher(voucher) {
+      $("#modal-vouchers").modal('hide');
+      this.selectedDetailVoucher = voucher
+      $("#modalDetailVoucher").appendTo("body").modal('show')
+    },
     setLabelAddress(label = "Rumah") {
       this.userData.address.label = label;
     },
@@ -1607,7 +1661,6 @@ export default {
       this.$store.dispatch("setGlobalModal", false);
     },
     async updateNote(event, id) {
-
       const note = event.target.value;
       this.$axios
         .$put(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/cart/update/note`, {
@@ -2162,15 +2215,6 @@ export default {
       });
     },
   },
-  filters: {
-    formatDate(date) {
-      return moment(date).format("DD-MM-yyyy, HH:mm");
-    },
-
-    formatMoney(val) {
-      return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
-    },
-  },
 
   computed: {
     ...mapGetters("cart", [
@@ -2325,6 +2369,14 @@ export default {
 </script>
 
 <style>
+.label-product {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
+  width: 550px;
+  font-size: 15px;
+}
 .modaal-wrapper {
   z-index: 9998 !important;
 }
@@ -2335,15 +2387,17 @@ export default {
 </style>
 
 <style scoped>
+.text-reset-discount {
+  margin-left: 8px;
+}
 .text-details {
   font-size: 17px;
 }
-.notes {
-  max-width: calc(65% - 4ch);
-  padding-right: 5px;
+.product-note {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  width: 300px;
 }
 .input-none {
   display: none;
@@ -2357,7 +2411,7 @@ export default {
   height: 60px;
   border-radius: 4px;
   border: 1px solid #f52c5c;
-  width: 100%;
+  width: 81%;
   outline: none;
   box-sizing: border-box;
   line-height: 30px;
@@ -2437,6 +2491,16 @@ export default {
   margin-bottom: 15%;
 }
 
+@media only screen and (max-device-width: 720px) {
+  .label-product {
+    width: 400px;
+  }
+}
+@media only screen and (max-device-width: 540px) {
+  .label-product {
+    width: 350px;
+  }
+}
 @media only screen and (max-device-width: 480px) {
   .content-heading {
     margin-top: 10px;
@@ -2444,11 +2508,17 @@ export default {
   .total_price {
     font-size: calc(45% + 8px);
   }
+  .label-product {
+    width: 300px;
+  }
 }
 
 @media only screen and (max-device-width: 380px) {
   .total_price {
     font-size: calc(45% + 7px);
+  }
+  .label-product {
+    width: 200px;
   }
 }
 
@@ -2828,15 +2898,47 @@ input[type="checkbox"]:checked::before {
   .input {
     margin-left: 8px;
     height: 35px;
-    width: 90%;
+    width: 78%;
+  }
+
+  .product-note {
+    width: 270px;
+  }
+}
+@media only screen and (max-device-width: 446px) {
+  .input {
+    margin-left: 8px;
+    height: 35px;
+    width: 70%;
+  }
+  .product-note {
+    width: 245px;
   }
 }
 
+@media only screen and (max-device-width: 400px) {
+  .product-note {
+    width: 225px;
+  }
+}
 @media only screen and (max-device-width: 380px) {
   .input {
     margin-left: 8px;
     height: 35px;
-    width: 90%;
+    width: 71%;
+  }
+  .product-note {
+    width: 200px;
+  }
+}
+@media only screen and (max-device-width: 360px) {
+  .input {
+    margin-left: 8px;
+    height: 35px;
+    width: 70%;
+  }
+  .product-note {
+    width: 195px;
   }
 }
 </style>

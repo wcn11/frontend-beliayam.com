@@ -139,7 +139,7 @@
                     <span
                       class="badge badge-danger ml-2"
                       v-if="getPriceBadge() > 0"
-                      >{{ getPriceBadge() }}% Hemat</span
+                      >{{ getPriceBadge() | setSquareDecimal }}% Hemat</span
                     >
                   </p>
                 </div>
@@ -239,9 +239,8 @@
                       >
                     </div>
                     <p class="font-weight-bold mb-2">Deskripsi Produk</p>
-                    <p class="text-muted mb-0 text-description">
-                      {{ product.description }}
-                    </p>
+                    <div class="text-muted mb-0 text-description" v-html="product.description">
+                    </div>
                   </div>
                 </div>
               </div>
@@ -596,20 +595,6 @@ export default {
     };
   },
 
-  filters: {
-    formatDate(date) {
-      return moment(date).format("DD-MM-yyyy, HH:mm");
-    },
-
-    formatMoney(val) {
-      return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
-    },
-    setSquareDecimal(val) {
-      if (val) {
-        return val.toFixed(0);
-      }
-    },
-  },
 
   mounted() {
     document

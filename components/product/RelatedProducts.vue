@@ -57,9 +57,6 @@
                   }}%</span
                 >
               </div>
-              <!-- <div class="member-plan position-absolute">
-                <span class="badge m-3 badge-danger">10%</span>
-              </div> -->
               <div class="p-3">
                 <img
                   :src="`${baseApi}/${product.image}`"
@@ -227,19 +224,6 @@ export default {
       }
 
       return products;
-    },
-  },
-
-  filters: {
-    formatDate(date) {
-      return moment(date).format("DD-MM-yyyy, HH:mm");
-    },
-
-    formatMoney(val) {
-      return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
-    },
-    setSquareDecimal(val) {
-      return val.toFixed(0);
     },
   },
 };

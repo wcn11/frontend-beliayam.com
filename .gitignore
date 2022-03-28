@@ -58,7 +58,9 @@ typings/
 
 # dotenv environment variables file
 .env               
-.env.dev          
+.env.local            
+.env.test            
+.env.example.dev          
 .env.production
 .env.[mode].local  
 

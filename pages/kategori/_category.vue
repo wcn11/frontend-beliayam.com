@@ -25,26 +25,10 @@
                 <h4>
                   {{ toFirstLetterUpperCase(this.$route.params.category) }}
                 </h4>
-                <!-- <div class="m-0 text-center ml-auto">
-                  <a
-                    href="#"
-                    data-toggle="modal"
-                    data-target="#exampleModal"
-                    class="btn text-muted bg-white mr-2"
-                    ><i class="fad fa-filter mr-1"></i> Filter</a
-                  >
-                  <a
-                    href="#"
-                    data-toggle="modal"
-                    data-target="#exampleModal"
-                    class="btn text-muted bg-white"
-                    ><i class="fad fa-signal mr-1"></i> Sort</a
-                  >
-                </div> -->
               </div>
 
-              <div class="d-flex align-items-center mb-3 category-description">
-                {{ categories.category && categories.category.description }}
+              <div class="d-flex align-items-center mb-3 category-description" v-if="categories.category" v-html="categories.category.description">
+                
               </div>
               <div
                 class="row"
@@ -68,22 +52,49 @@
                   >
                     <div class="list-card-image">
                       <NuxtLink :to="`/${ctg.slug}`" class="text-dark">
-                        <div class="member-plan position-absolute">
-                          <span class="badge m-3 badge-danger">10%</span>
+                        <div
+                          v-if="ctg.hasPromo"
+                          class="member-plan position-absolute"
+                        >
+                          <span class="badge badge-success badge-discount">
+                            #{{ ctg.hasPromo.tags }}
+                          </span>
+                        </div>
+                        <div
+                          class="member-plan position-absolute"
+                          v-else-if="
+                            !ctg.hasPromo &&
+                            ctg.hasDiscount &&
+                            ctg.hasDiscount.isDiscount
+                          "
+                        >
+                          <span
+                            class="badge badge-danger badge-discount"
+                            v-if="ctg.hasDiscount.discountBy === 'percent'"
+                            >Diskon {{ ctg.hasDiscount.discount }}%</span
+                          >
+                          <span class="badge badge-danger badge-discount" v-else
+                            >Diskon
+                            {{
+                              ((ctg.hasDiscount.discount / ctg.price) * 100)
+                                | setSquareDecimal
+                            }}%</span
+                          >
                         </div>
                         <img
                           :src="`${baseApi}/${ctg.image}`"
                           class="img-fluid item-img w-100 mb-3"
                         />
-                        <div class="p-3">
+                        <div class="pt-1 px-3">
                           <h6 class="label-product">
                             {{ ctg.name }}
                           </h6>
-                          <h6 class="price m-0 text-danger">
-                            <i class="fas fa-weight"></i> 1 Ekor
+                          <h6 class="price m-0 text-danger text-muted">
+                            <i class="fas fa-weight"></i>
+                            {{ ctg.weight }} /Kilogram
                           </h6>
                           <h6
-                            class="price m-0 text-dark"
+                            class="price m-0 text-dark pt-4"
                             style="font-size: large; text-align: right"
                           >
                             Rp {{ ctg.price | formatMoney }}
@@ -157,15 +168,6 @@ export default {
       },
     };
   },
-  // async asyncData(context) {
-  //   // try {
-  //     // Using the nuxtjs/http module here exposed via context.app
-  //     const categories = await context.app.$axios.get(`${context.$config.baseURL}/promo/_s?key=${context.params.category}`)
-  //     return { categories }
-  //   // } catch (e) {
-  //   //   error(e) // Show the nuxt error page with the thrown error
-  //   // }
-  // },
   mounted() {
     document
       .getElementById("page-category-_category")
@@ -181,34 +183,28 @@ export default {
       return word[0].toUpperCase() + word.substring(1);
     },
   },
-
-  filters: {
-    // dipindah ke filtes.js - 01-03-2022
-    // formatDate(date) {
-    //   return moment(date).format("DD-MM-yyyy, HH:mm");
-    // },
-    // formatMoney(val) {
-    //   let formatter = new Intl.NumberFormat("id-ID", {
-    //     style: "currency",
-    //     currency: "IDR",
-    //   });
-
-    //   return formatter.format(val);
-    // },
-  },
 };
 </script>
 
 <style scoped>
 .item-img {
-  max-height: 200px;
-  height: 200px;
+  max-height: 195px;
+  height: 195px;
 }
+.badge-discount {
+  position: absolute;
+  margin: 7px;
+}
+.badge-danger {
+  color: #f1e5dd;
+  background-color: rgb(191 77 9);
+  box-shadow: 0px 0px 2px 0px black;
+}
+
 .label-product {
   width: 235px;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: 40px;
   word-break: break-all;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -223,5 +219,48 @@ export default {
 
 .not-found-anything {
   margin: 10%;
+}
+
+@media (max-width: 1200px) {
+  .item-img {
+    max-height: 180px;
+    height: 180px;
+  }
+}
+
+@media (max-width: 992px) {
+  .item-img {
+    max-height: 290px;
+    height: 290px;
+  }
+}
+
+@media (max-width: 767px) {
+  .item-img {
+    max-height: 230px;
+    height: 230px;
+  }
+}
+
+@media (max-width: 576px) {
+  .item-img {
+    max-height: 360px;
+    height: 360px;
+  }
+}
+
+@media only screen and (max-device-width: 480px) {
+  .content-heading {
+    margin-top: 10px;
+  }
+  .total_price {
+    font-size: calc(45% + 8px);
+  }
+}
+
+@media only screen and (max-device-width: 380px) {
+  .total_price {
+    font-size: calc(45% + 7px);
+  }
 }
 </style>
