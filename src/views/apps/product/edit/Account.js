@@ -11,8 +11,14 @@ import { updateProduct, getProductById } from '../store/action'
 import { Media, Row, Col, Button, Form, Input, Label, FormGroup, FormText } from 'reactstrap'
 import { Upload } from '@src/utility/Upload'
 import moment from 'moment'
-import { getAllDataCategory } from '../../category/store/action'
 
+import { Editor } from 'react-draft-wysiwyg'
+import { EditorState, ContentState, convertToRaw, convertFromRaw } from 'draft-js'
+import htmlToDraft from 'html-to-draftjs'
+import draftToHtml from 'draftjs-to-html'
+
+import '@styles/react/libs/editor/editor.scss'
+import '@styles/base/plugins/forms/form-quill-editor.scss'
 
 const ProductAccountTab = ({ selectedProduct }) => {
     const dispatch = useDispatch(),
@@ -30,8 +36,23 @@ const ProductAccountTab = ({ selectedProduct }) => {
     const [discountValue, setDiscountValue] = useState(0)
     const [discountType, setDiscountType] = useState('percent')
     const [afterDiscount, setAfterDiscount] = useState(0)
-
     const history = useHistory();
+
+    const [content, setContent] = useState('')
+    const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
+
+    useEffect(() => {
+        setDisc(productData?.hasDiscount?.isDiscount)
+        setAfterDiscount(productData?.hasDiscount?.priceAfterDiscount ? productData?.hasDiscount?.priceAfterDiscount : productData?.price)
+
+        setProductData(selectedProduct)
+
+        const contentBlock = htmlToDraft(selectedProduct?.description)
+        const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks)
+        const _editorState = EditorState.createWithContent(contentState)
+
+        setEditorState(_editorState)
+    }, [selectedProduct])
 
     // ** Update user image on mount or change
     useEffect(() => {
@@ -62,7 +83,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                     image: image ? image : productData.image,
                     status: values.status,
                     additional: values.additional,
-                    description: values.description,
+                    description: content,
                     isDiscount: JSON.parse(values.isDiscount),
                     discount: values.discount,
                     discountStart: values.discountStart,
@@ -70,7 +91,6 @@ const ProductAccountTab = ({ selectedProduct }) => {
                     discountBy: discountType
                 })
             )
-
             history.push('/apps/product/list')
         }
     }
@@ -91,18 +111,6 @@ const ProductAccountTab = ({ selectedProduct }) => {
         setDiscountValue(Number(discount))
         setAfterDiscount(hargaAkhir)
     }
-
-    const getProduct = async () => {
-        await setProductData(selectedProduct)
-
-        return productData
-    }
-
-    useEffect(() => {
-        getProduct()
-        setDisc(productData?.hasDiscount?.isDiscount)
-        setAfterDiscount(productData?.hasDiscount?.priceAfterDiscount ? productData?.hasDiscount?.priceAfterDiscount : productData?.price)
-    }, [selectedProduct])
 
     // ** Renders User
     const renderUserAvatar = () => {
@@ -324,7 +332,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                             <Col md='12' sm='12'>
                                 <FormGroup>
                                     <Label for='description'>Description</Label>
-                                    <Input
+                                    {/* <Input
                                         type='textarea'
                                         rows='8'
                                         id='description'
@@ -332,7 +340,11 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                         defaultValue={productData.description}
                                         placeholder='description...'
                                         innerRef={register({ required: true })}
-                                    />
+                                    /> */}
+                                    <Editor editorState={editorState} onEditorStateChange={newState => {
+                                        setEditorState(newState)
+                                        setContent(draftToHtml(convertToRaw(newState.getCurrentContent())))
+                                    }} />
                                 </FormGroup>
                             </Col>
                             <Col md='6' sm='12'>

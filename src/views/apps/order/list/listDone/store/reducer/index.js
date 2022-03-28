@@ -5,9 +5,9 @@ const initialState = {
    params: {}
 }
 
-const ordersCancel = (state = initialState, action) => {
+const orderDone = (state = initialState, action) => {
    switch (action.type) {
-      case "GET_DATA_ORDER_BYSTATUS_CANCEL":
+      case "GET_DATA_ORDER_DONE":
          return {
             ...state,
             data: action.data,
@@ -19,4 +19,4 @@ const ordersCancel = (state = initialState, action) => {
    }
 }
 
-export default ordersCancel
+export default orderDone

@@ -1,8 +1,8 @@
 import { Fragment, useState, useEffect } from "react"
 
-import Sidebar from "../Sidebar"
+import { columnsDone } from "./columnsDone"
 
-import { getOrderByStatus } from "./store/action"
+import { getOrderDone } from "./store/action"
 import { useDispatch, useSelector } from "react-redux"
 
 import ReactPaginate from "react-paginate"
@@ -24,11 +24,9 @@ import {
 
 import "@styles/react/libs/react-select/_react-select.scss"
 import "@styles/react/libs/tables/react-dataTable-component.scss"
-import { columnExpired } from "./columnsExpired"
 
 
 const CustomHeader = ({
-   toggleSidebar,
    handlePerPage,
    rowsPerPage,
    handleFilter,
@@ -76,29 +74,23 @@ const CustomHeader = ({
                      onChange={(e) => handleFilter(e.target.value)}
                   />
                </div>
-               {/* <Button.Ripple color="primary" onClick={toggleSidebar}>
-            New Order
-          </Button.Ripple> */}
             </Col>
          </Row>
       </div>
    )
 }
 
-const TableExpired = () => {
+const TableDone = () => {
    // ** Store Vars
    const dispatch = useDispatch()
-   const store = useSelector((state) => state.ordersExpired)
+   const store = useSelector((state) => state.orderDone)
 
    // ** States
    const [searchTerm, setSearchTerm] = useState("")
    const [currentPage, setCurrentPage] = useState(1)
    const [rowsPerPage, setRowsPerPage] = useState(10)
-   const [sidebarOpen, setSidebarOpen] = useState(false)
-   const [sortPerPage, setSortPerPage] = useState("ASC")
-   const [status, setStatus] = useState('PAYMENT_EXPIRED')
-   const [orderBy, setOrderBy] = useState("name")
-   const [platforms, setPlatform] = useState("all")
+   const [sortPerPage, setSortPerPage] = useState('asc')
+   const [orderBy, setOrderBy] = useState('updateAt')
 
    const [currentStatus, setCurrentStatus] = useState({
       value: "",
@@ -106,20 +98,15 @@ const TableExpired = () => {
       number: 0,
    })
 
-   // ** Function to toggle sidebar
-   const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
-   const toggle = tab => setActiveTab(tab)
    // ** Get data on mount
    useEffect(() => {
       // dispatch(getAllDataOrder())
       dispatch(
-         getOrderByStatus({
+         getOrderDone({
             page: currentPage,
             show: rowsPerPage,
             sortBy: sortPerPage,
-            orderBy,
-            status,
-            platform: [platforms],
+            orderBy
          })
       )
    }, [dispatch])
@@ -151,15 +138,14 @@ const TableExpired = () => {
    // ** Function in get data on page change
    const handlePagination = (page) => {
       dispatch(
-         getOrderByStatus({
-            page: currentPage,
+         getOrderDone({
+            page: page.selected + 1,
             show: rowsPerPage,
             sortBy: sortPerPage,
-            orderBy,
-            status,
-            platform: [platforms],
+            orderBy
          })
       )
+
       setCurrentPage(page.selected + 1)
    }
 
@@ -167,13 +153,11 @@ const TableExpired = () => {
    const handlePerPage = (e) => {
       const value = parseInt(e.currentTarget.value)
       dispatch(
-         getOrderByStatus({
+         getOrderDone({
             page: currentPage,
-            show: rowsPerPage,
+            show: value,
             sortBy: sortPerPage,
-            orderBy,
-            status,
-            platform: [platforms],
+            orderBy
          })
       )
       setRowsPerPage(value)
@@ -183,13 +167,11 @@ const TableExpired = () => {
    const handleFilter = (val) => {
       setSearchTerm(val)
       dispatch(
-         getOrderByStatus({
+         getOrderDone({
             page: currentPage,
             show: rowsPerPage,
             sortBy: sortPerPage,
-            orderBy,
-            status,
-            platform: [platforms],
+            orderBy
          })
       )
    }
@@ -283,7 +265,7 @@ const TableExpired = () => {
                pagination
                paginationServer
                subHeader={true}
-               columns={columnExpired}
+               columns={columnsDone}
                responsive={true}
                sortIcon={<ChevronDown />}
                className='react-dataTable'
@@ -293,7 +275,6 @@ const TableExpired = () => {
                data={dataToRender()}
                subHeaderComponent={
                   <CustomHeader
-                     toggleSidebar={toggleSidebar}
                      handlePerPage={handlePerPage}
                      rowsPerPage={rowsPerPage}
                      searchTerm={searchTerm}
@@ -303,9 +284,8 @@ const TableExpired = () => {
             />
          </Card>
 
-         <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} />
       </Fragment>
    )
 }
 
-export default TableExpired
+export default TableDone

@@ -29,7 +29,6 @@ export const getChargeById = (id) => {
                   type: 'GET_CHARGE_BYID',
                   selectedCharge: res?.data?.data
                })
-               console.log(res.data.code)
             })
       } catch (error) {
          console.log('tidak dapat mengambil kategori', error)

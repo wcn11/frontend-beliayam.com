@@ -90,12 +90,13 @@ const OrderList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector((state) => state.orders)
+
   // ** States
   const [searchTerm, setSearchTerm] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [sortPerPage, setSortPerPage] = useState("ASC")
+  const [sortPerPage, setSortPerPage] = useState("DSC")
   const [orderBy, setOrderBy] = useState("name")
   const [status, setStatus] = useState('PAYMENT_SUCCESS')
   const [platforms, setPlatform] = useState("all")

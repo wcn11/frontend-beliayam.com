@@ -54,7 +54,6 @@ const StatsCard = ({ cols }) => {
         return res
       }).then((res) => {
         setSales(res?.data?.data?.totalOrder)
-        console.log(res.data.data)
       }).catch(err => console.log(err))
     }
 
@@ -71,7 +70,7 @@ const StatsCard = ({ cols }) => {
         return res
       }).then((res) => {
         setUser(res?.data?.data.totalUser)
-        console.log(res.data.data)
+
       }).catch(err => console.log(err))
     }
 

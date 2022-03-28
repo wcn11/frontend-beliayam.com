@@ -39,7 +39,7 @@ export const getOrderByStatus = (params) => {
         dispatch({
           type: "GET_DATA_ORDER_BYSTATUS_SUCCESS",
           data: res?.data?.data?.order,
-          // totalPages: res.data.total,
+          totalPages: res.data.data.totalOrder,
           params,
         })
       }

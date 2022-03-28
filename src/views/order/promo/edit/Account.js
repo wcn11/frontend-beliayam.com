@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { updatePromo, getPromoById } from '../store/action'
 import { isObjEmpty } from '@utils'
 import { Upload } from '@src/utility/Upload'
-import { MultipleSelect } from '../../../components/multiSelect/multiSelect'
+import { AsyncPaginate } from "react-select-async-paginate";
 import { 
    Media, 
    Row, 
@@ -17,17 +17,17 @@ import {
    FormGroup, 
    FormText } from 'reactstrap'
 import moment from 'moment'
-import { getAllDataProduct } from '../../../apps/product/store/action'
+import { fetcher } from '@src/utility/axiosHooks'
+
+import { Editor } from 'react-draft-wysiwyg'
+import { EditorState, ContentState, convertToRaw } from 'draft-js'
+import htmlToDraft from 'html-to-draftjs'
+import draftToHtml from 'draftjs-to-html'
+
+import '@styles/react/libs/editor/editor.scss'
+import '@styles/base/plugins/forms/form-quill-editor.scss'
 
 const PromoAccountTab = ({selectedPromo}) => {
-   const dispatch = useDispatch(),
-      { id } = useParams()
-   
-   const store = useSelector(state => state.products)
-   
-   const { register, errors, handleSubmit } = useForm()
-   const [centeredModal, setCenteredModal] = useState(false)
-
    const [promoData, setPromoData] = useState(null)
    const [image, setImage] = useState()
    const [imagePreview, setImagePreview] = useState(null)
@@ -35,6 +35,26 @@ const PromoAccountTab = ({selectedPromo}) => {
    const [rowsPerPage, setRowsPerPage] = useState(10)
    const [sortPerPage, setSortPerPage] = useState('ASC')
    const [orderBy, setOrderBy] = useState('name')
+   const [product, setProduct] = useState([])
+
+   const [content, setContent] = useState('')
+   const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
+
+   useEffect(() => {
+      setPromoData(selectedPromo)
+
+      const contentBlock = htmlToDraft(selectedPromo?.description)
+      const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks)
+      const _editorState = EditorState.createWithContent(contentState)
+
+      setEditorState(_editorState)
+
+   }, [selectedPromo])
+
+   const dispatch = useDispatch(),
+      { id } = useParams()
+
+   const { register, errors, handleSubmit } = useForm()
 
    const onImageUpload = (e) => {
       const file = e.target.files[0]
@@ -42,22 +62,51 @@ const PromoAccountTab = ({selectedPromo}) => {
       setImagePreview(URL.createObjectURL(file))
    }
 
+   const sleep = ms => new Promise(resolve => {
+         setTimeout(() => {
+            resolve()
+         }, ms)
+      })
+
+   const options = async (search, prevOptions, {page}) => {
+      await sleep(1000)
+      const res = await fetcher(`https://be-dev.beliayam.com/api/v1/admin/product?page=${page}&show=${rowsPerPage}&sortBy=${sortPerPage}&orderBy=${orderBy}`)
+      const data = res.data.data
+      const productData = data.map((item) => {
+         return {
+            value: item._id,
+            label: item.name
+         }
+      })
+      let filteredOptions = []
+      if (!search) {
+         filteredOptions = productData
+      } else {
+         const searchLower = search.toLowerCase()
+
+         filteredOptions = productData.filter(({ label }) => label.toLowerCase().includes(searchLower))
+      }
+      // const hasMore = productData?.length > prevOptions?.length + 10
+      const hasMore = true
+      const slicedOptions = filteredOptions.slice(
+         prevOptions?.length,
+         prevOptions?.length + 10
+      )
+
+      return {
+         options: slicedOptions,
+         hasMore,
+         additional: {
+            page: page + 1,
+         },
+      }
+   }
+
+   console.log(product)
+
    useEffect(() => {
       dispatch(getPromoById(id))
    }, [id])
-
-   useEffect(() => {
-      setPromoData(selectedPromo)
-      dispatch(getAllDataProduct({
-         page: currentPage,
-         show: rowsPerPage,
-         sortBy: sortPerPage,
-         // status: currentStatus.value,
-         orderBy
-      }))
-   }, [selectedPromo, dispatch])
-
-   console.log(store.allData)
 
    const onSubmit = (values) => {
       if (isObjEmpty(errors)) {
@@ -69,56 +118,17 @@ const PromoAccountTab = ({selectedPromo}) => {
                image,
                promoStart: values.promoStart,
                promoEnd: values.promoEnd,
-               products: values.products,
+               products: product,
                promoValue: values.promoValue,
                promoBy: values.promoBy,
                isActive: values.isActive,
-               description: values.description,
+               description: editorState,
                termsAndConditions: values.termsAndConditions,
-               products: values.products
+               products: product
             })
          )
       }
    }
-
-   const options = (product) => {
-      product = store.allData.map((item) => {
-            return [ 
-            {
-               value: item._id,
-               label: item.name
-            }
-         ]
-         })
-      
-      return product
-   }
-
-   console.log(options())
-
-   // const option = [
-   //    { value: 'chocolate', label: 'Chocolate' },
-   //    { value: 'strawberry', label: 'Strawberry' },
-   //    { value: 'vanilla', label: 'Vanilla' }
-   // ]
-   
-   // const centerModal = () => {
-   //    return (
-   //       <Modal isOpen={centeredModal} toggle={() => setCenteredModal(!centeredModal)} className='modal-dialog-centered'>
-   //          <ModalHeader toggle={() => setCenteredModal(!centeredModal)}>Vertically Centered</ModalHeader>
-   //          <ModalBody>
-   //             Oat cake ice cream candy chocolate cake chocolate cake cotton candy dragée apple pie. Brownie carrot cake
-   //             candy canes bonbon fruitcake topping halvah. Cake sweet roll cake cheesecake cookie chocolate cake
-   //             liquorice.
-   //          </ModalBody>
-   //          <ModalFooter>
-   //             <Button color='primary' onClick={() => setCenteredModal(!centeredModal)}>
-   //                Accept
-   //             </Button>{' '}
-   //          </ModalFooter>
-   //       </Modal>
-   //    )
-   // }
 
    if (!promoData) {
       return null
@@ -130,21 +140,6 @@ const PromoAccountTab = ({selectedPromo}) => {
                   {/* {renderUserAvatar()} */}
                   <Media className='mt-50' body>
                      <h4>{selectedPromo.name} </h4>
-                     {/* <div className='d-flex flex-wrap mt-1 px-0'>
-                        <Button.Ripple id='change-img' tag={Label} className='mr-75 mb-0' color='primary'>
-                           <span className='d-none d-sm-block'>Change</span>
-                           <span className='d-block d-sm-none'>
-                              <Edit size={14} />
-                           </span>
-                           <input type='file' hidden id='change-img' onChange={onChange} accept='image/*' />
-                        </Button.Ripple>
-                        <Button.Ripple color='secondary' outline>
-                           <span className='d-none d-sm-block'>Remove</span>
-                           <span className='d-block d-sm-none'>
-                              <Trash2 size={14} />
-                           </span>
-                        </Button.Ripple>
-                     </div> */}
                   </Media>
                </Media>
             </Col>
@@ -221,15 +216,18 @@ const PromoAccountTab = ({selectedPromo}) => {
                      </Col>
                      <Col md='6' sm='12'>
                         <FormGroup>
-                           <Label for='products'>Add Products</Label>
-                           <MultipleSelect
-                              id='products'
-                              name='products'
-                              placeholder='Add product....'
-                              defaultValue={promoData.products}
-                              options={options}
-                           />
-                           <FormText>Add product in promo</FormText>
+                           <Label for='isActive'>Status</Label>
+                           <Input
+                              type='select'
+                              id='isActive'
+                              name='isActive'
+                              placeholder='Promo End....'
+                              defaultValue={promoData.isActive}
+                              innerRef={register({ required: true })}
+                           >
+                              <option value={true}>Active</option>
+                              <option value={false}>Nonactive</option>
+                           </Input>
                         </FormGroup>
                      </Col>
                      <Col md='6' sm='12'>
@@ -272,18 +270,24 @@ const PromoAccountTab = ({selectedPromo}) => {
                      </Col>
                      <Col md='6' sm='12'>
                         <FormGroup>
-                           <Label for='isActive'>Status</Label>
-                           <Input
-                              type='select'
-                              id='isActive'
-                              name='isActive'
-                              placeholder='Promo End....'
-                              defaultValue={promoData.isActive}
+                           <Label for='products'>Add Products</Label>
+                           <AsyncPaginate
+                              isSearchable={true}
+                              closeMenuOnSelect={false}
+                              id='products'
+                              className='react-select'
+                              name='products'
+                              placeholder='Add product....'
+                              isMulti
+                              value={product}   
+                              loadOptions={options}
+                              onChange={setProduct}
+                              additional={{
+                                 page: 1,
+                              }}
                               innerRef={register({ required: true })}
-                           >
-                              <option value={true}>Active</option>
-                              <option value={false}>Nonactive</option>
-                           </Input>
+                           />
+                           <FormText>Add product in promo</FormText>
                         </FormGroup>
                      </Col>
                      <Col md='12' sm='12'>
@@ -304,16 +308,10 @@ const PromoAccountTab = ({selectedPromo}) => {
                      <Col md='12' sm='12'>
                         <FormGroup>
                            <Label for='description'>Description</Label>
-                           <Input
-                              type='textarea'
-                              id='description'
-                              no-resize='true'
-                              rows="8"
-                              name='description'
-                              placeholder='Short Description....'
-                              defaultValue={promoData.description}
-                              innerRef={register({ required: true })}
-                           />
+                           <Editor editorState={editorState} onEditorStateChange={newState => {
+                              setEditorState(newState)
+                              setContent(draftToHtml(convertToRaw(newState.getCurrentContent())))
+                           }} />
                         </FormGroup>
                      </Col>
                      <Col className='d-flex flex-sm-row flex-column mt-2' sm='12'>
@@ -324,22 +322,6 @@ const PromoAccountTab = ({selectedPromo}) => {
                            Reset
                         </Button.Ripple>
                      </Col>
-
-                        {/* <Modal isOpen={centeredModal} toggle={() => setCenteredModal(!centeredModal)} className='modal-dialog-centered'>
-                           <ModalHeader toggle={() => setCenteredModal(!centeredModal)}>Update Promo</ModalHeader>
-                           <ModalBody>
-                           Apakah anda yakin untuk mengedit data tersebut?, pastikan sudah benar, cek lagi apa sudah yakin?
-                           </ModalBody>
-                           <ModalFooter>
-                           <Button color='primary' onClick={handleSubmit(onSubmit)}>
-                              Accept
-                           </Button>{' '}
-                              <Button color='primary' outline onClick={() => setCenteredModal(!centeredModal)}>
-                                 Cancel
-                              </Button>{' '}
-                           </ModalFooter>
-                        </Modal> */}
-
                   </Row>
                </Form>
             </Col>

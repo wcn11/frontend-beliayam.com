@@ -27,25 +27,35 @@ const EcommerceDashboard = () => {
   return (
     <div id='dashboard-ecommerce'>
       <Row className='match-height'>
-        <Col xl='4' md='6' xs='12'>
-          <CardMedal />
+        <Col lg='4' md='12'>
+          <Row className='match-height'>
+            <Col lg='6' md='3' xs='6'>
+              <OrdersBarChart warning={colors.warning.main} />
+            </Col>
+            <Col lg='6' md='3' xs='6'>
+              <ProfitLineChart info={colors.info.main} />
+            </Col>
+            {/* <Col lg='12' md='6' xs='12'>
+              <Earnings success={colors.success.main} />
+            </Col> */}
+          </Row>
         </Col>
+        {/* <Col xl='4' md='6' xs='12'>
+          <CardMedal />
+        </Col> */}
         <Col xl='8' md='6' xs='12'>
           <StatsCard cols={{ xl: '3', sm: '6' }} />
         </Col>
       </Row>      
       <Row>
-        <Col lg='12' md='12'>
-          <UserReport primary={colors.primary.main} warning={colors.warning.main} />
-        </Col>
         {/* <Col lg='12' md='12'>
           <OrderReport primary={colors.primary.main} warning={colors.warning.main} />
         </Col> */}
       </Row>
       <Row className='match-height'>
-        <Col lg='12' xs='12'>
+        {/* <Col lg='12' xs='12'>
           <Table />
-        </Col>
+        </Col> */}
         {/* <Col lg='4' md='6' xs='12'>
           <CardMeetup />
         </Col> */}
@@ -64,24 +74,14 @@ const EcommerceDashboard = () => {
         <Col lg='4' md='6' xs='12'>
           <ChartjsRadarChart />
         </Col>
+        <Col lg='12' md='12'>
+          <UserReport primary={colors.primary.main} warning={colors.warning.main} />
+        </Col>
       </Row>
       <Row className='match-height'>
-        <Col lg='4' md='12'>
-          <Row className='match-height'>
-            <Col lg='6' md='3' xs='6'>
-              <OrdersBarChart warning={colors.warning.main} />
-            </Col>
-            <Col lg='6' md='3' xs='6'>
-              <ProfitLineChart info={colors.info.main} />
-            </Col>
-            <Col lg='12' md='6' xs='12'>
-              <Earnings success={colors.success.main} />
-            </Col>
-          </Row>
-        </Col>
-        <Col lg='8' md='12'>
+        {/* <Col lg='8' md='12'>
           <RevenueReport primary={colors.primary.main} warning={colors.warning.main} />
-        </Col>
+        </Col> */}
         {/* <Col lg='8' md='12'>
           <RevenueReport primary={colors.primary.main} warning={colors.warning.main} />
         </Col> */}

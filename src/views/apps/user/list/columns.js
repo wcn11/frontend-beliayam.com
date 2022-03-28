@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import Avatar from '@components/avatar'
 
 // ** Store & Actions
-import { getUserById, deleteUser } from '../store/action'
+import { getUserById } from '../store/action'
 import { store } from '@store/storeConfig/store'
 
 // ** Third Party Components
@@ -66,6 +66,18 @@ const statusObj = {
   inactive: 'light-secondary'
 }
 
+const emailVerifikasiObj = {
+  pending: 'light-warning',
+  active: 'light-success',
+  inactive: 'light-secondary'
+}
+
+const phoneVerifikasiObj = {
+  pending: 'light-warning',
+  active: 'light-success',
+  inactive: 'light-secondary'
+}
+
 console.log(store.dispatch(getUserById()))
 
 export const columns = [
@@ -98,18 +110,26 @@ export const columns = [
     cell: row => row.email
   },
   {
-    name: 'Role',
-    minWidth: '172px',
-    selector: 'role',
+    name: 'email Verification',
+    minWidth: '138px',
+    selector: 'status',
     sortable: true,
-    cell: row => row.roleId
+    cell: row => (
+      <Badge className='text-capitalize light-success' color={phoneVerifikasiObj[row.isEmailVerified ? 'active' : 'nonactive']} pill>
+        {row.isEmailVerified ? 'active' : 'nonactive'}
+      </Badge>
+    )
   },
   {
-    name: 'Plan',
+    name: 'Phone Verification',
     minWidth: '138px',
-    selector: 'currentPlan',
+    selector: 'status',
     sortable: true,
-    cell: row => <span className='text-capitalize'>{row.currentPlan}</span>
+    cell: row => (
+      <Badge className='text-capitalize light-success' color={phoneVerifikasiObj[row.isPhoneVerified ? 'active' : 'nonactive']} pill>
+        {row.isPhoneVerified ? 'active' : 'nonactive'}
+      </Badge>
+    )
   },
   {
     name: 'Status',
@@ -117,8 +137,8 @@ export const columns = [
     selector: 'status',
     sortable: true,
     cell: row => (
-      <Badge className='text-capitalize light-success' color={statusObj['active']} pill>
-        {row.isActive === true && <>active</>}
+      <Badge className='text-capitalize light-success' color={statusObj[row.isActive ? 'active' : 'nonactive']} pill>
+        {row.isActive ? 'active' : 'nonactive'}
       </Badge>
     )
   },

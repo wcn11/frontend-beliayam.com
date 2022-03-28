@@ -59,9 +59,8 @@ const OrderPreview = () => {
       </Row>
       <SendOrderSidebar toggleSidebar={toggleSendSidebar} open={sendSidebarOpen} />
       <AddPaymentSidebar toggleSidebar={toggleAddSidebar} open={addPaymentOpen} />
-      <StatusDelivery toggleSidebar={toggleDeliverSidebar} open={deliverOpen}/>
-      {store.selectedOrder.order_status.status === "PAYMENT_SUCCESS" && store.selectedOrder.order_status.status === "PAYMENT_CANCELLED"  ? <CompletePaymentSidebar toggleSidebar={toggleCompleteSidebar} open={completePaymentOpen} selectedOrder={store.selectedOrder} /> : "" }      
-      {store.selectedOrder.order_status.status === "PAYMENT_SUCCESS" && store.selectedOrder.order_status.status === "PAYMENT_CANCELLED" ? <CancelPaymentSidebar toggleSidebar={toggleCancelSidebar} open={cancelPaymentOpen} selectedOrder={store.selectedOrder} /> : "" }      
+      {store.selectedOrder.order_status.status !== "PAYMENT_SUCCESS" && store.selectedOrder.order_status.status !== "PAYMENT_CANCELLED"  ? <CompletePaymentSidebar toggleSidebar={toggleCompleteSidebar} open={completePaymentOpen} selectedOrder={store.selectedOrder} /> : "" }      
+      {store.selectedOrder.order_status.status !== "PAYMENT_SUCCESS" && store.selectedOrder.order_status.status !== "PAYMENT_CANCELLED" ? <CancelPaymentSidebar toggleSidebar={toggleCancelSidebar} open={cancelPaymentOpen} selectedOrder={store.selectedOrder} /> : "" }      
     </div>
   ) : (
     <Alert color='danger'>

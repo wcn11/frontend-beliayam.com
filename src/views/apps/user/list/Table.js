@@ -1,5 +1,6 @@
 // ** React Imports
 import { Fragment, useState, useEffect } from 'react'
+import { fetcher } from '@src/utility/axiosHooks'
 
 // ** Invoice List Sidebar
 import Sidebar from './Sidebar'
@@ -8,7 +9,7 @@ import Sidebar from './Sidebar'
 import { columns } from './columns'
 
 // ** Store & Actions
-import { getAllData, getData } from '../store/action'
+import { getData } from '../store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
@@ -18,6 +19,7 @@ import { ChevronDown } from 'react-feather'
 import DataTable from 'react-data-table-component'
 import { selectThemeColors } from '@utils'
 import { Card, CardHeader, CardTitle, CardBody, Input, Row, Col, Label, CustomInput, Button } from 'reactstrap'
+import { TOTAL_USERS } from '@src/utility/Url'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
@@ -25,7 +27,7 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 
 // ** Table Header
-const CustomHeader = ({ toggleSidebar, handlePerPage, rowsPerPage, handleFilter, searchTerm }) => {
+const CustomHeader = ({ handlePerPage, rowsPerPage, handleFilter, searchTerm }) => {
   return (
     <div className='invoice-list-table-header w-100 mr-1 ml-50 mt-2 mb-75'>
       <Row>
@@ -86,52 +88,39 @@ const UsersList = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [currentRole, setCurrentRole] = useState({ value: '', label: 'Select Role' })
-  const [currentPlan, setCurrentPlan] = useState({ value: '', label: 'Select Plan' })
-  const [currentStatus, setCurrentStatus] = useState({ value: '', label: 'Select Status', number: 0 })
+  const [sortBy, setSortBy] = useState('ASC')
+  const [orderBy, setOrderBy] = useState('name')
+  const [user, setUser] = useState('')
 
   // ** Function to toggle sidebar
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
 
   // ** Get data on mount
   useEffect(() => {
-    dispatch(getAllData())
+    // dispatch(getAllData())
     dispatch(
       getData({
         page: currentPage,
         perPage: rowsPerPage,
-        role: currentRole.value,
-        currentPlan: currentPlan.value,
-        status: currentStatus.value,
-        q: searchTerm
+        // role: currentRole.value,
+        // currentPlan: currentPlan.value,
+        // status: currentStatus.value,
+        sortBy,
+        orderBy,
       })
     )
-  }, [dispatch, store.data.length])
 
-  // ** User filter options
-  const roleOptions = [
-    { value: '', label: 'Select Role' },
-    { value: 'admin', label: 'Admin' },
-    { value: 'author', label: 'Author' },
-    { value: 'editor', label: 'Editor' },
-    { value: 'maintainer', label: 'Maintainer' },
-    { value: 'subscriber', label: 'Subscriber' }
-  ]
+    const getUser = async () => {
+      await fetcher(TOTAL_USERS).then((res) => {
+        return res
+      }).then((res) => {
+        setUser(res?.data?.data.totalUser)
 
-  const planOptions = [
-    { value: '', label: 'Select Plan' },
-    { value: 'basic', label: 'Basic' },
-    { value: 'company', label: 'Company' },
-    { value: 'enterprise', label: 'Enterprise' },
-    { value: 'team', label: 'Team' }
-  ]
+      }).catch(err => console.log(err))
+    }
 
-  const statusOptions = [
-    { value: '', label: 'Select Status', number: 0 },
-    { value: 'pending', label: 'Pending', number: 1 },
-    { value: 'active', label: 'Active', number: 2 },
-    { value: 'inactive', label: 'Inactive', number: 3 }
-  ]
+    getUser()
+  }, [dispatch])
 
   // ** Function in get data on page change
   const handlePagination = page => {
@@ -139,10 +128,11 @@ const UsersList = () => {
       getData({
         page: page.selected + 1,
         perPage: rowsPerPage,
-        role: currentRole.value,
-        currentPlan: currentPlan.value,
-        status: currentStatus.value,
-        q: searchTerm
+        // role: currentRole.value,
+        // currentPlan: currentPlan.value,
+        // status: currentStatus.value,
+        sortBy,
+        orderBy,
       })
     )
     setCurrentPage(page.selected + 1)
@@ -155,10 +145,11 @@ const UsersList = () => {
       getData({
         page: currentPage,
         perPage: value,
-        role: currentRole.value,
-        currentPlan: currentPlan.value,
-        status: currentStatus.value,
-        q: searchTerm
+        // role: currentRole.value,
+        // currentPlan: currentPlan.value,
+        // status: currentStatus.value,
+        sortBy,
+        orderBy,
       })
     )
     setRowsPerPage(value)
@@ -169,19 +160,19 @@ const UsersList = () => {
     setSearchTerm(val)
     dispatch(
       getData({
-        page: currentPage,
         perPage: rowsPerPage,
         // role: currentRole.value,
         // currentPlan: currentPlan.value,
-        status: currentStatus.value,
-        q: val
+        // status: currentStatus.value,
+        sortBy,
+        orderBy,
       })
     )
   }
 
   // ** Custom Pagination
   const CustomPagination = () => {
-    const count = Number(Math.ceil(store.total / rowsPerPage))
+    const count = Number(Math.ceil(user / rowsPerPage))
 
     return (
       <ReactPaginate
@@ -205,10 +196,12 @@ const UsersList = () => {
   // ** Table data to render
   const dataToRender = () => {
     const filters = {
-      role: currentRole.value,
-      currentPlan: currentPlan.value,
-      status: currentStatus.value,
-      q: searchTerm
+      perPage: rowsPerPage,
+      // role: currentRole.value,
+      // currentPlan: currentPlan.value,
+      // status: currentStatus.value,
+      sortBy,
+      orderBy,
     }
 
     const isFiltered = Object.keys(filters).some(function (k) {

@@ -127,22 +127,26 @@ export const updatePromo = (id, promo) => {
                 image
             } = promo
 
-            const formData = new FormData()
+            const getProduct = products?.map((item) => {
+                return (item.value) 
+            })
 
+            const formData = new FormData()
+            
             formData.append("image_promo", image)
             formData.set('name', name) 
             formData.set('slug', slug) 
             formData.set('tags', tags) 
-            formData.set('products', products) 
+            // formData.set('products[]', JSON.stringify(getProduct))
             formData.set('termsAndConditions', termsAndConditions) 
             formData.set('promoValue', promoValue)
             formData.set('promoBy', promoBy)
             formData.set('promoStart', promoStart)
             formData.set('promoEnd', promoEnd)
             formData.set('isActive', isActive)
-            formData.set('description', description)
-            formData.set('platform', platform)
-
+            formData.set('description', JSON.stringify(description))
+            formData.set('platform[0]', ['all'])
+            
             const req = {
                 method: 'PUT',
                 data: formData,
@@ -154,7 +158,7 @@ export const updatePromo = (id, promo) => {
                 if (res) {
                     dispatch({
                         type: 'UPDATE_PROMO',
-                        data: res?.data.data
+                        data: res?.data?.data
                     })
                     dispatch(getPromo(getState().promos?.params))
                     // dispatch(getAllDataPromo())
@@ -164,7 +168,7 @@ export const updatePromo = (id, promo) => {
             ToastWarning({
                 icon: <X size={12} />,
                 title: 'Ada error nih',
-                content: error.data.message
+                content: error?.data?.message
             })
         }
     }

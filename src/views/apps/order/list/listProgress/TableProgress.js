@@ -96,7 +96,7 @@ const TableProgress = () => {
    const [currentPage, setCurrentPage] = useState(1)
    const [rowsPerPage, setRowsPerPage] = useState(10)
    const [sidebarOpen, setSidebarOpen] = useState(false)
-   const [sortPerPage, setSortPerPage] = useState("ASC")
+   const [sortPerPage, setSortPerPage] = useState("DSC")
    const [status, setStatus] = useState('IN_PROCESS')
    const [orderBy, setOrderBy] = useState("name")
    const [platforms, setPlatform] = useState("all")

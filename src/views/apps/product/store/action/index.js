@@ -12,6 +12,7 @@ export const getAllDataProduct = (params) => {
             dispatch({
                type: 'GET_ALL_DATA_PRODUCT',
                data: res?.data?.data,
+               totalPages: res?.data?.total,
                params
             })
          }
@@ -202,7 +203,7 @@ export const updateProduct = (id, product) => {
          formData.set('stock', stock)
          formData.set('weight', weight)
          formData.set('additional', additional)
-         formData.set('description', description)
+         formData.set('description', JSON.stringify(description))
          formData.set('isDiscount', isDiscount)
          if (isDiscount) {
             formData.set('discount', discount)

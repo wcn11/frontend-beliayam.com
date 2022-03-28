@@ -12,14 +12,14 @@ export const getAllData = () => {
         type: 'GET_ALL_DATA',
         data: response?.data?.data
       })
-    })
+    }).catch(err => console.log('ini all user', err))
   }
 }
 
 // ** Get data on page or row change
 export const getData = params => {
   return async dispatch => {
-    await fetcher(GET_ALL_DATA_USER, params).then(response => {
+    await fetcher(GET_ALL_DATA_USER, {params}).then(response => {
       dispatch({
         type: 'GET_DATA',
         data: response?.data?.data,

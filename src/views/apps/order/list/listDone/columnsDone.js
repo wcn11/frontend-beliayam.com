@@ -15,12 +15,7 @@ import {
    User,
    Settings,
    Database,
-   Edit2,
-   MoreVertical,
-   FileText,
-   Trash2,
-   Archive,
-   AlignCenter,
+   Edit2
 } from "react-feather"
 
 const renderClient = (row) => {
@@ -93,7 +88,7 @@ const renderPaymentStatus = (status) => {
    return words.join(" ")
 }
 
-export const columnExpired = [
+export const columnsDone = [
    {
       name: "Order ID",
       minWidth: "150px",

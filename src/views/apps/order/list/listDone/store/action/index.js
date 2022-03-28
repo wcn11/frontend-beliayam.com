@@ -1,15 +1,15 @@
 import axios from "axios"
-import { GET_ORDER_BYSTATUS } from "@src/utility/Url"
+import { GET_ORDER_DELIVER } from "@src/utility/Url"
 
-export const getOrderByStatus = (params) => {
+export const getOrderDone = (params) => {
    return async (dispatch) => {
       try {
-         const res = await axios.get(GET_ORDER_BYSTATUS, { params })
+         const res = await axios.get(GET_ORDER_DELIVER, { params })
          if (res) {
             dispatch({
-               type: "GET_DATA_ORDER_BYSTATUS_CANCEL",
+               type: "GET_DATA_ORDER_DONE",
                data: res?.data?.data?.order,
-               // totalPages: res.data.total,
+               totalPages: res.data.data.totalOrder,
                params,
             })
          }

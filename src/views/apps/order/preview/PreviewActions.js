@@ -2,17 +2,18 @@
 import { fetcher } from "@src/utility/axiosHooks"
 import { SET_STATUS_DELIVERY } from "@src/utility/Url"
 import { useHistory } from "react-router-dom"
+import { Toast, ToastWarning } from '@src/utility/Toast'
+import { Check, X } from "react-feather"
 
 // ** Third Party Components
 import { Card, CardBody, Button } from 'reactstrap'
 
-const PreviewActions = ({ id, order, setSendSidebarOpen, setAddPaymentOpen, setCompletePaymentOpen, setCancelPaymentOpen }) => {
-  
-  const deliverOrder = async () => {
-    const history = useHistory()
+const PreviewActions = ({ order, setCompletePaymentOpen, setCancelPaymentOpen }) => {
+  const history = useHistory()
+
+  const deliverOrder = () => {
     const orderId = order.bill.bill_no
-    const date = Date.now()
-    const now = new Date(date)
+
     const req = {
       method: 'PUT',
       data: {
@@ -22,12 +23,23 @@ const PreviewActions = ({ id, order, setSendSidebarOpen, setAddPaymentOpen, setC
         }
       }
     }
-    const res = await fetcher(SET_STATUS_DELIVERY, req)
+    const res = fetcher(SET_STATUS_DELIVERY, req)
+
     if (res) {
-      history.push('/apps/order/list')
+      try {
+        Toast({ icon: <Check size={12} />, title: 'Pengirima Berhasil nih', content: 'Barang sudah dikirim dan sedang dalam perjalanan' })
+        history.push('/apps/order/list')
+      } catch (error) {
+        ToastWarning({
+          icon: <X size={12} />,
+          title: 'Gagal!',
+          content: error?.data?.message
+        })
+      }
+      
     }
   }
-  
+
   return (
     <Card className='invoice-action-wrapper'>
       <CardBody>
@@ -35,7 +47,8 @@ const PreviewActions = ({ id, order, setSendSidebarOpen, setAddPaymentOpen, setC
         {order.order_status.status !== "PAYMENT_SUCCESS" && order.order_status.status !== "PAYMENT_CANCELLED" && order.order_status.status !== "PAYMENT_EXPIRED" ? <Button.Ripple color='danger' block onClick={() => setCancelPaymentOpen(true)}> Cancel Payment </Button.Ripple> : ""}
         {order.order_status.status === "PAYMENT_EXPIRED" ? <p>Waktu Pembayaran Sudah Habis</p> : ""}
         {order.order_status.status === "PAYMENT_CANCELLED" ? <p>Pembayaran dibatalkan</p> : ""}
-        {order.order_status.status === "PAYMENT_SUCCESS"  ? <Button.Ripple color='danger' block onClick={() => deliverOrder()}> Deliver Order </Button.Ripple> : "" }
+        {order.delivery.isDelivery ? <p>Orderan dikirimkan nih</p> : ""}
+        {order.order_status.status === "PAYMENT_SUCCESS" && order.delivery.isDelivery === false ? <Button.Ripple color='danger' block onClick={deliverOrder}> Deliver Order </Button.Ripple> : "" }
       </CardBody>
     </Card>
   )

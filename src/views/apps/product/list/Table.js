@@ -1,4 +1,5 @@
 import { Fragment, useState, useEffect } from 'react'
+import { fetcher } from '@src/utility/axiosHooks'
 
 import Sidebar from './Sidebar'
 
@@ -13,6 +14,7 @@ import { ChevronDown } from 'react-feather'
 import DataTable from 'react-data-table-component'
 import { selectThemeColors } from '@utils'
 import { Card, CardHeader, CardTitle, CardBody, Input, Row, Col, Label, CustomInput, Button } from 'reactstrap'
+import { TOTAL_PRODUCTS } from '@src/utility/Url'
 
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
@@ -72,27 +74,19 @@ const ProductList = () => {
     const dispatch = useDispatch()
     const store = useSelector(state => state.products)
 
-    console.log(store)
-
     const [searchTerm, setSearchTerm] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const [rowsPerPage, setRowsPerPage] = useState(10)
     const [sortPerPage, setSortPerPage] = useState('ASC')
     const [orderBy, setOrderBy] = useState('name')
     const [sidebarOpen, setSidebarOpen] = useState(false)
+    const [product, setProduct] = useState('')
 
     const [currentStatus, setCurrentStatus] = useState({ value: '', label: 'Select Status', number: 0 })
 
     const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
 
     useEffect(() => {
-        dispatch(getAllDataProduct({
-            page: currentPage,
-            show: rowsPerPage,
-            sortBy: sortPerPage,
-            // status: currentStatus.value,
-            orderBy
-        }))
         dispatch(
             getProduct({
                 page: currentPage,
@@ -102,6 +96,16 @@ const ProductList = () => {
                 orderBy
             })
         )
+
+        const getTotalProduct = async () => {
+            await fetcher(TOTAL_PRODUCTS).then((res) => {
+                return res
+            }).then((res) => {
+                setProduct(Number(res?.data?.data?.totalActiveProducts) + Number(res?.data?.data?.totalNotActiveProducts))
+            }).catch(err => console.log(err))
+        }
+
+        getTotalProduct()
     }, [dispatch])
 
     const statusOptions = [
@@ -151,14 +155,14 @@ const ProductList = () => {
     }
 
     const CustomPagination = () => {
-        const count = Number(Math.ceil(store / rowsPerPage))
-        console.log(count)
+        const count = Number(Math.ceil(product / rowsPerPage))
+
         return (
             <ReactPaginate
                 previousLabel={''}
                 nextLabel={''}
                 breakLabel={'...'}
-                pageCount={count || 4}
+                pageCount={count || 1}
                 activeClassName='active'
                 forcePage={currentPage !== 0 ? currentPage - 1 : 0}
                 onPageChange={page => handlePagination(page)}

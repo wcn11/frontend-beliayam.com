@@ -53,7 +53,7 @@ const CustomHeader = ({ toggleSidebar, handlePerPage, rowsPerPage, handleFilter,
                         </Label>
                         <Input
                             id='search-invoice'
-                            className='ml-50 w-100'
+                            className='ml-50 w-100 form-control'
                             type='text'
                             value={searchTerm}
                             onChange={e => handleFilter(e.target.value)}
