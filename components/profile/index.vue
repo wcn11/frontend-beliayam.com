@@ -91,10 +91,11 @@
                             >No Telepon</label
                           >
                           <input
-                            type="text"
+                            type="tel"
                             class="form-control"
                             id="inputPhone"
                             placeholder="Cth: 0815"
+                            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                             v-model="changePhone.phone"
                           />
                         </div>
@@ -116,7 +117,7 @@
                       ><i class="fad fa-check-circle text-info"></i></span
                   ></label>
 
-                  <div class="justify-content-between d-flex" >
+                  <div class="justify-content-between d-flex">
                     <h5 v-if="user && user.email">
                       {{ user.email || "" }}
                     </h5>
@@ -128,11 +129,12 @@
                       data-toggle="collapse"
                       data-target="#collapseEmail"
                       role="button"
-
-              v-if="
-                (user && user.registeredBy !== 'google') &&
-                (user && user.registeredBy !== 'facebook')
-              "
+                      v-if="
+                        user &&
+                        user.registeredBy !== 'google' &&
+                        user &&
+                        user.registeredBy !== 'facebook'
+                      "
                     >
                       {{ user && user.email ? "edit" : "tambahkan" }}
                     </p>
@@ -179,8 +181,10 @@
               class="accordion"
               id="accordionPassword"
               v-if="
-                (user && user.registeredBy !== 'google') &&
-                (user && user.registeredBy !== 'facebook')
+                user &&
+                user.registeredBy !== 'google' &&
+                user &&
+                user.registeredBy !== 'facebook'
               "
             >
               <div class="card">

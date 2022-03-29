@@ -37,6 +37,7 @@
                     type="tel"
                     class="form-control"
                     id="phone-forgot-password"
+                    onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                     aria-describedby="phoneHelp"
                     v-model="phone"
                   />

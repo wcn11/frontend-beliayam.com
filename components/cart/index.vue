@@ -92,7 +92,6 @@
                               {{ product.name }}
                             </h5>
                             <p class="text-muted mb-2">
-                              Rp
                               {{ setPriceWithDiscount(product) | formatMoney }}
                               x
                               {{ product.quantity }}
@@ -410,9 +409,9 @@
                         :key="charge._id"
                       >
                         {{ charge.chargeName }}
-                        <span class="float-right text-dark"
-                          >{{ charge.chargeValue | formatMoney }}</span
-                        >
+                        <span class="float-right text-dark">{{
+                          charge.chargeValue | formatMoney
+                        }}</span>
                       </p>
                     </div>
                     <p
@@ -688,7 +687,15 @@
                         <i>Informasi Akun</i></a
                       >
                     </li>
-                    <li role="presentation" class="disabled">
+                    <li
+                      role="presentation"
+                      class="disabled"
+                      v-if="
+                        this.$store.state.auth.user &&
+                        this.$store.state.auth.user.addresses &&
+                        this.$store.state.auth.user.addresses.length <= 0
+                      "
+                    >
                       <a
                         href="#step2"
                         data-toggle="tab"
@@ -705,7 +712,15 @@
                         data-toggle="tab"
                         aria-controls="step3"
                         role="tab"
-                        ><span class="round-tab">3</span>
+                        v-if="
+                          this.$store.state.auth.user &&
+                          this.$store.state.auth.user.addresses
+                        "
+                        ><span class="round-tab">{{
+                          this.$store.state.auth.user.addresses.length > 0
+                            ? "2"
+                            : "3"
+                        }}</span>
                         <i>Lanjutkan Ke Pembayaran</i></a
                       >
                     </li>
@@ -815,12 +830,13 @@
                             <label>No. Telepon*</label>
                             <div class="input-group mb-3">
                               <input
-                                type="text"
+                                type="tel"
                                 name="phone"
                                 class="form-control"
                                 placeholder="No. Telepon"
                                 aria-label="No. Telepon"
                                 aria-describedby="button-addon2"
+                                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                                 v-model="userData.phone"
                               />
                               <div class="input-group-append">
@@ -856,13 +872,22 @@
                         </li>
                       </ul>
                     </div>
-                    <div class="tab-pane" role="tabpanel" id="step2">
+                    <div
+                      class="tab-pane"
+                      role="tabpanel"
+                      id="step2"
+                      v-if="
+                        this.$store.state.auth.user &&
+                        this.$store.state.auth.user.addresses &&
+                        this.$store.state.auth.user.addresses.length <= 0
+                      "
+                    >
                       <h4 class="text-center mb-5">Alamat</h4>
 
                       <form class="">
                         <div class="card">
                           <div class="card-header">
-                            Informasi Penerimaan Produk
+                            Informasi Penerima Produk
                           </div>
                           <div class="card-body">
                             <div class="form-group">
@@ -878,9 +903,10 @@
                             <div class="form-group">
                               <label for="phone">Nomor HP</label>
                               <input
-                                type="text"
+                                type="tel"
                                 class="form-control"
                                 placeholder="Contoh: 0812"
+                                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                                 v-model="userData.address.phone"
                               />
                             </div>
@@ -1154,9 +1180,11 @@
       aria-hidden="true"
     >
       <div class="modal-dialog modal-dialog-centered modal-sm">
-        <div class="modal-content ">
+        <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="modalDetailVoucherLabel">Syarat & Ketentuan</h5>
+            <h5 class="modal-title" id="modalDetailVoucherLabel">
+              Syarat & Ketentuan
+            </h5>
             <button
               type="button"
               class="close"
@@ -1169,13 +1197,10 @@
           <div class="modal-body" v-if="selectedDetailVoucher">
             <header>
               <p class="font-weight-bold">
-                {{selectedDetailVoucher.voucherName}}
+                {{ selectedDetailVoucher.voucherName }}
               </p>
-              <div v-html="JSON.parse(JSON.stringify(selectedDetailVoucher.termsAndConditions))">
-
-              </div>
+              <div v-html="selectedDetailVoucher.termsAndConditions"></div>
             </header>
-
           </div>
           <div class="modal-footer">
             <button
@@ -1297,9 +1322,9 @@ export default {
   },
   methods: {
     openModalDetailVoucher(voucher) {
-      $("#modal-vouchers").modal('hide');
-      this.selectedDetailVoucher = voucher
-      $("#modalDetailVoucher").appendTo("body").modal('show')
+      $("#modal-vouchers").modal("hide");
+      this.selectedDetailVoucher = voucher;
+      $("#modalDetailVoucher").appendTo("body").modal("show");
     },
     setLabelAddress(label = "Rumah") {
       this.userData.address.label = label;
@@ -2832,14 +2857,11 @@ input[type="checkbox"]:checked::before {
   border-color: #18ba60;
 }
 
-
-
 @media (max-width: 1200px) {
   .label-product {
     width: 300px;
   }
 }
-
 
 @media (max-width: 992px) {
   .label-product {
@@ -2865,8 +2887,6 @@ input[type="checkbox"]:checked::before {
     display: block;
   }
 }
-
-
 
 @media only screen and (max-device-width: 720px) {
   .label-product {

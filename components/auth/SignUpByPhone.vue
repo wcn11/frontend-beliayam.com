@@ -186,6 +186,7 @@
                   type="tel"
                   class="form-control"
                   id="inputVerifyPhone"
+                  onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                   placeholder="No. Telp"
                   v-model="verifyPhone.data.phone"
                 />
