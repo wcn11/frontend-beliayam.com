@@ -52,7 +52,13 @@
                     <div>{{ order.user.phone || "" }}</div>
                   </div>
                   <div class="col-sm-4 mb-5 text-center">
-                    <h6 class="mb-1">Pembayaran</h6>
+                    <h6 class="mb-1">
+                      Pembayaran
+                      <i
+                        class="fad fa-badge-check text-info"
+                        v-if="order.payment.payment_status_code == 2"
+                      ></i>
+                    </h6>
 
                     <h6 class="font-weight-bold"></h6>
                     <div>{{ order.payment.pg_name }}</div>
@@ -60,12 +66,9 @@
                       <h4>{{ order.response.trx_id }}</h4>
                     </div>
                     <div v-if="order.payment.payment_status_code == 2">
-                      <span
-                        class="badge badge-pill badge-success date-payment"
-                      >
+                      <span class="badge badge-pill badge-success date-payment">
                         {{ order.order_status.payment_date | formatDate }}
                       </span>
-                      <i class="fad fa-badge-check text-info"></i>
                     </div>
                     <div class="text-danger" v-else>
                       <span class="badge badge-pill badge-danger date-payment">
