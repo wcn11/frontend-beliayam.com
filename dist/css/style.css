@@ -756,11 +756,6 @@ label {
   background-color: rgb(255 193 7 / 15%);
 }
 
-.badge-danger {
-  color: #ff6000;
-  background-color: rgb(255 96 0 / 15%);
-}
-
 .badge-info {
   color: #17a2b8;
   background-color: rgb(23 162 184 / 15%);

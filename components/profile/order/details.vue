@@ -61,13 +61,13 @@
                     </div>
                     <div v-if="order.payment.payment_status_code == 2">
                       <div class="text-danger">
-                        <span cllass="badge badge-pill badge-success date-payment"> {{ order.order_status.payment_date | formatDate }} <i class="fad fa-badge-check"></i></span>
+                        <span cllass="badge badge-pill badge-success date-payment"> {{ order.order_status.payment_date | formatDate }} </span> <i class="fad fa-badge-check text-info"></i>
                         <!-- <span class="badge badge-success"
                           >Pembayaran Diterima</span
                         > -->
                       </div>
                     </div>
-                    <div class="text-danger">
+                    <div class="text-danger" v-else>
                       <span class="badge badge-pill badge-danger date-payment"> {{ order.bill.bill_date | formatDate }}</span>
                     </div>
                   </div>
