@@ -88,7 +88,7 @@
                             }}
                           </span>
                           <del class="text-danger"
-                            >Rp {{ product.price | formatMoney }}</del
+                            >{{ product.price | formatMoney }}</del
                           >
                         </h6>
                         <p class="text-gray mb-0 small">Fresh Premium item.</p>

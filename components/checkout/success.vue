@@ -124,7 +124,7 @@
 
           <div>
             <h6>Total Pembayaran</h6>
-            <h5>Rp {{ order.bill.bill_total | formatMoney }}</h5>
+            <h5>{{ order.bill.bill_total | formatMoney }}</h5>
           </div>
           <NuxtLink
             :to="`/akun/pesanan-saya/order?trx_id=${order.order_id}`"

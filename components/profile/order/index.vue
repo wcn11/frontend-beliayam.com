@@ -184,7 +184,7 @@
                       <p class="text-muted m-0 ml-auto">
                         Total Pembayaran<br />
                         <span class="text-dark font-weight-bold"
-                          >Rp {{ order.grand_total | formatMoney }}</span
+                          >{{ order.grand_total | formatMoney }}</span
                         >
                       </p>
                     </div>

@@ -130,11 +130,11 @@
                     "
                   >
                     <b class="h6 text-dark m-0"
-                      >Rp {{ getPriceLabel() | formatMoney }}</b
+                      >{{ getPriceLabel() | formatMoney }}</b
                     >
 
                     <del class="ml-2 text-danger" v-if="getPriceBadge() > 0"
-                      >Rp {{ product.price | formatMoney }}</del
+                      >{{ product.price | formatMoney }}</del
                     >
                     <span
                       class="badge badge-danger ml-2"
@@ -241,7 +241,7 @@
                     <p class="font-weight-bold mb-2">Deskripsi Produk</p>
                     <div
                       class="text-muted mb-0 text-description"
-                      v-html="JSON.parse(product.description)"
+                      v-html="JSON.parse(JSON.stringify(product.description))"
                     ></div>
                   </div>
                 </div>

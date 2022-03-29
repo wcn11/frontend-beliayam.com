@@ -391,7 +391,7 @@
                     <tr v-for="item in order.bill.bill_items" :key="item._id">
                       <td>{{ item.product.name }}</td>
                       <td class="text-center">
-                        Rp {{ item.product.price | formatMoney }}
+                        {{ item.product.price | formatMoney }}
                       </td>
                       <td class="text-center">{{ item.details.quantity }}</td>
                       <td class="text-right">
@@ -409,7 +409,7 @@
                         <strong>Subtotal Produk</strong>
                       </td>
                       <td class="thick-line text-right">
-                        Rp {{ order.sub_total_product | formatMoney }}
+                        {{ order.sub_total_product | formatMoney }}
                       </td>
                     </tr>
                     <tr>
@@ -419,7 +419,7 @@
                         <strong>Biaya Tambahan</strong>
                       </td>
                       <td class="no-line text-right">
-                        Rp {{ order.sub_total_charges | formatMoney }}
+                        {{ order.sub_total_charges | formatMoney }}
                       </td>
                     </tr>
                     <tr>
@@ -429,7 +429,7 @@
                         <strong>Voucher</strong>
                       </td>
                       <td class="no-line text-right">
-                        -Rp {{ order.sub_total_voucher | formatMoney }}
+                        -{{ order.sub_total_voucher | formatMoney }}
                       </td>
                     </tr>
                     <tr>
@@ -439,7 +439,7 @@
                         <strong>Total</strong>
                       </td>
                       <td class="no-line text-right font-weight-bold">
-                        Rp {{ order.grand_total | formatMoney }}
+                        {{ order.grand_total | formatMoney }}
                       </td>
                     </tr>
                   </tbody>

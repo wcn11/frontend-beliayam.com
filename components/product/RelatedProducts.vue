@@ -78,13 +78,13 @@
                   <del
                     class="ml-2 text-danger"
                     v-if="getPriceBadge(product) > 0"
-                    >Rp {{ product.price | formatMoney }}</del
+                    >{{ product.price | formatMoney }}</del
                   >
                   <span
                     class="price m-0 text-dark"
                     style="font-size: large; text-align: right"
                   >
-                    Rp {{ getPriceLabel(product) | formatMoney }}
+                    {{ getPriceLabel(product) | formatMoney }}
                   </span>
                 </div>
                 <div style="text-align: center; padding-top: 5%">

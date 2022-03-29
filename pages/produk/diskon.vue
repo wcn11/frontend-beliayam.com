@@ -88,7 +88,7 @@
                                 | formatMoney
                             }}
                             <del class="text-danger font-del"
-                              >Rp {{ product.price | formatMoney }}</del
+                              >{{ product.price | formatMoney }}</del
                             >
                           </h6>
                           <p class="small text-muted mb-4 text-dark">

@@ -44,7 +44,7 @@
                     class="price m-0 text-dark mt-2"
                     style="font-size: large; text-align: right"
                   >
-                    Rp {{ product.price | formatMoney }}
+                    {{ product.price | formatMoney }}
                   </h6>
                   <div style="text-align: center; padding-top: 5%">
                     <h6 class="btn btn-success w-100">

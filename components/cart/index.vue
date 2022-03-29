@@ -274,7 +274,7 @@
                           >
                             <div class="more text-white">
                               <h6 class="m-0">
-                                Subtotal Rp {{ countTotalToPay | formatMoney }}
+                                Subtotal {{ countTotalToPay | formatMoney }}
                               </h6>
                               <p class="small m-0">Lanjutkan ke pembayaran</p>
                             </div>
@@ -400,7 +400,7 @@
                         >({{ carts.products.length }} item)</span
                       >
                       <span class="float-right text-dark">
-                        Rp {{ countSubtotalProduct() | formatMoney }}</span
+                        {{ countSubtotalProduct() | formatMoney }}</span
                       >
                     </p>
                     <div v-if="charges.length">
@@ -411,7 +411,7 @@
                       >
                         {{ charge.chargeName }}
                         <span class="float-right text-dark"
-                          >Rp {{ charge.chargeValue | formatMoney }}</span
+                          >{{ charge.chargeValue | formatMoney }}</span
                         >
                       </p>
                     </div>
@@ -435,7 +435,7 @@
                     <h5 class="mb-0">
                       Total
                       <span class="float-right text-danger">
-                        Rp {{ countTotalToPay | formatMoney }}</span
+                        {{ countTotalToPay | formatMoney }}</span
                       >
                     </h5>
                   </div>
@@ -1171,7 +1171,7 @@
               <p class="font-weight-bold">
                 {{selectedDetailVoucher.voucherName}}
               </p>
-              <div v-html="selectedDetailVoucher.termsAndConditions">
+              <div v-html="JSON.parse(JSON.stringify(selectedDetailVoucher.termsAndConditions))">
 
               </div>
             </header>

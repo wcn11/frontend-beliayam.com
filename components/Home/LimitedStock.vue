@@ -54,7 +54,7 @@
                 <p class="badge badge-danger" v-else>Habis</p>
                 <div class="d-flex align-items-center">
                   <h6 class="m-0">
-                    Rp {{ product.price | formatMoney }}/{{ product.weight }}
+                    {{ product.price | formatMoney }}/{{ product.weight }}
                     Kilogram
                   </h6>
                   <NuxtLink :to="`/${product.slug}`" class="ml-auto">

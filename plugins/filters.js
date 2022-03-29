@@ -11,7 +11,7 @@ Vue.filter('formatMoney', (val) => {
 
     return "Rp " + val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
   }
-  return "Rp 0"
+  return "0"
 });
 
 Vue.filter('setSquareDecimal', (val) => {

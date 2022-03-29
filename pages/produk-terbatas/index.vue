@@ -95,7 +95,7 @@
                             class="price m-0 text-dark"
                             style="font-size: large; text-align: right"
                           >
-                            Rp {{ product.price | formatMoney }}
+                            {{ product.price | formatMoney }}
                           </h6>
                           <div style="text-align: center; padding-top: 5%">
                             <NuxtLink :to="`/${product.slug}`">

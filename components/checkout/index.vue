@@ -130,7 +130,7 @@
                         {{ item.product.name }}
                       </h5>
                       <p class="text-muted mb-2">
-                        Rp {{ item.product.price | formatMoney }} x
+                        {{ item.product.price | formatMoney }} x
                         {{ item.details.quantity }}
                       </p>
                       <div
@@ -406,7 +406,7 @@
                           >({{ cart.items && cart.items.length }})</span
                         >
                         <span class="float-right text-dark"
-                          >Rp {{ cart.subTotalProduct | formatMoney }}</span
+                          >{{ cart.subTotalProduct | formatMoney }}</span
                         >
                       </p>
                       <div v-if="cart.charges && cart.charges.length">
@@ -417,7 +417,7 @@
                         >
                           {{ charge.chargeName }}
                           <span class="float-right text-dark"
-                            >Rp {{ charge.chargeValue | formatMoney }}</span
+                            >{{ charge.chargeValue | formatMoney }}</span
                           >
                         </p>
                       </div>
@@ -428,7 +428,7 @@
                             ><i class="fad fa-circle-info"></i
                           ></span>
                           <span class="float-right text-dark"
-                            >- Rp {{ cart.subTotalVoucher | formatMoney }}</span
+                            >- {{ cart.subTotalVoucher | formatMoney }}</span
                           >
                         </p>
                         <!-- <p v-else>
@@ -448,7 +448,7 @@
                   <h5 class="mb-0">
                     Total
                     <span class="float-right text-danger">
-                      Rp {{ cart.baseTotal | formatMoney }}</span
+                      {{ cart.baseTotal | formatMoney }}</span
                     >
                   </h5>
                 </div>
@@ -462,7 +462,7 @@
                   class="text-success text-center"
                   v-if="Object.keys(selectedVoucher).length > 1"
                 >
-                  Kamu hemat Rp {{ cart && cart.subTotalVoucher | formatMoney }}
+                  Kamu hemat {{ cart && cart.subTotalVoucher | formatMoney }}
                 </p>
               </div>
             </div>

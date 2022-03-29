@@ -247,7 +247,7 @@
                   >
                     <NuxtLink :to="`/${cart.slug}`">
                       <div class="position-absolute ml-n1 py-2 text-danger">
-                        Rp {{ setPriceWithDiscount(cart) | formatMoney }}
+                        {{ setPriceWithDiscount(cart) | formatMoney }}
                       </div>
                       <div class="text-decoration-none text-dark">
                         <div class="notifiction small">

@@ -79,7 +79,7 @@
                             {{ product.name }}
                           </h5>
                           <h6 class="mb-1 font-weight-bold">
-                            Rp {{ product.price | formatMoney }}
+                            {{ product.price | formatMoney }}
                           </h6>
                           <p class="small text-muted m-0 text-dark">
                             {{ product.weight || 1 }} Kilogram.
@@ -88,7 +88,7 @@
                             class="price m-0 text-dark"
                             style="font-size: large; text-align: right"
                           >
-                            Rp {{ product.price | formatMoney }}
+                            {{ product.price | formatMoney }}
                           </h6>
                           <div style="text-align: center; padding-top: 5%">
                             <NuxtLink :to="`/${product.slug}`">

@@ -27,11 +27,11 @@
             :alt="promos.name"
             v-if="promos.image_promo"
           />
-          <img
+          <!-- <img
             :src="`${this.$config.baseURL}/default/promo.jpg`"
             class="img-fluid img-responsive promo-image"
             :alt="promos.name"
-          />
+          /> -->
 
           <div
             class="
@@ -94,27 +94,24 @@
                           class="price mt-3 text-dark"
                           style="font-size: large; text-align: right"
                         >
-                          Rp {{
+                          {{
                             (promo.price -
                               (promos.promoValue / 100) * promo.price)
                               | formatMoney
                           }}
                         </h6>
-                        <del class="text-danger text-right">Rp {{
+                        <del class="text-danger text-right">{{
                           promo.price | formatMoney
                         }}</del>
                       </div>
-                      <div
-                        class="text-right"
-                        v-else
-                      >
+                      <div class="text-right" v-else>
                         <h6
                           class="price mt-3 text-dark"
                           style="font-size: large; text-align: right"
                         >
-                          Rp {{ (promo.price - promos.promoValue) | formatMoney }}
+                          {{ (promo.price - promos.promoValue) | formatMoney }}
                         </h6>
-                        <del class="text-danger text-right">Rp {{
+                        <del class="text-danger text-right">{{
                           promo.price | formatMoney
                         }}</del>
                       </div>
@@ -179,6 +176,7 @@ export default {
   },
   methods: {
     async getPromoProducts() {
+      this.$store.dispatch("setGlobalModal", true);
       await this.$axios
         .get(
           `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/promo/_s?key=${this.$route.params.promo}`
@@ -187,6 +185,7 @@ export default {
           this.promos = res.data.data;
           this.title = this.promos.name;
         });
+      this.$store.dispatch("setGlobalModal", false);
     },
   },
   mounted() {
