@@ -61,7 +61,7 @@
                     </div>
                     <div v-if="order.payment.payment_status_code == 2">
                       <span
-                        cllass="badge badge-pill badge-success date-payment"
+                        class="badge badge-pill badge-success date-payment"
                       >
                         {{ order.order_status.payment_date | formatDate }}
                       </span>
