@@ -60,15 +60,17 @@
                       <h4>{{ order.response.trx_id }}</h4>
                     </div>
                     <div v-if="order.payment.payment_status_code == 2">
-                      <div class="text-danger">
-                        <span cllass="badge badge-pill badge-success date-payment"> {{ order.order_status.payment_date | formatDate }} </span> <i class="fad fa-badge-check text-info"></i>
-                        <!-- <span class="badge badge-success"
-                          >Pembayaran Diterima</span
-                        > -->
-                      </div>
+                      <span
+                        cllass="badge badge-pill badge-success date-payment"
+                      >
+                        {{ order.order_status.payment_date | formatDate }}
+                      </span>
+                      <i class="fad fa-badge-check text-info"></i>
                     </div>
                     <div class="text-danger" v-else>
-                      <span class="badge badge-pill badge-danger date-payment"> {{ order.bill.bill_date | formatDate }}</span>
+                      <span class="badge badge-pill badge-danger date-payment">
+                        {{ order.bill.bill_date | formatDate }}</span
+                      >
                     </div>
                   </div>
                   <div class="col-sm-4 mb-5 float-right text-right">
@@ -445,7 +447,7 @@ export default {
 </script>
 
 <style scoped>
-.date-payment{
+.date-payment {
   font-size: 15px;
 }
 
