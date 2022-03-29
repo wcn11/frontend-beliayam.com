@@ -104,7 +104,7 @@
                               "
                             >
                               <h6 class="total_price font-weight-bold m-0">
-                                Rp
+                                
                                 {{
                                   setTotalPriceProductWithDiscount(product)
                                     | formatMoney
@@ -351,7 +351,7 @@
                             : selectedVoucher.voucherCode
                         }}
                         <span class="float-right text-dark"
-                          >Rp
+                          >
                           {{
                             getPriceVoucherLabelPrice(selectedVoucher)
                               | formatMoney
@@ -361,7 +361,7 @@
                       <br />
                       <h6 class="mb-0 text-danger">
                         Total Diskon<span class="float-right text-danger"
-                          >Rp
+                          >
                           {{
                             getPriceVoucherLabelPrice(selectedVoucher)
                               | formatMoney
@@ -423,7 +423,7 @@
                     >
                       Voucher
                       <span class="float-right text-dark"
-                        >- Rp{{
+                        >-{{
                           getPriceVoucherLabelPrice(selectedVoucher)
                             | formatMoney
                         }}</span
@@ -613,7 +613,7 @@
                                   "
                                   v-else
                                 >
-                                  *Min: Rp
+                                  *Min:
                                   {{ voucher.minimumOrderValue | formatMoney }}
                                   belanja
                                 </span>

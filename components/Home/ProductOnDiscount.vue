@@ -70,7 +70,7 @@
                           <span
                             v-if="product.hasDiscount.discountBy === 'price'"
                           >
-                            Rp
+                            
                             {{
                               (product.price - product.hasDiscount.discount)
                                 | formatMoney
@@ -79,7 +79,7 @@
                           <span
                             v-if="product.hasDiscount.discountBy === 'percent'"
                           >
-                            Rp
+                            
                             {{
                               (product.price -
                                 (product.hasDiscount.discount / 100) *

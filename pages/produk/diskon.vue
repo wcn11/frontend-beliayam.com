@@ -82,7 +82,7 @@
                         />
                         <div class="pt-1 px-3 pb-3">
                           <h6 class="mb-1 font-weight-bold">
-                            Rp
+                            
                             {{
                               (product.price - product.hasDiscount.discount)
                                 | formatMoney
@@ -98,7 +98,7 @@
                             class="price m-0 text-dark mt-2"
                             style="font-size: large; text-align: right"
                           >
-                            Rp
+                          
                             {{
                               (product.price - product.hasDiscount.discount)
                                 | formatMoney

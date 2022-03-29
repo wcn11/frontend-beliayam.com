@@ -1,6 +1,6 @@
 <template>
   <div id="page-checkout-success" class="animate__animated">
-      <CheckoutSuccess/>
+    <CheckoutSuccess />
   </div>
 </template>
 
@@ -13,10 +13,17 @@ export default {
     title: "Pesanan Berhasil",
     htmlAttrs: {
       lang: "en",
+      script: [
+        {
+          src: "~/static/js/countdown.min.js",
+        },
+      ],
     },
   },
   mounted() {
-    document.getElementById("page-checkout-success").classList.add("animate__fadeInRight");
+    document
+      .getElementById("page-checkout-success")
+      .classList.add("animate__fadeInRight");
   },
   beforeDestroy() {
     document

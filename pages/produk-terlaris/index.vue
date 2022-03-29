@@ -82,7 +82,7 @@
                         </h6>
                         <p class="text-muted">Ayam Broiler yang berkualitas.</p>
                         <div class="d-flex align-items-center">
-                          <h6 class="m-0">Rp. 38.000/Ekor</h6>
+                          <h6 class="m-0"> 38.000/Ekor</h6>
                           <a class="ml-auto" href="javascript:void(0)">
                             <form
                               id="myform"
@@ -162,7 +162,7 @@
                           Ayam Pejantan Fresh dan Bergizi.
                         </p>
                         <div class="d-flex align-items-center">
-                          <h6 class="m-0">Rp. 45.000/Ekor</h6>
+                          <h6 class="m-0">45.000/Ekor</h6>
                           <a class="ml-auto" href="#">
                             <form
                               id="myform"
@@ -240,7 +240,7 @@
                         </h6>
                         <p class="text-muted">Ayam Fillet Premium item.</p>
                         <div class="d-flex align-items-center">
-                          <h6 class="m-0">Rp. 40.000/Kg</h6>
+                          <h6 class="m-0">40.000/Kg</h6>
                           <a class="ml-auto" href="#">
                             <form
                               id="myform"

@@ -27,7 +27,7 @@
         >
           <div v-if="order.payment.pg_type !== 'cash'"></div>
           <h6 class="font-weight-bold mb-2">Batas Akhir Pembayaran</h6>
-          <h5>
+          <h5 class="bill-expired">
             {{ order.bill.bill_expired | formatDate }}
           </h5>
           <div>
@@ -223,6 +223,16 @@ export default {
 </script>
 
 <style scoped>
+.bill-expired {
+  animation: blinker 1s linear infinite;
+  color: red;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
 .bg-success-order {
   background-color: #ce0000;
 }

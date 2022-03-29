@@ -141,7 +141,7 @@
                         "
                       >
                         <h6 class="total_price font-weight-bold m-0">
-                          Rp
+                          
                           {{
                             (item.product.price * item.details.quantity)
                               | formatMoney
