@@ -86,7 +86,7 @@
           <div
             class="modal-body"
             v-html="
-              JSON.parse(JSON.stringify(selectedPromo.termsAndConditions))
+              selectedPromo.termsAndConditions
             "
           ></div>
           <div class="modal-footer">
