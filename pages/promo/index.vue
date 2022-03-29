@@ -104,7 +104,7 @@ export default {
   async fetch() {
     await this.$axios
       .$get(
-        `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/promo?page=${this.promo.page}&show=${this.promo.show}&sortBy=${this.promo.sortBy}&orderBy=${this.promo.orderBy}&platform[]=${this.promo.platform}&isActive=${this.promo.isActive}`
+        `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/promo?page=${this.promo.page}&show=${this.promo.show}&sortBy=${this.promo.sortBy}&orderBy=${this.promo.orderBy}&platform=${this.promo.platform}&isActive=${this.promo.isActive}`
       )
       .then((res) => {
         this.promos = res.data;

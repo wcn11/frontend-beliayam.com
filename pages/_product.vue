@@ -241,7 +241,7 @@
                     <p class="font-weight-bold mb-2">Deskripsi Produk</p>
                     <div
                       class="text-muted mb-0 text-description"
-                      v-html="product.description"
+                      v-html="JSON.parse(product.description)"
                     ></div>
                   </div>
                 </div>

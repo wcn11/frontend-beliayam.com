@@ -1,6 +1,10 @@
 <template>
   <section class="py-4 beliayam-main-body">
-    <div class="container card container-order" ref="document" v-if="order && Object.keys(order).length > 0">
+    <div
+      class="container card container-order"
+      ref="document"
+      v-if="order && Object.keys(order).length > 0"
+    >
       <div id="ui-view" data-select2-id="ui-view">
         <div>
           <div class="card">
@@ -34,123 +38,124 @@
                 </div>
               </div>
             </div>
-            <div class="card-body">
-              <div class="row mb-4">
-                <div class="col-sm-4 mb-5">
-                  <h6 class="mb-1">Penerima:</h6>
-                  <div>
-                    <strong>{{
-                      order.user.name || "Pelanggan Beliayam.com"
-                    }}</strong>
+            <div class="background-overlay">
+              <div class="card-body">
+                <div class="row mb-4">
+                  <div class="col-sm-4 mb-5">
+                    <h6 class="mb-1">Penerima:</h6>
+                    <div>
+                      <strong>{{
+                        order.user.name || "Pelanggan Beliayam.com"
+                      }}</strong>
+                    </div>
+                    <div>{{ order.user.email || "" }}</div>
+                    <div>{{ order.user.phone || "" }}</div>
                   </div>
-                  <div>{{ order.user.email || "" }}</div>
-                  <div>{{ order.user.phone || "" }}</div>
+                  <div class="col-sm-4 mb-5 text-center">
+                    <h6 class="mb-1">Pembayaran:</h6>
+
+                    <h6 class="font-weight-bold"></h6>
+                    <div>{{ order.payment.pg_name }}</div>
+                    <div v-if="order.payment.pg_type !== 'cash'" class="mt-2">
+                      <h4>{{ order.response.trx_id }}</h4>
+                    </div>
+                    <div>{{ order.bill.bill_date | formatDate }}</div>
+                  </div>
+                  <div class="col-sm-4 mb-5 float-right text-right">
+                    <h6 class="mb-1">Dikirim Ke:</h6>
+                    <div>
+                      <span v-if="order.shipping_address.label"
+                        >({{ order.shipping_address.label }})</span
+                      >
+                      {{ order.shipping_address.address1 }}
+                    </div>
+                    <div>{{ order.shipping_address.sub_district.name }}</div>
+                    <div>{{ order.shipping_address.district.name }}</div>
+                    <div>{{ order.shipping_address.city.name }}</div>
+                    <div>{{ order.shipping_address.state.name }}</div>
+                    <div v-if="order.shipping_address.postcode">
+                      {{ order.shipping_address.postcode }}
+                    </div>
+                    <div>
+                      <strong v-if="order.shipping_address.details"
+                        >({{ order.shipping_address.details }})</strong
+                      >
+                    </div>
+                  </div>
                 </div>
-                <div class="col-sm-4 mb-5 text-center">
-                  <h6 class="mb-1">Pembayaran:</h6>
 
-                  <h6 class="font-weight-bold"></h6>
-                  <div>{{ order.payment.pg_name }}</div>
-                  <div v-if="order.payment.pg_type !== 'cash'" class="mt-2">
-                    <h4>{{ order.response.trx_id }}</h4>
-                  </div>
-                  <div>{{ order.bill.bill_date | formatDate }}</div>
+                <div class="table-responsive-xl">
+                  <table class="table table-striped w-100">
+                    <thead>
+                      <tr class="text-nowrap">
+                        <th class="text-center">#</th>
+                        <th>Item</th>
+                        <th class="text-center">Harga</th>
+                        <th class="text-left">Kuantitas</th>
+                        <th class="text-center">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody v-if="order.bill">
+                      <tr
+                        class="text-nowrap"
+                        v-for="(item, index) in order.bill.bill_items"
+                        :key="item._id"
+                      >
+                        <td class="text-center">{{ index + 1 }}</td>
+                        <td class="text-left">{{ item.product.name }}</td>
+                        <td class="text-center">
+                          {{ item.product.price | formatMoney }}
+                        </td>
+                        <td class="text-left">{{ item.details.quantity }}</td>
+                        <td class="text-center">
+                          {{
+                            (item.product.price * item.details.quantity)
+                              | formatMoney
+                          }}
+                        </td>
+                      </tr>
+
+                      <tr class="text-nowrap">
+                        <td colspan="3"></td>
+                        <td class="left">
+                          <strong>Subtotal</strong>
+                        </td>
+                        <td class="text-center">
+                          {{ order.sub_total_product | formatMoney }}
+                        </td>
+                      </tr>
+                      <tr class="text-nowrap">
+                        <td colspan="3"></td>
+                        <td class="text-left">
+                          <strong>Biaya</strong>
+                        </td>
+                        <td class="text-center">
+                          {{ order.sub_total_charges | formatMoney }}
+                        </td>
+                      </tr>
+                      <tr class="text-nowrap">
+                        <td colspan="3"></td>
+                        <td class="text-left">
+                          <strong>Diskon</strong>
+                        </td>
+                        <td class="text-center">
+                          -{{ order.sub_total_voucher | formatMoney }}
+                        </td>
+                      </tr>
+                      <tr class="text-nowrap">
+                        <td colspan="3"></td>
+                        <td class="text-left">
+                          <strong>TOTAL</strong>
+                        </td>
+                        <td class="text-center">
+                          <strong>{{ order.grand_total | formatMoney }}</strong>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <div class="col-sm-4 mb-5 float-right text-right ">
-                  <h6 class="mb-1">Dikirim Ke:</h6>
-                  <div>
-                    <span v-if="order.shipping_address.label"
-                      >({{ order.shipping_address.label }})</span
-                    >
-                    {{ order.shipping_address.address1 }}
-                  </div>
-                  <div>{{ order.shipping_address.sub_district.name }}</div>
-                  <div>{{ order.shipping_address.district.name }}</div>
-                  <div>{{ order.shipping_address.city.name }}</div>
-                  <div>{{ order.shipping_address.state.name }}</div>
-                  <div v-if="order.shipping_address.postcode">
-                    {{ order.shipping_address.postcode }}
-                  </div>
-                  <div>
-                    <strong v-if="order.shipping_address.details"
-                      >({{ order.shipping_address.details }})</strong
-                    >
-                  </div>
-                </div>
-              </div>
 
-              <div class="table-responsive-xl">
-                <table class="table table-striped w-100">
-                  <thead>
-                    <tr class="text-nowrap">
-                      <th class="text-center">#</th>
-                      <th>Item</th>
-                      <th class="text-center">Harga</th>
-                      <th class="text-left">Kuantitas</th>
-                      <th class="text-center">Total</th>
-                    </tr>
-                  </thead>
-                  <tbody v-if="order.bill">
-                    <tr
-                      class="text-nowrap"
-                      v-for="(item, index) in order.bill.bill_items"
-                      :key="item._id"
-                    >
-                      <td class="text-center">{{ index + 1 }}</td>
-                      <td class="text-left">{{ item.product.name }}</td>
-                      <td class="text-center">
-                        {{ item.product.price | formatMoney }}
-                      </td>
-                      <td class="text-left">{{ item.details.quantity }}</td>
-                      <td class="text-center">
-                        {{
-                          (item.product.price * item.details.quantity)
-                            | formatMoney
-                        }}
-                      </td>
-                    </tr>
-
-                    <tr class="text-nowrap">
-                      <td colspan="3"></td>
-                      <td class="left">
-                        <strong>Subtotal</strong>
-                      </td>
-                      <td class="text-center">
-                        {{ order.sub_total_product | formatMoney }}
-                      </td>
-                    </tr>
-                    <tr class="text-nowrap">
-                      <td colspan="3"></td>
-                      <td class="text-left">
-                        <strong>Biaya</strong>
-                      </td>
-                      <td class="text-center">
-                        {{ order.sub_total_charges | formatMoney }}
-                      </td>
-                    </tr>
-                    <tr class="text-nowrap">
-                      <td colspan="3"></td>
-                      <td class="text-left">
-                        <strong>Diskon</strong>
-                      </td>
-                      <td class="text-center">
-                        -{{ order.sub_total_voucher | formatMoney }}
-                      </td>
-                    </tr>
-                    <tr class="text-nowrap">
-                      <td colspan="3"></td>
-                      <td class="text-left">
-                        <strong>TOTAL</strong>
-                      </td>
-                      <td class="text-center">
-                        <strong>{{ order.grand_total | formatMoney }}</strong>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <!-- <div class="table-responsive">
+                <!-- <div class="table-responsive">
                 <table class="table table-striped w-100 d-md-table">
                   <thead>
                     <tr class="">
@@ -219,7 +224,7 @@
                   </tbody>
                 </table>
               </div> -->
-              <!-- <div class="row">
+                <!-- <div class="row">
                 <div class="col-lg-4 col-sm-5">
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
                   do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -267,6 +272,7 @@
                   >
                 </div>
               </div> -->
+              </div>
             </div>
           </div>
         </div>
@@ -522,9 +528,11 @@ import moment from "moment";
 moment.locale("id-ID");
 export default {
   async fetch() {
+    this.$store.dispatch("setGlobalModal", true);
     const order_id = this.$route.query.trx_id;
 
     if (!order_id) {
+      this.$store.dispatch("setGlobalModal", false);
       return;
     }
 
@@ -532,7 +540,9 @@ export default {
       .get(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/order/${order_id}`)
       .then((res) => {
         this.order = res.data.data;
+        this.$store.dispatch("setGlobalModal", false);
       });
+    this.$store.dispatch("setGlobalModal", false);
   },
   data() {
     return {
@@ -541,17 +551,18 @@ export default {
   },
   methods: {
     exportOrderToPDF() {
-      html2pdf(this.$refs.document, {
+      let opt = {
         margin: 0,
-        filename: "document.pdf",
+        filename: this.order.bill.bill_desc,
         pagebreak: {
           mode: ["avoid-all"],
         },
         filename: this.order.bill.bill_desc,
-        image: { type: "jpeg", quality: 0.98 },
-        html2canvas: { dpi: 192, letterRendering: true },
-        jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
-      });
+        image: { type: "png", quality: 0.98 },
+        html2canvas: { dpi: 192, letterRendering: true, windowWidth: 1024 },
+        jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
+      }
+      html2pdf().set(opt).from(this.$refs.document).toPdf().save(this.order.bill.bill_desc);
     },
     async cancelOrder() {
       this.$store.dispatch("setGlobalModal", true);
@@ -595,6 +606,15 @@ export default {
 </script>
 
 <style scoped>
+.background-overlay {
+  background: url("~/static/img/background.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+.card-body {
+  background-color: #ffffff9e;
+}
 .title-invoice {
   font-size: calc(75% + 2vh);
 }

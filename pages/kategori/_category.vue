@@ -27,7 +27,7 @@
                 </h4>
               </div>
 
-              <div class="d-flex align-items-center mb-3 category-description" v-if="categories.category" v-html="categories.category.description">
+              <div class="d-flex align-items-center mb-3 category-description" v-if="categories.category" v-html="JSON.parse(JSON.stringify(categories.category.description))">
                 
               </div>
               <div
@@ -180,7 +180,7 @@ export default {
   },
   methods: {
     toFirstLetterUpperCase(word) {
-      return word[0].toUpperCase() + word.substring(1);
+      return word //[0].toUpperCase() + word.substring(1);
     },
   },
 };

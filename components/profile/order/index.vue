@@ -183,9 +183,9 @@
                       </p>
                       <p class="text-muted m-0 ml-auto">
                         Total Pembayaran<br />
-                        <span class="text-dark font-weight-bold">Rp {{
-                          order.grand_total | formatMoney
-                        }}</span>
+                        <span class="text-dark font-weight-bold"
+                          >Rp {{ order.grand_total | formatMoney }}</span
+                        >
                       </p>
                     </div>
                   </div>
@@ -219,10 +219,6 @@ moment.locale("id-ID");
 export default {
   async fetch() {
     await this.getOrders();
-
-    if(this.order){
-      
-    }
   },
   data() {
     return {
@@ -241,6 +237,7 @@ export default {
   },
   methods: {
     async getOrders(status = "") {
+      this.$store.dispatch("setGlobalModal", true);
       await this.$axios
         .$get(
           `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/users/orders?status=${status}&page=${this.ordersSetting.page}&show=${this.ordersSetting.show}&sortBy=${this.ordersSetting.sortBy}&orderBy=${this.ordersSetting.orderBy}&fromDate=${this.ordersSetting.fromDate}&toDate=${this.ordersSetting.toDate}`
@@ -248,8 +245,10 @@ export default {
         .then((results) => {
           if (!results.error) {
             this.orders = results.data;
+            this.$store.dispatch("setGlobalModal", false);
           }
         });
+      this.$store.dispatch("setGlobalModal", false);
     },
   },
 };
