@@ -6,7 +6,7 @@ import PromoAccountTab from './Account'
 import { getPromoById } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { Percent } from 'react-feather'
+import { Percent, Info } from 'react-feather'
 import { Card, CardBody, Row, Col, Nav, NavItem, NavLink, TabContent, TabPane, Alert } from 'reactstrap'
 
 import '@styles/react/apps/app-users.scss'
@@ -35,18 +35,12 @@ const PromoEdit = () => {
                         <span className='align-middle d-none d-sm-block'>Promo</span>
                      </NavLink>
                   </NavItem>
-                  {/* <NavItem>
-                                <NavLink active={activeTab === '2'} onClick={() => toggle('2')}>
-                                    <Info size={14} />
-                                    <span className='align-middle d-none d-sm-block'>Information</span>
-                                </NavLink>
-                            </NavItem> */}
-                  {/* <NavItem>
-                                <NavLink active={activeTab === '3'} onClick={() => toggle('3')}>
-                                    <Share2 size={14} />
-                                    <span className='align-middle d-none d-sm-block'>Social</span>
-                                </NavLink>
-                            </NavItem> */}
+                  <NavItem>
+                     <NavLink active={activeTab === '2'} onClick={() => toggle('2')}>
+                           <Info size={14} />
+                           <span className='align-middle d-none d-sm-block'>Product Promo</span>
+                     </NavLink>
+                  </NavItem>
                </Nav>
                <TabContent activeTab={activeTab}>
                   <TabPane tabId='1'>

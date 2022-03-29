@@ -31,7 +31,6 @@ const PromoAccountTab = ({selectedPromo}) => {
    const [promoData, setPromoData] = useState(null)
    const [image, setImage] = useState()
    const [imagePreview, setImagePreview] = useState(null)
-   const [currentPage, setCurrentPage] = useState(1)
    const [rowsPerPage, setRowsPerPage] = useState(10)
    const [sortPerPage, setSortPerPage] = useState('ASC')
    const [orderBy, setOrderBy] = useState('name')
@@ -102,8 +101,6 @@ const PromoAccountTab = ({selectedPromo}) => {
       }
    }
 
-   console.log(product)
-
    useEffect(() => {
       dispatch(getPromoById(id))
    }, [id])
@@ -122,9 +119,8 @@ const PromoAccountTab = ({selectedPromo}) => {
                promoValue: values.promoValue,
                promoBy: values.promoBy,
                isActive: values.isActive,
-               description: editorState,
+               description: values.description,
                termsAndConditions: values.termsAndConditions,
-               products: product
             })
          )
       }
@@ -188,6 +184,23 @@ const PromoAccountTab = ({selectedPromo}) => {
                      </Col>
                      <Col md='6' sm='12'>
                         <FormGroup>
+                           <Label for='promoBy'>Promo By</Label>
+                           <Input
+                              type='select'
+                              id='promoBy'
+                              name='promoBy'
+                              placeholder='Promo By....'
+                              defaultValue={promoData.promoBy}
+                              innerRef={register({ required: true })}
+                           >
+                              <option value="percent">Percent</option>
+                              <option value="price">Price</option>
+                           </Input>
+                           <FormText>Price/Percent</FormText>
+                        </FormGroup>
+                     </Col>
+                     <Col md='6' sm='12'>
+                        <FormGroup>
                            <Label for='promoValue'>Promo Value</Label>
                            <Input
                               type='number'
@@ -198,20 +211,6 @@ const PromoAccountTab = ({selectedPromo}) => {
                               innerRef={register({ required: true })}
                            />
                            <FormText>Hanya masukan nomor (jangan jail)</FormText>
-                        </FormGroup>
-                     </Col>
-                     <Col md='6' sm='12'>
-                        <FormGroup>
-                           <Label for='promoBy'>Promo By</Label>
-                           <Input
-                              type='text'
-                              id='promoBy'
-                              name='promoBy'
-                              placeholder='Promo By....'
-                              defaultValue={promoData.promoBy}
-                              innerRef={register({ required: true })}
-                           />
-                           <FormText>Price/Percent</FormText>
                         </FormGroup>
                      </Col>
                      <Col md='6' sm='12'>
@@ -260,10 +259,10 @@ const PromoAccountTab = ({selectedPromo}) => {
                         <FormGroup>
                            <Label for='image'>Choose Image Promo</Label>
                            <Upload
-                           name='image'
-                           id='image'
-                           onChange={onImageUpload}
-                           img={imagePreview}
+                              name='image'
+                              id='image'
+                              onChange={(e) => onImageUpload(e)}
+                              img={imagePreview}
                            />
                         </FormGroup>
                         <img height={80} src={`https://be-dev.beliayam.com/${promoData.image_promo}`} alt="" />
@@ -272,14 +271,15 @@ const PromoAccountTab = ({selectedPromo}) => {
                         <FormGroup>
                            <Label for='products'>Add Products</Label>
                            <AsyncPaginate
+                              defaultOptions
                               isSearchable={true}
                               closeMenuOnSelect={false}
                               id='products'
-                              className='react-select'
                               name='products'
+                              className='react-select'
                               placeholder='Add product....'
                               isMulti
-                              value={product}   
+                              value={product}
                               loadOptions={options}
                               onChange={setProduct}
                               additional={{
@@ -308,10 +308,20 @@ const PromoAccountTab = ({selectedPromo}) => {
                      <Col md='12' sm='12'>
                         <FormGroup>
                            <Label for='description'>Description</Label>
-                           <Editor editorState={editorState} onEditorStateChange={newState => {
+                           <Input
+                              type='textarea'
+                              no-resize='true'
+                              rows="8"
+                              id='description'
+                              name='description'
+                              placeholder='Description ....'
+                              defaultValue={promoData.description}
+                              innerRef={register({ required: true })}
+                           />
+                           {/* <Editor editorState={editorState} onEditorStateChange={newState => {
                               setEditorState(newState)
                               setContent(draftToHtml(convertToRaw(newState.getCurrentContent())))
-                           }} />
+                           }} /> */}
                         </FormGroup>
                      </Col>
                      <Col className='d-flex flex-sm-row flex-column mt-2' sm='12'>

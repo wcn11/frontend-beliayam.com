@@ -146,10 +146,9 @@ const ProductList = () => {
             getProduct({
                 page: currentPage,
                 perPage: rowsPerPage,
-                // role: currentRole.value,
-                // currentPlan: currentPlan.value,
-                status: currentStatus.value,
-                q: val
+                show: rowsPerPage,
+                sortBy: 'ASC',
+                orderBy: val
             })
         )
     }

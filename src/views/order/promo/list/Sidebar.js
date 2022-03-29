@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Sidebar from '@components/sidebar'
 
 import { isObjEmpty } from '@utils'
@@ -5,15 +6,15 @@ import { isObjEmpty } from '@utils'
 import classnames from 'classnames'
 import { useForm } from 'react-hook-form'
 import { Button, FormGroup, Label, FormText, Form, Input } from 'reactstrap'
-
-import Select from 'react-select'
+import { useDispatch } from 'react-redux'
 import { addPromo } from '../store/action'
-import { useDispatch, useSelector } from 'react-redux'
+import { Upload } from '@src/utility/Upload'
 
 const SidebarNewVoucher = ({ open, toggleSidebar }) => {
-   const dispatch = useDispatch(),
-      store = useSelector(state => state.products)
-   
+   const dispatch = useDispatch()
+   const [image_promo, setImage_Promo] = useState('')
+   const [imagePreview, setImagePreview] = useState(null)
+
    const { register, errors, handleSubmit } = useForm()
    
    const onSubmit = values => {
@@ -27,19 +28,27 @@ const SidebarNewVoucher = ({ open, toggleSidebar }) => {
                promoValue: values.promoValue,
                promoBy: values.promoBy,
                promoStart: values.promoStart,
-               image_promo: velues.image_promo,
+               image_promo,
                promoEnd: values.promoEnd,
+               isActive: values.isActive,
+               description: values.description,
                termsAndConditions: values.termsAndConditions,
             })
          )
       }
    }
 
+   const onImageUpload = (e) => {
+      const file = e.target.files[0]
+      setImage_Promo(file)
+      setImagePreview(URL.createObjectURL(file))
+   }
+
    return (
       <Sidebar
          size='lg'
          open={open}
-         title='New Charge'
+         title='New Promo'
          headerClassName='mb-1'
          contentClassName='pt-0'
          toggleSidebar={toggleSidebar}>
@@ -75,26 +84,27 @@ const SidebarNewVoucher = ({ open, toggleSidebar }) => {
                <Input
                   name='tags'
                   id='tags'
-                  placeholder='Discount By ...'
+                  placeholder='Tags ...'
                   innerRef={register({ required: true })}
                   className={classnames({ 'is-invalid': errors['tags'] })}
                />
+               <FormText>*Tags promo yang ditampilkan diproduct</FormText>
             </FormGroup>
             <FormGroup>
                <Label>
-                  Add Product <span className='text-danger'>*</span>
+                  Promo By <span className='text-danger'>*</span>
                </Label>
-               <Select
-                  isMulti
-                  name='products'
-                  id='products'
-                  placeholder='Discount By ...'
+               <Input
+                  type='select'
+                  name='promoBy'
+                  id='promoBy'
+                  placeholder='Promo By ...'
                   innerRef={register({ required: true })}
-                  className={classnames({ 'is-invalid': errors['products'] })}
-               />
-               {store.allData.map((item) => {
-                  return <option key={item._id} value={item._id}>{item.name}</option>
-               })}
+                  className={classnames({ 'is-invalid': errors['promoBy'] })}
+               >
+                  <option value="price">Price</option>
+                  <option value="percent">Percent</option>
+               </Input>
             </FormGroup>
             <FormGroup>
                <Label>
@@ -108,19 +118,7 @@ const SidebarNewVoucher = ({ open, toggleSidebar }) => {
                   innerRef={register({ required: true })}
                   className={classnames({ 'is-invalid': errors['promoValue'] })}
                />
-            </FormGroup>
-            <FormGroup>
-               <Label>
-                  Promo By <span className='text-danger'>*</span>
-               </Label>
-               <Input
-                  name='promoBy'
-                  id='promoBy'
-                  placeholder='Charge Value ...'
-                  innerRef={register({ required: true })}
-                  className={classnames({ 'is-invalid': errors['promoBy'] })}
-               />
-               <FormText>*Berdasarkan price/percent</FormText>
+               <FormText>*Promo value sesuaikan berdasarkan promo by</FormText>
             </FormGroup>
             <FormGroup>
                <Label>
@@ -150,16 +148,31 @@ const SidebarNewVoucher = ({ open, toggleSidebar }) => {
             </FormGroup>
             <FormGroup>
                <Label>
-                  Image Promo <span className='text-danger'>*</span>
+                  Status <span className='text-danger'>*</span>
                </Label>
                <Input
-                  type='file'
+                  type='select'
+                  name='isActive'
+                  id='isActive'
+                  innerRef={register({ required: true })}
+                  className={classnames({ 'is-invalid': errors['isActive'] })}
+               >
+                  <option value={true}>Active</option>
+                  <option value={false}>Nonactive</option>
+               </Input>
+            </FormGroup>
+            <FormGroup>
+               <Label>
+                  Image Promo <span className='text-danger'>*</span>
+               </Label>
+               <Upload
                   name='image_promo'
                   id='image_promo'
-                  placeholder='Discount End ...'
-                  innerRef={register({ required: true })}
+                  onChange={(e) => onImageUpload(e)}
+                  img={imagePreview}
                   className={classnames({ 'is-invalid': errors['image_promo'] })}
                />
+               <FormText>*Menerima Format Png, Jpg, Jpeg</FormText>
             </FormGroup>
             <FormGroup>
                <Label>

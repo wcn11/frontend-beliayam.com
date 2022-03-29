@@ -7,7 +7,6 @@ import { columns } from './columns'
 import { getPromo } from '../store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
-import Select from 'react-select'
 import ReactPaginate from 'react-paginate'
 import { ChevronDown } from 'react-feather'
 import DataTable from 'react-data-table-component'
@@ -77,7 +76,7 @@ const PromoList = () => {
    const [rowsPerPage, setRowsPerPage] = useState(10)
    const [sortPerPage, setSortPerPage] = useState('ASC')
    const [orderBy, setOrderBy] = useState('name')
-   const [platform, setPlatform] = useState(['all'])
+   const [platform, setPlatform] = useState('all')
    const [sidebarOpen, setSidebarOpen] = useState(false)
 
    const [currentStatus, setCurrentStatus] = useState({ value: '', label: 'Select Status', number: 0 })

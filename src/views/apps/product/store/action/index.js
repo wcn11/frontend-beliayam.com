@@ -132,7 +132,6 @@ export const deleteProduct = id => {
                   type: 'DELETE_CATEGORY'
                })
                dispatch(getProduct(getState().products.params))
-               // dispatch(getAllDataProduct())
             Toast({ icon: <Check size={12} />, title: 'Update Berhasil', content: res?.data?.message })
          }
 
@@ -150,6 +149,7 @@ export const deleteProduct = id => {
 export const updateProduct = (id, product) => {
    return async (dispatch, getState) => {
       try {
+         const history = useHistory();
          const { 
             sku, 
             category_id, 
@@ -174,15 +174,13 @@ export const updateProduct = (id, product) => {
          if (typeof image === "string") {
             const req = {
                method: 'GET',
-               responseType: "blob"
+               responseType: 'blob'
             }
             const res = await fetcher(`https://be-dev.beliayam.com/${image}`, req)
-            console.log(res)
             // image = res
             const reader = new FileReader()
             reader.readAsDataURL(res.data)
             reader.onload = function (e) {
-               console.log('DataURL:', e.target)
                formData.append('image_product', e.target.result)
             }
 
@@ -203,7 +201,7 @@ export const updateProduct = (id, product) => {
          formData.set('stock', stock)
          formData.set('weight', weight)
          formData.set('additional', additional)
-         formData.set('description', JSON.stringify(description))
+         formData.set('description', description)
          formData.set('isDiscount', isDiscount)
          if (isDiscount) {
             formData.set('discount', discount)
@@ -226,6 +224,7 @@ export const updateProduct = (id, product) => {
                   type: 'UPDATE_PRODUCT',
                   data: res?.data?.data,
                })
+               history.push('/apps/product/list')
                dispatch(getProduct(getState().products?.params))
                Toast({icon: <Check size={12}/>, title: 'Update Berhasil', content: res?.data?.message })
             }

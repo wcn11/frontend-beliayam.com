@@ -41,7 +41,7 @@ export default [
     children: [
       {
         id: 'orderList',
-        title: 'List',
+        title: 'Incoming Order',
         icon: <Circle size={12} />,
         navLink: '/apps/order/list'
       },

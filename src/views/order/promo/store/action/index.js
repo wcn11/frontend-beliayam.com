@@ -60,7 +60,45 @@ export const getPromoById = id => {
 export const addPromo = promo => {
     return async (dispatch, getState) => {
       try {
-          const req = { method: 'POST', data: promo }
+          const {
+              name,
+              slug,
+              tags,
+              products,
+              termsAndConditions,
+              promoValue,
+              promoBy,
+              promoStart,
+              promoEnd,
+              isActive,
+              description,
+              platform,
+              image_promo
+          } = promo
+
+          const formData = new FormData()
+
+          formData.append("image_promo", image_promo)
+          formData.set('name', name)
+          formData.set('slug', slug)
+          formData.set('tags', tags)
+          // formData.set('products[]', JSON.stringify(getProduct))
+          formData.set('termsAndConditions', termsAndConditions)
+          formData.set('promoValue', promoValue)
+          formData.set('promoBy', promoBy)
+          formData.set('promoStart', promoStart)
+          formData.set('promoEnd', promoEnd)
+          formData.set('isActive', isActive)
+          formData.set('description', description)
+          formData.set('platform', ['all'])
+                  
+          const req = { 
+              method: 'POST',
+               data: formData,
+              headers: {
+                  'Content-Type': 'multipart/form-data',
+              }
+        }
           const res = await fetcher(GET_PROMO, req)
           if (res) {
              dispatch({
@@ -68,7 +106,6 @@ export const addPromo = promo => {
                 promo
              })
              dispatch(getPromo(getState().promos?.params))
-             dispatch(getAllDataPromo())
               Toast({ icon: <Check size={12} />, title: 'Berhasil Horeee', content: res?.data?.message })
           }
       } catch (error) {
@@ -94,7 +131,6 @@ export const deletePromo = id => {
                     type: 'DELETE_PROMO'
                 })
                 dispatch(getPromo(getState().promo?.params))
-                dispatch(getAllDataPromo())
                 Toast({ icon: <Check size={12} />, title: 'Berhasil Horeee', content: res?.data?.message })
             }
         } catch (error) {
@@ -114,7 +150,8 @@ export const updatePromo = (id, promo) => {
             const { 
                 name, 
                 slug, 
-                tags, 
+                tags,
+                image,
                 products, 
                 termsAndConditions, 
                 promoValue,
@@ -123,29 +160,41 @@ export const updatePromo = (id, promo) => {
                 promoEnd,
                 isActive,
                 description,
-                platform,
-                image
+                platform
             } = promo
 
-            const getProduct = products?.map((item) => {
-                return (item.value) 
-            })
-
             const formData = new FormData()
-            
-            formData.append("image_promo", image)
+
+            if (typeof image === 'string') {
+                const req = {
+                    method: 'GET',
+                    responseType: 'blob'
+                }
+                const res = await fetcher(`https://be-dev.beliayam.com/${image}`, req)
+
+                const reader = new FileReader()
+                reader.readAsDataURL(res.data)
+                reader.onload = function (e) {
+                    formData.append('image_promo', e.target.result)
+                }
+            } else {
+                formData.append('image_promo', image)
+            }
+
             formData.set('name', name) 
             formData.set('slug', slug) 
             formData.set('tags', tags) 
-            // formData.set('products[]', JSON.stringify(getProduct))
+            products?.map((item, index) => {
+                return formData.set(`products[${index}]`, (item.value))
+            })
             formData.set('termsAndConditions', termsAndConditions) 
             formData.set('promoValue', promoValue)
             formData.set('promoBy', promoBy)
             formData.set('promoStart', promoStart)
             formData.set('promoEnd', promoEnd)
             formData.set('isActive', isActive)
-            formData.set('description', JSON.stringify(description))
-            formData.set('platform[0]', ['all'])
+            formData.set('description', description)
+            formData.set('platform', ['all'])
             
             const req = {
                 method: 'PUT',
@@ -165,6 +214,7 @@ export const updatePromo = (id, promo) => {
                     Toast({ icon: <Check size={12} />, title: 'Berhasil Horeee', content: res?.data?.message })
                 }
         } catch (error) {
+            console.log(error)
             ToastWarning({
                 icon: <X size={12} />,
                 title: 'Ada error nih',

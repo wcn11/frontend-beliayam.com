@@ -72,12 +72,16 @@ const SidebarNewVoucher = ({ open, toggleSidebar }) => {
                   Discount By <span className='text-danger'>*</span>
                </Label>
                <Input
+                  type='select'
                   name='discountBy'
                   id='discountBy'
                   placeholder='Discount By ...'
                   innerRef={register({ required: true })}
                   className={classnames({ 'is-invalid': errors['discountBy'] })}
-               />
+               >
+                  <option value='percent'>Percent</option>
+                  <option value='price'>Price</option>
+               </Input>
             </FormGroup>
             <FormGroup>
                <Label>

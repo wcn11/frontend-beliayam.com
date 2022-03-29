@@ -17,7 +17,6 @@ const SidebarNewOrder = ({ open, toggleSidebar }) => {
 
   const onSubmit = (values) => {
     if (isObjEmpty(errors)) {
-      console.log("data masuk")
       toggleSidebar()
       dispatch(
         addOrder({
