@@ -60,13 +60,6 @@ export const columns = [
       cell: row => row.shortDescription
    },
    {
-      name: 'Description',
-      minWidth: '172px',
-      selector: 'role',
-      sortable: true,
-      cell: row => row.description
-   },
-   {
       name: 'Default',
       minWidth: '172px',
       selector: 'role',

@@ -1,13 +1,13 @@
-import { GET_ORDER_DELIVER } from "@src/utility/Url"
-import {fetcher} from '@src/utility/axiosHooks'
+import { GET_PRODUCTS_BYPROMO } from "@src/utility/Url"
+import { fetcher } from '@src/utility/axiosHooks'
 
-export const getOrderDone = (params) => {
+export const getProductsByPromo = (id, params) => {
    return async (dispatch) => {
       try {
-         const res = await fetcher(GET_ORDER_DELIVER, { params })
+         const res = await fetcher(GET_PRODUCTS_BYPROMO, {id}, {params})
          if (res) {
             dispatch({
-               type: "GET_DATA_ORDER_DONE",
+               type: "GET_PRODUCTS_BY_PROMO",
                data: res?.data?.data?.order,
                totalPages: res.data.data.totalOrder,
                params,

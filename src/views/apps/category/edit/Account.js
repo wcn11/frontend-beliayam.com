@@ -14,6 +14,13 @@ import { Upload } from '@src/utility/Upload'
 // ** Third Party Components
 import { Media, Row, Col, Button, Form, Input, Label, FormGroup } from 'reactstrap'
 
+import { Editor } from 'react-draft-wysiwyg'
+import { EditorState, ContentState, convertToRaw } from 'draft-js'
+import htmlToDraft from 'html-to-draftjs'
+import draftToHtml from 'draftjs-to-html'
+
+import '@styles/react/libs/editor/editor.scss'
+import '@styles/base/plugins/forms/form-quill-editor.scss'
 
 const CategoryAccountTab = ({ selectedCategory }) => {
 
@@ -28,6 +35,29 @@ const CategoryAccountTab = ({ selectedCategory }) => {
    const [iconPreview, setIconPreview] = useState(null)
    const [categoryData, setCategoryData] = useState(null)
 
+   const [content, setContent] = useState('')
+   const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
+
+   const [contentAdditional, setContentAdditional] = useState('')
+   const [additionalEditor, setAdditionalEditor] = useState(() => EditorState.createEmpty())
+
+   useEffect(() => {
+      setCategoryData(selectedCategory)
+
+      //rich editor for description
+      const contentBlock = htmlToDraft(selectedCategory?.description)
+      const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks)
+      const _editorState = EditorState.createWithContent(contentState)
+
+      setEditorState(_editorState)
+
+      //rich editor for additional
+      const additionalBlock = htmlToDraft(selectedCategory?.additional)
+      const additionalState = ContentState.createFromBlockArray(additionalBlock.contentBlocks)
+      const _additionalState = EditorState.createWithContent(additionalState)
+
+      setAdditionalEditor(_additionalState)
+   }, [selectedCategory])
    // ** Function to change user image
    // const onChange = e => {
    //    const reader = new FileReader(),
@@ -52,10 +82,6 @@ const CategoryAccountTab = ({ selectedCategory }) => {
       // }
    }, [id])
 
-   useEffect(() => {
-      setCategoryData(selectedCategory)
-   }, [selectedCategory])
-
    const onSubmit = (values) => {
       console.log(values)
       if (isObjEmpty(errors)) {
@@ -68,8 +94,8 @@ const CategoryAccountTab = ({ selectedCategory }) => {
                image,
                icon,
                status: values.status,
-               additional: values.additional,
-               description: values.description
+               additional: contentAdditional,
+               description: content
             })
          )
       }
@@ -209,32 +235,6 @@ const CategoryAccountTab = ({ selectedCategory }) => {
                      </Col>
                      <Col md='6' sm='12'>
                         <FormGroup>
-                           <Label for='additional'>Additional</Label>
-                           <Input
-                              type='text'
-                              id='additional'
-                              name='additional'
-                              defaultValue={categoryData?.additional}
-                              placeholder='Additional'
-                              innerRef={register({ required: true })}
-                           />
-                        </FormGroup>
-                     </Col>
-                     <Col md='6' sm='12'>
-                        <FormGroup>
-                           <Label for='description'>Description</Label>
-                           <Input
-                              type='text'
-                              id='description'
-                              name='description'
-                              defaultValue={categoryData?.description}
-                              placeholder='Add Description'
-                              innerRef={register({ required: true })}
-                           />
-                        </FormGroup>
-                     </Col>
-                     <Col md='6' sm='12'>
-                        <FormGroup>
                            <Label for='description'>Image Category</Label>
                            <Upload
                               id='image'
@@ -273,102 +273,40 @@ const CategoryAccountTab = ({ selectedCategory }) => {
                            </Input>
                         </FormGroup>
                      </Col>
-                     {/* <Col sm='12'>
-                                <div className='permissions border mt-1'>
-                                    <h6 className='py-1 mx-1 mb-0 font-medium-2'>
-                                        <Lock size={18} className='mr-25' />
-                                        <span className='align-middle'>Permissions</span>
-                                    </h6>
-                                    <Table borderless striped responsive>
-                                        <thead className='thead-light'>
-                                            <tr>
-                                                <th>Module</th>
-                                                <th>Read</th>
-                                                <th>Write</th>
-                                                <th>Create</th>
-                                                <th>Delete</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Admin</td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='admin-1' label='' defaultChecked />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='admin-2' label='' />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='admin-3' label='' />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='admin-4' label='' />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Staff</td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='staff-1' label='' />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='staff-2' label='' defaultChecked />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='staff-3' label='' />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='staff-4' label='' />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Author</td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='author-1' label='' defaultChecked />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='author-2' label='' />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='author-3' label='' defaultChecked />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='author-4' label='' />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Contributor</td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='contributor-1' label='' />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='contributor-2' label='' />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='contributor-3' label='' />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='contributor-4' label='' />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>User</td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='user-1' label='' />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='user-2' label='' />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='user-3' label='' />
-                                                </td>
-                                                <td>
-                                                    <CustomInput type='checkbox' id='user-4' label='' defaultChecked />
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </Table>
-                                </div>
-                            </Col> */}
+                     <Col md='12' sm='12'>
+                        <FormGroup>
+                           <Label for='additional'>Additional</Label>
+                           {/* <Input
+                              type='text'
+                              id='additional'
+                              name='additional'
+                              defaultValue={categoryData?.additional}
+                              placeholder='Additional'
+                              innerRef={register({ required: true })}
+                           /> */}
+                           <Editor editorState={additionalEditor} onEditorStateChange={newState => {
+                              setAdditionalEditor(newState)
+                              setContentAdditional(draftToHtml(convertToRaw(newState.getCurrentContent())))
+                           }} />
+                        </FormGroup>
+                     </Col>
+                     <Col md='12' sm='12'>
+                        <FormGroup>
+                           <Label for='description'>Description</Label>
+                           {/* <Input
+                              type='text'
+                              id='description'
+                              name='description'
+                              defaultValue={categoryData?.description}
+                              placeholder='Add Description'
+                              innerRef={register({ required: true })}
+                           /> */}
+                           <Editor editorState={editorState} onEditorStateChange={newState => {
+                              setEditorState(newState)
+                              setContent(draftToHtml(convertToRaw(newState.getCurrentContent())))
+                           }} />
+                        </FormGroup>
+                     </Col>
                      <Col className='d-flex flex-sm-row flex-column mt-2' sm='12'>
                         <Button.Ripple className='mb-1 mb-sm-0 mr-0 mr-sm-1' type='submit' color='primary'>
                            Save Changes

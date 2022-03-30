@@ -41,17 +41,27 @@ const ProductAccountTab = ({ selectedProduct }) => {
     const [content, setContent] = useState('')
     const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
 
+    const [contentAdditional, setContentAdditional] = useState('')
+    const [additionalEditor, setAdditionalEditor] = useState(() => EditorState.createEmpty())
+
     useEffect(() => {
         setDisc(productData?.hasDiscount?.isDiscount)
         setAfterDiscount(productData?.hasDiscount?.priceAfterDiscount ? productData?.hasDiscount?.priceAfterDiscount : productData?.price)
-
         setProductData(selectedProduct)
 
+        // Rich editor For descrpition
         const contentBlock = htmlToDraft(selectedProduct?.description)
         const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks)
         const _editorState = EditorState.createWithContent(contentState)
 
         setEditorState(_editorState)
+
+        // Rich editor for additional
+        const additionalBlock = htmlToDraft(selectedProduct?.additional)
+        const additionalState = ContentState.createFromBlockArray(additionalBlock.contentBlocks)
+        const _additionalState = EditorState.createWithContent(additionalState)
+
+        setAdditionalEditor(_additionalState)
     }, [selectedProduct])
 
     // ** Update user image on mount or change
@@ -82,7 +92,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                     weight: values.weight,
                     image: image ? image : productData.image,
                     status: values.status,
-                    additional: values.additional,
+                    additional: contentAdditional,
                     description: content,
                     isDiscount: JSON.parse(values.isDiscount),
                     discount: values.discount,
@@ -317,15 +327,10 @@ const ProductAccountTab = ({ selectedProduct }) => {
                             <Col md='12' sm='12'>
                                 <FormGroup>
                                     <Label for='additional'>Additional</Label>
-                                    <Input
-                                        type='textarea'
-                                        rows='5'
-                                        id='additional'
-                                        name='additional'
-                                        defaultValue={productData.additional}
-                                        placeholder='additional..'
-                                        innerRef={register({ required: true })}
-                                    />
+                                    <Editor editorState={additionalEditor} onEditorStateChange={newState => {
+                                        setAdditionalEditor(newState)
+                                        setContentAdditional(draftToHtml(convertToRaw(newState.getCurrentContent())))
+                                    }}/>
                                     <FormText>*Jangan Lupa Diisi</FormText>
                                 </FormGroup>
                             </Col>
@@ -340,7 +345,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                             </Col>
                             <Col md='6' sm='12'>
                                 <FormGroup>
-                                    <Label for='isDiscount'>Dikasih Discount gak ?</Label>
+                                    <Label for='isDiscount'>Dikasih Discount gak nih ?</Label>
                                     <Input
                                         type='select'
                                         name='isDiscount'
@@ -349,8 +354,8 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                         innerRef={register({ required: true })}
                                         onChange={e => setDisc(JSON.parse(e.target.value))}
                                     >
-                                        <option value={true}>Active</option>
-                                        <option value={false}>Nonactive</option>
+                                        <option value={true}>Kasih</option>
+                                        <option value={false}>Nggak ada diskon2an</option>
                                     </Input>
                                 </FormGroup>
                             </Col>

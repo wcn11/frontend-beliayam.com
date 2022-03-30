@@ -44,12 +44,6 @@ const OrderList = () => {
                             <TabPane tabId='1'>
                                 <TableProgress/>
                             </TabPane>
-                            {/* <TabPane tabId='2'>
-                                <TableCancel/>
-                            </TabPane>
-                            <TabPane tabId='3'>
-                                <TableExpired/>
-                            </TabPane> */}
                             <TabPane tabId='2'>
                                 <Table />
                             </TabPane>

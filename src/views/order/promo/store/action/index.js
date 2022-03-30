@@ -214,7 +214,6 @@ export const updatePromo = (id, promo) => {
                     Toast({ icon: <Check size={12} />, title: 'Berhasil Horeee', content: res?.data?.message })
                 }
         } catch (error) {
-            console.log(error)
             ToastWarning({
                 icon: <X size={12} />,
                 title: 'Ada error nih',

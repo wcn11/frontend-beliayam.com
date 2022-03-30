@@ -24,6 +24,14 @@ import {
   FormText } from 'reactstrap'
 import moment from 'moment'
 
+import { Editor } from 'react-draft-wysiwyg'
+import { EditorState, ContentState, convertToRaw } from 'draft-js'
+import htmlToDraft from 'html-to-draftjs'
+import draftToHtml from 'draftjs-to-html'
+
+import '@styles/react/libs/editor/editor.scss'
+import '@styles/base/plugins/forms/form-quill-editor.scss'
+
 const VoucherAccountTab = ({ selectedVoucher }) => {
    const dispatch = useDispatch(),
       { id } = useParams()
@@ -32,6 +40,21 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
    const [centeredModal, setCenteredModal] = useState(false)
 
    const [voucherData, setVoucherData] = useState(null)
+
+   const [content, setContent] = useState('')
+  const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
+
+  useEffect(() => {
+    setVoucherData(selectedVoucher)
+
+    //rich editor for terms and codition
+    const contentBlock = htmlToDraft(selectedVoucher?.termsAndConditions)
+    const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks)
+    const _editorState = EditorState.createWithContent(contentState)
+
+    setEditorState(_editorState)
+
+  }, [selectedVoucher])
 
    useEffect(() => {
       dispatch(getVoucherById(id))
@@ -48,21 +71,13 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
              discountStart: values.discountStart,
              discountEnd: values.discountEnd,
              minimumOrderValue: values.minimumOrderValue,
-             termsAndConditions: values.termsAndConditions,
+             termsAndConditions: content,
            })
          )
       }
 
      setCenteredModal(!centeredModal)
    }
-
-   const getVoucherData = async () => {
-     await setVoucherData(selectedVoucher)
-   }
-
-  useEffect(() => {
-    getVoucherData()
-  }, [selectedVoucher])
 
   const centerModal = () => {
     return (
@@ -214,17 +229,21 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
                     />
                   </FormGroup>
                 </Col>
-                <Col md='6' sm='12'>
+                <Col md='12' sm='12'>
                   <FormGroup>
                     <Label for='termsAndConditions'>Terms And Condition</Label>
-                    <Input
+                    {/* <Input
                       type='text'
                       id='termsAndConditions'
                       name='termsAndConditions'
                       placeholder='Terms And Condition....'
                       defaultValue={voucherData.termsAndConditions}
                       innerRef={register({ required: true })}
-                    />
+                    /> */}
+                    <Editor editorState={editorState} onEditorStateChange={newState => {
+                      setEditorState(newState)
+                      setContent(draftToHtml(convertToRaw(newState.getCurrentContent())))
+                    }}/>
                   </FormGroup>
                 </Col>
                 <Col className='d-flex flex-sm-row flex-column mt-2' sm='12'>

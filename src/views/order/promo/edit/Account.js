@@ -39,6 +39,9 @@ const PromoAccountTab = ({selectedPromo}) => {
    const [content, setContent] = useState('')
    const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
 
+   const [contentTerms, setContentTerms] = useState('')
+   const [termsEditor, setTermsEditor] = useState(() => EditorState.createEmpty())
+
    useEffect(() => {
       setPromoData(selectedPromo)
 
@@ -47,6 +50,13 @@ const PromoAccountTab = ({selectedPromo}) => {
       const _editorState = EditorState.createWithContent(contentState)
 
       setEditorState(_editorState)
+
+      //rich editor for additional
+      const termsBlock = htmlToDraft(selectedPromo?.termsAndConditions)
+      const termsState = ContentState.createFromBlockArray(termsBlock.contentBlocks)
+      const _termsState = EditorState.createWithContent(termsState)
+
+      setTermsEditor(_termsState)
 
    }, [selectedPromo])
 
@@ -119,8 +129,8 @@ const PromoAccountTab = ({selectedPromo}) => {
                promoValue: values.promoValue,
                promoBy: values.promoBy,
                isActive: values.isActive,
-               description: values.description,
-               termsAndConditions: values.termsAndConditions,
+               description: content,
+               termsAndConditions: contentTerms,
             })
          )
       }
@@ -265,6 +275,7 @@ const PromoAccountTab = ({selectedPromo}) => {
                               img={imagePreview}
                            />
                         </FormGroup>
+                        <FormText>*Size gambar maksimal 3 mb</FormText>
                         <img height={80} src={`https://be-dev.beliayam.com/${promoData.image_promo}`} alt="" />
                      </Col>
                      <Col md='6' sm='12'>
@@ -293,35 +304,19 @@ const PromoAccountTab = ({selectedPromo}) => {
                      <Col md='12' sm='12'>
                         <FormGroup>
                            <Label for='termsAndConditions'>Terms And Condition</Label>
-                           <Input
-                              type='textarea'
-                              no-resize='true'
-                              rows="8"
-                              id='termsAndConditions'
-                              name='termsAndConditions'
-                              placeholder='Terms And Condition....'
-                              defaultValue={promoData.termsAndConditions}
-                              innerRef={register({ required: true })}
-                           />
+                           <Editor editorState={termsEditor} onEditorStateChange={newState => {
+                              setTermsEditor(newState)
+                              setContentTerms(draftToHtml(convertToRaw(newState.getCurrentContent())))
+                           }} />
                         </FormGroup>
                      </Col>
                      <Col md='12' sm='12'>
                         <FormGroup>
                            <Label for='description'>Description</Label>
-                           <Input
-                              type='textarea'
-                              no-resize='true'
-                              rows="8"
-                              id='description'
-                              name='description'
-                              placeholder='Description ....'
-                              defaultValue={promoData.description}
-                              innerRef={register({ required: true })}
-                           />
-                           {/* <Editor editorState={editorState} onEditorStateChange={newState => {
+                           <Editor editorState={editorState} onEditorStateChange={newState => {
                               setEditorState(newState)
                               setContent(draftToHtml(convertToRaw(newState.getCurrentContent())))
-                           }} /> */}
+                           }} />
                         </FormGroup>
                      </Col>
                      <Col className='d-flex flex-sm-row flex-column mt-2' sm='12'>

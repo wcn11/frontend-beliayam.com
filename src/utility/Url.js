@@ -7,7 +7,7 @@ export const LOGIN_URL = 'https://be-dev.beliayam.com/api/v1/admin/auth/login'
 // user url
 export const GET_ALL_DATA_USER = 'https://be-dev.beliayam.com/api/v1/admin/users'
 export const GET_USER_BYID = (id) => `https://be-dev.beliayam.com/api/v1/admin/users/${id}`
-export const GET_USER_BYACTIVE = (id, active) => `https://be-dev.beliayam.com/api/v1/admin/users/${id}/${active}`
+export const GET_USER_BYACTIVE = (id) => `https://be-dev.beliayam.com/api/v1/admin/users/${id}/active`
 
 // category url
 export const GET_CATEGORY = 'https://be-dev.beliayam.com/api/v1/admin/category'
@@ -27,6 +27,7 @@ export const GET_CHARGE_BYID = (id) => `https://be-dev.beliayam.com/api/v1/admin
 export const GET_PROMO = 'https://be-dev.beliayam.com/api/v1/admin/promo'
 export const GET_PROMO_BYID = (id) => `https://be-dev.beliayam.com/api/v1/admin/promo/${id}`
 export const GET_PROMO_SLUG = (slug) => `https://be-dev.beliayam.com/api/v1/admin/promo/${slug}`
+export const GET_PRODUCTS_BYPROMO = (id) => `https://be-dev.beliayam.com/api/v1/admin/promo/${id}/product`
 
 // Voucher
 export const GET_VOUCHER = 'https://be-dev.beliayam.com/api/v1/admin/voucher'

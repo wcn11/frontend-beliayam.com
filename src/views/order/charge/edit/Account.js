@@ -14,6 +14,14 @@ import {
    Modal,
    FormText } from 'reactstrap'
 
+import { Editor } from 'react-draft-wysiwyg'
+import { EditorState, ContentState, convertToRaw } from 'draft-js'
+import htmlToDraft from 'html-to-draftjs'
+import draftToHtml from 'draftjs-to-html'
+
+import '@styles/react/libs/editor/editor.scss'
+import '@styles/base/plugins/forms/form-quill-editor.scss'
+
 const ChargeAccountTab = ({ selectedCharge }) => {
    const dispatch = useDispatch(),
       { id } = useParams()
@@ -23,6 +31,31 @@ const ChargeAccountTab = ({ selectedCharge }) => {
    const [img, setImg] = useState(null)
    const [chargeData, setChargeData] = useState(null)
    const [centeredModal, setCenteredModal] = useState(false)
+
+   const [content, setContent] = useState('')
+   const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
+
+   const [contentTerms, setContentTerms] = useState('')
+   const [termsEditor, setTermsEditor] = useState(() => EditorState.createEmpty())
+
+   useEffect(() => {
+      setChargeData(selectedCharge)
+
+      //rich editor for description
+      const contentBlock = htmlToDraft(selectedCharge?.description)
+      const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks)
+      const _editroState = (EditorState.createWithContent(contentState))
+
+      setEditorState(_editroState)
+
+      //rich editor for additional
+      const termsBlock = htmlToDraft(selectedCharge?.termsAndConditions)
+      const termsState = ContentState.createFromBlockArray(termsBlock.contentBlocks)
+      const _termsState = EditorState.createWithContent(termsState)
+
+      setTermsEditor(_termsState)
+
+   }, [selectedCharge])
 
    const onChange = e => {
       const reader = new FileReader(),
@@ -46,10 +79,6 @@ const ChargeAccountTab = ({ selectedCharge }) => {
       // }
    }, [id])
 
-   useEffect(() => {
-      setChargeData(selectedCharge)
-   }, [selectedCharge])
-
    const onSubmit = (values) => {
       if (isObjEmpty(errors)) {
          dispatch(
@@ -58,8 +87,8 @@ const ChargeAccountTab = ({ selectedCharge }) => {
                chargeBy: values.chargeBy,
                chargeValue: values.chargeValue,
                shortDescription: values.shortDescription,
-               description: values.description,
-               termsAndConditions: values.termsAndConditions,
+               description: content,
+               termsAndConditions: contentTerms,
                isActive: values.isActive
             })
          )
@@ -159,19 +188,6 @@ const ChargeAccountTab = ({ selectedCharge }) => {
                      </Col>
                      <Col md='6' sm='12'>
                         <FormGroup>
-                           <Label for='shortDescription'>Short Description</Label>
-                           <Input
-                              type='text'
-                              id='shortDescription'
-                              name='shortDescription'
-                              placeholder='Short Description....'
-                              defaultValue={chargeData.shortDescription}
-                              innerRef={register({ required: true })}
-                           />
-                        </FormGroup>
-                     </Col>
-                     <Col md='6' sm='12'>
-                        <FormGroup>
                            <Label for='isActive'>Status</Label>
                            <Input
                               type='select'
@@ -186,30 +202,35 @@ const ChargeAccountTab = ({ selectedCharge }) => {
                            </Input>
                         </FormGroup>
                      </Col>
-                     <Col md='6' sm='12'>
+                     <Col md='12' sm='12'>
                         <FormGroup>
-                           <Label for='termsAndConditions'>Terms And Condition</Label>
+                           <Label for='shortDescription'>Short Description</Label>
                            <Input
-                              type='text'
-                              id='termsAndConditions'
-                              name='termsAndConditions'
-                              placeholder='Terms And Condition....'
-                              defaultValue={chargeData.termsAndConditions}
+                              type='textarea'
+                              id='shortDescription'
+                              name='shortDescription'
+                              placeholder='Short Description....'
+                              defaultValue={chargeData.shortDescription}
                               innerRef={register({ required: true })}
                            />
                         </FormGroup>
                      </Col>
                      <Col md='12' sm='12'>
                         <FormGroup>
+                           <Label for='termsAndConditions'>Terms And Condition</Label>
+                           <Editor editorState={termsEditor} onEditorStateChange={newState => {
+                              setTermsEditor(newState)
+                              setContentTerms(draftToHtml(convertToRaw(newState.getCurrentContent())))
+                           }}/>
+                        </FormGroup>
+                     </Col>
+                     <Col md='12' sm='12'>
+                        <FormGroup>
                            <Label for='description'>Description</Label>
-                           <Input
-                              type='textarea'
-                              id='description'
-                              name='description'
-                              placeholder='Short Description....'
-                              defaultValue={chargeData.description}
-                              innerRef={register({ required: true })}
-                           />
+                           <Editor editorState={editorState} onEditorStateChange={newState => {
+                              setEditorState(newState)
+                              setContent(draftToHtml(convertToRaw(newState.getCurrentContent())))
+                           }}/>
                         </FormGroup>
                      </Col>
                      <Col className='d-flex flex-sm-row flex-column mt-2' sm='12'>

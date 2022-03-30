@@ -22,6 +22,7 @@ import ecommerce from '@src/views/apps/ecommerce/store/reducer'
 import dataTables from '@src/views/tables/data-tables/store/reducer'
 import ordersStatus from '../../views/apps/order/list/listProgress/store/reducer'
 import orderDone from '../../views/apps/order/list/listDone/store/reducer'
+import productsPromo from '../../views/order/promo/edit/tableProduct/store/reducer'
 
 const rootReducer = combineReducers({
   auth,
@@ -43,7 +44,8 @@ const rootReducer = combineReducers({
   ecommerce,
   dataTables,
   ordersStatus,
-  orderDone
+  orderDone,
+  productsPromo
 })
 
 export default rootReducer

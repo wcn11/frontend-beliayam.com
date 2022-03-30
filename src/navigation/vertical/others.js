@@ -45,12 +45,12 @@ export default [
         icon: <Circle size={12} />,
         navLink: '/apps/order/list'
       },
-      // {
-      //   id: 'orderPreview',
-      //   title: 'Preview',
-      //   icon: <Circle size={12} />,
-      //   navLink: '/apps/order/preview'
-      // },
+      {
+        id: 'orderPreview',
+        title: 'Failed Order',
+        icon: <Circle size={12} />,
+        navLink: '/apps/order/failed'
+      },
       // {
       //   id: 'invoiceEdit',
       //   title: 'Edit',

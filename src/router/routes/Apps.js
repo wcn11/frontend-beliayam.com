@@ -231,6 +231,10 @@ const AppRoutes = [
     component: lazy(() => import('../../views/apps/order/list'))
   },
   {
+    path: '/apps/order/failed',
+    component: lazy(() => import('../../views/apps/order/failed'))
+  },
+  {
     path: '/apps/order/view',
     exact: true,
     component: () => <Redirect to='/apps/order/view/:id' />

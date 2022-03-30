@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
+import TableProduct from './tableProduct'
 import PromoAccountTab from './Account'
 
 import { getPromoById } from '../store/action'
@@ -47,7 +48,7 @@ const PromoEdit = () => {
                      <PromoAccountTab selectedPromo={store.selectedPromo} />
                   </TabPane>
                   <TabPane tabId='2'>
-                     {/* <InfoTab /> */}
+                     <TableProduct />
                   </TabPane>
                   <TabPane tabId='3'>
                   </TabPane>
