@@ -129,13 +129,13 @@
                       align-items-center
                     "
                   >
-                    <b class="h6 text-dark m-0"
-                      >{{ getPriceLabel() | formatMoney }}</b
-                    >
+                    <b class="h6 text-dark m-0">{{
+                      getPriceLabel() | formatMoney
+                    }}</b>
 
-                    <del class="ml-2 text-danger" v-if="getPriceBadge() > 0"
-                      >{{ product.price | formatMoney }}</del
-                    >
+                    <del class="ml-2 text-danger" v-if="getPriceBadge() > 0">{{
+                      product.price | formatMoney
+                    }}</del>
                     <span
                       class="badge badge-danger ml-2"
                       v-if="getPriceBadge() > 0"
@@ -482,6 +482,11 @@ export default {
       if (!this.$store.getters["auth/isAuthenticated"]) {
         this.$toast.success("Masuk Untuk Melanjutkan Belanja");
         this.$router.push("/login");
+        return;
+      }
+      if (this.product.stock <= 0) {
+        $("#outOfStockModal").modal("show");
+
         return;
       }
       await this.addProductToCart();
