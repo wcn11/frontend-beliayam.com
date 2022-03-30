@@ -32,19 +32,33 @@
           </h5>
           <div>
             <div>
-
               <div
                 v-if="order.payment.pg_type !== 'cash'"
                 class="p-2 va-container"
               >
-                <span>Kode {{ order.payment.pg_name }} Anda</span>
-                <h4 class="mt-4 mb-4 font-weight-bolder">{{ order.response.trx_id }}</h4>
+                <span>Kode Virtual {{ order.payment.pg_name }} Anda</span>
+                <h4 class="mt-4 mb-4 font-weight-bolder">
+                  <img
+                    class="img-thumbnail img-responsive"
+                    :src="order.payment.pg_icon"
+                    v-if="order.payment.pg_icon"
+                  />
+                  {{ order.response.trx_id }}
+                </h4>
                 <a
                   :href="order.response.redirect_url"
-                  class="btn btn-danger"
+                  class="btn btn-outline-secondary "
                   target="_blank"
-                  ><i class="fad fa-file-invoice"></i> Bayar Dengan
-                  {{ order.payment.pg_name }}</a
+                >
+                  <i class="fad fa-file-invoice"></i> 
+
+                  Bayar Dengan 
+                  <img
+                    class="img-thumbnail img-responsive"
+                    :src="order.payment.pg_icon"
+                    v-if="order.payment.pg_icon"
+                  />
+                  <span v-else>{{ order.payment.pg_name }}</span></a
                 >
               </div>
               <!-- <div v-if="order.payment.pg_type !== 'cash'" class="p-2">
@@ -112,13 +126,17 @@
             Pesanan anda akan disiapkan dan akan segera datang
           </p>
 
-          <hr class="w-50 mt-5">
+          <hr class="w-50 mt-5" />
 
           <div class="mt-4">
-            <h6><span class="text-muted">Kode pesanan: #</span>{{ order.order_id }}</h6>
+            <h6>
+              <span class="text-muted">Kode pesanan: #</span
+              >{{ order.order_id }}
+            </h6>
 
             <p class="text-danger font-italic">
-              <i class="fad fa-info-circle"></i> Kode pesanan bukan kode Virtual Akun!
+              <i class="fad fa-info-circle"></i> Kode pesanan bukan kode Virtual
+              Akun!
             </p>
           </div>
 
@@ -223,6 +241,9 @@ export default {
 </script>
 
 <style scoped>
+.btn-pay {
+  background-color: #cf430f;
+}
 .bill-expired {
   animation: blinker 1s linear infinite;
   color: red;

@@ -35,7 +35,11 @@
                 Semua</a
               >
             </li>
-            <li class="nav-item" role="presentation" @click="getOrders(2)">
+            <li
+              class="nav-item"
+              role="presentation"
+              @click="getOrders(2, true)"
+            >
               <a
                 class="nav-link border-0 text-dark py-3 text-center"
                 id="completed-tab"
@@ -45,14 +49,14 @@
                 aria-controls="completed"
                 aria-selected="true"
               >
-                <i class="fad fa-check mr-2 text-success mb-0"></i>
-                Selesai</a
+                <i class="fas fa-box-check mr-2 text-success mb-0"></i>
+                Pesanan Selesai</a
               >
             </li>
             <li
               class="nav-item border-top"
               role="presentation"
-              @click="getOrders(1)"
+              @click="getOrders(2)"
             >
               <a
                 class="nav-link border-0 text-dark py-3 text-center"
@@ -63,8 +67,22 @@
                 aria-controls="progress"
                 aria-selected="false"
               >
+                <i class="fas fa-truck-loading mr-2 text-warning mb-0"></i>
+                Sedang Diproses</a
+              >
+            </li>
+            <li class="nav-item" role="presentation" @click="getOrders(1)">
+              <a
+                class="nav-link border-0 text-dark py-3 text-center"
+                id="completed-tab"
+                data-toggle="tab"
+                href="#completed"
+                role="tab"
+                aria-controls="completed"
+                aria-selected="true"
+              >
                 <i class="fad fa-clock mr-2 text-warning mb-0"></i>
-                Proses</a
+                Pembayaran Tertunda</a
               >
             </li>
             <li
@@ -133,11 +151,36 @@
                         "
                         v-if="order.payment.payment_status_code === 1"
                       >
-                        {{ order.order_status.description }}
+                        <i
+                          class="fas fa-file-invoice-dollar"
+                          v-if="!order.delivery"
+                        ></i>
+                        Menunggu Pembayaran
+                        <!-- {{ order.order_status.description }} -->
                       </p>
                       <p
+                        class="text-white py-1 px-2 mb-0 rounded small"
+                        :class="{
+                          'bg-success': order.delivery,
+                          'bg-warning': !order.delivery,
+                        }"
+                        v-if="order.payment.payment_status_code === 2"
+                      >
+                        <i
+                          class="fad fa-truck-loading"
+                          v-if="!order.delivery"
+                        ></i>
+                        <i class="fas fa-box-check" v-else></i>
+                        {{
+                          order.delivery && order.delivery.isDelivery
+                            ? "Pesanan Selesai"
+                            : "Pesanan Diproses"
+                        }}
+                      </p>
+
+                      <p
                         class="
-                          bg-success
+                          bg-danger
                           text-white
                           py-1
                           px-2
@@ -145,13 +188,15 @@
                           rounded
                           small
                         "
-                        v-if="order.payment.payment_status_code === 2"
+                        v-if="order.payment.payment_status_code === 7"
                       >
+                        <i class="fad fa-ban"></i>
                         {{ order.order_status.description }}
                       </p>
+
                       <p
                         class="
-                          bg-success
+                          bg-danger
                           text-white
                           py-1
                           px-2
@@ -161,6 +206,7 @@
                         "
                         v-if="order.payment.payment_status_code === 8"
                       >
+                        <i class="fad fa-ban" v-if="!order.delivery"></i>
                         {{ order.order_status.description }}
                       </p>
                       <p class="text-muted ml-auto small mb-0">
@@ -174,6 +220,12 @@
                         <span class="text-dark font-weight-bold"
                           >#{{ order.order_id }}</span
                         >
+                        <span class="ml-2" v-if="order.payment.pg_icon">
+                          <img
+                            :src="order.payment.pg_icon"
+                            :alt="order.payment.pg_name"
+                          />
+                        </span>
                       </p>
                       <p class="text-muted m-0 ml-auto">
                         Dikirim ke<br />
@@ -183,13 +235,19 @@
                       </p>
                       <p class="text-muted m-0 ml-auto">
                         Total Pembayaran<br />
-                        <span class="text-dark font-weight-bold"
-                          >{{ order.grand_total | formatMoney }}</span
-                        >
+                        <span class="text-dark font-weight-bold">{{
+                          order.grand_total | formatMoney
+                        }}</span>
                       </p>
                     </div>
                   </div>
                 </NuxtLink>
+              </div>
+            </div>
+
+            <div class="order-body" v-else>
+              <div class="pb-3 text-center m-xl-5">
+                <h4>Belum Ada Pesanan</h4>
               </div>
             </div>
           </div>
@@ -228,7 +286,7 @@ export default {
         status: "",
         page: 1,
         show: 10,
-        sortBy: "ASC",
+        sortBy: "DESC",
         orderBy: "payment_date",
         fromDate: "",
         toDate: "",
@@ -236,11 +294,11 @@ export default {
     };
   },
   methods: {
-    async getOrders(status = "") {
+    async getOrders(status = "", delivery = false) {
       this.$store.dispatch("setGlobalModal", true);
       await this.$axios
         .$get(
-          `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/users/orders?status=${status}&page=${this.ordersSetting.page}&show=${this.ordersSetting.show}&sortBy=${this.ordersSetting.sortBy}&orderBy=${this.ordersSetting.orderBy}&fromDate=${this.ordersSetting.fromDate}&toDate=${this.ordersSetting.toDate}`
+          `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/users/orders?status=${status}&delivery=${delivery}&page=${this.ordersSetting.page}&show=${this.ordersSetting.show}&sortBy=${this.ordersSetting.sortBy}&orderBy=${this.ordersSetting.orderBy}&fromDate=${this.ordersSetting.fromDate}&toDate=${this.ordersSetting.toDate}`
         )
         .then((results) => {
           if (!results.error) {

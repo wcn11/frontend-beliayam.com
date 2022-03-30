@@ -453,7 +453,7 @@
                   </h5>
                 </div>
                 <button
-                  class="btn btn-success btn-lg btn-block mt-3 mb-3"
+                  class="btn btn-danger btn-lg btn-block mt-3 mb-3"
                   @click="payOrder()"
                 >
                   Pesan Sekarang

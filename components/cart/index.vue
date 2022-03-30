@@ -264,7 +264,7 @@
                             class="
                               rounded
                               shadow
-                              bg-success
+                              bg-danger
                               d-flex
                               align-items-center
                               p-3
@@ -655,7 +655,7 @@
                   class="justify-content-center"
                   v-if="getCartsVouchers.length <= 0"
                 >
-                  <h4 class="font-weight-bold">Voucher Tidak Tersedia</h4>
+                  <h4 class="font-weight-bold text-center">Voucher Tidak Tersedia</h4>
                 </div>
               </div>
             </div>

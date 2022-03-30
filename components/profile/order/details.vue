@@ -61,7 +61,13 @@
                     </h6>
 
                     <h6 class="font-weight-bold"></h6>
-                    <div>{{ order.payment.pg_name }}</div>
+                    <div v-if="order.payment.pg_icon">
+                      <img
+                        class="img-thumbnail img-responsive"
+                        :src="order.payment.pg_icon"
+                      />
+                    </div>
+                    <div v-else>{{ order.payment.pg_name }}</div>
                     <div v-if="order.payment.pg_type !== 'cash'" class="mt-2">
                       <h4>{{ order.response.trx_id }}</h4>
                     </div>
@@ -308,6 +314,22 @@
             >
               <i class="fas fa-ban"></i> Batalkan Pesanan
             </button>
+            <a
+              :href="order.response.redirect_url"
+              target="_blank"
+              class="btn btn-warning m-1"
+              v-if="
+                order.payment.type !== 'cash' &&
+                order.payment.payment_status_code < 2
+              "
+            >
+              Bayar Sekarang
+              <img
+                class="img-thumbnail img-responsive"
+                :src="order.payment.pg_icon"
+                v-if="order.payment.pg_icon"
+              />
+            </a>
             <button class="btn btn-success m-1" @click="exportOrderToPDF()">
               <i class="fas fa-file-download"></i> Unduh PDF
             </button>

@@ -59,7 +59,7 @@
                   </h6>
                   <NuxtLink :to="`/${product.slug}`" class="ml-auto">
                     <div style="text-align: center; padding-top: 5%">
-                      <h6 class="btn btn-success w-100"><i class="fad fa-shopping-cart"></i> Beli ini</h6>
+                      <h6 class="btn btn-danger w-100"><i class="fad fa-shopping-cart"></i> Beli ini</h6>
                     </div>
                   </NuxtLink>
                 </div>

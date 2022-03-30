@@ -47,7 +47,7 @@
                     {{ product.price | formatMoney }}
                   </h6>
                   <div style="text-align: center; padding-top: 5%">
-                    <h6 class="btn btn-success w-100">
+                    <h6 class="btn btn-danger w-100">
                       <i class="fas fa-cart-plus"></i> Beli ini
                     </h6>
                   </div>
