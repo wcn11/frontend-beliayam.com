@@ -112,14 +112,12 @@ export const columnsProductsPromo = [
       minWidth: "250px",
       sortable: true,
       cell: row => {
-         const name = row?.user && row?.user?.name ? row?.user?.name : 'Customer Ayam',
-            email = row.user ? row.user.email : 'example@mail.com'
          return (
             <div className='d-flex justify-content-left align-items-center'>
                {/* {renderClient(row)} */}
                <div className='d-flex flex-column'>
-                  <h6 className='user-name text-truncate mb-0'>{name}</h6>
-                  <small className='text-truncate text-muted mb-0'>{email}</small>
+                  <h6 className='user-name text-truncate mb-0'>{row.name}</h6>
+                  <small className='text-truncate text-muted mb-0'>{row.sku}</small>
                </div>
             </div>
          )
@@ -130,7 +128,7 @@ export const columnsProductsPromo = [
       minWidth: "130px",
       sortable: true,
       // selector: "platform",
-      cell: (row) => row.platform
+      cell: (row) => row.name
    },
    {
       name: "Order Date",

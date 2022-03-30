@@ -89,9 +89,9 @@ const TableProductPromo = () => {
    const [searchTerm, setSearchTerm] = useState("")
    const [currentPage, setCurrentPage] = useState(1)
    const [rowsPerPage, setRowsPerPage] = useState(10)
-   const [sortPerPage, setSortPerPage] = useState('asc')
-   const [orderBy, setOrderBy] = useState('updateAt')
-   const [platform, setPlatform] = useState(['all'])
+   const [sortPerPage, setSortPerPage] = useState('ASC')
+   const [orderBy, setOrderBy] = useState('name')
+   const [platform, setPlatform] = useState('all')
 
    const [currentStatus, setCurrentStatus] = useState({
       value: "",
