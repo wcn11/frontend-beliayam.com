@@ -57,6 +57,11 @@ const ChargeAccountTab = ({ selectedCharge }) => {
 
    }, [selectedCharge])
 
+   useEffect(() => {
+      setContent(draftToHtml(convertToRaw(editorState.getCurrentContent())))
+      setContentTerms(draftToHtml(convertToRaw(termsEditor.getCurrentContent())))
+   }, [editorState, termsEditor])
+
    const onChange = e => {
       const reader = new FileReader(),
          files = e.target.files

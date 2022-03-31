@@ -182,10 +182,6 @@ export const updateProduct = (id, product) => {
             reader.onload = function (e) {
                formData.append('image_product', e.target.result)
             }
-
-            // const newFile = new File(res.data, 'image product')
-            // console.log(URL.createObjectURL(`https://be-dev.beliayam.com/${image}`))
-            // console.log(new File(`https://be-dev.beliayam.com/${image}`))
          } else {
             formData.append('image_product', image)
          }

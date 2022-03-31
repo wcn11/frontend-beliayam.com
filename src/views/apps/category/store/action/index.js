@@ -124,9 +124,40 @@ export const updateCategory = (id, category) => {
     return async (dispatch, getState) => {
         try {
             const { sku, slug, name, position, image, icon, status, additional, description } = category
+
             const formData = new FormData()
-            formData.append("image_category", image)
-            formData.append('icon', icon)
+
+            if (typeof image === "string") {
+                const req = {
+                    method: 'GET',
+                    responseType: 'blob'
+                }
+                const res = await fetcher(`https://be-dev.beliayam.com/${image}`, req)
+                // image = res
+                const reader = new FileReader()
+                reader.readAsDataURL(res.data)
+                reader.onload = function (e) {
+                    formData.append('image_category', e.target.result)
+                }
+            } else {
+                formData.append("image_category", image)
+            }
+
+            if (typeof icon === "string") {
+                const req = {
+                    method: 'GET',
+                    responseType: 'blob'
+                }
+                const res = await fetcher(`https://be-dev.beliayam.com/${icon}`, req)
+                const reader = new FileReader()
+                reader.readAsDataURL(res.data)
+                reader.onload = function (e) {
+                    formData.append('icon', e.target.result)
+                }
+            } else {
+                formData.append('icon', icon)
+            }
+
             formData.set('sku', sku)
             formData.set('slug', slug)
             formData.set('name', name)

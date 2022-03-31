@@ -55,6 +55,10 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
     setEditorState(_editorState)
 
   }, [selectedVoucher])
+  
+  useEffect(() => {
+    setContent(draftToHtml(convertToRaw(editorState.getCurrentContent())))
+  }, [editorState])
 
    useEffect(() => {
       dispatch(getVoucherById(id))
@@ -232,14 +236,6 @@ const VoucherAccountTab = ({ selectedVoucher }) => {
                 <Col md='12' sm='12'>
                   <FormGroup>
                     <Label for='termsAndConditions'>Terms And Condition</Label>
-                    {/* <Input
-                      type='text'
-                      id='termsAndConditions'
-                      name='termsAndConditions'
-                      placeholder='Terms And Condition....'
-                      defaultValue={voucherData.termsAndConditions}
-                      innerRef={register({ required: true })}
-                    /> */}
                     <Editor editorState={editorState} onEditorStateChange={newState => {
                       setEditorState(newState)
                       setContent(draftToHtml(convertToRaw(newState.getCurrentContent())))

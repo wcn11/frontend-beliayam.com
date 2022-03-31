@@ -71,6 +71,11 @@ const ProductAccountTab = ({ selectedProduct }) => {
 
     }, [selectedProduct])
 
+    useEffect(() => {
+        setContentAdditional(draftToHtml(convertToRaw(additionalEditor.getCurrentContent())))
+        setContent(draftToHtml(convertToRaw(editorState.getCurrentContent())))
+    }, [editorState, additionalEditor])
+
     const onImageUpload = (e) => {
         const file = e.target.files[0]
         setImage(file)
@@ -336,9 +341,6 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                     /> */}
                                     <Editor 
                                         editorState={additionalEditor} 
-                                        contentState={contentAdditional} 
-                                        defaultEditorState={additionalEditor} 
-                                        defaultContentState={contentAdditional}
                                         onEditorStateChange={newState => {
                                             setAdditionalEditor(newState)
                                             setContentAdditional(draftToHtml(convertToRaw(newState.getCurrentContent())))
@@ -351,9 +353,6 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                     <Label for='description'>Description</Label>
                                     <Editor 
                                         editorState={editorState}
-                                        contentState={content}
-                                        defaultEditorState={editorState} 
-                                        defaultContentState={content} 
                                         onEditorStateChange={newState => {
                                         setEditorState(newState)
                                         setContent(draftToHtml(convertToRaw(newState.getCurrentContent())))

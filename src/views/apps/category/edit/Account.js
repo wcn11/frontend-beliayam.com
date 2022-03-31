@@ -58,6 +58,11 @@ const CategoryAccountTab = ({ selectedCategory }) => {
 
       setAdditionalEditor(_additionalState)
    }, [selectedCategory])
+
+   useEffect(() => {
+      setContentAdditional(draftToHtml(convertToRaw(additionalEditor.getCurrentContent())))
+      setContent(draftToHtml(convertToRaw(editorState.getCurrentContent())))
+   }, [editorState, additionalEditor])
    // ** Function to change user image
    // const onChange = e => {
    //    const reader = new FileReader(),
@@ -276,14 +281,6 @@ const CategoryAccountTab = ({ selectedCategory }) => {
                      <Col md='12' sm='12'>
                         <FormGroup>
                            <Label for='additional'>Additional</Label>
-                           {/* <Input
-                              type='text'
-                              id='additional'
-                              name='additional'
-                              defaultValue={categoryData?.additional}
-                              placeholder='Additional'
-                              innerRef={register({ required: true })}
-                           /> */}
                            <Editor editorState={additionalEditor} onEditorStateChange={newState => {
                               setAdditionalEditor(newState)
                               setContentAdditional(draftToHtml(convertToRaw(newState.getCurrentContent())))
@@ -293,14 +290,6 @@ const CategoryAccountTab = ({ selectedCategory }) => {
                      <Col md='12' sm='12'>
                         <FormGroup>
                            <Label for='description'>Description</Label>
-                           {/* <Input
-                              type='text'
-                              id='description'
-                              name='description'
-                              defaultValue={categoryData?.description}
-                              placeholder='Add Description'
-                              innerRef={register({ required: true })}
-                           /> */}
                            <Editor editorState={editorState} onEditorStateChange={newState => {
                               setEditorState(newState)
                               setContent(draftToHtml(convertToRaw(newState.getCurrentContent())))
