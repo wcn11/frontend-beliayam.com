@@ -153,7 +153,7 @@ const TableProgress = () => {
    const handlePagination = (page) => {
       dispatch(
          getOrderByStatus({
-            page: currentPage,
+            page: page.selected + 1,
             show: rowsPerPage,
             sortBy: sortPerPage,
             orderBy,
@@ -170,7 +170,7 @@ const TableProgress = () => {
       dispatch(
          getOrderByStatus({
             page: currentPage,
-            show: rowsPerPage,
+            show: value,
             sortBy: sortPerPage,
             orderBy,
             status,

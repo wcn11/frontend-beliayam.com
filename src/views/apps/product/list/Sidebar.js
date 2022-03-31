@@ -92,7 +92,7 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
                         innerRef={register({ required: true })}
                         className={classnames({ 'is-invalid': errors['sku'] })}
                     />
-                    <FormText>*Stock Keeping Unit. contoh: 0001xxx</FormText>
+                    <FormText>*Kode Product</FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label>
@@ -105,7 +105,7 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
                         innerRef={register({ required: true })}
                         className={classnames({ 'is-invalid': errors['slug'] })}
                     />
-                    <FormText>*Jangan beri spasi tapi ganti dengan dash. contoh: ayam-ku</FormText>
+                    <FormText>*Ganti tanda spasi dengan dash. contoh: ayam-ku</FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label>
@@ -132,7 +132,7 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
                         innerRef={register({ required: true })}
                         className={classnames({ 'is-invalid': errors['position'] })}
                     />
-                    <FormText>*beri angka 1-10 saja, jangan jaill ya :)</FormText>
+                    <FormText>*beri angka 1-10 saja, jangan jaill ya</FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label>
@@ -160,7 +160,7 @@ const SidebarNewProduct = ({ open, toggleSidebar }) => {
                         innerRef={register({ required: true })}
                         className={classnames({ 'is-invalid': errors['price'] })}
                     />
-                    <FormText>*Jangan diinputkan mahal-mahal biar cepet laku hehe :)</FormText>
+                    <FormText>*Jangan diinputkan mahal-mahal biar cepet laku hehe</FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label>

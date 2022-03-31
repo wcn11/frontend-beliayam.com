@@ -45,8 +45,8 @@ const PreviewCard = ({ data }) => {
         <div className='d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0'>
           <div>
             <div className='logo-wrapper'>
-              <img src={themeConfig.app.appLogoImage} alt='logo' /> 
-              <h3 className='text-primary order-logo'>Beliayam.com</h3>
+              <img src={themeConfig.app.appLogoImage} alt='logo' height={80} /> 
+              <h6 className='text-primary order-logo'>Beliayam.com</h6>
             </div>
 
             <p className='card-text mb-25'>Office 8, Level 18-A</p>
@@ -187,8 +187,8 @@ const PreviewCard = ({ data }) => {
           <Col sm='12'>
             <span className='font-weight-bold'>Note: </span>
             <span>
-              It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance
-              projects. Thank You!
+              Terima kasih telah memberikan kepercayaan anda ke kami, dengan membeli produk kami secara tidak
+              langsung anda membantu para peternak lokal. selamat berbelanja :)
             </span>
           </Col>
         </Row>

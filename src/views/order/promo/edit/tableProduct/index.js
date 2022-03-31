@@ -1,6 +1,6 @@
 import { Fragment, useState, useEffect } from "react"
 import { useParams } from 'react-router-dom'
-import { columnsProductsPromo } from "./columns"
+import { columnsProducts } from './columns'
 
 import { getProductsByPromo } from "./store/action"
 import { useDispatch, useSelector } from "react-redux"
@@ -83,6 +83,7 @@ const CustomHeader = ({
 const TableProductPromo = () => {
    const dispatch = useDispatch()
    const store = useSelector((state) => state.productsPromo)
+   console.log(store)
    const { id } = useParams()
 
    // ** States
@@ -131,7 +132,7 @@ const TableProductPromo = () => {
    const handlePerPage = (e) => {
       const value = parseInt(e.currentTarget.value)
       dispatch(
-         getProductsByPromo({
+         getProductsByPromo(id, {
             page: currentPage,
             show: value,
             sortBy: sortPerPage,
@@ -145,7 +146,7 @@ const TableProductPromo = () => {
    const handleFilter = (val) => {
       setSearchTerm(val)
       dispatch(
-         getProductsByPromo({
+         getProductsByPromo(id, {
             page: currentPage,
             show: rowsPerPage,
             sortBy: sortPerPage,
@@ -243,7 +244,7 @@ const TableProductPromo = () => {
                pagination
                paginationServer
                subHeader={true}
-               columns={columnsProductsPromo}
+               columns={columnsProducts}
                responsive={true}
                sortIcon={<ChevronDown />}
                className='react-dataTable'

@@ -149,7 +149,6 @@ export const deleteProduct = id => {
 export const updateProduct = (id, product) => {
    return async (dispatch, getState) => {
       try {
-         const history = useHistory();
          const { 
             sku, 
             category_id, 
@@ -224,12 +223,12 @@ export const updateProduct = (id, product) => {
                   type: 'UPDATE_PRODUCT',
                   data: res?.data?.data,
                })
-               history.push('/apps/product/list')
                dispatch(getProduct(getState().products?.params))
                Toast({icon: <Check size={12}/>, title: 'Update Berhasil', content: res?.data?.message })
             }
 
       } catch (error) {
+         console.log(error)
          ToastWarning({
          icon: <X size={12}/>,
          title: 'Ada error nih', 

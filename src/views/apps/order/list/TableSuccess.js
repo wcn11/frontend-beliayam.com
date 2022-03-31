@@ -125,7 +125,7 @@ const OrderList = () => {
         platform: [platforms],
       })
     )
-  }, [dispatch, store?.data?.length])
+  }, [dispatch])
 
   // ** User filter options
   // const roleOptions = [
@@ -155,7 +155,7 @@ const OrderList = () => {
   const handlePagination = (page) => {
     dispatch(
       getOrderByStatus({
-        page: currentPage,
+        page: page.selected + 1,
         show: rowsPerPage,
         sortBy: sortPerPage,
         orderBy,
@@ -172,7 +172,7 @@ const OrderList = () => {
     dispatch(
       getOrderByStatus({
         page: currentPage,
-        show: rowsPerPage,
+        show: value,
         sortBy: sortPerPage,
         orderBy,
         status,

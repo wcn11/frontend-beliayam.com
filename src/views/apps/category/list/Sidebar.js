@@ -65,6 +65,7 @@ const SidebarNewCategory = ({ open, toggleSidebar }) => {
                         innerRef={register({ required: true })}
                         className={classnames({ 'is-invalid': errors['sku'] })}
                     />
+                    <FormText>*Kode Category</FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label>
@@ -77,6 +78,7 @@ const SidebarNewCategory = ({ open, toggleSidebar }) => {
                         innerRef={register({ required: true })}
                         className={classnames({ 'is-invalid': errors['slug'] })}
                     />
+                    <FormText>*Ganti tanda spasi dengan dash (-)</FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label>
@@ -102,6 +104,7 @@ const SidebarNewCategory = ({ open, toggleSidebar }) => {
                         innerRef={register({ required: true })}
                         className={classnames({ 'is-invalid': errors['position'] })}
                     />
+                    <FormText>*Isi dari angka 1 - 10 saja ya, jangan jail</FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label>
@@ -119,6 +122,7 @@ const SidebarNewCategory = ({ open, toggleSidebar }) => {
                     <option value='active'>Active</option>
                     <option value='nonactive'>Nonactive</option>
                     </Input>
+                    <FormText>*Status Aktivasi Category</FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label>
@@ -143,6 +147,7 @@ const SidebarNewCategory = ({ open, toggleSidebar }) => {
                         placeholder='Additional...'
                         innerRef={register({ required: true })}
                     />
+                    <FormText>*Isi secukupnya dulu nanti bisa edit lagi kok</FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label>
@@ -154,6 +159,7 @@ const SidebarNewCategory = ({ open, toggleSidebar }) => {
                         placeholder='description...'
                         innerRef={register({ required: true })}
                     />
+                    <FormText>*Isi secukupnya dulu nanti bisa edit lagi kok</FormText>
                 </FormGroup>
                 <Button type='submit' className='mr-1' color='primary'>
                     Submit

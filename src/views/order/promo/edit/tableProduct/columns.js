@@ -36,42 +36,42 @@ const renderClient = (row) => {
    // }
 }
 
-const renderRole = (row) => {
-   const roleObj = {
-      subscriber: {
-         class: "text-primary",
-         icon: User,
-      },
-      maintainer: {
-         class: "text-success",
-         icon: Database,
-      },
-      editor: {
-         class: "text-info",
-         icon: Edit2,
-      },
-      author: {
-         class: "text-warning",
-         icon: Settings,
-      },
-      admin: {
-         class: "text-danger",
-         icon: Slack,
-      },
-   }
+// const renderRole = (row) => {
+//    const roleObj = {
+//       subscriber: {
+//          class: "text-primary",
+//          icon: User,
+//       },
+//       maintainer: {
+//          class: "text-success",
+//          icon: Database,
+//       },
+//       editor: {
+//          class: "text-info",
+//          icon: Edit2,
+//       },
+//       author: {
+//          class: "text-warning",
+//          icon: Settings,
+//       },
+//       admin: {
+//          class: "text-danger",
+//          icon: Slack,
+//       },
+//    }
 
-   const Icon = roleObj[row.role] ? roleObj[row.role].icon : Edit2
+//    const Icon = roleObj[row.role] ? roleObj[row.role].icon : Edit2
 
-   return (
-      <span className="text-truncate text-capitalize align-middle">
-         <Icon
-            size={18}
-            className={`${roleObj[row.name] ? roleObj[row.name].class : ""} mr-50`}
-         />
-         {row.name}
-      </span>
-   )
-}
+//    return (
+//       <span className="text-truncate text-capitalize align-middle">
+//          <Icon
+//             size={18}
+//             className={`${roleObj[row.name] ? roleObj[row.name].class : ""} mr-50`}
+//          />
+//          {row.name}
+//       </span>
+//    )
+// }
 
 const statusObj = {
    active: "light-success",
@@ -88,21 +88,22 @@ const renderPaymentStatus = (status) => {
    return words.join(" ")
 }
 
-export const columnsProductsPromo = [
+export const columnsProducts = [
    {
-      name: "Order ID",
+      name: "Name",
       minWidth: "150px",
       // selector: "order_id",
       sortable: true,
       cell: (row) => (
          <div className="d-flex justify-content-left align-items-center">
             <div className="d-flex flex-column">
-               <Link
+               {/* <Link
                   to={`/apps/order/preview/${row.order_id}`}
                   className="user-name text-truncate mb-0"
-               >
-                  <span className="font-weight-bold">{row.order_id}</span>
-               </Link>
+               > */}
+               <span className="font-weight-bold">{row.name}</span>
+               <small className='text-truncate text-muted mb-0'>{row.sku}</small>
+               {/* </Link> */}
             </div>
          </div>
       ),
@@ -114,36 +115,35 @@ export const columnsProductsPromo = [
       cell: row => {
          return (
             <div className='d-flex justify-content-left align-items-center'>
-               {/* {renderClient(row)} */}
+               {renderClient(row)}
                <div className='d-flex flex-column'>
-                  <h6 className='user-name text-truncate mb-0'>{row.name}</h6>
-                  <small className='text-truncate text-muted mb-0'>{row.sku}</small>
+                  <span className='user-name text-truncate mb-0'>{row.name}</span>
                </div>
             </div>
          )
       }
    },
    {
-      name: "Platform",
+      name: "Action",
       minWidth: "130px",
       sortable: true,
       // selector: "platform",
       cell: (row) => row.name
    },
-   {
-      name: "Order Date",
-      minWidth: "130px",
-      sortable: true,
-      selector: "createdAt",
-      cell: (row) => formatDateTime(row.order_status.payment_date)
-   },
-   {
-      name: "Grand Total",
-      minWidth: "130px",
-      sortable: true,
-      // selector: "grand_total",
-      cell: (row) => numberFormat(row.grand_total)
-   },
+   // {
+   //    name: "Order Date",
+   //    minWidth: "130px",
+   //    sortable: true,
+   //    selector: "createdAt",
+   //    cell: (row) => formatDateTime(row.order_status.payment_date)
+   // },
+   // {
+   //    name: "Grand Total",
+   //    minWidth: "130px",
+   //    sortable: true,
+   //    // selector: "grand_total",
+   //    cell: (row) => numberFormat(row.grand_total)
+   // },
    // {
    //    name: "Order Status",
    //    minWidth: "130px",
@@ -151,11 +151,11 @@ export const columnsProductsPromo = [
    //    // selector: "order_status",
    //    cell: (row) => renderPaymentStatus(row.order_status.status.replace("_", " "))
    // },
-   {
-      name: "Payment Type",
-      minWidth: "130px",
-      sortable: true,
-      // selector: "payment",
-      cell: (row) => row.payment.pg_type
-   }
+   // {
+   //    name: "Payment Type",
+   //    minWidth: "130px",
+   //    sortable: true,
+   //    // selector: "payment",
+   //    cell: (row) => row.payment.pg_type
+   // }
 ]

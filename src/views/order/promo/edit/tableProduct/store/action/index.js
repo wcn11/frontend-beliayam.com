@@ -8,8 +8,8 @@ export const getProductsByPromo = (id, params) => {
          if (res) {
             dispatch({
                type: "GET_PRODUCTS_BY_PROMO",
-               data: res?.data?.data?.order,
-               totalPages: res.data.data.totalOrder,
+               data: res?.data?.data,
+               totalPages: res.data.data,
                params,
             })
          }

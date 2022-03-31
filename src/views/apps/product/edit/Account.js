@@ -44,6 +44,12 @@ const ProductAccountTab = ({ selectedProduct }) => {
     const [contentAdditional, setContentAdditional] = useState('')
     const [additionalEditor, setAdditionalEditor] = useState(() => EditorState.createEmpty())
 
+    // ** Update user image on mount or change
+    useEffect(() => {
+        dispatch(getProductById(id))
+        return () => dispatch(getProductById(id))
+    }, [dispatch, id])
+
     useEffect(() => {
         setDisc(productData?.hasDiscount?.isDiscount)
         setAfterDiscount(productData?.hasDiscount?.priceAfterDiscount ? productData?.hasDiscount?.priceAfterDiscount : productData?.price)
@@ -58,18 +64,12 @@ const ProductAccountTab = ({ selectedProduct }) => {
 
         // Rich editor for additional
         const additionalBlock = htmlToDraft(selectedProduct?.additional)
-        const additionalState = ContentState.createFromBlockArray(additionalBlock.contentBlocks)
+        const additionalState = ContentState.createFromBlockArray(additionalBlock?.contentBlocks)
         const _additionalState = EditorState.createWithContent(additionalState)
 
         setAdditionalEditor(_additionalState)
+
     }, [selectedProduct])
-
-    // ** Update user image on mount or change
-    useEffect(() => {
-        dispatch(getProductById(id))
-        return () => dispatch(getProductById(id))
-    }, [dispatch, id])
-
 
     const onImageUpload = (e) => {
         const file = e.target.files[0]
@@ -101,7 +101,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                     discountBy: discountType
                 })
             )
-            history.push('/apps/product/list')
+            // history.push('/apps/product/list')
         }
     }
 
@@ -239,7 +239,6 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                         defaultValue={productData.status}
                                         innerRef={register({ required: true })}
                                     >
-                                        <option value='disabled'>Disabled</option>
                                         <option value='active'>Active</option>
                                         <option value='nonactive'>Nonactive</option>
                                     </Input>
@@ -327,17 +326,35 @@ const ProductAccountTab = ({ selectedProduct }) => {
                             <Col md='12' sm='12'>
                                 <FormGroup>
                                     <Label for='additional'>Additional</Label>
-                                    <Editor editorState={additionalEditor} onEditorStateChange={newState => {
-                                        setAdditionalEditor(newState)
-                                        setContentAdditional(draftToHtml(convertToRaw(newState.getCurrentContent())))
-                                    }}/>
+                                    {/* <Input 
+                                        type='textarea'
+                                        id='additional'
+                                        name='additional'
+                                        defaultValue={productData?.additional}
+                                        placeholder='Additional'
+                                        innerRef={register({required: true})}
+                                    /> */}
+                                    <Editor 
+                                        editorState={additionalEditor} 
+                                        contentState={contentAdditional} 
+                                        defaultEditorState={additionalEditor} 
+                                        defaultContentState={contentAdditional}
+                                        onEditorStateChange={newState => {
+                                            setAdditionalEditor(newState)
+                                            setContentAdditional(draftToHtml(convertToRaw(newState.getCurrentContent())))
+                                        }}/>
                                     <FormText>*Jangan Lupa Diisi</FormText>
                                 </FormGroup>
                             </Col>
                             <Col md='12' sm='12'>
                                 <FormGroup>
                                     <Label for='description'>Description</Label>
-                                    <Editor editorState={editorState} onEditorStateChange={newState => {
+                                    <Editor 
+                                        editorState={editorState}
+                                        contentState={content}
+                                        defaultEditorState={editorState} 
+                                        defaultContentState={content} 
+                                        onEditorStateChange={newState => {
                                         setEditorState(newState)
                                         setContent(draftToHtml(convertToRaw(newState.getCurrentContent())))
                                     }} />

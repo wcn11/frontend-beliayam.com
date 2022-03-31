@@ -58,13 +58,16 @@ const SideBarNewCharge = ({ open, toggleSidebar }) => {
                   Charge By <span className='text-danger'>*</span>
                </Label>
                <Input
+                  type='select'
                   name='chargeBy'
                   id='chargeBy'
                   placeholder='Charge By ...'
                   innerRef={register({ required: true })}
                   className={classnames({ 'is-invalid': errors['chargeBy'] })}
-               />
-               <FormText>*Isi berdasarkan Price/Percent</FormText>
+               >
+                  <option value="price">Price</option>
+                  <option value="percent">Percent</option>
+               </Input>
             </FormGroup>
             <FormGroup>
                <Label>
@@ -77,7 +80,7 @@ const SideBarNewCharge = ({ open, toggleSidebar }) => {
                   innerRef={register({ required: true })}
                   className={classnames({ 'is-invalid': errors['chargeValue'] })}
                />
-               <FormText>*Harga Potongan</FormText>
+               <FormText>*Harga Potongan berdasarkan price/percent</FormText>
             </FormGroup>
             <FormGroup>
                <Label>
@@ -103,7 +106,7 @@ const SideBarNewCharge = ({ open, toggleSidebar }) => {
                   innerRef={register({ required: true })}
                   className={classnames({ 'is-invalid': errors['description'] })}
                />
-               <FormText>*Tulis detail deskripsi sejelas-jelasnya(minimal 10 karakter)</FormText>
+               <FormText>*Tulis detail deskripsi (minimal 10 karakter)</FormText>
             </FormGroup>
             <FormGroup>
                <Label>
