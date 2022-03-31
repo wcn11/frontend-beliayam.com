@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom"
-// import { deleteOrder, getOrderById } from "../store/action"
-// import { store } from "@store/storeConfig/store"
 import { formatDateTime, numberFormat, toCamelCase } from "@utils"
-
+import { store } from '@store/storeConfig/store'
 import {
    Badge,
    UncontrolledDropdown,
@@ -15,8 +13,12 @@ import {
    User,
    Settings,
    Database,
-   Edit2
+   Edit2,
+   MoreVertical, 
+   Trash2
 } from "react-feather"
+import { deleteProductFromPromo } from "./store/action"
+import { useSelector } from "react-redux"
 
 const renderClient = (row) => {
    const stateNum = Math.floor(Math.random() * 6),
@@ -90,26 +92,25 @@ const renderPaymentStatus = (status) => {
 
 export const columnsProducts = [
    {
-      name: "Name",
+      name: "Product ID",
       minWidth: "150px",
       // selector: "order_id",
       sortable: true,
-      cell: (row) => (
+      cell: (row) => (         
          <div className="d-flex justify-content-left align-items-center">
             <div className="d-flex flex-column">
-               {/* <Link
-                  to={`/apps/order/preview/${row.order_id}`}
+               <Link
+                  to={`/apps/order/preview/${row._id}`}
                   className="user-name text-truncate mb-0"
-               > */}
-               <span className="font-weight-bold">{row.name}</span>
-               <small className='text-truncate text-muted mb-0'>{row.sku}</small>
-               {/* </Link> */}
+               >
+                  <span className="font-weight-bold">{row._id}</span>
+               </Link>
             </div>
          </div>
       ),
    },
    {
-      name: "Customer",
+      name: "Name",
       minWidth: "250px",
       sortable: true,
       cell: row => {
@@ -124,6 +125,7 @@ export const columnsProducts = [
       }
    },
    {
+<<<<<<< HEAD
       name: "Action",
       minWidth: "130px",
       sortable: true,
@@ -158,4 +160,36 @@ export const columnsProducts = [
    //    // selector: "payment",
    //    cell: (row) => row.payment.pg_type
    // }
+=======
+      name: "Price",
+      minWidth: "130px",
+      sortable: true,
+      // selector: "platform",
+      cell: (row) => numberFormat(row.price)
+   },
+   {
+      name: 'Actions',
+      minWidth: '100px',
+      cell: row => {
+         const storeData = useSelector((state) => state.productsPromo)
+         return (
+            <UncontrolledDropdown>
+               <DropdownToggle tag='div' className='btn btn-sm'>
+                  <MoreVertical size={14} className='cursor-pointer' />
+               </DropdownToggle>
+               <DropdownMenu right>
+                  <DropdownItem className='w-100' onClick={() => {
+                     // console.log(store.productsPromo)
+                     store.dispatch(deleteProductFromPromo(row._id, storeData.data))
+                  }}>
+                     <Trash2 size={14} className='mr-50' />
+                     <span className='align-middle'>Delete</span>
+                  </DropdownItem>
+               </DropdownMenu>
+            </UncontrolledDropdown>
+         )
+      }
+   },
+>>>>>>> 80b7efdfbac9953f50ed72921da0d4e58560df69
 ]
+//

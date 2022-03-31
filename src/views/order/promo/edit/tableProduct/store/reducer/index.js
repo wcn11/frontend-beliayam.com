@@ -14,6 +14,11 @@ const productsPromo = (state = initialState, action) => {
             total: action.totalPages,
             params: action.params,
          }
+      case "DELETE_PRODUCT_FROM_PROMO":
+         return {
+            ...state,
+            data: action.data,
+         }
       default:
          return { ...state }
    }
