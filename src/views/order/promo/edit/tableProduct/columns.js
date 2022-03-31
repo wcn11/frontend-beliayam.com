@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom"
-// import { deleteOrder, getOrderById } from "../store/action"
-// import { store } from "@store/storeConfig/store"
 import { formatDateTime, numberFormat, toCamelCase } from "@utils"
-
+import { store } from '@store/storeConfig/store'
 import {
    Badge,
    UncontrolledDropdown,
@@ -15,8 +13,12 @@ import {
    User,
    Settings,
    Database,
-   Edit2
+   Edit2,
+   MoreVertical, 
+   Trash2
 } from "react-feather"
+import { deleteProductFromPromo } from "./store/action"
+import { useSelector } from "react-redux"
 
 const renderClient = (row) => {
    const stateNum = Math.floor(Math.random() * 6),
@@ -90,25 +92,25 @@ const renderPaymentStatus = (status) => {
 
 export const columnsProductsPromo = [
    {
-      name: "Order ID",
+      name: "Product ID",
       minWidth: "150px",
       // selector: "order_id",
       sortable: true,
-      cell: (row) => (
+      cell: (row) => (         
          <div className="d-flex justify-content-left align-items-center">
             <div className="d-flex flex-column">
                <Link
-                  to={`/apps/order/preview/${row.order_id}`}
+                  to={`/apps/order/preview/${row._id}`}
                   className="user-name text-truncate mb-0"
                >
-                  <span className="font-weight-bold">{row.order_id}</span>
+                  <span className="font-weight-bold">{row._id}</span>
                </Link>
             </div>
          </div>
       ),
    },
    {
-      name: "Customer",
+      name: "Name",
       minWidth: "250px",
       sortable: true,
       cell: row => {
@@ -124,38 +126,34 @@ export const columnsProductsPromo = [
       }
    },
    {
-      name: "Platform",
+      name: "Price",
       minWidth: "130px",
       sortable: true,
       // selector: "platform",
-      cell: (row) => row.name
+      cell: (row) => numberFormat(row.price)
    },
    {
-      name: "Order Date",
-      minWidth: "130px",
-      sortable: true,
-      selector: "createdAt",
-      cell: (row) => formatDateTime(row.order_status.payment_date)
+      name: 'Actions',
+      minWidth: '100px',
+      cell: row => {
+         const storeData = useSelector((state) => state.productsPromo)
+         return (
+            <UncontrolledDropdown>
+               <DropdownToggle tag='div' className='btn btn-sm'>
+                  <MoreVertical size={14} className='cursor-pointer' />
+               </DropdownToggle>
+               <DropdownMenu right>
+                  <DropdownItem className='w-100' onClick={() => {
+                     // console.log(store.productsPromo)
+                     store.dispatch(deleteProductFromPromo(row._id, storeData.data))
+                  }}>
+                     <Trash2 size={14} className='mr-50' />
+                     <span className='align-middle'>Delete</span>
+                  </DropdownItem>
+               </DropdownMenu>
+            </UncontrolledDropdown>
+         )
+      }
    },
-   {
-      name: "Grand Total",
-      minWidth: "130px",
-      sortable: true,
-      // selector: "grand_total",
-      cell: (row) => numberFormat(row.grand_total)
-   },
-   // {
-   //    name: "Order Status",
-   //    minWidth: "130px",
-   //    sortable: true,
-   //    // selector: "order_status",
-   //    cell: (row) => renderPaymentStatus(row.order_status.status.replace("_", " "))
-   // },
-   {
-      name: "Payment Type",
-      minWidth: "130px",
-      sortable: true,
-      // selector: "payment",
-      cell: (row) => row.payment.pg_type
-   }
 ]
+//
