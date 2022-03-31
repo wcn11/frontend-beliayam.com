@@ -98,13 +98,16 @@ export const columnsProducts = [
       sortable: true,
       cell: (row) => (         
          <div className="d-flex justify-content-left align-items-center">
-            <div className="d-flex flex-column">
-               <Link
-                  to={`/apps/order/preview/${row._id}`}
-                  className="user-name text-truncate mb-0"
-               >
-                  <span className="font-weight-bold">{row._id}</span>
-               </Link>
+            {renderClient(row)}
+            <div className='d-flex flex-column'>
+               {/* <Link
+                  to={`/apps/product/view/${row._id}`}
+                  className='user-name text-truncate mb-0'
+                  onClick={() => store.dispatch(getProductById(row._id))}
+               > */}
+                  <span className='font-weight-bold'>{row.name}</span>
+               {/* </Link> */}
+               <small className='text-truncate text-muted mb-0'>{row.sku}</small>
             </div>
          </div>
       ),
