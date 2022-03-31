@@ -83,7 +83,6 @@ const CustomHeader = ({
 const TableProductPromo = () => {
    const dispatch = useDispatch()
    const store = useSelector((state) => state.productsPromo)
-   console.log(store)
    const { id } = useParams()
 
    // ** States

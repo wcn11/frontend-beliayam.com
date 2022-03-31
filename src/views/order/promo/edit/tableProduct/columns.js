@@ -125,42 +125,6 @@ export const columnsProducts = [
       }
    },
    {
-<<<<<<< HEAD
-      name: "Action",
-      minWidth: "130px",
-      sortable: true,
-      // selector: "platform",
-      cell: (row) => row.name
-   },
-   // {
-   //    name: "Order Date",
-   //    minWidth: "130px",
-   //    sortable: true,
-   //    selector: "createdAt",
-   //    cell: (row) => formatDateTime(row.order_status.payment_date)
-   // },
-   // {
-   //    name: "Grand Total",
-   //    minWidth: "130px",
-   //    sortable: true,
-   //    // selector: "grand_total",
-   //    cell: (row) => numberFormat(row.grand_total)
-   // },
-   // {
-   //    name: "Order Status",
-   //    minWidth: "130px",
-   //    sortable: true,
-   //    // selector: "order_status",
-   //    cell: (row) => renderPaymentStatus(row.order_status.status.replace("_", " "))
-   // },
-   // {
-   //    name: "Payment Type",
-   //    minWidth: "130px",
-   //    sortable: true,
-   //    // selector: "payment",
-   //    cell: (row) => row.payment.pg_type
-   // }
-=======
       name: "Price",
       minWidth: "130px",
       sortable: true,
@@ -190,6 +154,5 @@ export const columnsProducts = [
          )
       }
    },
->>>>>>> 80b7efdfbac9953f50ed72921da0d4e58560df69
 ]
 //

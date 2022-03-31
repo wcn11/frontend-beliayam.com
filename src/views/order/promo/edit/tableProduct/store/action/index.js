@@ -20,7 +20,6 @@ export const getProductsByPromo = (id, params) => {
 }
 
 export const deleteProductFromPromo = (id, products) => {
-   
    return async (dispatch) => {      
       try {
          const newData = []

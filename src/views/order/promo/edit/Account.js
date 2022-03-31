@@ -28,6 +28,7 @@ import '@styles/react/libs/editor/editor.scss'
 import '@styles/base/plugins/forms/form-quill-editor.scss'
 
 const PromoAccountTab = ({selectedPromo}) => {
+   const storeData = useSelector(state => state.productsPromo)
    const [promoData, setPromoData] = useState(null)
    const [image, setImage] = useState()
    const [imagePreview, setImagePreview] = useState(null)
@@ -35,6 +36,8 @@ const PromoAccountTab = ({selectedPromo}) => {
    const [sortPerPage, setSortPerPage] = useState('ASC')
    const [orderBy, setOrderBy] = useState('name')
    const [product, setProduct] = useState([])
+
+   // const store = useSelector(state => state.productsPromo)
 
    const [content, setContent] = useState('')
    const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
@@ -45,13 +48,14 @@ const PromoAccountTab = ({selectedPromo}) => {
    useEffect(() => {
       setPromoData(selectedPromo)
 
+      //description
       const contentBlock = htmlToDraft(selectedPromo?.description)
       const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks)
       const _editorState = EditorState.createWithContent(contentState)
 
       setEditorState(_editorState)
 
-      //rich editor for additional
+      //rich editor for terms and condition
       const termsBlock = htmlToDraft(selectedPromo?.termsAndConditions)
       const termsState = ContentState.createFromBlockArray(termsBlock.contentBlocks)
       const _termsState = EditorState.createWithContent(termsState)
@@ -59,6 +63,11 @@ const PromoAccountTab = ({selectedPromo}) => {
       setTermsEditor(_termsState)
 
    }, [selectedPromo])
+
+   useEffect(() => {
+      setContent(draftToHtml(convertToRaw(editorState.getCurrentContent())))
+      setContentTerms(draftToHtml(convertToRaw(termsEditor.getCurrentContent())))
+   }, [editorState, termsEditor])
 
    const dispatch = useDispatch(),
       { id } = useParams()
@@ -117,15 +126,17 @@ const PromoAccountTab = ({selectedPromo}) => {
 
    const onSubmit = (values) => {
       if (isObjEmpty(errors)) {
+         const updateProduct = storeData?.data.map(item => { return { value: item._id } })
+         console.log(updateProduct)
          dispatch(
             updatePromo(id, {
                name: values.name,
                slug: values.slug,
                tags: values.tags,
-               image,
+               image: image ? image : promoData?.image_promo,
                promoStart: values.promoStart,
                promoEnd: values.promoEnd,
-               products: product,
+               products: updateProduct,
                promoValue: values.promoValue,
                promoBy: values.promoBy,
                isActive: values.isActive,

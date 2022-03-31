@@ -183,7 +183,8 @@ export const updatePromo = (id, promo) => {
 
             formData.set('name', name) 
             formData.set('slug', slug) 
-            formData.set('tags', tags) 
+            formData.set('tags', tags)
+            console.log(products)
             products?.map((item, index) => {
                 return formData.set(`products[${index}]`, (item.value))
             })
