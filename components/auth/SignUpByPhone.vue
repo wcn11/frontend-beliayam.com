@@ -2,7 +2,7 @@
   <section class="beliayam-main-body">
     <div class="container">
       <div class="row d-flex align-items-center justify-content-center vh-100">
-        <div class="landing-page shadow-sm bg-success col-lg-6">
+        <div class="landing-page shadow-sm bg-danger col-lg-6">
           <div class="beliayam-slider m-0">
             <div class="beliayam-slider-item text-center">
               <div
@@ -55,7 +55,7 @@
                 </div>
                 <button
                   type="button"
-                  class="btn btn-success rounded btn-lg btn-block"
+                  class="btn btn-danger rounded btn-lg btn-block"
                   @click="submitRegister()"
                 >
                   Mendaftar

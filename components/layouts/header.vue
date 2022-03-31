@@ -216,6 +216,7 @@
                   rounded-pill
                   p-2
                   shadow-sm
+                  btn-cart
                 "
               >
               </i>
@@ -521,6 +522,9 @@ export default {
 </script>
 
 <style scoped>
+.btn-cart{
+  font-size: 25px;
+}
 .navbar-logo {
   background-color: white;
   border-radius: 10px;

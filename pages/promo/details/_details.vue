@@ -18,7 +18,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-3">
-            <div class="bg-success rounded shadow-sm text-center p-2">
+            <div class="bg-danger rounded shadow-sm text-center p-2">
               <div class="bg-white rounded shadow-sm p-4 mb-3">
                 <img :src="`${this.$config.baseURL}/img/promos/p1.png`" class="img-fluid w-100 h-100 cover-full`" />
               </div>

@@ -8,13 +8,13 @@
     <div class="row d-flex justify-content-center bg-success-order">
       <div class="col-md-6">
         <div class="p-5 text-center">
-          <i class="fad fa-check-circle display-1 text-warning"></i>
-          <h1 class="text-white font-weight-bold">
-            Pesanan Berhasil Dilakukan 🎉
+          <i class="fad fa-check-circle display-1 text-success"></i>
+          <h1 class="text-dark font-weight-bold">
+            Pesanan Berhasil Dilakukan
           </h1>
-          <p class="text-white">
+          <p class="text-dark">
             Cek status pemesanan anda di
-            <a href="#" class="font-weight-bold text-decoration-none text-white"
+            <a href="/akun/pesanan-saya" class="font-weight-bold text-decoration-none text-dark"
               >Pesanan Saya</a
             >
             untuk informasi lebih lanjut.
@@ -255,10 +255,13 @@ export default {
   }
 }
 .bg-success-order {
-  background-color: #ce0000;
+  background: url("~/static/img/background-footer.png");
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-size: contain;
 }
 .va-container {
-  border: 3px solid #ce0000;
+  border: 3px solid #c5c5c5;
   border-radius: 6px;
 }
 </style>

@@ -507,7 +507,7 @@
                 }}<span class="font-weight-light"> ({{ address.label }})</span>
                 <span
                   role="button"
-                  class="badge badge-success text-dark"
+                  class="badge badge-danger text-dark"
                   v-if="cart.address && cart.address._id === address._id"
                   >dipilih</span
                 >

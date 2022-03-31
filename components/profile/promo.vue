@@ -13,7 +13,7 @@
                   href="promo_details.html"
                   class="text-decoration-none text-white my-3"
                 >
-                  <div class="rounded bg-success shadow-sm p-3 text-white">
+                  <div class="rounded bg-danger shadow-sm p-3 text-white">
                     <div class="row align-items-center">
                       <div class="col-9">
                         <div class="d-flex align-items-center">

@@ -9,6 +9,7 @@ export default {
   name: "PagesAkunPesananSaya",
   // layout: "blog"
 
+  middleware: "authenticated",
   head: {
     title: "Pesanan Saya",
     htmlAttrs: {

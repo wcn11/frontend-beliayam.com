@@ -21,7 +21,7 @@
             class="text-decoration-none text-dark"
           >
             <li class="border-bottom bg-white d-flex align-items-center p-3">
-              <i class="fad fa-box-heart beliayam-icofont bg-success"></i
+              <i class="fad fa-box-heart beliayam-icofont bg-danger"></i
               >Pesanan Saya
               <span class="badge badge-success p-1 badge-pill ml-auto"
                 ><i class="fad fa-chevron-right"></i
@@ -30,7 +30,7 @@
           </NuxtLink>
           <NuxtLink to="/promo" class="text-decoration-none text-dark">
             <li class="border-bottom bg-white d-flex align-items-center p-3">
-              <i class="fad fa-badge-percent beliayam-icofont bg-success"></i
+              <i class="fad fa-badge-percent beliayam-icofont bg-danger"></i
               >Promo
               <span class="badge badge-success p-1 badge-pill ml-auto"
                 ><i class="fad fa-chevron-right"></i

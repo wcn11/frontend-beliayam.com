@@ -21,7 +21,7 @@
             v-for="ctg in categories"
             :key="ctg._id"
           >
-            <div class="bg-success rounded shadow-sm text-center p-2">
+            <div class="bg-danger rounded shadow-sm text-center p-2">
               <div class=" rounded shadow-sm mb-3">
                 <img :src="`${baseApi}/${ctg.image}`" class="img-fluid" />
               </div>

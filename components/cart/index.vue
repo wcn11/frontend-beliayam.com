@@ -124,7 +124,7 @@
                                 <input
                                   type="button"
                                   value="-"
-                                  class="qtyminus btn btn-success btn-sm"
+                                  class="qtyminus btn btn-danger btn-sm"
                                   @click="setDecrement(product._id)"
                                   :disabled="
                                     product.quantity === 0 ||
@@ -145,7 +145,7 @@
                                 <input
                                   type="button"
                                   value="+"
-                                  class="qtyplus btn btn-success btn-sm"
+                                  class="qtyplus btn btn-danger btn-sm"
                                   :disabled="
                                     product.quantity === 0 ||
                                     product.quantity === '' ||
@@ -1116,7 +1116,7 @@
                       <div class="m-0 p-0 text-center-webkit">
                         <button
                           type="button"
-                          class="btn btn-success btn-block w-50"
+                          class="btn btn-danger btn-block w-50"
                           @click="saveNewAddress()"
                         >
                           Simpan Alamat
@@ -1147,7 +1147,7 @@
                       <div class="m-0 p-0 text-center-webkit">
                         <button
                           type="button"
-                          class="btn btn-success btn-block w-50"
+                          class="btn btn-danger btn-block w-50"
                           @click="checkout()"
                         >
                           Lanjutkan Ke Pembayaran

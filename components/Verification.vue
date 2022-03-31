@@ -30,9 +30,9 @@
                                             class="form-control opt form-control-lg text-center">
                                     </div>
                                 </div>
-                                <p><a href="#" class="text-decoration-none text-success">Resend Code</a></p>
+                                <p><a href="#" class="text-decoration-none text-danger">Resend Code</a></p>
                                 <p><a href="#" class="text-decoration-none text-dark">Call me instead</a></p>
-                                <button class="btn btn-success btn-block btn-lg">Continue</button>
+                                <button class="btn btn-danger btn-block btn-lg">Continue</button>
                             </form>
                         </div>
                     </div>

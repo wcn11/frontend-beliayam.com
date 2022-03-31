@@ -41,7 +41,7 @@
                     <div class="d-flex align-items-center mb-2">
                       <p class="mb-0 h6">{{ address.label }}</p>
                       <p
-                        class="mb-0 badge badge-success ml-auto"
+                        class="mb-0 badge badge-danger ml-auto"
                         v-if="address.default"
                       >
                         utama
@@ -68,7 +68,7 @@
                       <span class="small"
                         ><a
                           href="javascript:void(0)"
-                          class="text-decoration-none text-success"
+                          class="text-decoration-none text-danger"
                           id="button-modal-new-address"
                           @click="openModalEditAddress(address._id)"
                         >
@@ -327,7 +327,7 @@
             <div class="col-6 m-0 p-0">
               <button
                 type="button"
-                class="btn btn-success btn-lg btn-block"
+                class="btn btn-danger btn-lg btn-block"
                 @click="saveNewAddress()"
               >
                 Simpan Alamat
@@ -579,7 +579,7 @@
             <div class="col-6 m-0 p-0">
               <button
                 type="button"
-                class="btn btn-success btn-lg btn-block"
+                class="btn btn-danger btn-lg btn-block"
                 @click="updateNewAddress()"
               >
                 Simpan Alamat

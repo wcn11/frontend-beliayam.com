@@ -2,7 +2,7 @@
   <section class="beliayam-main-body beliayam-signin-main animate__animated">
     <div class="container">
       <div class="row d-flex align-items-center justify-content-center vh-100">
-        <div class="landing-page shadow-sm bg-success col-lg-6">
+        <div class="landing-page shadow-sm bg-danger col-lg-6">
           <div class="beliayam-slider m-0">
             <div class="beliayam-slider-item text-center">
               <div
@@ -53,7 +53,7 @@
                 </div>
                 <button
                   type="submit"
-                  class="btn btn-success btn-lg rounded btn-block"
+                  class="btn btn-danger btn-lg rounded btn-block"
                   @click="submitForgetPasswordByPhone()"
                 >
                   Kirim kode OTP

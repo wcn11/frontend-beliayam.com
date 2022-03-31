@@ -40,7 +40,7 @@
                   </div>
                 </div>
                 <p>
-                  <a href="#" class="text-decoration-none text-success"
+                  <a href="#" class="text-decoration-none text-danger"
                     >Resend Code</a
                   >
                 </p>
@@ -49,7 +49,7 @@
                     >Call me instead</a
                   >
                 </p>
-                <button class="btn btn-success btn-block btn-lg">
+                <button class="btn btn-danger btn-block btn-lg">
                   Continue
                 </button>
               </form>
