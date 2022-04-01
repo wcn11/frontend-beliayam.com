@@ -50,8 +50,8 @@ const Login = props => {
   const ability = useContext(AbilityContext)
   const dispatch = useDispatch()
   const history = useHistory()
-  const [email, setEmail] = useState('beliayamcom@gmail.com')
-  const [password, setPassword] = useState('bac.beliayamcom')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   const { register, errors, handleSubmit } = useForm()
   const illustration = skin === 'dark' ? 'login-v2-dark.svg' : 'login-v2.svg',
