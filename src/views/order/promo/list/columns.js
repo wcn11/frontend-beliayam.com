@@ -50,7 +50,7 @@ export const columns = [
       minWidth: '320px',
       selector: 'role',
       sortable: true,
-      cell: row => <img src={`https://be-dev.beliayam.com/${row.image_promo}`} width='200' alt="" />
+      cell: row => <img src={`https://main-v1.beliayam.com/${row.image_promo}`} width='200' alt="" />
    },
    {
       name: 'Slug',

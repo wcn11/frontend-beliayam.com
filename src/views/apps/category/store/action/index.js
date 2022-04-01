@@ -132,7 +132,7 @@ export const updateCategory = (id, category) => {
                     method: 'GET',
                     responseType: 'blob'
                 }
-                const res = await fetcher(`https://be-dev.beliayam.com/${image}`, req)
+                const res = await fetcher(`https://main-v1.beliayam.com/${image}`, req)
                 // image = res
                 const reader = new FileReader()
                 reader.readAsDataURL(res.data)
@@ -148,7 +148,7 @@ export const updateCategory = (id, category) => {
                     method: 'GET',
                     responseType: 'blob'
                 }
-                const res = await fetcher(`https://be-dev.beliayam.com/${icon}`, req)
+                const res = await fetcher(`https://main-v1.beliayam.com/${icon}`, req)
                 const reader = new FileReader()
                 reader.readAsDataURL(res.data)
                 reader.onload = function (e) {

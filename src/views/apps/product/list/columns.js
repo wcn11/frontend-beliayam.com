@@ -86,7 +86,7 @@ export const columns = [
       minWidth: '172px',
       selector: 'image',
       sortable: true,
-      cell: row => <img style={{ height: '3em'}} src={`https://be-dev.beliayam.com/${row.image}`} alt="" />
+      cell: row => <img style={{ height: '3em' }} src={`https://main-v1.beliayam.com/${row.image}`} alt="" />
    },
    {
       name: 'Pos',
