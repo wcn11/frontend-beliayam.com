@@ -1,2 +1,2 @@
 git pull
-npm install
+sh ./after-build.sh
