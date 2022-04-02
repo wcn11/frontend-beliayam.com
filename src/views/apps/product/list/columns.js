@@ -63,7 +63,7 @@ export const columns = [
    {
       name: 'Product',
       minWidth: '200px',
-      selector: 'fullName',
+      selector: 'name',
       sortable: true,
       cell: row => (
          <div className='d-flex justify-content-left align-items-center'>
@@ -84,35 +84,33 @@ export const columns = [
    {
       name: 'Image',
       minWidth: '172px',
-      selector: 'image',
-      sortable: true,
       cell: row => <img style={{ height: '3em' }} src={`https://main-v1.beliayam.com/${row.image}`} alt="" />
    },
    {
       name: 'Pos',
       minWidth: '100px',
-      selector: 'role',
+      selector: 'position',
       sortable: true,
       cell: row => <span className='align-center'>{row.position}</span>
    },
    {
       name: 'Price',
       minWidth: '100px',
-      selector: 'role',
+      selector: 'price',
       sortable: true,
       cell: row => row.price
    },
    {
       name: 'Stock',
       minWidth: '100px',
-      selector: 'role',
+      selector: 'stock',
       sortable: true,
       cell: row => row.stock
    },
    {
       name: 'Slug',
       minWidth: '138px',
-      selector: 'currentPlan',
+      selector: 'slug',
       sortable: true,
       cell: row => <span className='text-capitalize'>{row.slug}</span>
    },

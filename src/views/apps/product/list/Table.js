@@ -75,6 +75,7 @@ const ProductList = () => {
     const store = useSelector(state => state.products)
 
     const [searchTerm, setSearchTerm] = useState('')
+    const [searchResults, setSearchResults] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
     const [rowsPerPage, setRowsPerPage] = useState(10)
     const [sortPerPage, setSortPerPage] = useState('ASC')
@@ -151,6 +152,18 @@ const ProductList = () => {
                 orderBy: val
             })
         )
+    }
+
+    const searchHandler = (searchTerm) => {
+        setSearchTerm(searchTerm)
+        if (searchTerm !== '') {
+            const newProductList = store.filter((item) => {
+                // return Object.values(value)
+                // .join(' ')
+                // .toLocaleLowerCase()
+                // .includes(searchTerm.toLocaleLowerCase())
+            })
+        }
     }
 
     const CustomPagination = () => {
@@ -297,8 +310,8 @@ const ProductList = () => {
                             toggleSidebar={toggleSidebar}
                             handlePerPage={handlePerPage}
                             rowsPerPage={rowsPerPage}
-                            searchTerm={searchTerm}
-                            handleFilter={handleFilter}
+                            // searchTerm={searchHandler}
+                            handleFilter={searchHandler}
                         />
                     }
                 />

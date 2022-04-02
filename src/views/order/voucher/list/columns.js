@@ -50,7 +50,7 @@ export const columns = [
    {
       name: 'Voucher',
       minWidth: '172px',
-      selector: 'fullName',
+      selector: 'voucherName',
       sortable: true,
       cell: row => (
          <div className='d-flex justify-content-left align-items-center'>
@@ -71,28 +71,28 @@ export const columns = [
    {
       name: 'Code',
       minWidth: '138px',
-      selector: 'role',
+      selector: 'voucherCode',
       sortable: true,
       cell: row => row.voucherCode
    },
    {
       name: 'Minimum Order',
       minWidth: '172px',
-      selector: 'role',
+      selector: 'minimumOrderValue',
       sortable: true,
       cell: row => row.minimumOrderValue
    },
    {
       name: 'Vocuher Start',
       minWidth: '172px',
-      selector: 'role',
+      selector: 'discountStart',
       sortable: true,
       cell: row => formatDateTime(row.discountStart)
    },
    {
       name: 'Vocuher End',
       minWidth: '172px',
-      selector: 'role',
+      selector: 'discountEnd',
       sortable: true,
       cell: row => formatDateTime(row.discountEnd)
    },

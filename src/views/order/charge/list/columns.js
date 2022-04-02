@@ -27,7 +27,7 @@ export const columns = [
    {
       name: 'Charge',
       minWidth: '172px',
-      selector: 'fullName',
+      selector: 'chargeName',
       sortable: true,
       cell: row => (
          <div className='d-flex justify-content-left align-items-center'>
@@ -48,22 +48,20 @@ export const columns = [
    {
       name: 'Charge Value',
       minWidth: '138px',
-      selector: 'role',
+      selector: 'chargeValue',
       sortable: true,
       cell: row => row.chargeValue
    },
    {
       name: 'Short Description',
       minWidth: '172px',
-      selector: 'role',
+      selector: 'shortDescription',
       sortable: true,
       cell: row => row.shortDescription
    },
    {
       name: 'Default',
       minWidth: '172px',
-      selector: 'role',
-      sortable: true,
       cell: row => row.default
    },
    {

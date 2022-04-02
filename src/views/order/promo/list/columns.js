@@ -48,35 +48,33 @@ export const columns = [
    {
       name: 'Image',
       minWidth: '320px',
-      selector: 'role',
-      sortable: true,
       cell: row => <img src={`https://main-v1.beliayam.com/${row.image_promo}`} width='200' alt="" />
    },
    {
       name: 'Slug',
       minWidth: '172px',
-      selector: 'role',
+      selector: 'slug',
       sortable: true,
       cell: row => row.slug
    },
    {
       name: 'Tags',
       minWidth: '150px',
-      selector: 'role',
+      selector: 'tags',
       sortable: true,
       cell: row => row.tags
    },
    {
       name: 'Promo Start',
       minWidth: '186px',
-      selector: 'role',
+      selector: 'promoStart',
       sortable: true,
       cell: row => formatDateTime(row.promoStart)
    },
    {
       name: 'Promo End',
       minWidth: '186px',
-      selector: 'role',
+      selector: 'promoEnd',
       sortable: true,
       cell: row => formatDateTime(row.promoEnd)
    },

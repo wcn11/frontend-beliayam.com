@@ -84,7 +84,7 @@ export const columns = [
   {
     name: 'User',
     minWidth: '180px',
-    selector: 'fullName',
+    selector: 'name',
     sortable: true,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
@@ -112,7 +112,7 @@ export const columns = [
   {
     name: 'email Verification',
     minWidth: '138px',
-    selector: 'status',
+    selector: 'isEmailVerified',
     sortable: true,
     cell: row => (
       <Badge className='text-capitalize light-success' color={phoneVerifikasiObj[row.isEmailVerified ? 'active' : 'nonactive']} pill>
@@ -123,7 +123,7 @@ export const columns = [
   {
     name: 'Phone Verification',
     minWidth: '138px',
-    selector: 'status',
+    selector: 'isPhoneVerified',
     sortable: true,
     cell: row => (
       <Badge className='text-capitalize light-success' color={phoneVerifikasiObj[row.isPhoneVerified ? 'active' : 'nonactive']} pill>
