@@ -43,7 +43,7 @@
                 </div>
                 <button
                   type="submit"
-                  class="btn btn-success btn-lg rounded btn-block"
+                  class="btn btn-danger btn-lg rounded btn-block"
                   @click="submitForgetPassword()"
                 >
                   Kirim link reset password

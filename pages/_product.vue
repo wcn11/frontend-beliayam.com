@@ -175,7 +175,7 @@
                           <input
                             type="button"
                             value="-"
-                            class="qtyminus btn btn-success btn-sm"
+                            class="qtyminus btn btn-danger btn-sm"
                             field="quantity"
                             @click="setDecrementQuantity"
                             :disabled="
@@ -197,7 +197,7 @@
                           <input
                             type="button"
                             value="+"
-                            class="qtyplus btn btn-success btn-sm"
+                            class="qtyplus btn btn-danger btn-sm"
                             field="quantity"
                             @click="setIncrementQuantity"
                             :disabled="

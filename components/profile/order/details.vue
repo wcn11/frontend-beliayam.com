@@ -330,7 +330,7 @@
                 v-if="order.payment.pg_icon"
               />
             </a>
-            <button class="btn btn-success m-1" @click="exportOrderToPDF()">
+            <button class="btn btn-danger m-1" @click="exportOrderToPDF()">
               <i class="fas fa-file-download"></i> Unduh PDF
             </button>
           </div>

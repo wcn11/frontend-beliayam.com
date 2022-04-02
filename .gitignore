@@ -96,6 +96,7 @@ sw.*
 
 # Nuxt generate
 /dist
+package-lock.json
 
 #note
 note

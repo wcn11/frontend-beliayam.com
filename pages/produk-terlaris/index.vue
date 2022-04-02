@@ -93,7 +93,7 @@
                               <input
                                 type="button"
                                 value="-"
-                                class="qtyminus btn btn-success btn-sm"
+                                class="qtyminus btn btn-danger btn-sm"
                                 field="quantity"
                               />
                               <input
@@ -105,7 +105,7 @@
                               <input
                                 type="button"
                                 value="+"
-                                class="qtyplus btn btn-success btn-sm"
+                                class="qtyplus btn btn-danger btn-sm"
                                 field="quantity"
                               />
                             </form>
@@ -173,7 +173,7 @@
                               <input
                                 type="button"
                                 value="-"
-                                class="qtyminus btn btn-success btn-sm"
+                                class="qtyminus btn btn-danger btn-sm"
                                 field="quantity"
                               />
                               <input
@@ -185,7 +185,7 @@
                               <input
                                 type="button"
                                 value="+"
-                                class="qtyplus btn btn-success btn-sm"
+                                class="qtyplus btn btn-danger btn-sm"
                                 field="quantity"
                               />
                             </form>
@@ -251,7 +251,7 @@
                               <input
                                 type="button"
                                 value="-"
-                                class="qtyminus btn btn-success btn-sm"
+                                class="qtyminus btn btn-danger btn-sm"
                                 field="quantity"
                               />
                               <input
@@ -263,7 +263,7 @@
                               <input
                                 type="button"
                                 value="+"
-                                class="qtyplus btn btn-success btn-sm"
+                                class="qtyplus btn btn-danger btn-sm"
                                 field="quantity"
                               />
                             </form>

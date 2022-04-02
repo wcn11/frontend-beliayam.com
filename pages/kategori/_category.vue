@@ -101,7 +101,7 @@
                           </h6>
                           <div style="text-align: center; padding-top: 5%">
                             <NuxtLink :to="`/${ctg.slug}`">
-                              <h6 class="btn btn-success w-100">
+                              <h6 class="btn btn-danger w-100">
                                 <i class="fas fa-cart-plus"></i> Beli
                               </h6>
                             </NuxtLink>
@@ -242,12 +242,12 @@ export default {
   }
 }
 
-@media (max-width: 576px) {
+/* @media (max-width: 576px) {
   .item-img {
     max-height: 360px;
     height: 360px;
   }
-}
+} */
 
 @media only screen and (max-device-width: 480px) {
   .content-heading {

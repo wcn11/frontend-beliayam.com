@@ -251,7 +251,7 @@
                       <div class="text-center">
                         <button
                           type="button"
-                          class="btn btn-success btn-block btn-lg"
+                          class="btn btn-danger btn-block btn-lg"
                           @click="changePasswordMethod()"
                         >
                           Simpan perubahan
