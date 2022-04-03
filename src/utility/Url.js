@@ -1,6 +1,6 @@
 // auth url
 export const REFRESH_TOKEN = `${process.env.REACT_APP_BASE_URL_API}/api/v1/admin/auth/refresh-token`
-export const LOGIN_URL = `http://localhost:4000/api/v1/admin/auth/login`
+export const LOGIN_URL = `${process.env.REACT_APP_BASE_URL_API}/api/v1/admin/auth/login`
 
 // user url
 export const GET_ALL_DATA_USER = `${process.env.REACT_APP_BASE_URL_API}/api/v1/admin/users`
