@@ -313,7 +313,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                         img={imagePreview}
                                     />
                                 </FormGroup>
-                                <img height={80} src={`https://main-v1.beliayam.com/${productData.image}`} alt="" />
+                                <img height={80} src={`${process.env.REACT_APP_BASE_URL_API}/${productData.image}`} alt="" />
                             </Col>
                             <Col md='6' sm='12'>
                                 <FormGroup>

@@ -88,7 +88,7 @@ const PromoAccountTab = ({selectedPromo}) => {
 
    const options = async (search, prevOptions, {page}) => {
       await sleep(1000)
-      const res = await fetcher(`https://main-v1.beliayam.com/api/v1/admin/product?page=${page}&show=${rowsPerPage}&sortBy=${sortPerPage}&orderBy=${orderBy}`)
+      const res = await fetcher(`${process.env.REACT_APP_BASE_URL_API}/api/v1/admin/product?page=${page}&show=${rowsPerPage}&sortBy=${sortPerPage}&orderBy=${orderBy}`)
       const data = res.data.data
       const productData = data.map((item) => {
          return {
@@ -287,7 +287,7 @@ const PromoAccountTab = ({selectedPromo}) => {
                            />
                         </FormGroup>
                         <FormText>*Size gambar maksimal 3 mb</FormText>
-                        <img height={80} src={`https://main-v1.beliayam.com/${promoData.image_promo}`} alt="" />
+                        <img height={80} src={`${process.env.REACT_APP_BASE_URL_API}/${promoData.image_promo}`} alt="" />
                      </Col>
                      <Col md='6' sm='12'>
                         <FormGroup>

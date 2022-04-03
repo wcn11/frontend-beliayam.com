@@ -117,7 +117,7 @@ export const toastHeaderIcons = (
       {`
 
 import { Toast, ToastBody, ToastHeader, Spinner, Row, Col } from 'reactstrap'
-import logo from '@src/assets/images/logo/Logo.png'
+import logo from '@src/assets/images/logo/logo.png'
 
 const close = (
   <button type='button' className='ml-1 close'>

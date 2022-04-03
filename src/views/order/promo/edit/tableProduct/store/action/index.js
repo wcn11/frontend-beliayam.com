@@ -4,7 +4,7 @@ import { fetcher } from '@src/utility/axiosHooks'
 export const getProductsByPromo = (id, params) => {
    return async (dispatch) => {
       try {
-         const res = await fetcher(`https://main-v1.beliayam.com/api/v1/admin/promo/${id}/product`, {params})
+         const res = await fetcher(`${process.env.REACT_APP_BASE_URL_API}/api/v1/admin/promo/${id}/product`, { params })
          if (res) {
             dispatch({
                type: "GET_PRODUCTS_BY_PROMO",
