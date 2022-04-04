@@ -50,12 +50,14 @@ const OrderPreview = () => {
   return store.selectedOrder !== null && store.selectedOrder !== undefined ? (
     <div className='order-preview-wrapper'>
       <Row className='order-preview'>
+
         <Col xl={9} md={8} sm={12}>
           <PreviewCard data={store.selectedOrder} />
         </Col>
-        <Col xl={3} md={4} sm={12}>
+        {store.selectedOrder.order_status.status !== 'PAYMENT_CANCELLED' && store.selectedOrder.order_status.status !== 'PAYMENT_EXPIRED' ? (<Col xl={3} md={4} sm={12}>
           <PreviewActions id={id} order={store.selectedOrder} setSendSidebarOpen={setSendSidebarOpen} setAddPaymentOpen={setAddPaymentOpen} setCompletePaymentOpen={setCompletePaymentOpen} setCancelPaymentOpen={setCancelPaymentOpen} />
-        </Col>
+        </Col>) : (<div></div>)}
+
       </Row>
       <SendOrderSidebar toggleSidebar={toggleSendSidebar} open={sendSidebarOpen} />
       <AddPaymentSidebar toggleSidebar={toggleAddSidebar} open={addPaymentOpen} />

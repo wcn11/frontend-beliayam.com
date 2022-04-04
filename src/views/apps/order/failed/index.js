@@ -6,6 +6,8 @@ import { Card, CardBody, Row, Col, Nav, NavItem, NavLink, TabContent, TabPane, A
 
 // ** Styles
 import '@styles/react/apps/app-users.scss'
+import TableExpired from './listExpired/tableExpired'
+import TableCancel from './listCancel/tableCancel'
 
 const FailedList = () => {
    const [activeTab, setActiveTab] = useState('1')
@@ -32,10 +34,10 @@ const FailedList = () => {
                   </Nav>
                   <TabContent activeTab={activeTab}>
                      <TabPane tabId='1'>
-                        {/* <TableProgress /> */}
+                        <TableCancel />
                      </TabPane>
                      <TabPane tabId='2'>
-                        {/* <Table /> */}
+                        <TableExpired />
                      </TabPane>
                   </TabContent>
                </CardBody>

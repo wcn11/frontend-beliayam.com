@@ -43,11 +43,9 @@ const PreviewActions = ({ order, setCompletePaymentOpen, setCancelPaymentOpen })
   return (
     <Card className='invoice-action-wrapper'>
       <CardBody>
-        {order?.order_status?.status !== "PAYMENT_SUCCESS" && order?.order_status?.status !== "PAYMENT_CANCELLED" && order.order_status.status !== "PAYMENT_EXPIRED" ? <Button.Ripple color='danger' block outline onClick={() => setCompletePaymentOpen(true)}> Complete Payment </Button.Ripple> : ""}
-        {order?.order_status?.status !== "PAYMENT_SUCCESS" && order?.order_status?.status !== "PAYMENT_CANCELLED" && order.order_status.status !== "PAYMENT_EXPIRED" ? <Button.Ripple color='danger' block onClick={() => setCancelPaymentOpen(true)}> Cancel Payment </Button.Ripple> : ""}
-        {order?.order_status?.status === "PAYMENT_EXPIRED" ? <p>Waktu Pembayaran Sudah Habis</p> : ""}
-        {order?.order_status?.status === "PAYMENT_CANCELLED" ? <p>Pembayaran dibatalkan</p> : ""}
-        {order?.delivery?.isDelivery === true ? <p>Orderan dikirimkan nih</p> : <Button.Ripple color='danger' block onClick={deliverOrder}> Deliver Order </Button.Ripple>}
+        {order?.order_status?.status !== "PAYMENT_SUCCESS" && order?.order_status?.status !== "PAYMENT_CANCELLED" && order.order_status.status !== "PAYMENT_EXPIRED" ? <Button.Ripple color='danger' block outline onClick={() => setCompletePaymentOpen(true)}> Complete Payment </Button.Ripple> : ''}
+        {order?.order_status?.status !== "PAYMENT_SUCCESS" && order?.order_status?.status !== "PAYMENT_CANCELLED" && order.order_status.status !== "PAYMENT_EXPIRED" ? <Button.Ripple color='danger' block onClick={() => setCancelPaymentOpen(true)}> Cancel Payment </Button.Ripple> : ''}
+        {order?.delivery?.isDelivery === true && order?.order_status?.status !== "PAYMENT_EXPIRED" && order?.order_status?.status !== "PAYMENT_CANCELLED" ? <p>Orderan dikirimkan nih</p> : <Button.Ripple color='danger' block onClick={deliverOrder}> Deliver Order </Button.Ripple>}
       </CardBody>
     </Card>
   )
