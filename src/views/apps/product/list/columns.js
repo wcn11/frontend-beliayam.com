@@ -84,7 +84,7 @@ export const columns = [
    {
       name: 'Image',
       minWidth: '172px',
-      cell: row => <img style={{ height: '3em' }} src={`https://main-v1.beliayam.com/${row.image}`} alt="" />
+      cell: row => <img style={{ height: '3em' }} src={`${process.env.REACT_APP_BASE_URL_API}/${row.image}`} alt="" />
    },
    {
       name: 'Pos',

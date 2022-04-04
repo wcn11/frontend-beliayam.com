@@ -2,6 +2,15 @@
   "name": "admin-dashboard-beliayam",
   "version": "1.0.0",
   "private": true,
+  "scripts": {
+    "dev": "craco start",
+    "build": "craco build sh ./build.sh",
+    "production": "sh ./build.sh",
+    "test": "craco test",
+    "eject": "react-scripts eject",
+    "lint": "eslint src/**/*.js src/**/*.jsx",
+    "lint:fix": "eslint src/**/*.js --fix"
+  },
   "dependencies": {
     "@casl/ability": "5.2.2",
     "@casl/react": "2.1.1",
@@ -90,15 +99,6 @@
     "wnumb": "1.2.0",
     "xlsx": "0.16.2",
     "yup": "0.32.8"
-  },
-  "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "production": "sh ./after-build.sh",
-    "test": "craco test",
-    "eject": "react-scripts eject",
-    "lint": "eslint src/**/*.js src/**/*.jsx",
-    "lint:fix": "eslint src/**/*.js --fix"
   },
   "eslintConfig": {
     "extends": "react-app"

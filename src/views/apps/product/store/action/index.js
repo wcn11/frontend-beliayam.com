@@ -175,7 +175,7 @@ export const updateProduct = (id, product) => {
                method: 'GET',
                responseType: 'blob'
             }
-            const res = await fetcher(`https://main-v1.beliayam.com/image}`, req)
+            const res = await fetcher(`${process.env.REACT_APP_BASE_URL_API}/image}`, req)
             // image = res
             const reader = new FileReader()
             reader.readAsDataURL(res.data)

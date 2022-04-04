@@ -48,7 +48,7 @@ export const columns = [
    {
       name: 'Image',
       minWidth: '320px',
-      cell: row => <img src={`https://main-v1.beliayam.com/${row.image_promo}`} width='200' alt="" />
+      cell: row => <img src={`${process.env.REACT_APP_BASE_URL_API}/${row.image_promo}`} width='200' alt="" />
    },
    {
       name: 'Slug',

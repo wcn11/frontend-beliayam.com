@@ -247,7 +247,7 @@ const CategoryAccountTab = ({ selectedCategory }) => {
                               onChange={(e) => onImageUpload(e)}
                               img={imagePreview}
                            />
-                           <img height={80} src={`https://main-v1.beliayam.com/${categoryData.image}`} alt="" />
+                           <img height={80} src={`${process.env.REACT_APP_BASE_URL_API}/${categoryData.image}`} alt="" />
                         </FormGroup>
                      </Col>
                      <Col md='6' sm='12'>
@@ -259,7 +259,7 @@ const CategoryAccountTab = ({ selectedCategory }) => {
                               onChange={(e) => onIconUpload(e)}
                               img={iconPreview}
                            />
-                           <img height={80} src={`https://main-v1.beliayam.com/${categoryData.icon}`} alt="" />
+                           <img height={80} src={`${process.env.REACT_APP_BASE_URL_API}/${categoryData.icon}`} alt="" />
                         </FormGroup>
                      </Col>
                      <Col md='6' sm='12'>
