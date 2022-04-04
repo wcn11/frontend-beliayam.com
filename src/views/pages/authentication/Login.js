@@ -13,7 +13,7 @@ import { Link, useHistory } from 'react-router-dom'
 import InputPasswordToggle from '@components/input-password-toggle'
 import { getHomeRouteForLoggedInUser, isObjEmpty } from '@utils'
 import logo from '@src/assets/images/logo/Logo.png'
-import { Coffee } from 'react-feather'
+import { Coffee, X } from 'react-feather'
 import {
   Alert,
   Row,
@@ -28,6 +28,7 @@ import {
   Button,
   UncontrolledTooltip
 } from 'reactstrap'
+import { ToastWarning } from '@src/utility/Toast'
 
 import '@styles/base/pages/page-auth.scss'
 
@@ -88,13 +89,17 @@ const Login = props => {
         }
         dispatch(handleLogin(data))
         ability.update(data.ability)
-        history.push(getHomeRouteForLoggedInUser(admin.role.roleName))
+        history.push(getHomeRouteForLoggedInUser(admin?.role?.roleName))
         toast.success(
-          <ToastContent name={data.fullName || data.username} role={data.role} />,
+          <ToastContent name={data?.fullName || data?.username} role={data?.role} />,
           { transition: Slide, hideProgressBar: true, autoClose: 8000 }
         )
       } catch (error) {
-        console.log(error)
+        ToastWarning({
+          icon: <X size={12} />,
+          title: 'Ada error nih',
+          content: error?.data?.message
+        })
       }
     }
   }

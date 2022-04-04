@@ -97,7 +97,7 @@ export const columns = [
   {
     name: "Order ID",
     minWidth: "150px",
-    // selector: "order_id",
+    selector: "order_id",
     sortable: true,
     cell: (row) => (
       <div className="d-flex justify-content-left align-items-center">        
@@ -115,7 +115,7 @@ export const columns = [
   {
     name: "Customer",
     minWidth: "250px",
-    // selector: "user",
+    selector: "user",
     sortable: true,
     // cell: (row) => row.user.email
     cell: row => {
@@ -136,7 +136,7 @@ export const columns = [
     name: "Platform",
     minWidth: "130px",
     sortable: true,
-    // selector: "platform",
+    selector: "platform",
     cell: (row) => row.platform
   },
   {
@@ -150,7 +150,7 @@ export const columns = [
     name: "Grand Total",
     minWidth: "130px",
     sortable: true,
-    // selector: "grand_total",
+    selector: "grand_total",
     cell: (row) => numberFormat(row.grand_total)
   },
   // {
@@ -163,8 +163,6 @@ export const columns = [
   {
     name: "Payment Type",
     minWidth: "130px",
-    sortable: true,
-    // selector: "payment",
     cell: (row) => row.payment.pg_type
   }
 ]

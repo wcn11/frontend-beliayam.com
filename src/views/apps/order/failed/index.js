@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
-import { XCircle, Info, CheckCircle, Loader, Truck } from 'react-feather'
+import { XCircle, Info } from 'react-feather'
 import { Card, CardBody, Row, Col, Nav, NavItem, NavLink, TabContent, TabPane, Alert } from 'reactstrap'
 
 // ** Styles
@@ -19,13 +19,13 @@ const FailedList = () => {
                   <Nav pills>
                      <NavItem>
                         <NavLink active={activeTab === '1'} onClick={() => toggle('1')}>
-                           <Loader size={14} />
+                           <XCircle size={14} />
                            <span className='align-middle d-none d-sm-block'>Payment Cancel</span>
                         </NavLink>
                      </NavItem>
                      <NavItem>
                         <NavLink active={activeTab === '2'} onClick={() => toggle('2')}>
-                           <CheckCircle size={14} />
+                           <Info size={14} />
                            <span className='align-middle d-none d-sm-block'>Payment Expired</span>
                         </NavLink>
                      </NavItem>
