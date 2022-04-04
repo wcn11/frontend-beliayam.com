@@ -9,7 +9,7 @@ Vue.filter('formatDate', (date) => moment(date).format("dddd, Do MMMM yyyy HH:mm
 Vue.filter('formatMoney', (val) => {
   if (val) {
 
-    return "Rp " + val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
+    return "Rp " + val.toString().replace(/\B(?:<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
   }
   return "0"
 });
