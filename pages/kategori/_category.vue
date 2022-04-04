@@ -57,7 +57,7 @@
                           class="member-plan position-absolute"
                         >
                           <span class="badge badge-success badge-discount">
-                            #{{ ctg.hasPromo.tags }}
+                            {{ ctg.hasPromo.tags }}
                           </span>
                         </div>
                         <div

@@ -33,7 +33,7 @@
                 class="member-plan position-absolute"
               >
                 <span class="badge badge-danger badge-discount">
-                  #{{ product.hasPromo.tags }}
+                  {{ product.hasPromo.tags }}
                 </span>
               </div>
               <div

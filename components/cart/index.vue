@@ -104,7 +104,6 @@
                               "
                             >
                               <h6 class="total_price font-weight-bold m-0">
-                                
                                 {{
                                   setTotalPriceProductWithDiscount(product)
                                     | formatMoney
@@ -350,8 +349,7 @@
                             ? selectedVoucher.voucherName
                             : selectedVoucher.voucherCode
                         }}
-                        <span class="float-right text-dark"
-                          >
+                        <span class="float-right text-dark">
                           {{
                             getPriceVoucherLabelPrice(selectedVoucher)
                               | formatMoney
@@ -360,8 +358,7 @@
                       </p>
                       <br />
                       <h6 class="mb-0 text-danger">
-                        Total Diskon<span class="float-right text-danger"
-                          >
+                        Total Diskon<span class="float-right text-danger">
                           {{
                             getPriceVoucherLabelPrice(selectedVoucher)
                               | formatMoney
@@ -446,7 +443,7 @@
                   selectedVoucher && Object.keys(selectedVoucher).length > 0
                 "
               >
-                Anda Hemat Rp
+                Anda Hemat
                 <span v-if="selectedVoucher.discountBy === 'percent'">
                   {{
                     ((selectedVoucher.discountValue / 100) * countTotalProduct)
@@ -655,7 +652,9 @@
                   class="justify-content-center"
                   v-if="getCartsVouchers.length <= 0"
                 >
-                  <h4 class="font-weight-bold text-center">Voucher Tidak Tersedia</h4>
+                  <h4 class="font-weight-bold text-center">
+                    Voucher Tidak Tersedia
+                  </h4>
                 </div>
               </div>
             </div>
@@ -687,15 +686,7 @@
                         <i>Informasi Akun</i></a
                       >
                     </li>
-                    <li
-                      role="presentation"
-                      class="disabled"
-                      v-if="
-                        this.$store.state.auth.user &&
-                        this.$store.state.auth.user.addresses &&
-                        this.$store.state.auth.user.addresses.length <= 0
-                      "
-                    >
+                    <li role="presentation" class="disabled">
                       <a
                         href="#step2"
                         data-toggle="tab"
@@ -878,8 +869,7 @@
                       id="step2"
                       v-if="
                         this.$store.state.auth.user &&
-                        this.$store.state.auth.user.addresses &&
-                        this.$store.state.auth.user.addresses.length <= 0
+                        this.$store.state.auth.user.addresses
                       "
                     >
                       <h4 class="text-center mb-5">Alamat</h4>
@@ -1133,7 +1123,7 @@
                           <button
                             type="button"
                             class="default-btn text-white next-step"
-                            :disabled="!nextStepToCheckout()"
+                            @click="checkout()"
                           >
                             Lanjutkan
                             <i class="fad fa-chevron-circle-right"></i>
@@ -1377,7 +1367,7 @@ export default {
         }
         return true;
       }
-      return false;
+      return true;
     },
     nextStepToAddress() {
       if (this.$store.state.auth.user) {

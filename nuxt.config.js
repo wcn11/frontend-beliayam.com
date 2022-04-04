@@ -44,7 +44,7 @@ export default {
     },
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1, shrink-to-fit=no' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'Situs Beli Ayam Pedaging Murah Beliayam.com' },
       { hid: 'keywords', name: 'description', content: 'ayampotong,ayamkampung,ayambroiler,ayam,pahafillet,paha,dadaayam,cekerayam,toko,daging,unggas' },
       { name: 'format-detection', content: 'telephone=no' }
@@ -77,12 +77,16 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    // {
+    //   src: '~/static//vendor/bootstrap/js/bootstrap.bundle.min.js',
+    //   mode: 'client',
+    // },
     {
       src: '~/static/js/rocket-loader.min.js',
       mode: 'client',
       defer: "",
       'data-cf-settings': "81ad158f85df8c34c29ba781-|49"
-    },
+    }, 
     {
       src: '~/static/js/beacon.min.js',
       mode: 'client'
