@@ -56,7 +56,7 @@
                           v-if="ctg.hasPromo"
                           class="member-plan position-absolute"
                         >
-                          <span class="badge badge-success badge-discount">
+                          <span class="badge badge-danger badge-discount">
                             {{ ctg.hasPromo.tags }}
                           </span>
                         </div>
@@ -80,6 +80,14 @@
                                 | setSquareDecimal
                             }}%</span
                           >
+                        </div>
+                        <div
+                          v-if="ctg.stock <= 0"
+                          class="member-plan position-absolute"
+                        >
+                          <span class="badge badge-danger badge-discount">
+                            Habis
+                          </span>
                         </div>
                         <img
                           :src="`${baseApi}/${ctg.image}`"

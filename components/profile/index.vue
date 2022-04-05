@@ -3,7 +3,9 @@
     <div class="container">
       <div class="row">
         <ProfilePartialSidebar />
-        <div class="col-lg-8 p-4 bg-white rounded shadow-sm">
+        <div
+          class="col-lg-8 p-4 bg-white rounded shadow-sm information-container"
+        >
           <h4 class="mb-4 profile-title">Informasi Akun</h4>
           <div id="edit_profile">
             <div class="p-0">
@@ -661,6 +663,14 @@ export default {
   },
   computed: {
     ...mapGetters("auth", ["user"]),
+  },
+  mounted() {
+    if (window.screen.availWidth < 992) {
+      $("html, body").animate(
+        { scrollTop: $(".information-container").height() + 300 },
+        2000
+      );
+    }
   },
 };
 </script>

@@ -84,7 +84,7 @@
       >
         <NuxtLink class="navbar-brand mr-0 navbar-logo" to="/"
           ><img
-            class="img-fluid logo-img shadow-sm"
+            class="img-fluid logo-img"
             :src="require('static/img/logo_navbar.png')"
         /></NuxtLink>
         <button
@@ -522,7 +522,7 @@ export default {
 </script>
 
 <style scoped>
-.btn-cart{
+.btn-cart {
   font-size: 25px;
 }
 .navbar-logo {

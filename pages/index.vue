@@ -18,10 +18,10 @@ export default {
 </script>
 
 <style scoped>
-#page-home {
+/* #page-home {
   background: url("~/static/img/background-global.png");
   background-repeat: no-repeat;
   background-position: top;
   background-size: contain;
-}
+} */
 </style>

@@ -123,7 +123,7 @@
             </li>
           </ul>
         </div>
-        <div class="tab-content col-md-9" id="myTabContent">
+        <div class="tab-content col-md-9 order-container" id="myTabContent">
           <div
             class="tab-pane fade show active"
             id="all"
@@ -309,6 +309,15 @@ export default {
       this.$store.dispatch("setGlobalModal", false);
     },
   },
+
+  mounted() {
+    if (window.screen.availWidth < 992) {
+      $("html, body").animate(
+        { scrollTop: $(".order-container").height() + 300 },
+        2000
+      );
+    }
+  }
 };
 </script>
 

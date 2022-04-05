@@ -683,7 +683,7 @@
                         role="tab"
                         aria-expanded="true"
                         ><span class="round-tab">1 </span>
-                        <i>Informasi Akun</i></a
+                        <i class="text-dark-info">Informasi Akun</i></a
                       >
                     </li>
                     <li role="presentation" class="disabled">
@@ -694,7 +694,7 @@
                         role="tab"
                         aria-expanded="false"
                         ><span class="round-tab">2</span>
-                        <i>Alamat Pengiriman</i></a
+                        <i class="text-dark-info">Alamat Pengiriman</i></a
                       >
                     </li>
                     <li role="presentation" class="disabled">
@@ -712,7 +712,7 @@
                             ? "2"
                             : "3"
                         }}</span>
-                        <i>Lanjutkan Ke Pembayaran</i></a
+                        <i class="text-dark-info">Lanjutkan Ke Pembayaran</i></a
                       >
                     </li>
                   </ul>
@@ -730,17 +730,19 @@
                             class="form-group"
                             v-if="this.$store.state.auth.user.name"
                           >
-                            <label>Nama</label>
-                            <h5>{{ this.$store.state.auth.user.name }}</h5>
+                            <label class="text-dark-info">Nama</label>
+                            <h5 class="text-dark-info">
+                              {{ this.$store.state.auth.user.name }}
+                            </h5>
                           </div>
 
                           <div v-else>
-                            <label>Nama anda*</label>
+                            <label class="text-dark-info">Nama anda*</label>
                             <div class="input-group mb-3">
                               <input
                                 type="text"
                                 name="name"
-                                class="form-control"
+                                class="form-control text-dark-info"
                                 placeholder="Nama anda"
                                 aria-label="Nama anda"
                                 aria-describedby="button-addon2"
@@ -764,7 +766,7 @@
                             class="form-group"
                             v-if="this.$store.state.auth.user.email"
                           >
-                            <label
+                            <label class="text-dark-info"
                               >Alamat Email*
                               <i
                                 class="text-info fad fa-check-circle"
@@ -773,16 +775,18 @@
                                 "
                               ></i
                             ></label>
-                            <h5>{{ this.$store.state.auth.user.email }}</h5>
+                            <h5 class="text-dark-info">
+                              {{ this.$store.state.auth.user.email }}
+                            </h5>
                           </div>
 
                           <div v-else>
-                            <label>Alamat email*</label>
+                            <label class="text-dark-info">Alamat email*</label>
                             <div class="input-group mb-3">
                               <input
                                 type="text"
                                 name="email"
-                                class="form-control"
+                                class="form-control text-dark-info"
                                 placeholder="Alamat Email"
                                 aria-label="Alamat Email"
                                 aria-describedby="button-addon2"
@@ -806,25 +810,32 @@
                             class="form-group"
                             v-if="this.$store.state.auth.user.phone"
                           >
-                            <label
+                            <label class="text-dark-info"
                               >No. Telepon
                               <i
-                                class="text-info fad fa-check-circle"
+                                class="
+                                  text-info
+                                  fad
+                                  fa-check-circle
+                                  text-dark-info
+                                "
                                 v-if="
                                   this.$store.state.auth.user.isPhoneVerified
                                 "
                               ></i
                             ></label>
-                            <h5>{{ this.$store.state.auth.user.phone }}</h5>
+                            <h5 class="text-dark-info">
+                              {{ this.$store.state.auth.user.phone }}
+                            </h5>
                           </div>
                           <div v-else>
-                            <label>No. Telepon*</label>
+                            <label class="text-dark-info">No. Telepon*</label>
                             <div class="input-group mb-3">
                               <input
                                 type="tel"
                                 name="phone"
-                                class="form-control"
-                                placeholder="No. Telepon"
+                                class="form-control text-dark-info"
+                                placeholder="No. Telepon "
                                 aria-label="No. Telepon"
                                 aria-describedby="button-addon2"
                                 onkeypress="return event.charCode >= 48 && event.charCode <= 57"
@@ -876,7 +887,7 @@
 
                       <form class="">
                         <div class="card">
-                          <div class="card-header">
+                          <div class="card-header text-dark">
                             Informasi Penerima Produk
                           </div>
                           <div class="card-body">
@@ -903,7 +914,7 @@
                           </div>
                         </div>
                         <div class="card mt-4">
-                          <div class="card-header">
+                          <div class="card-header text-dark">
                             Alamat Pengiriman Pesanan
                           </div>
                           <div class="card-body">
@@ -994,13 +1005,14 @@
                                 v-model="userData.address.state"
                                 @change="getCities()"
                               >
-                                <option disabled selected>
+                                <option disabled selected class="text-dark">
                                   Pilih Provinsi...
                                 </option>
                                 <option
                                   v-for="state in regions.state"
                                   :value="state"
                                   :key="state.id"
+                                  class="text-dark-address"
                                 >
                                   {{ state.name }}
                                 </option>
@@ -1021,6 +1033,7 @@
                                   v-for="city in regions.cities.regencies"
                                   :value="city"
                                   :key="city.id"
+                                  class="text-dark-address"
                                 >
                                   {{ city.name }}
                                 </option>
@@ -1042,6 +1055,7 @@
                                     .districts"
                                   :value="district"
                                   :key="district.id"
+                                  class="text-dark-address"
                                 >
                                   {{ district.name }}
                                 </option>
@@ -1063,6 +1077,7 @@
                                       .villages"
                                     :value="sub_district"
                                     :key="sub_district.id"
+                                    class="text-dark-address"
                                   >
                                     {{ sub_district.name }}
                                   </option>
@@ -1240,7 +1255,7 @@ export default {
         name: "",
         email: "",
         address: {
-          label: "",
+          label: "Rumah",
           receiver_name: "",
           phone: "",
           address1: "",
@@ -2384,6 +2399,21 @@ export default {
 .modaal-wrapper {
   z-index: 9998 !important;
 }
+
+.modaal-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  margin: auto;
+  text-align: left;
+  color: #000;
+  max-width: 1000px;
+  border-radius: 0;
+  background: #fff;
+  box-shadow: 0 4px 15px rgb(0 0 0 / 20%);
+  cursor: auto;
+}
+
 .text-center-webkit {
   text-align: center;
   text-align: -webkit-center;
@@ -2391,6 +2421,10 @@ export default {
 </style>
 
 <style scoped>
+.text-dark-info,
+.text-dark-address {
+  color: #000;
+}
 .text-reset-discount {
   margin-left: 8px;
 }

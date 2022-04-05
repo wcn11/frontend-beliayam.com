@@ -1236,7 +1236,7 @@ label {
 		display: none;
 	} */
 
-  .landing-page.shadow-sm.bg-success.col-lg-6 {
+  .landing-page.shadow-sm.bg-danger.col-lg-6 {
     display: none;
   }
 

@@ -2,7 +2,7 @@
   <div class="beliayam-body">
     <div class="pt-3 pb-2 beliayam-categories">
       <div class="d-flex align-items-center mb-4">
-        <h5 class="m-0">Cari ayam ?</h5>
+        <h5 class="m-0"><span class="text-danger">Beli Ayam</span> Apa Hari Ini ?</h5>
         <NuxtLink to="/kategori" class="ml-auto text-white text-see-more"
           >Kategori Lainnya
           <i class="text-white fad fa-chevron-circle-right"></i

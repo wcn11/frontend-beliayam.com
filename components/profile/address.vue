@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row">
         <ProfilePartialSidebar />
-        <div class="col-lg-8 p-4 bg-white rounded shadow-sm">
+        <div class="col-lg-8 p-4 bg-white rounded shadow-sm address-container">
           <div class="beliayam-my_address">
             <div class="d-flex align-items-center mb-2">
               <p class="mb-0 h6">Alamat Saya</p>
@@ -912,6 +912,15 @@ export default {
 
       $("#modal-edit-address").appendTo("body").modal("show");
     },
+  },
+
+  mounted() {
+    if (window.screen.availWidth < 992) {
+      $("html, body").animate(
+        { scrollTop: $(".address-container").height() + 300 },
+        2000
+      );
+    }
   },
 };
 </script>
