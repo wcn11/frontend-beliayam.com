@@ -70,17 +70,17 @@
                   <a href="javascript:void(0)" class="text-dark">Kemitraan</a>
                 </li>
                 <li>
-                  <a href="javascript:void(0)" class="text-dark"
+                  <a href="/syarat-ketentuan" class="text-dark"
                     >Syarat & Ketentuan</a
                   >
                 </li>
                 <li>
-                  <a href="javascript:void(0)" class="text-dark"
-                    >Kebijakan Pengguna</a
+                  <a href="/ketentuan-pengguna" class="text-dark"
+                    >Ketentuan Pengguna</a
                   >
                 </li>
                 <li>
-                  <a href="javascript:void(0)" class="text-dark"
+                  <a href="/syarat-ketentuan" class="text-dark"
                     >Retur Pembelian</a
                   >
                 </li>
@@ -229,7 +229,9 @@
             <div class="col-md-6">
               <span class="pr-2">© 2019 - {{ currentYear }} beliayam.com</span>
               <span class="pr-2"
-                ><a href="javascript:void(0)" class="text-dark">Privacy</a></span
+                ><a href="javascript:void(0)" class="text-dark"
+                  >Privacy</a
+                ></span
               >
               <span class="pr-2"
                 ><a href="javascript:void(0)" class="text-dark"
@@ -280,7 +282,7 @@
           </NuxtLink>
         </li>
         <li class="nav-item">
-          <a href="javascript:void(0)" class="nav-link">
+          <a href="/bantuan" class="nav-link">
             <i class="fad fa-headset"></i>
             <p class="title-mobile-nav">Bantuan</p>
           </a>
@@ -317,7 +319,7 @@ export default {
   margin-bottom: 30px;
 }
 
-.btn-icon{
+.btn-icon {
   font-size: 30px;
   margin-right: 15px;
 }
