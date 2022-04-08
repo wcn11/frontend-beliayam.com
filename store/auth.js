@@ -113,23 +113,11 @@ export const actions = {
 
         await dispatch('getUser');
     },
-    async register({ commit, dispatch }, { name, email, password, registerBy, registerAt }) {
-        const res = await this.$axios.$post(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/register`, {
-            name,
-            email,
-            password,
-            registerBy,
-            registerAt
-        });
+    async register({ commit, dispatch }, token) {
 
-        if (res.error) {
-            return res
-        }
-
-        commit('setTokens', res.data.token);
+        commit('setTokens', token);
         await dispatch('getUser');
 
-        return res
     },
     async setCookieLogin({ commit, dispatch }, token) {
 

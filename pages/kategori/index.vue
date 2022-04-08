@@ -63,7 +63,7 @@ export default {
       categories: [],
       category: {
         page: 1,
-        show: 10,
+        show: 100,
         sortBy: "ASC",
         orderBy: "name",
         status: "active",

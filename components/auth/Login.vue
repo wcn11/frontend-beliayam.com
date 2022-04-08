@@ -89,7 +89,7 @@
                 class="btn border btn-block rounded btn-lg btn-google"
               >
                 <i class="fab text-light fa-google text-danger mr-2"></i>
-                Mendaftar Dengan Google
+                Masuk Dengan Google
               </a>
               <googleSignIn
                 :clientId="`${googleClientId}`"
@@ -187,46 +187,6 @@ export default {
       }
 
       this.$router.push("/");
-
-      // try {
-      //   let response = await this.$auth.loginWith("local", {
-      //     data: {
-      //       email: this.email,
-      //       password: this.password,
-      //     },
-      //   });
-      //   if (response.data.error) {
-      //     this.$toast.error(response.data.message);
-      //   }
-      // } catch (err) {
-      //   console.log(err);
-      //   if (err && err.response && err.response.data.error) {
-      //     this.$toast.error(err.response.data.message);
-      //   } else {
-      //     this.$toast.warning("Server Sibuk");
-      //   }
-      // }
-      // this.$nuxt.$loading.start();
-      // const response = await this.$axios
-      //   .$post(`${this.$config.baseApi}/auth/login`, {
-      //     email: this.email,
-      //     password: this.password,
-      //   })
-      //   .then((results) => {
-      //     if (!results.data.error) {
-      //       this.$store.commit("auth/setCookie", results.data);
-      //     } else {
-      //       this.$toast.warning(results.data.message);
-      //     }
-      //   })
-      //   .catch((err) => {
-      //     if (err && err.response && err.response.data.error) {
-      //       this.$toast.error(err.response.data.message);
-      //     } else {
-      //       this.$toast.warning("Server Sibuk");
-      //     }
-      //   });
-      // this.$nuxt.$loading.finish();
     },
   },
 };

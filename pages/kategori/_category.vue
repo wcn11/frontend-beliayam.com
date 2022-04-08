@@ -53,7 +53,7 @@
                     <div class="list-card-image">
                       <NuxtLink :to="`/${ctg.slug}`" class="text-dark">
                         <div
-                          v-if="ctg.hasPromo"
+                          v-if="ctg.hasPromo && ctg.hasPromo._id"
                           class="member-plan position-absolute"
                         >
                           <span class="badge badge-danger badge-discount">
@@ -63,7 +63,6 @@
                         <div
                           class="member-plan position-absolute"
                           v-else-if="
-                            !ctg.hasPromo &&
                             ctg.hasDiscount &&
                             ctg.hasDiscount.isDiscount
                           "
@@ -135,6 +134,7 @@
             </div>
           </div>
         </div>
+
       </div>
     </section>
   </div>
@@ -160,7 +160,7 @@ export default {
       categories: [],
       category: {
         page: 1,
-        show: 10,
+        show: 100,
         sortBy: "ASC",
         orderBy: "name",
         status: "active",

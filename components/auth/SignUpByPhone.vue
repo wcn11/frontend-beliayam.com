@@ -426,19 +426,30 @@ export default {
       console.log(errorData);
     },
     async submitRegister() {
-      const register = await this.$store.dispatch("auth/registerByPhone", {
-        phone: this.phone,
-        password: this.password,
-        registerBy: this.registerBy,
-        registerAt: this.registerAt,
-      });
-
-      if (register.error) {
-        this.$toast.error(register.message);
-        return;
-      }
-      this.$toast.success(register.message);
-      this.verifyPhoneOtpMethod();
+      const register = await this.$store
+        .dispatch("auth/registerByPhone", {
+          phone: this.phone,
+          password: this.password,
+          registerBy: this.registerBy,
+          registerAt: this.registerAt,
+        })
+        .then((results) => {
+          console.log(results);
+          if (results.error) {
+            this.$toast.warning(results.message);
+            return;
+          }
+          this.$toast.success(results.message);
+        })
+        .catch((err) => {
+          if (
+            err &&
+            err.response &&
+            err.response.data 
+          ) {
+            this.$toast.warning(err.response.data.message);
+          }
+        });
     },
   },
 };

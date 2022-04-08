@@ -285,7 +285,7 @@ export default {
       ordersSetting: {
         status: "",
         page: 1,
-        show: 10,
+        show: 100,
         sortBy: "DESC",
         orderBy: "payment_date",
         fromDate: "",

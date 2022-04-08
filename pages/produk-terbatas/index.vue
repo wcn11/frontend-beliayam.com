@@ -148,11 +148,11 @@ export default {
       products: [],
       fetchProductSetting: {
         page: 1,
-        show: 20,
+        show: 100,
         sortBy: "ASC",
         orderBy: "name",
         min_stock: 0,
-        max_stock: 20,
+        max_stock: 19,
       },
     };
   },

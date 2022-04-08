@@ -29,7 +29,7 @@
                 </span>
               </div>
               <div
-                v-if="product.hasPromo"
+                v-if="product.hasPromo && product.hasPromo._id"
                 class="member-plan position-absolute"
               >
                 <span class="badge badge-danger badge-discount">

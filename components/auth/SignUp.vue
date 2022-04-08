@@ -35,7 +35,7 @@
                 <div class="form-group">
                   <label for="inputName">Nama</label>
                   <input
-                    placeholder="Masukkan Name"
+                    placeholder="Masukkan Nama"
                     type="text"
                     class="form-control"
                     id="inputName"
@@ -43,17 +43,6 @@
                     v-model="name"
                   />
                 </div>
-                <!-- <div class="form-group">
-                  <label for="exampleInputNumber1">Phone Number</label>
-                  <input
-                    placeholder="Enter Phone Number"
-                    type="number"
-                    class="form-control"
-                    id="exampleInputNumber1"
-                    aria-describedby="emailHelp"
-                    v-model="phone"
-                  />
-                </div> -->
                 <div class="form-group">
                   <label for="inputEmail">Email</label>
                   <input
@@ -75,6 +64,15 @@
                     v-model="password"
                   />
                 </div>
+                <div class="text-center mt-3 mb-3">
+                  <span class="text-center"
+                    >Dengan Mendaftar Anda Menyetujui
+                    <a href="/ketentuan-pengguna">Kebijakan Pengguna</a> <br />Serta
+                    <a href="/syarat-ketentuan">Syarat & Ketentuan</a>
+                    Beliayam.com</span
+                  >
+                </div>
+
                 <button
                   type="button"
                   class="btn btn-danger rounded btn-lg btn-block"
@@ -84,7 +82,8 @@
                 </button>
               </form>
               <p class="text-muted text-center small py-2 m-0">atau</p>
-              <NuxtLink to="/register/phone"
+              <NuxtLink
+                to="/register/phone"
                 class="btn btn-dark btn-block rounded btn-lg"
               >
                 <i class="fad fa-mobile-alt"></i> Mendaftar Dengan Telepon
@@ -95,7 +94,7 @@
                 class="btn btn-info btn-block rounded btn-lg btn-facebook"
                 @click="loginByFacebook"
               >
-                <i class="fab fa-facebook mr-2"></i> Masuk Dengan Facebook
+                <i class="fab fa-facebook mr-2"></i> Mendaftar Dengan Facebook
               </a>
 
               <a
@@ -204,20 +203,37 @@ export default {
         this.$toast.warning("Bidang tidak boleh kosong");
         return;
       }
-      const register = await this.$store.dispatch("auth/register", {
-        name: this.name,
-        email: this.email,
-        password: this.password,
-        registerBy: this.registerBy,
-        registerAt: this.registerAt,
-      });
 
-      if (register.error) {
-        this.$toast.error(register.message);
-        return;
-      }
+      const res = await this.$axios
+        .$post(`${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/register`, {
+          name: this.name,
+          email: this.email,
+          password: this.password,
+          registerBy: "email",
+          registerAt: "website",
+        })
+        .then((results) => {
+          if (results.error) {
+            this.$toast.warning(results.message);
+            return;
+          }
 
-      this.$router.push("/");
+          this.$store.dispatch("auth/register", results.data.token);
+          this.$router.push("/");
+          this.$toast.success("Berhasil Mendaftar!");
+        })
+        .catch((err) => {
+          if (
+            err &&
+            err.response &&
+            err.response.data &&
+            err.response.data.error
+          ) {
+            this.$toast.warning(err.response.data.message);
+          } else {
+            this.$toast.warning("Server Sibuk");
+          }
+        });
     },
   },
 };

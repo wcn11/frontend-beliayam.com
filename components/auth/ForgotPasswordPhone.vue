@@ -238,7 +238,7 @@ export default {
           }
           this.$store.dispatch("auth/setCookieLogin", results.data.token);
 
-          this.$toast.success(results.message);
+          this.$toast.success("Berhasil! Anda Dapat Mengubah Kata Sandi Pada Halaman Informasi Akun");
 
           this.verifyPhoneOtp.showModal = false;
 

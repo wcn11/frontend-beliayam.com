@@ -51,6 +51,14 @@
                     v-model="password"
                   />
                 </div>
+                <div class="text-center mt-3 mb-3">
+                  <span class="text-center"
+                    >Dengan Mendaftar Anda Menyetujui
+                    <a href="/ketentuan-pengguna">Kebijakan Pengguna</a> <br/> Serta
+                    <a href="/syarat-ketentuan">Syarat & Ketentuan</a>
+                    Beliayam.com</span
+                  >
+                </div>
                 <button
                   type="submit"
                   class="btn btn-danger btn-lg rounded btn-block"
@@ -61,7 +69,8 @@
               </div>
               <p class="text-muted text-center small m-0 py-3">atau</p>
 
-              <NuxtLink to="/login"
+              <NuxtLink
+                to="/login"
                 href="javascript:void(0)"
                 class="btn btn-dark btn-block rounded btn-lg"
               >
@@ -127,7 +136,6 @@ export default {
       });
     },
     async getSuccessData(user, loginBy = "google") {
-
       const register = this.$axios
         .$post(
           `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/auth/social/login`,
@@ -176,7 +184,7 @@ export default {
       }
 
       this.$router.push("/");
-      }
+    },
   },
 };
 </script>
