@@ -22,6 +22,8 @@
 
               <HomeCategories />
 
+              <HomeProductShortcut />
+
               <HomeProductOnDiscount />
 
               <HomeBestChoice />

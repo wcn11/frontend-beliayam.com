@@ -2,7 +2,7 @@
   <div v-if="promos.length > 0">
     <div class="py-3">
       <div class="d-flex align-items-center mb-3">
-        <h5 class="m-0">Promo untukmu</h5>
+        <!-- <h5 class="m-0">Promo untukmu</h5> -->
         <NuxtLink to="/promo" class="ml-auto text-white text-see-more"
           >Promo Menarik Lainnya
           <i class="text-white fad fa-chevron-circle-right"></i>
@@ -143,11 +143,12 @@ export default {
 }
 
 .text-see-more {
-  background-color: #cf430f;
-  color: white;
-  font-size: 14px;
-  padding: 7px;
-  border-radius: 9px;
+    color: white;
+    font-size: 14px;
+    padding: 7px;
+    border-radius: 9px;
+    background-color: #cf430f;
+    box-shadow: 1px 1px 1px 0px black;
 }
 
 @media (max-width: 480px) {
