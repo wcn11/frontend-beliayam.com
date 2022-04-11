@@ -8,7 +8,7 @@
           v-for="product in productHomepage"
           :key="product._id"
         >
-          <NuxtLink :to="`/kategori/${product.slug}`">
+          <NuxtLink :to="`/${product.slug}`">
             <span
               class="badge badge-pill badge-product-pill m-0 pt-2 text-center"
               >{{ product.name }}</span

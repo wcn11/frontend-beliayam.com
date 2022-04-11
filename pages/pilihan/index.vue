@@ -62,6 +62,14 @@
                   >
                     <div class="list-card-image">
                       <NuxtLink :to="`/${product.slug}`" class="text-dark">
+                        <div
+                          class="member-plan position-absolute"
+                          v-if="product.stock <= 0"
+                        >
+                          <span class="badge badge-danger badge-discount">
+                            Kehabisan Persediaan</span
+                          >
+                        </div>
                         <img
                           :src="`${baseApi}/${product.image}`"
                           class="img-fluid item-img w-100 mb-3"
@@ -106,11 +114,7 @@
 
               <div class="not-found-anything" v-else>
                 <div class="text-center">
-                  <h4>
-                    Produk
-                    <span> Diskon </span>
-                    Belum Tersedia
-                  </h4>
+                  <h4>Produk Sedang Tidak Tersedia</h4>
                 </div>
               </div>
             </div>
@@ -123,13 +127,13 @@
 
 <script>
 export default {
-  name: "ProductOnDiscount",
+  name: "Pilihan",
   // layout: "blog"
 
   async fetch() {
     await this.$axios
       .get(
-        `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/product/_s?page=${this.fetchProductSetting.page}&show=${this.fetchProductSetting.show}&sortBy=${this.fetchProductSetting.sortBy}&orderBy=${this.fetchProductSetting.orderBy}&min_stock=${this.fetchProductSetting.min_stock}`
+        `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/product?page=${this.fetchProductSetting.page}&show=${this.fetchProductSetting.show}&sortBy=${this.fetchProductSetting.sortBy}&orderBy=${this.fetchProductSetting.orderBy}`
       )
       .then((res) => {
         this.products = res.data.data;
@@ -144,7 +148,6 @@ export default {
         show: 100,
         sortBy: "ASC",
         orderBy: "name",
-        min_stock: 20,
       },
     };
   },
@@ -168,7 +171,6 @@ export default {
       .classList.add("animate__fadeOutLeft");
   },
   methods: {},
-  
 };
 </script>
 

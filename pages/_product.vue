@@ -25,10 +25,9 @@
                     Kehabisan Persediaan
                   </span>
                 </div>
-                <div v-if="product.hasPromo">
+                <div v-if="product.hasPromo && product.hasPromo._id">
                   <span
                     class="badge badge-success badge-discount"
-                    v-if="product.hasPromo.promoBy === 'percent'"
                   >
                     #{{ product.hasPromo.tags }}
                   </span>

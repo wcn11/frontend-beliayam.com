@@ -1,6 +1,5 @@
 <!-- Please remove this file from your project -->
 <template>
-
   <div>
     <nav aria-label="breadcrumb" class="breadcrumb mb-0 d-none">
       <div class="container">
@@ -17,7 +16,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <div class="beliayam-home-page">
+            <div class="beliayam-home-page home-container">
               <HomePromo />
 
               <HomeCategories />
@@ -47,7 +46,6 @@
 </template>
 
 <script>
-
 export default {
   name: "Home",
   data() {
@@ -56,11 +54,9 @@ export default {
     };
   },
   created() {
-
     this.$store.dispatch("setGlobalModal", true);
   },
-  mounted(){
-
+  mounted() {
     this.$store.dispatch("setGlobalModal", false);
   },
 
@@ -73,22 +69,17 @@ export default {
       class: "fixed-bottom-padding",
     },
   },
-  // watch: {
-  //   '$route.query': '$fetch'
-  // },
-  //   activated() {
-  //     // Call fetch again if last fetch more than 30 sec ago
-  //     if (this.$fetchState.timestamp <= Date.now() - 30000) {
-  //       this.$fetch()
-  //     console.log('again')
-  //     }
-  //   },
-  //   async fetch() {
-  //     this.mountains = await fetch(
-  //       'https://api.nuxtjs.dev/mountains'
-  //     ).then(res => res.json())
-
-  //     console.log('123')
-  //   }
 };
 </script>
+
+<style scoped>
+.home-container {
+  margin-top: 20%;
+}
+
+@media only screen and (max-device-width: 576px) {
+  .home-container {
+    margin-top: 15%;
+  }
+}
+</style>

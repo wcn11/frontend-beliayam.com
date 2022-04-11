@@ -89,7 +89,7 @@ export default {
       productHomepage: [],
       fetchCategorySetting: {
         page: 1,
-        show: 5,
+        show: 10,
         sortBy: "ASC",
         orderBy: "name",
         status: "active",

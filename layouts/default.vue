@@ -53,16 +53,16 @@ export default {
           toggleSwitch.checked = true;
         }
       }
-      function switchTheme(e) {
-        if (e.target.checked) {
-          document.documentElement.setAttribute("class", "dark");
-          localStorage.setItem("theme", "dark");
-        } else {
-          document.documentElement.setAttribute("class", "light");
-          localStorage.setItem("theme", "light");
-        }
-      }
-      toggleSwitch.addEventListener("change", switchTheme, false);
+      // function switchTheme(e) {
+      //   if (e.target.checked) {
+      //     document.documentElement.setAttribute("class", "dark");
+      //     localStorage.setItem("theme", "dark");
+      //   } else {
+      //     document.documentElement.setAttribute("class", "light");
+      //     localStorage.setItem("theme", "light");
+      //   }
+      // }
+      // toggleSwitch.addEventListener("change", switchTheme, false);
     },
   },
   mounted() {

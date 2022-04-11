@@ -1,10 +1,9 @@
 <template>
   <div v-if="products && products.length > 0">
     <div class="title d-flex align-items-center py-3">
-      <h5 class="m-0">Pilihan terbaik</h5>
-      <NuxtLink to="/best-choices" class="ml-auto text-white text-see-more"
-        >Produk Pilihan Lainnya
-        <i class="text-white fad fa-chevron-circle-right"></i
+      <h5 class="m-0">Produk Beliayam.com</h5>
+      <NuxtLink to="/pilihan" class="ml-auto text-white text-see-more"
+        >Produk Lainnya <i class="text-white fad fa-chevron-circle-right"></i
       ></NuxtLink>
     </div>
 
@@ -29,6 +28,14 @@
             <div class="list-card-image">
               <NuxtLink :to="`/${product.slug}`" class="text-dark">
                 <div class="p-3">
+                  <div
+                    class="member-plan position-absolute"
+                    v-if="product.stock <= 0"
+                  >
+                    <span class="badge badge-danger badge-discount">
+                      Kehabisan Persediaan</span
+                    >
+                  </div>
                   <img
                     :src="`${baseApi}/${product.image}`"
                     class="img-fluid item-img w-100 mb-3 rounded"
@@ -68,7 +75,7 @@ export default {
   async fetch() {
     await this.$axios
       .get(
-        `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/product/_s?page=${this.fetchProductSetting.page}&show=${this.fetchProductSetting.show}&sortBy=${this.fetchProductSetting.sortBy}&orderBy=${this.fetchProductSetting.orderBy}&min_stock=${this.fetchProductSetting.min_stock}`
+        `${process.env.NUXT_ENV_BASE_URL_API_VERSION}/product/_s/homepage?show=${this.fetchProductSetting.show}`
       )
       .then((res) => {
         this.products = res.data.data;
@@ -79,15 +86,14 @@ export default {
       baseApi: process.env.NUXT_ENV_BASE_URL_API,
       products: [],
       fetchProductSetting: {
-        page: 1,
+        // page: 1,
         show: 8,
-        sortBy: "ASC",
-        orderBy: "name",
-        min_stock: 21,
+        // sortBy: "ASC",
+        // orderBy: "name",
+        // min_stock: 10,
       },
     };
   },
-
 };
 </script>
 
