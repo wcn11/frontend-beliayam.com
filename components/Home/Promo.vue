@@ -27,13 +27,6 @@
           /></NuxtLink>
         </div> -->
 
-        <NuxtLink class="col-lg-12" to="/promo"
-          ><img
-            :src="`${baseURL}/img/banner-global-res.jpg`"
-            class="w-100 img-carousel rounded"
-            alt="Promo"
-        /></NuxtLink>
-
         <NuxtLink
           class="col-lg-12"
           v-for="promo in promos"
@@ -41,6 +34,13 @@
           :to="`/promo/${promo.slug}`"
           ><img
             :src="`${baseApi}/${promo.image_promo}`"
+            class="w-100 img-carousel rounded"
+            alt="Promo"
+        /></NuxtLink>
+
+        <NuxtLink class="col-lg-12" to="/promo"
+          ><img
+            :src="`${baseURL}/img/banner-global-res.jpg`"
             class="w-100 img-carousel rounded"
             alt="Promo"
         /></NuxtLink>
@@ -141,6 +141,11 @@ export default {
 .slick-cloned {
   display: none;
 }
+  .img-carousel {
+    height: 275px;
+    max-height: 275px;
+    
+  }
 
 .text-see-more {
     color: white;
