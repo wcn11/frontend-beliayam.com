@@ -1,16 +1,16 @@
 import { fetcher } from '@src/utility/axiosHooks'
-import { GET_PRODUCT, GET_PRODUCT_BYID } from '@src/utility/Url'
+import { GET_PRODUCT, GET_PRODUCT_BYID, SEARCH_PRODUCT } from '@src/utility/Url'
 import { Check, X } from 'react-feather'
 import { Toast, ToastWarning } from '@src/utility/Toast'
 
 // get all data product
-export const getAllDataProduct = (params) => {
-   return async dispatch => {
+export const searchProduct = (params) => {
+   return async (dispatch) => {
       try {
-         const res = await fetcher(GET_PRODUCT, {params})
+         const res = await fetcher(SEARCH_PRODUCT, {params})
          if (res) {            
             dispatch({
-               type: 'GET_ALL_DATA_PRODUCT',
+               type: 'SEARCH_PRODUCT',
                data: res?.data?.data,
                totalPages: res?.data?.total,
                params

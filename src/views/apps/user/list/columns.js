@@ -78,8 +78,6 @@ const phoneVerifikasiObj = {
   inactive: 'light-secondary'
 }
 
-console.log(store.dispatch(getUserById()))
-
 export const columns = [
   {
     name: 'User',
@@ -88,7 +86,7 @@ export const columns = [
     sortable: true,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
-        {renderClient(row)}
+        {/* {renderClient(row)} */}
         <div className='d-flex flex-column'>
           <Link
             to={`/apps/user/view/${row._id}`}
@@ -137,44 +135,44 @@ export const columns = [
     selector: 'status',
     sortable: true,
     cell: row => (
-      <Badge className='text-capitalize light-success' color={statusObj[row.isActive ? 'active' : 'nonactive']} pill>
-        {row.isActive ? 'active' : 'nonactive'}
+      <Badge className='text-capitalize light-success' color={statusObj[row.active ? 'active' : 'nonactive']} pill>
+        {row.active ? 'active' : 'nonactive'}
       </Badge>
     )
   },
-  {
-    name: 'Actions',
-    minWidth: '100px',
-    cell: row => (
-      <UncontrolledDropdown>
-        <DropdownToggle tag='div' className='btn btn-sm'>
-          <MoreVertical size={14} className='cursor-pointer' />
-        </DropdownToggle>
-        <DropdownMenu right>
-          <DropdownItem
-            tag={Link}
-            to={`/apps/user/view/${row._id}`}
-            className='w-100'
-            onClick={() => store.dispatch(getUserById(row._id))}
-          >
-            <FileText size={14} className='mr-50' />
-            <span className='align-middle'>Details</span>
-          </DropdownItem>
-          <DropdownItem
-            tag={Link}
-            to={`/apps/user/edit/${row._id}`}
-            className='w-100'
-            onClick={() => store.dispatch(getUserById(row._id))}
-          >
-            <Archive size={14} className='mr-50' />
-            <span className='align-middle'>Edit</span>
-          </DropdownItem>
-          {/* <DropdownItem className='w-100' onClick={() => store.dispatch(deleteUser(row._id))}>
-            <Trash2 size={14} className='mr-50' />
-            <span className='align-middle'>Delete</span>
-          </DropdownItem> */}
-        </DropdownMenu>
-      </UncontrolledDropdown>
-    )
-  }
+  // {
+  //   name: 'Actions',
+  //   minWidth: '100px',
+  //   cell: row => (
+  //     <UncontrolledDropdown>
+  //       <DropdownToggle tag='div' className='btn btn-sm'>
+  //         <MoreVertical size={14} className='cursor-pointer' />
+  //       </DropdownToggle>
+  //       <DropdownMenu right>
+  //         <DropdownItem
+  //           tag={Link}
+  //           to={`/apps/user/view/${row._id}`}
+  //           className='w-100'
+  //           onClick={() => store.dispatch(getUserById(row._id))}
+  //         >
+  //           <FileText size={14} className='mr-50' />
+  //           <span className='align-middle'>Details</span>
+  //         </DropdownItem>
+  //         <DropdownItem
+  //           tag={Link}
+  //           to={`/apps/user/edit/${row._id}`}
+  //           className='w-100'
+  //           onClick={() => store.dispatch(getUserById(row._id))}
+  //         >
+  //           <Archive size={14} className='mr-50' />
+  //           <span className='align-middle'>Edit</span>
+  //         </DropdownItem>
+  //         {/* <DropdownItem className='w-100' onClick={() => store.dispatch(deleteUser(row._id))}>
+  //           <Trash2 size={14} className='mr-50' />
+  //           <span className='align-middle'>Delete</span>
+  //         </DropdownItem> */}
+  //       </DropdownMenu>
+  //     </UncontrolledDropdown>
+  //   )
+  // }
 ]

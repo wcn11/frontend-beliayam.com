@@ -13,6 +13,7 @@ export const GET_CATEGORY_BYID = (id) => `${process.env.REACT_APP_BASE_URL_API}/
 export const GET_CATEGORY_SLUG = (slug) => `${process.env.REACT_APP_BASE_URL_API}/api/v1/admin/category/${slug}`
 
 // product url
+export const SEARCH_PRODUCT = `${process.env.REACT_APP_BASE_URL_API}/api/v1/admin/product/search`
 export const GET_PRODUCT = `${process.env.REACT_APP_BASE_URL_API}/api/v1/admin/product`
 export const GET_PRODUCT_BYID = (id) => `${process.env.REACT_APP_BASE_URL_API}/api/v1/admin/product/${id}`
 export const GET_PRODUCT_SLUG = (slug) => `${process.env.REACT_APP_BASE_URL_API}/api/v1/admin/product/${slug}`

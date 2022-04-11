@@ -81,27 +81,23 @@ export const deleteUser = id => {
   }
 }
 
-export const updateUserActive = (id, active) => {
+export const updateUserActive = (id, data) => {
   return async (dispatch, getState) => {
     try {
       const req = {
         method: 'PUT',
-        data: {
-          active,
-          notify
-        }
+        data
       }
-      const res = await fetcher(GET_USER_BYACTIVE(id, active), req)
+      const res = await fetcher(GET_USER_BYACTIVE(id), req)
       if (res) {
           dispatch({
           type: 'GET_USER_BYACTIVE',
           selectedUser: res.data?.data,
         })
-        dispatch(getUser(getState().users?.params))
+        // dispatch(getUserById(getState().users?.params))
         Toast({ icon: <Check size={12} />, title: 'Update Berhasil', content: res?.data?.message })
       }
     } catch (error) {
-      console.log(error)
       ToastWarning({
         icon: <X size={12} />,
         title: 'Ada error nih',

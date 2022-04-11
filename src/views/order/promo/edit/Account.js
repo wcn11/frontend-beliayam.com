@@ -136,7 +136,7 @@ const PromoAccountTab = ({selectedPromo}) => {
                image: image ? image : promoData?.image_promo,
                promoStart: values.promoStart,
                promoEnd: values.promoEnd,
-               products: updateProduct,
+               products: updateProduct ? updateProduct : product,
                promoValue: values.promoValue,
                promoBy: values.promoBy,
                isActive: values.isActive,

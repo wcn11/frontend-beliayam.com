@@ -1,11 +1,14 @@
 // ** Third Party Components
-import { Card, CardBody, CardText, Row, Col, Table } from 'reactstrap'
+import { Card, CardBody, CardText, Row, Col, Table, Button } from 'reactstrap'
 
 // ** Utils
 import { formatDateTime, numberFormat, toCamelCase } from "@utils"
 
 // ** Config
 import themeConfig from '@configs/themeConfig'
+import logoInvoice from '@src/assets/images/logo/logo-invoice.png'
+import { useReactToPrint } from 'react-to-print'
+import { useRef } from 'react'
 
 const renderOrderItems = (items) => {
   const columns = items.map((item, i) => {
@@ -38,15 +41,23 @@ const renderOrderItems = (items) => {
 }
 
 const PreviewCard = ({ data }) => {
+  const Style = '@page { size: 148mm 210mm !important; } @media print { @page { size: A5 potrait !important; margin: 0mm !important; } } }'
+  const componentRef = useRef(null)
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    documentTitle: `invoice ${data.order_id}`,
+    pageStyle: Style
+  });
+
   return data !== null ? (
+    <div ref={componentRef}>
     <Card className='invoice-preview-card'>
       <CardBody className='invoice-padding pb-0'>
         {/* Header */}
         <div className='d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0'>
           <div>
             <div className='logo-wrapper'>
-              <img src={themeConfig.app.appLogoImage} alt='logo' height={80} /> 
-              <h6 className='text-primary order-logo'>Beliayam.com</h6>
+              <img src={logoInvoice} alt='logo' height={45} /> 
             </div>
 
             <p className='card-text mb-25'>Office 8, Level 18-A</p>
@@ -188,14 +199,16 @@ const PreviewCard = ({ data }) => {
             <span className='font-weight-bold'>Note: </span>
             <span>
               Terima kasih telah memberikan kepercayaan anda ke kami, dengan membeli produk kami secara tidak
-              langsung anda membantu para peternak lokal. selamat berbelanja :)
+              langsung anda membantu para peternak lokal. selamat berbelanja
             </span>
           </Col>
         </Row>
       </CardBody>
       {/* /Invoice Note */}
     </Card>
-  ) : null
+    <Button onClick={handlePrint}>Print</Button>
+    </div>
+  ) : (null) 
 }
 
 export default PreviewCard

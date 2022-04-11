@@ -9,7 +9,7 @@ const initialState = {
 
 const products = (state = initialState, action) => {
     switch (action.type) {
-        case 'GET_ALL_DATA_PRODUCT':
+        case 'SEARCH_PRODUCT':
             return {
                 ...state,
                 allData: action.data,

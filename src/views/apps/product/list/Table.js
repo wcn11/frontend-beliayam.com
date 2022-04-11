@@ -5,7 +5,7 @@ import Sidebar from './Sidebar'
 
 import { columns } from './columns'
 
-import { getAllDataProduct, getProduct } from '../store/action'
+import { searchProduct, getProduct } from '../store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Select from 'react-select'
@@ -93,7 +93,6 @@ const ProductList = () => {
                 page: currentPage,
                 show: rowsPerPage,
                 sortBy: sortPerPage,
-                // status: currentStatus.value,
                 orderBy
             })
         )
@@ -109,18 +108,12 @@ const ProductList = () => {
         getTotalProduct()
     }, [dispatch])
 
-    const statusOptions = [
-        { value: 'active', label: 'Active', number: 1 },
-        { value: 'nonactive', label: 'Nonactive', number: 2 }
-    ]
-
     const handlePagination = page => {
         dispatch(
             getProduct({
                 page: page.selected + 1,
                 show: rowsPerPage,
                 sortBy: sortPerPage,
-                // status: currentStatus.value,
                 orderBy
             })
         )
@@ -134,7 +127,6 @@ const ProductList = () => {
                 page: currentPage,
                 show: value,
                 sortBy: sortPerPage,
-                // status: currentStatus.value,
                 orderBy
             })
         )
@@ -144,12 +136,12 @@ const ProductList = () => {
     const handleFilter = val => {
         setSearchTerm(val)
         dispatch(
-            getProduct({
+            searchProduct({
+                keywords: val,
                 page: currentPage,
-                perPage: rowsPerPage,
                 show: rowsPerPage,
-                sortBy: 'ASC',
-                orderBy: val
+                sortBy: sortPerPage,
+                orderBy
             })
         )
     }
@@ -196,7 +188,7 @@ const ProductList = () => {
             // role: currentRole.value,
             // currentPlan: currentPlan.value,
             status: currentStatus.value,
-            q: searchTerm
+            keywords: searchTerm
         }
 
         const isFiltered = Object.keys(filters).some(function (k) {
@@ -311,7 +303,7 @@ const ProductList = () => {
                             handlePerPage={handlePerPage}
                             rowsPerPage={rowsPerPage}
                             // searchTerm={searchHandler}
-                            handleFilter={searchHandler}
+                            handleFilter={handleFilter}
                         />
                     }
                 />

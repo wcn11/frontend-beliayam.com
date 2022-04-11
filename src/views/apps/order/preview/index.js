@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
 // ** Third Party Components
-import { Row, Col, Alert } from 'reactstrap'
+import { Row, Col, Alert, Button } from 'reactstrap'
 
 // ** Order Preview Components
 import PreviewCard from './PreviewCard'
@@ -16,6 +16,7 @@ import StatusDelivery from "../shared-sidebar/sidebarDelivery"
 // ** Store & Actions
 import { getOrderById } from "../store/action"
 import { useSelector, useDispatch } from "react-redux"
+
 
 // ** Styles
 import '@styles/base/pages/app-order.scss'
@@ -52,7 +53,7 @@ const OrderPreview = () => {
       <Row className='order-preview'>
 
         <Col xl={9} md={8} sm={12}>
-          <PreviewCard data={store.selectedOrder} />
+          <PreviewCard data={store.selectedOrder}/>
         </Col>
         {store.selectedOrder.order_status.status !== 'PAYMENT_CANCELLED' && store.selectedOrder.order_status.status !== 'PAYMENT_EXPIRED' ? (<Col xl={3} md={4} sm={12}>
           <PreviewActions id={id} order={store.selectedOrder} setSendSidebarOpen={setSendSidebarOpen} setAddPaymentOpen={setAddPaymentOpen} setCompletePaymentOpen={setCompletePaymentOpen} setCancelPaymentOpen={setCancelPaymentOpen} />
@@ -61,6 +62,7 @@ const OrderPreview = () => {
       </Row>
       <SendOrderSidebar toggleSidebar={toggleSendSidebar} open={sendSidebarOpen} />
       <AddPaymentSidebar toggleSidebar={toggleAddSidebar} open={addPaymentOpen} />
+
       {store.selectedOrder.order_status.status !== "PAYMENT_SUCCESS" && store.selectedOrder.order_status.status !== "PAYMENT_CANCELLED"  ? <CompletePaymentSidebar toggleSidebar={toggleCompleteSidebar} open={completePaymentOpen} selectedOrder={store.selectedOrder} /> : "" }      
       {store.selectedOrder.order_status.status !== "PAYMENT_SUCCESS" && store.selectedOrder.order_status.status !== "PAYMENT_CANCELLED" ? <CancelPaymentSidebar toggleSidebar={toggleCancelSidebar} open={cancelPaymentOpen} selectedOrder={store.selectedOrder} /> : "" }      
     </div>

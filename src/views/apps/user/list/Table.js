@@ -160,6 +160,7 @@ const UsersList = () => {
     setSearchTerm(val)
     dispatch(
       getData({
+        page: currentPage,
         perPage: rowsPerPage,
         // role: currentRole.value,
         // currentPlan: currentPlan.value,
