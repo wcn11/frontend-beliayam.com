@@ -200,4 +200,17 @@ export default {
   max-height: 180px;
   height: 180px;
 }
+@media (max-width: 768px) {
+.item-img {
+  max-height: 180px;
+  height: 180px;
+}
+}
+
+@media (max-width: 390px) {
+.item-img {
+  max-height: 140px;
+  height: 140px;
+}
+}
 </style>

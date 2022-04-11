@@ -260,15 +260,36 @@ export default {
   }
 }
 
-@media only screen and (min-width: 481px) {
+@media only screen and (min-width: 690px) {
+  .slider-image {
+    height: 250px;
+  }
+}
+
+
+@media only screen and (max-width: 690px) {
+  .item-img {
+    max-height: 210px;
+    height: 210px;
+  }
+}
+
+@media only screen and (min-width: 480px) {
   .slider-image {
     height: 175px;
   }
 }
+@media only screen and (max-width: 480px) {
+  .item-img {
+    max-height: 150px;
+    height: 150px;
+  }
+}
 
-@media only screen and (min-width: 690px) {
-  .slider-image {
-    height: 250px;
+@media only screen and (max-width: 390px) {
+  .item-img {
+    max-height: 140px;
+    height: 140px;
   }
 }
 </style>
