@@ -106,7 +106,7 @@ export default {
   border-radius: 9px;
 }
 .item-img {
-  max-height: 150px;
+  max-height: 155px;
 }
 .text-label {
   white-space: nowrap;
