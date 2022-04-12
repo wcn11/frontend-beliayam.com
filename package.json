@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "craco start",
-    "build": "craco build sh ./build.sh",
+    "build": "craco build --max-old-space-size=1000 sh ./build.sh",
     "production": "sh ./build.sh",
     "test": "craco test",
     "eject": "react-scripts eject",
