@@ -96,8 +96,8 @@ const CategoryAccountTab = ({ selectedCategory }) => {
                slug: values.slug,
                name: values.name,
                position: values.position,
-               image,
-               icon,
+               image : image ? image : categoryData.image,
+               icon: icon ? icon : categoryData.icon,
                status: values.status,
                additional: contentAdditional,
                description: content

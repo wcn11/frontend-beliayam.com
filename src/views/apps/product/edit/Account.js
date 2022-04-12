@@ -8,7 +8,8 @@ import { isObjEmpty } from '@utils'
 import Avatar from '@components/avatar'
 
 import { updateProduct, getProductById } from '../store/action'
-import { Media, Row, Col, Button, Form, Input, Label, FormGroup, FormText } from 'reactstrap'
+import { getCategory } from '../../category/store/action'
+import { Media, Row, Col, Button, Form, Input, Label, FormGroup, FormText, CustomInput } from 'reactstrap'
 import { Upload } from '@src/utility/Upload'
 import moment from 'moment'
 
@@ -25,7 +26,8 @@ const ProductAccountTab = ({ selectedProduct }) => {
         { id } = useParams()
 
     const store = useSelector(state => state.categories)
-
+    console.log(store)
+    
     const { register, errors, handleSubmit } = useForm()
     // ** States
 
@@ -47,6 +49,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
     // ** Update user image on mount or change
     useEffect(() => {
         dispatch(getProductById(id))
+        dispatch(getCategory())
         return () => dispatch(getProductById(id))
     }, [dispatch, id])
 
@@ -82,8 +85,10 @@ const ProductAccountTab = ({ selectedProduct }) => {
         setImagePreview(URL.createObjectURL(file))
     }
 
+    console.log(productData?.category[0].name)
 
     const onSubmit = (values) => {
+        console.log(values)
         if (isObjEmpty(errors)) {
             dispatch(
                 updateProduct(id, {
@@ -106,7 +111,6 @@ const ProductAccountTab = ({ selectedProduct }) => {
                     discountBy: discountType
                 })
             )
-            // history.push('/apps/product/list')
         }
     }
 
@@ -256,10 +260,12 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                         type='select'
                                         name='category_id'
                                         id='category_id'
-                                        defaultValue={productData.category[0]?.name}
+                                        defaultValue={productData?.category[0]?._id}
                                         innerRef={register({ required: true })}
                                     >
-                                        <option value={productData.category[0]?._id}>{productData.category[0]?.name}</option>
+                                    {store?.data.map((values) => {
+                                        return <option key={values._id} value={values?._id}>{values?.name}</option> 
+                                    })}
                                     </Input>
                                 </FormGroup>
                             </Col>
@@ -361,7 +367,7 @@ const ProductAccountTab = ({ selectedProduct }) => {
                             </Col>
                             <Col md='6' sm='12'>
                                 <FormGroup>
-                                    <Label for='isDiscount'>Dikasih Discount gak nih ?</Label>
+                                    <Label for='isDiscount'>Discount ?</Label>
                                     <Input
                                         type='select'
                                         name='isDiscount'
@@ -370,8 +376,8 @@ const ProductAccountTab = ({ selectedProduct }) => {
                                         innerRef={register({ required: true })}
                                         onChange={e => setDisc(JSON.parse(e.target.value))}
                                     >
-                                        <option value={true}>Kasih</option>
-                                        <option value={false}>Nggak ada diskon2an</option>
+                                        <option value={true}>Active</option>
+                                        <option value={false}>Inactive</option>
                                     </Input>
                                 </FormGroup>
                             </Col>

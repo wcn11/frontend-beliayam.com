@@ -170,21 +170,21 @@ export const updateProduct = (id, product) => {
 
          const formData = new FormData()
 
-         if (typeof image === "string") {
-            const req = {
-               method: 'GET',
-               responseType: 'blob'
-            }
-            const res = await fetcher(`${process.env.REACT_APP_BASE_URL_API}/image}`, req)
-            // image = res
-            const reader = new FileReader()
-            reader.readAsDataURL(res.data)
-            reader.onload = function (e) {
-               formData.append('image_product', e.target.result)
-            }
-         } else {
+         // if (typeof image === "string") {
+         //    const req = {
+         //       method: 'GET',
+         //       responseType: 'blob'
+         //    }
+         //    const res = await fetcher(`${process.env.REACT_APP_BASE_URL_API}/image}`, req)
+         //    // image = res
+         //    const reader = new FileReader()
+         //    reader.readAsDataURL(res.data)
+         //    reader.onload = function (e) {
+         //       formData.append('image_product', e.target.result)
+         //    }
+         // } else {
             formData.append('image_product', image)
-         }
+         // }
 
          formData.append('category_id', category_id)
          formData.set('sku', sku)

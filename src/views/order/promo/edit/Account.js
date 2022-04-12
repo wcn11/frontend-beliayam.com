@@ -67,6 +67,7 @@ const PromoAccountTab = ({selectedPromo}) => {
    useEffect(() => {
       setContent(draftToHtml(convertToRaw(editorState.getCurrentContent())))
       setContentTerms(draftToHtml(convertToRaw(termsEditor.getCurrentContent())))
+      console.log(product)
    }, [editorState, termsEditor])
 
    const dispatch = useDispatch(),
@@ -125,8 +126,8 @@ const PromoAccountTab = ({selectedPromo}) => {
    }, [id])
 
    const onSubmit = (values) => {
+      const updateProduct = storeData?.data.map(item => { return { value: item._id } })
       if (isObjEmpty(errors)) {
-         const updateProduct = storeData?.data.map(item => { return { value: item._id } })
          console.log(updateProduct)
          dispatch(
             updatePromo(id, {
@@ -136,7 +137,7 @@ const PromoAccountTab = ({selectedPromo}) => {
                image: image ? image : promoData?.image_promo,
                promoStart: values.promoStart,
                promoEnd: values.promoEnd,
-               products: updateProduct ? updateProduct : product,
+               products: product ? product : updateProduct,
                promoValue: values.promoValue,
                promoBy: values.promoBy,
                isActive: values.isActive,

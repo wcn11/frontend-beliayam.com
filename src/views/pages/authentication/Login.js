@@ -12,10 +12,9 @@ import { AbilityContext } from '@src/utility/context/Can'
 import { Link, useHistory } from 'react-router-dom'
 import InputPasswordToggle from '@components/input-password-toggle'
 import { getHomeRouteForLoggedInUser, isObjEmpty } from '@utils'
-import logo from '@src/assets/images/logo/Logo.png'
+import logo from '@src/assets/images/logo/logo-invoice.png'
 import { Coffee, X } from 'react-feather'
 import {
-  Alert,
   Row,
   Col,
   CardTitle,
@@ -108,8 +107,7 @@ const Login = props => {
     <div className='auth-wrapper auth-v2'>
       <Row className='auth-inner m-0'>
         <Link className='brand-logo' to='/' onClick={e => e.preventDefault()}>
-          <img src={logo} height='40' alt="" />
-          <h1 className='brand-text text-primary ml-1'>Beliayam.com</h1>
+          <img src={logo} height='50' alt="" />
         </Link>
         <Col className='d-none d-lg-flex align-items-center p-5' lg='8' sm='12'>
           <div className='w-100 d-lg-flex align-items-center justify-content-center px-5'>
@@ -128,6 +126,7 @@ const Login = props => {
                   Email
                 </Label>
                 <Input
+                  autoComplete='off'
                   autoFocus
                   type='email'
                   value={email}

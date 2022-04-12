@@ -165,21 +165,21 @@ export const updatePromo = (id, promo) => {
 
             const formData = new FormData()
 
-            if (typeof image === 'string') {
-                const req = {
-                    method: 'GET',
-                    responseType: 'blob'
-                }
-                const res = await fetcher(`${process.env.REACT_APP_BASE_URL_API}/${image}`, req)
+            // if (typeof image === 'string') {
+            //     const req = {
+            //         method: 'GET',
+            //         responseType: 'blob'
+            //     }
+            //     const res = await fetcher(`${process.env.REACT_APP_BASE_URL_API}/${image}`, req)
 
-                const reader = new FileReader()
-                reader.readAsDataURL(res.data)
-                reader.onload = function (e) {
-                    formData.append('image_promo', e.target.result)
-                }
-            } else {
+            //     const reader = new FileReader()
+            //     reader.readAsDataURL(res.data)
+            //     reader.onload = function (e) {
+            //         formData.append('image_promo', e.target.result)
+            //     }
+            // } else {
                 formData.append('image_promo', image)
-            }
+            // }
 
             formData.set('name', name) 
             formData.set('slug', slug) 

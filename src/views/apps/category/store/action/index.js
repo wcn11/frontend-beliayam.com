@@ -127,36 +127,36 @@ export const updateCategory = (id, category) => {
 
             const formData = new FormData()
 
-            if (typeof image === "string") {
-                const req = {
-                    method: 'GET',
-                    responseType: 'blob'
-                }
-                const res = await fetcher(`${process.env.REACT_APP_BASE_URL_API}/${image}`, req)
-                // image = res
-                const reader = new FileReader()
-                reader.readAsDataURL(res.data)
-                reader.onload = function (e) {
-                    formData.append('image_category', e.target.result)
-                }
-            } else {
+            // if (typeof image === "string") {
+            //     const req = {
+            //         method: 'GET',
+            //         responseType: 'blob'
+            //     }
+            //     const res = await fetcher(`${process.env.REACT_APP_BASE_URL_API}/${image}`, req)
+            //     // image = res
+            //     const reader = new FileReader()
+            //     reader.readAsDataURL(res.data)
+            //     reader.onload = function (e) {
+            //         formData.append('image_category', e.target.result)
+            //     }
+            // } else {
                 formData.append("image_category", image)
-            }
+            // }
 
-            if (typeof icon === "string") {
-                const req = {
-                    method: 'GET',
-                    responseType: 'blob'
-                }
-                const res = await fetcher(`${process.env.REACT_APP_BASE_URL_API}/${icon}`, req)
-                const reader = new FileReader()
-                reader.readAsDataURL(res.data)
-                reader.onload = function (e) {
-                    formData.append('icon', e.target.result)
-                }
-            } else {
+            // if (typeof icon === "string") {
+            //     const req = {
+            //         method: 'GET',
+            //         responseType: 'blob'
+            //     }
+            //     const res = await fetcher(`${process.env.REACT_APP_BASE_URL_API}/${icon}`, req)
+            //     const reader = new FileReader()
+            //     reader.readAsDataURL(res.data)
+            //     reader.onload = function (e) {
+            //         formData.append('icon', e.target.result)
+            //     }
+            // } else {
                 formData.append('icon', icon)
-            }
+            // }
 
             formData.set('sku', sku)
             formData.set('slug', slug)
