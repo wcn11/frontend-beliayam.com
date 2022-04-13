@@ -1,5 +1,5 @@
 <template>
-  <div v-if="promos.length > 0">
+  <div>
     <div class="py-3">
       <div class="d-flex align-items-center mb-3">
         <!-- <h5 class="m-0">Promo untukmu</h5> -->
@@ -18,15 +18,6 @@
         class="pb-0 mb-0"
         v-if="promos.length > 0"
       >
-        <!-- <div class="p-1 v-" v-for="promo in promos" :key="promo._id">
-          <NuxtLink class="col-md-12" :to="`/promo/${promo.slug}`"
-            ><img
-              :src="`${baseApi}/${promo.image_promo}`"
-              class="img-fluid mx-auto rounded"
-              alt="Responsive image"
-          /></NuxtLink>
-        </div> -->
-
         <NuxtLink
           class="col-lg-12"
           v-for="promo in promos"
@@ -37,21 +28,16 @@
             class="w-100 img-carousel rounded"
             alt="Promo"
         /></NuxtLink>
-
+      </VueSlickCarousel>
+      <!-- </div> -->
+      <div class="pb-0 mb-0" v-else>
         <NuxtLink class="col-lg-12" to="/promo"
           ><img
             :src="`${baseURL}/img/banner-global-res.jpg`"
             class="w-100 img-carousel rounded"
             alt="Promo"
         /></NuxtLink>
-        <!-- <NuxtLink class="col-lg-12" to="`/promo/${promo.slug}`"
-          ><img
-            :src="`${this.$config.baseURL}/img/contoh-banner-promo-2.jpeg`"
-            class="img-carousel w-100 rounded"
-            alt="Responsive image"
-        /></NuxtLink> -->
-      </VueSlickCarousel>
-      <!-- </div> -->
+      </div>
     </div>
   </div>
 </template>
@@ -141,19 +127,18 @@ export default {
 .slick-cloned {
   display: none;
 }
-  .img-carousel {
-    height: 275px;
-    max-height: 275px;
-    
-  }
+.img-carousel {
+  height: 275px;
+  max-height: 275px;
+}
 
 .text-see-more {
-    color: white;
-    font-size: 14px;
-    padding: 7px;
-    border-radius: 9px;
-    background-color: #cf430f;
-    box-shadow: 1px 1px 1px 0px black;
+  color: white;
+  font-size: 14px;
+  padding: 7px;
+  border-radius: 9px;
+  background-color: #cf430f;
+  box-shadow: 1px 1px 1px 0px black;
 }
 
 @media (max-width: 480px) {
