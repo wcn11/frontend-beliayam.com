@@ -9,7 +9,10 @@
         <div>
           <div class="card">
             <div class="card-header">
-              <h2 class="title-invoice float-left">Faktur</h2>
+              <div class="float-left">
+                <h2 class="title-invoice">Faktur</h2>
+                <span>{{ order.order_status.payment_date | formatDate }}</span>
+              </div>
 
               <div class="float-right">
                 <h3 class="text-order-id">Pesanan #{{ order.order_id }}</h3>
@@ -69,16 +72,43 @@
                     </div>
                     <div v-else>{{ order.payment.pg_name }}</div>
                     <div v-if="order.payment.pg_type !== 'cash'" class="mt-2">
-                      <h4>{{ order.response.trx_id }}</h4>
+                      <h4 v-if="order.payment.pg_type !== 'qris'">
+                        {{ order.response.trx_id }}
+                      </h4>
+                      <div v-else>
+                        <img
+                          :src="order.payment.payment_qrcode"
+                          class="img-thumbnail img-responsive img-qris"
+                          v-if="order.payment.payment_qrcode"
+                        />
+                        <br />
+                        <small class="text-danger"
+                          >Pastikan Aplikasi Telah Terinstall</small
+                        >
+                        <br />
+                        <small class="text-danger"
+                          >Buka Aplikasi, Lalu Scan QRIS</small
+                        >
+                      </div>
                     </div>
+
                     <div v-if="order.payment.payment_status_code == 2">
                       <span class="badge badge-pill badge-success date-payment">
                         {{ order.order_status.payment_date | formatDate }}
                       </span>
                     </div>
-                    <div class="text-danger" v-else>
-                      <span class="badge badge-pill badge-danger date-payment">
+                    <div class="text-danger mt-2" v-else>
+                      <span
+                        class="badge badge-pill badge-danger date-payment"
+                        v-if="order.payment.pg_type !== 'cash'"
+                      >
                         {{ order.bill.bill_date | formatDate }}</span
+                      >
+                      <span
+                        class="badge badge-pill badge-success date-payment"
+                        v-else
+                      >
+                        Bayar Di Tempat</span
                       >
                     </div>
                   </div>
@@ -175,124 +205,6 @@
                     </tbody>
                   </table>
                 </div>
-
-                <!-- <div class="table-responsive">
-                <table class="table table-striped w-100 d-md-table">
-                  <thead>
-                    <tr class="">
-                      <th class="text-center">#</th>
-                      <th>Item</th>
-                      <th class="text-center">Harga</th>
-                      <th class="text-left">Kuantitas</th>
-                      <th class="text-center">Tota we we we we l</th>
-                    </tr>
-                  </thead>
-                  <tbody v-if="order.bill">
-                    <tr
-                      v-for="(item, index) in order.bill.bill_items"
-                      :key="item._id"
-                    >
-                      <td class="text-center">{{ index + 1 }}</td>
-                      <td class="text-left">{{ item.product.name }}</td>
-                      <td class="text-center">
-                        {{ item.product.price | formatMoney }}
-                      </td>
-                      <td class="text-left">{{ item.details.quantity }}</td>
-                      <td class="text-center">
-                        {{
-                          (item.product.price * item.details.quantity)
-                            | formatMoney
-                        }}
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <td colspan="3"></td>
-                      <td class="left">
-                        <strong>Subtotal</strong>
-                      </td>
-                      <td class="text-center">
-                        {{ order.sub_total_product | formatMoney }}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colspan="3"></td>
-                      <td class="text-left">
-                        <strong>Biaya</strong>
-                      </td>
-                      <td class="text-center">
-                        {{ order.sub_total_charges | formatMoney }}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colspan="3"></td>
-                      <td class="text-left">
-                        <strong>Diskon</strong>
-                      </td>
-                      <td class="text-center">
-                        -{{ order.sub_total_voucher | formatMoney }}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colspan="3"></td>
-                      <td class="text-left">
-                        <strong>TOTAL</strong>
-                      </td>
-                      <td class="text-center">
-                        <strong>{{ order.grand_total | formatMoney }}</strong>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div> -->
-                <!-- <div class="row">
-                <div class="col-lg-4 col-sm-5">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam.
-                </div>
-                <div class="col-lg-4 col-sm-5 ml-auto">
-                  <table class="table table-clear">
-                    <tbody>
-                      <tr>
-                        <td class="left">
-                          <strong>Subtotal</strong>
-                        </td>
-                        <td class="right">
-                          {{ order.sub_total_product | formatMoney }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="left">
-                          <strong>Biaya</strong>
-                        </td>
-                        <td class="right">
-                          {{ order.sub_total_charges | formatMoney }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="left">
-                          <strong>Diskon</strong>
-                        </td>
-                        <td class="right">
-                          -{{ order.sub_total_voucher | formatMoney }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="left">
-                          <strong>TOTAL</strong>
-                        </td>
-                        <td class="right">
-                          <strong>{{ order.grand_total | formatMoney }}</strong>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <a class="btn btn-success" href="#" data-abc="true">
-                    <i class="fa fa-usd"></i> Proceed to Payment</a
-                  >
-                </div>
-              </div> -->
               </div>
             </div>
           </div>
@@ -315,11 +227,12 @@
               <i class="fas fa-ban"></i> Batalkan Pesanan
             </button>
             <a
-              :href="order.response.redirect_url"
+              :href="getPaymentMethodURL(order)"
               target="_blank"
               class="btn btn-warning m-1"
               v-if="
-                order.payment.type !== 'cash' &&
+                order.payment.pg_type !== 'cash' &&
+                order.payment.pg_type !== 'qris' &&
                 order.payment.payment_status_code < 2
               "
             >
@@ -464,6 +377,12 @@ export default {
 
       this.$store.dispatch("setGlobalModal", false);
     },
+    getPaymentMethodURL(paymentMethod) {
+      if (paymentMethod.payment.pg_code == "713") {
+        return paymentMethod.response.deeplink;
+      }
+      return paymentMethod.response.redirect_url;
+    },
     openModalCancelOrder(type = "show") {
       $("#modalConfirmCancelOrder").appendTo("body").modal(type);
     },
@@ -533,5 +452,56 @@ export default {
   color: white;
   background: unset;
   background-color: #4fa846;
+}
+
+.img-qris {
+  width: 50%;
+}
+
+@media only screen and (max-device-width: 1200px) {
+  .img-qris {
+    width: 45%;
+  }
+}
+
+@media only screen and (max-device-width: 992px) {
+  .img-qris {
+    width: 55%;
+  }
+}
+@media only screen and (max-device-width: 767px) {
+  .img-qris {
+    width: 60%;
+  }
+}
+@media only screen and (max-device-width: 720px) {
+  .img-qris {
+    width: 60%;
+  }
+}
+@media only screen and (max-device-width: 576px) {
+  .img-qris {
+    width: 80%;
+  }
+}
+@media only screen and (max-device-width: 480px) {
+  .img-qris {
+    width: 50%;
+  }
+}
+@media only screen and (max-device-width: 400px) {
+  .img-qris {
+    width: 65%;
+  }
+}
+@media only screen and (max-device-width: 380px) {
+  .img-qris {
+    width: 70%;
+  }
+}
+@media only screen and (max-device-width: 360px) {
+  .img-qris {
+    width: 80%;
+  }
 }
 </style>

@@ -9,12 +9,12 @@
       <div class="col-md-6">
         <div class="p-5 text-center">
           <i class="fad fa-check-circle display-1 text-success"></i>
-          <h1 class="text-dark font-weight-bold">
-            Pesanan Berhasil Dilakukan
-          </h1>
+          <h1 class="text-dark font-weight-bold">Pesanan Berhasil Dilakukan</h1>
           <p class="text-dark">
             Cek status pemesanan anda di
-            <a href="/akun/pesanan-saya" class="font-weight-bold text-decoration-none text-dark"
+            <a
+              href="/akun/pesanan-saya"
+              class="font-weight-bold text-decoration-none text-dark"
               >Pesanan Saya</a
             >
             untuk informasi lebih lanjut.
@@ -25,107 +25,66 @@
           class="bg-white rounded p-3 m-5 text-center"
           v-if="order && order.bill"
         >
-          <div v-if="order.payment.pg_type !== 'cash'"></div>
-          <h6 class="font-weight-bold mb-2">Batas Akhir Pembayaran</h6>
-          <h5 class="bill-expired">
-            {{ order.bill.bill_expired | formatDate }}
-          </h5>
-          <div>
+          <div v-if="order.payment.pg_type !== 'cash'">
+            <h6 class="font-weight-bold mb-2">Batas Akhir Pembayaran</h6>
+            <h5 class="bill-expired">
+              {{ order.bill.bill_expired | formatDate }}
+            </h5>
             <div>
-              <div
-                v-if="order.payment.pg_type !== 'cash'"
-                class="p-2 va-container"
-              >
-                <span>Kode Virtual {{ order.payment.pg_name }} Anda</span>
-                <h4 class="mt-4 mb-4 font-weight-bolder">
-                  <img
-                    class="img-thumbnail img-responsive"
-                    :src="order.payment.pg_icon"
-                    v-if="order.payment.pg_icon"
-                  />
-                  {{ order.response.trx_id }}
-                </h4>
-                <a
-                  :href="order.response.redirect_url"
-                  class="btn btn-outline-secondary "
-                  target="_blank"
+              <div>
+                <div
+                  v-if="order.payment.pg_type !== 'cash'"
+                  class="p-2 va-container"
                 >
-                  <i class="fad fa-file-invoice"></i> 
+                  <div v-if="order.payment.pg_type === 'va'">
+                    <span>Kode Virtual {{ order.payment.pg_name }} Anda</span>
+                    <h4 class="mt-4 mb-4 font-weight-bolder">
+                      <img
+                        class="img-thumbnail img-responsive"
+                        :src="order.payment.pg_icon"
+                        v-if="order.payment.pg_icon"
+                      />
+                      <span>{{ order.response.trx_id }}</span>
+                    </h4>
+                  </div>
+                  <a
+                    :href="getPaymentMethodURL(order)"
+                    class="btn btn-outline-secondary"
+                    target="_blank"
+                    v-if="order.payment.pg_type !== 'qris'"
+                  >
+                    <i class="fad fa-file-invoice"></i>
 
-                  Bayar Dengan 
-                  <img
-                    class="img-thumbnail img-responsive"
-                    :src="order.payment.pg_icon"
-                    v-if="order.payment.pg_icon"
-                  />
-                  <span v-else>{{ order.payment.pg_name }}</span></a
-                >
+                    Bayar Dengan
+                    <img
+                      class="img-thumbnail img-responsive"
+                      :src="order.payment.pg_icon"
+                      v-if="order.payment.pg_icon"
+                    />
+                    <span v-else>{{ order.payment.pg_name }}</span></a
+                  >
+                  <div class="" v-else>
+                    <img
+                      :src="order.payment.payment_qrcode"
+                      class="img-thumbnail img-responsive img-qris d-flex"
+                      v-if="order.payment.payment_qrcode"
+                    />
+                    <small class="text-danger"
+                      >Pastikan Aplikasi Telah Terinstall</small
+                    >
+                    <br />
+                    <small class="text-danger"
+                      >Buka Aplikasi, Lalu Scan QRIS</small
+                    >
+                    <div></div>
+                  </div>
+                </div>
               </div>
-              <!-- <div v-if="order.payment.pg_type !== 'cash'" class="p-2">
-                <a
-                  :href="order.response.redirect_url"
-                  class="btn btn-danger"
-                  target="_blank"
-                  ><i class="fad fa-file-invoice"></i> Bayar Dengan
-                  {{ order.payment.pg_name }}</a
-                >
-              </div> -->
-              <!-- <div v-if="order.payment.pg_type === 'ibanking'" class="p-2">
-                <a
-                  :href="order.response.redirect_url"
-                  class="btn btn-danger"
-                  target="_blank"
-                  ><i class="fad fa-file-invoice"></i> Bayar Dengan
-                  {{ order.payment.pg_name }}</a
-                >
-              </div>
-              <div v-if="order.payment.pg_type === 'jumapp'" class="p-2">
-                <a
-                  :href="order.response.redirect_url"
-                  class="btn btn-danger"
-                  target="_blank"
-                  ><i class="fad fa-file-invoice"></i> Bayar Dengan
-                  {{ order.payment.pg_name }}</a
-                >
-              </div>
-              <div v-if="order.payment.pg_type === 'qris'" class="p-2">
-                <a
-                  :href="order.response.redirect_url"
-                  class="btn btn-danger"
-                  target="_blank"
-                  ><i class="fad fa-file-invoice"></i> Bayar Dengan
-                  {{ order.payment.pg_name }}</a
-                >
-              </div>
-              <div v-if="order.payment.pg_type === 'retail'" class="p-2">
-                <a
-                  :href="order.response.redirect_url"
-                  class="btn btn-danger"
-                  target="_blank"
-                  ><i class="fad fa-file-invoice"></i> Bayar Dengan
-                  {{ order.payment.pg_name }}</a
-                >
-              </div>
-              <div
-                v-if="order.payment.pg_type === 'va'"
-                class="p-2 va-container"
-              >
-                <span>Kode {{ order.payment.pg_name }} Anda</span>
-                <h4>{{ order.response.trx_id }}</h4>
-                <a
-                  :href="order.response.redirect_url"
-                  class="btn btn-danger"
-                  target="_blank"
-                  ><i class="fad fa-file-invoice"></i> Bayar Dengan
-                  {{ order.payment.pg_name }}</a
-                >
-              </div> -->
             </div>
+            <p class="small text-mutedm mt-2">
+              Pesanan anda akan disiapkan dan akan segera datang
+            </p>
           </div>
-          <p class="small text-mutedm mt-2">
-            Pesanan anda akan disiapkan dan akan segera datang
-          </p>
-
           <hr class="w-50 mt-5" />
 
           <div class="mt-4">
@@ -236,6 +195,12 @@ export default {
         }
       }, 1000);
     },
+    getPaymentMethodURL(paymentMethod) {
+      if (paymentMethod.payment.pg_code == "713") {
+        return paymentMethod.response.deeplink;
+      }
+      return paymentMethod.response.redirect_url;
+    },
   },
 };
 </script>
@@ -263,5 +228,56 @@ export default {
 .va-container {
   border: 3px solid #c5c5c5;
   border-radius: 6px;
+  text-align: -webkit-center;
+}
+.img-qris {
+  width: 30%;
+}
+
+@media only screen and (max-device-width: 1200px) {
+  .img-qris {
+    width: 40%;
+  }
+}
+
+@media only screen and (max-device-width: 992px) {
+  .img-qris {
+    width: 50%;
+  }
+}
+@media only screen and (max-device-width: 767px) {
+  .img-qris {
+    width: 35%;
+  }
+}
+@media only screen and (max-device-width: 720px) {
+  .img-qris {
+    width: 35%;
+  }
+}
+@media only screen and (max-device-width: 576px) {
+  .img-qris {
+    width: 40%;
+  }
+}
+@media only screen and (max-device-width: 480px) {
+  .img-qris {
+    width: 50%;
+  }
+}
+@media only screen and (max-device-width: 400px) {
+  .img-qris {
+    width: 65%;
+  }
+}
+@media only screen and (max-device-width: 380px) {
+  .img-qris {
+    width: 70%;
+  }
+}
+@media only screen and (max-device-width: 360px) {
+  .img-qris {
+    width: 80%;
+  }
 }
 </style>

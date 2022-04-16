@@ -21,7 +21,7 @@
 
               <HomeCategories />
 
-              <HomeProductShortcut />
+              <!-- <HomeProductShortcut /> -->
 
               <HomeProductOnDiscount />
 
