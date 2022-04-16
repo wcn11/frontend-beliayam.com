@@ -28,6 +28,12 @@
                 <div v-if="product.hasPromo && product.hasPromo._id">
                   <span
                     class="badge badge-success badge-discount"
+                    v-if="
+                      product.hasPromo &&
+                      product.hasPromo.isActive &&
+                      product.hasPromo.promoStart < currentTime &&
+                      product.hasPromo.promoEnd > currentTime
+                    "
                   >
                     #{{ product.hasPromo.tags }}
                   </span>
@@ -337,6 +343,7 @@ export default {
   data() {
     return {
       relatedProducts: [],
+      currentTime: moment().format(),
       cart: {
         product_id: "",
         quantity: 1,
