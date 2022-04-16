@@ -2128,7 +2128,7 @@ export default {
           }
           return (price += product.productOnLive.price * product.quantity);
         });
-        return subTotal[0];
+        return price;
       }
     },
 

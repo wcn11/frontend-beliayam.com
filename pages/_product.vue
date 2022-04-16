@@ -453,7 +453,7 @@ export default {
 
       return price;
     },
-    async addProductToCart() {
+    async addProductToCart(type = "add") {
       if (this.product.stock <= 0) {
         $("#outOfStockModal").modal("show");
 
@@ -473,10 +473,17 @@ export default {
           note: this.cart.note,
         })
         .then((results) => {
-          if (results.data.error) {
+          if (results.error) {
+            this.$toast.warning(results.message);
             return;
           }
+
           this.resetCarts();
+
+          if (type == "buy") {
+            this.$router.push("/keranjang");
+          }
+
           $("#modal-cart-success").css("display", "block");
         })
         .catch((err) => {
@@ -495,8 +502,7 @@ export default {
 
         return;
       }
-      await this.addProductToCart();
-      this.$router.push("/keranjang");
+      await this.addProductToCart('buy');
     },
     async resetCarts() {
       await this.$store.dispatch("cart/setCartsNav");
